@@ -1,0 +1,30 @@
+{
+  "formatVersion": 1,
+  "projectId": "PVT_kwHOACppGM4BmYIn",
+  "owner": "georgesp",
+  "ownerType": "users",
+  "number": 7,
+  "title": "Educator",
+  "url": "https://github.com/users/georgesp/projects/7",
+  "defaultRepository": "georgesp/Educator",
+  "repositories": [
+    "georgesp/Educator"
+  ],
+  "fields": {
+    "status": [
+      "Todo",
+      "In progress",
+      "Done"
+    ],
+    "size": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "estimate": true,
+    "startDate": true,
+    "endDate": false
+  }
+}
