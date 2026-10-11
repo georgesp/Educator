@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006003 — Host et API locale sécurisée
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -30,6 +30,10 @@ En tant que développeur, je veux une API locale typée et sécurisée entre le 
 
 ## Critères d'acceptation
 
-- [ ] Requête sans token ou avec un mauvais token → `401`.
-- [ ] Script `npm run api:generate` régénère le client depuis l'OpenAPI.
-- [ ] Tests d'intégration de l'API (WebApplicationFactory).
+- [x] Requête sans token ou avec un mauvais token → `401`.
+- [x] Script `npm run api:generate` régénère le client depuis l'OpenAPI.
+- [x] Tests d'intégration de l'API (WebApplicationFactory).
+
+## Implémentation (2026-10-10)
+
+Tests d'intégration sur TestServer (`Microsoft.AspNetCore.TestHost`) plutôt que WebApplicationFactory, pour garder le `Main` du host. L'OpenAPI est exportée dans `web/openapi/openapi.json` (`--export-openapi`) ; le test `CommittedOpenApiFile_MatchesTheApi` vérifie qu'elle est à jour.

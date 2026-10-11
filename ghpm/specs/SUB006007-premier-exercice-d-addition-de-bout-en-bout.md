@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006007 — Premier exercice d'addition de bout en bout
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -30,4 +30,8 @@ En tant que développeur, je veux un exercice minimal qui traverse toutes les co
 ## Critères d'acceptation
 
 - [ ] Parcours fonctionnel sur macOS et Windows.
-- [ ] Temps de réponse ressenti instantané (< 200 ms hors synthèse vocale).
+- [x] Temps de réponse ressenti instantané (< 200 ms hors synthèse vocale).
+
+## Implémentation (2026-10-10)
+
+Endpoints `POST /exercises/additions`, `POST …/{id}/answer`, `GET …/{id}/speech` ; le host garde les exercices en mémoire et ne transmet jamais la réponse attendue avant la réponse de l'enfant. Vérifié de bout en bout sous Linux, avec le vrai Piper. Reste le parcours sur macOS et Windows.

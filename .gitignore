@@ -1,0 +1,130 @@
+## -------------------------------------------------------
+## .gitignore — Educator (.NET 10 / Tauri 2 / React)
+## -------------------------------------------------------
+
+# ========================
+# .NET — build outputs
+# ========================
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+publish/
+**/publish/
+artifacts/
+
+# ========================
+# .NET / NuGet
+# ========================
+*.user
+*.suo
+*.userprefs
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# ========================
+# Front (Node / Vite)
+# ========================
+node_modules/
+web/dist/
+*.tsbuildinfo
+npm-debug.log*
+.vite/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# ========================
+# Tauri / Rust
+# ========================
+web/src-tauri/target/
+# Schémas générés par Tauri au build
+web/src-tauri/gen/
+# Host .NET publié et copié comme ressource Tauri au packaging
+web/src-tauri/resources/host/
+
+# ========================
+# Piper (binaires et voix téléchargés par script, jamais commités)
+# ========================
+vendor/piper/
+
+# ========================
+# IDE
+# ========================
+.vs/
+.idea/
+*.DotSettings.user
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/settings.json
+
+# ========================
+# macOS
+# ========================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+
+# ========================
+# Windows
+# ========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ========================
+# Secrets
+# ========================
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.pfx
+*.p12
+*.p8
+*.key
+*.cer
+*.mobileprovision
+.env
+.env.*
+!.env.example
+
+# ========================
+# Tests
+# ========================
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+lcov.info
+
+# ========================
+# SQLite (bases locales, runtime / EF design-time)
+# ========================
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# ========================
+# Fichiers temporaires
+# ========================
+*.tmp
+*.temp
+*.bak
+*.swp
+*~

@@ -1,0 +1,315 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Educator local API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/ui/status": {
+      "get": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "getStatus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/exercises/additions": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "createAddition",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionExerciseResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/exercises/additions/{id}/answer": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "answerAddition",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/exercises/additions/{id}/speech": {
+      "get": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "readAddition",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "speed",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "audio/wav": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/problem\u002Bjson": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AdditionExerciseResponse": {
+        "required": [
+          "id",
+          "left",
+          "right",
+          "statement"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "left": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "right": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "statement": {
+            "type": "string"
+          }
+        }
+      },
+      "AnswerRequest": {
+        "required": [
+          "answer"
+        ],
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AnswerResponse": {
+        "required": [
+          "isCorrect",
+          "expectedAnswer"
+        ],
+        "type": "object",
+        "properties": {
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "expectedAnswer": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "DatabaseStatusResponse": {
+        "required": [
+          "isReady"
+        ],
+        "type": "object",
+        "properties": {
+          "isReady": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "SpeechStatusResponse": {
+        "required": [
+          "isAvailable",
+          "voice",
+          "problem"
+        ],
+        "type": "object",
+        "properties": {
+          "isAvailable": {
+            "type": "boolean"
+          },
+          "voice": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "problem": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "StatusResponse": {
+        "required": [
+          "version",
+          "database",
+          "speech"
+        ],
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "database": {
+            "$ref": "#/components/schemas/DatabaseStatusResponse"
+          },
+          "speech": {
+            "$ref": "#/components/schemas/SpeechStatusResponse"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "UI"
+    }
+  ]
+}

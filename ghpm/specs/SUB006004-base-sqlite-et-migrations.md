@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006004 — Base SQLite et migrations
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -29,6 +29,10 @@ En tant que parent, je veux que les profils et les progrès de mes enfants soien
 
 ## Critères d'acceptation
 
-- [ ] Migration initiale appliquée au premier lancement.
-- [ ] Sauvegarde créée avant toute migration d'une base existante (testé).
-- [ ] Tests d'intégration sur une base SQLite réelle temporaire.
+- [x] Migration initiale appliquée au premier lancement.
+- [x] Sauvegarde créée avant toute migration d'une base existante (testé).
+- [x] Tests d'intégration sur une base SQLite réelle temporaire.
+
+## Implémentation (2026-10-10)
+
+Migration `InitialCreate` (table `AppSetting`), test `Migrations_AreInSyncWithTheModel`. Variable `EDUCATOR_DATA_DIR` pour déplacer le dossier de données (tests, débogage).

@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006002 — Coque Tauri et lancement du host .NET
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -32,4 +32,8 @@ En tant qu'utilisateur, je veux lancer une seule application afin de ne jamais v
 
 - [ ] Aucun processus host orphelin après fermeture (vérifié sur macOS et Windows).
 - [ ] Message d'erreur lisible si le host ne démarre pas dans les 10 s.
-- [ ] Aucune logique métier dans le code Rust.
+- [x] Aucune logique métier dans le code Rust.
+
+## Implémentation (2026-10-10)
+
+Coque `educator-shell` : host lancé avec `--port 0 --parent-pid`, délai de démarrage 10 s en release (180 s en dev, car `dotnet run` compile d'abord). Vérifié sous Linux (Xvfb) : la fenêtre affiche le front relié au host ; après `kill -9` de la coque, le host et Piper s'arrêtent seuls. `cargo clippy -D warnings` propre en debug et release. Reste à vérifier sur macOS et Windows.

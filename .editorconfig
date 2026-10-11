@@ -1,0 +1,71 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# C# files
+[*.cs]
+indent_size = 4
+
+# XML-based files
+[*.{csproj,props,targets,xml,slnx}]
+indent_size = 2
+
+# Front, JSON, YAML, Markdown
+[*.{ts,tsx,js,jsx,css,json,yml,yaml,md}]
+indent_size = 2
+
+# Rust
+[*.rs]
+indent_size = 4
+
+# Markdown: trailing double spaces can be meaningful
+[*.md]
+trim_trailing_whitespace = false
+
+# Solution files keep Visual Studio's line endings
+[*.sln]
+end_of_line = crlf
+indent_style = tab
+
+# C# language conventions
+[*.cs]
+# var preferences
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+# expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+
+# null checking
+csharp_style_throw_expression = true:suggestion
+csharp_style_conditional_delegate_call = true:suggestion
+
+# namespace declarations
+csharp_style_namespace_declarations = file_scoped:warning
+
+# using directives
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# naming rules — async methods end with Async
+dotnet_naming_rule.async_methods_must_end_with_async.severity = warning
+dotnet_naming_rule.async_methods_must_end_with_async.symbols = async_methods
+dotnet_naming_rule.async_methods_must_end_with_async.style = end_in_async
+
+dotnet_naming_symbols.async_methods.applicable_kinds = method
+dotnet_naming_symbols.async_methods.required_modifiers = async
+
+dotnet_naming_style.end_in_async.required_suffix = Async
+dotnet_naming_style.end_in_async.capitalization = pascal_case
+
+# Tests: xUnit test methods are named Method_State_Expected and never end with Async
+[tests/**.cs]
+dotnet_naming_rule.async_methods_must_end_with_async.severity = none

@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fJ0
+rev: 2026-10-10T19:56:47Z
 url: https://github.com/georgesp/Educator/issues/60
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: US0060 — Lot 0 — Socle technique
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
@@ -23,7 +24,9 @@ Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), sec
 
 ## Objectif
 
-Disposer d'une application vide mais complète de bout en bout, sur macOS et Windows : coque Tauri 2, host .NET 10 lancé par Tauri, API locale sécurisée, base SQLite, front React, synthèse vocale Piper, installeurs. Un premier exercice d'addition généré par le host prouve que toute la chaîne fonctionne.
+Disposer d'une application vide mais complète de bout en bout : coque Tauri 2, host .NET 10 lancé par Tauri, API locale sécurisée, base SQLite, front React, synthèse vocale Piper, intégration continue. Un premier exercice d'addition généré par le host prouve que toute la chaîne fonctionne.
+
+Les installeurs, la signature Apple et la validation sur Windows sont traités dans le lot packaging (fiche `lot-packaging-00-packaging-et-signature.md`) ; la CI compile et teste déjà sur Windows à chaque push.
 
 ## Architecture cible
 
@@ -39,5 +42,5 @@ Disposer d'une application vide mais complète de bout en bout, sur macOS et Win
 ## Critères d'acceptation
 
 - [ ] Toutes les sous-issues sont terminées.
-- [ ] `npm run tauri dev` lance l'application sur macOS et Windows.
-- [ ] Un installeur par plateforme installe et lance l'application sur une machine sans SDK.
+- [ ] `npm run tauri dev` lance l'application sur macOS.
+- [ ] Pipeline CI vert sur macOS et Windows (build + tests .NET et front).

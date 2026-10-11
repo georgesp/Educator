@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Domain model and exercise engine. Pure code: no dependency on any other project or infrastructure package.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Educator.Core.Tests" />
+  </ItemGroup>
+
+</Project>

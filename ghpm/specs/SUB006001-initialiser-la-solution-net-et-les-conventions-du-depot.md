@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006001 — Initialiser la solution .NET et les conventions du dépôt
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -30,6 +30,10 @@ En tant que développeur, je veux une solution .NET structurée et outillée dè
 
 ## Critères d'acceptation
 
-- [ ] `dotnet build` et `dotnet test` passent sans avertissement.
-- [ ] Règle de dépendance vérifiée par un test d'architecture : `Core` ne référence aucun autre projet ni package d'infrastructure.
-- [ ] ADR 0001 rédigée.
+- [x] `dotnet build` et `dotnet test` passent sans avertissement.
+- [x] Règle de dépendance vérifiée par un test d'architecture : `Core` ne référence aucun autre projet ni package d'infrastructure.
+- [x] ADR 0001 rédigée.
+
+## Implémentation (2026-10-10)
+
+Vérifié dans l'environnement Linux de Claude (.NET 10.0.112) : build Debug et Release sans avertissement. Versions NuGet centralisées (`Directory.Packages.props`), `global.json`. FluentAssertions non repris (licence commerciale en v8).

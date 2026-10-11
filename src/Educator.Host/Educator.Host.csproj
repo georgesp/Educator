@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>educator-host</AssemblyName>
+    <Description>Standalone backend process launched by the Tauri shell: composition root, SQLite, logs and the local HTTP API.</Description>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.File" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Educator.Core\Educator.Core.csproj" />
+    <ProjectReference Include="..\Educator.Data\Educator.Data.csproj" />
+    <ProjectReference Include="..\Educator.Content\Educator.Content.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Educator.Host.Tests" />
+  </ItemGroup>
+
+</Project>
