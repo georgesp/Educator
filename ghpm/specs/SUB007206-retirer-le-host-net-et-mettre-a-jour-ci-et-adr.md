@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAv4s
+rev: 2026-10-11T15:22:59Z
 url: https://github.com/georgesp/Educator/issues/83
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB007206 — Retirer le host .NET et mettre à jour CI et ADR
-status: In progress
+status: Done
 size: S
 estimate:
 startDate:
@@ -31,7 +32,7 @@ En tant que développeur, je veux un dépôt sans code .NET afin de n'avoir qu'u
 ## Critères d'acceptation
 
 - [x] Le dépôt se compile et se teste sur une machine sans .NET.
-- [ ] Pipeline CI vert sur macOS et Windows.
+- [x] Pipeline CI vert sur macOS et Windows.
 
 ## Notes de réalisation
 
@@ -48,4 +49,4 @@ Fait :
   `web/src/api/schema.d.ts`, `web/.env.example`. Sections .NET retirées de `.gitignore` et `.editorconfig`,
   `docs/specs/regles-de-generation.md` mis à jour.
 
-Reste : voir le pipeline CI vert sur macOS et Windows.
+CI verte sur le commit `2c6398d` (« Migration Rust », branche `feature/refonte_rust`) : Rust et front sur macOS et Windows, Playwright sur Linux.

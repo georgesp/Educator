@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAv3Q
+rev: 2026-10-11T17:34:03Z
 url: https://github.com/georgesp/Educator/issues/82
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB007205 — Lancer Piper depuis Rust sur le bureau
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:

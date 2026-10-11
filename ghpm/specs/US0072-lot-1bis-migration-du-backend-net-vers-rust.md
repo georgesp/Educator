@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAvpk
+rev: 2026-10-11T17:36:42Z
 url: https://github.com/georgesp/Educator/issues/72
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: US0072 — Lot 1bis — Migration du backend .NET vers Rust
-status: In progress
+status: Done
 size: XL
 estimate:
 startDate:
@@ -55,7 +56,7 @@ Même règle de dépendance que l'ADR 0001 : `educator-core` ne dépend d'aucune
 - [ ] Toutes les sous-issues sont terminées.
 - [ ] `npm run tauri dev` lance l'application sur macOS sans .NET installé (vérifié sous Linux/Xvfb ; reste macOS).
 - [ ] Le parcours du lot 1 (création de profil, série d'addition clavier et QCM, points, voix) fonctionne comme avant (vérifié sous Linux sans la voix ; reste macOS avec Piper).
-- [ ] Plus aucun projet .NET dans le dépôt (fait) ; pipeline CI vert sur macOS et Windows (`cargo test` + front).
+- [x] Plus aucun projet .NET dans le dépôt ; pipeline CI vert sur macOS et Windows (`cargo test` + front).
 
 ## Notes de réalisation
 

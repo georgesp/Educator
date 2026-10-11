@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5R4A
-rev: 2026-10-11T07:56:40Z
+rev: 2026-10-11T15:22:33Z
 url: https://github.com/georgesp/Educator/issues/12
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000111 — Consignes et retours lus à voix haute
-status: In progress
+status: Done
 size: S
 estimate:
 startDate:
@@ -48,3 +48,17 @@ En tant qu'enfant de CP qui ne lit pas encore bien, je veux entendre les consign
 - Front : `useSpeech`, une seule lecture à la fois.
 - Textes lus : la consigne de chaque écran au premier affichage, la consigne et le calcul du premier exercice, la correction après une erreur, le récapitulatif.
 - Reste à mesurer sur Mac avec Piper : le temps avant le début du son, et le fonctionnement hors ligne. Mon environnement n'a pas pu télécharger la voix cette fois-ci, et les tests utilisent une voix factice.
+
+## Décision (2026-10-11)
+
+Georges a essayé la voix Piper sur Mac : elle n'apporte rien pour l'accueil ni pour les exercices de maths. Elle est
+**coupée pour l'instant** et gardée pour les exercices de français (dictées, mots).
+
+- Interrupteur côté front, `setVoiceEnabled` dans `web/src/audio/useSpeech.ts`, à `false` par défaut. Coupée, la voix ne lit
+  rien, n'appelle pas `speak`, et les boutons haut-parleur sont masqués.
+- Le cœur ne change pas : Piper, la commande `speak`, le cache disque et la conversion des nombres en lettres restent
+  en place et testés.
+- Les deux critères non cochés (délai de lecture, fonctionnement hors ligne) sont reportés aux exercices de français
+  du lot 2 (SUB001404 et suivantes), où ils seront mesurés avec la voix réactivée. La fiche passe en *Done* : sa
+  partie maths est faite, et la voix y est volontairement coupée.
+- Pour la réactiver : appeler `setVoiceEnabled(true)` au démarrage, ou seulement sur les écrans de français.
