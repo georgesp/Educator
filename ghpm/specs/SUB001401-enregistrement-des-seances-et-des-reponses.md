@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WLo
+rev: 2026-10-10T19:39:04Z
 url: https://github.com/georgesp/Educator/issues/17
 type: Issue
 repository: georgesp/Educator
@@ -33,11 +34,11 @@ En tant que parent, je veux que chaque séance de mon enfant soit enregistrée a
 - Les séries d'exercices (maths et orthographe), quiz de leçon et examens créent une `Session` et une `Answer` par question.
 - Le temps de réponse est mesuré côté front et transmis avec la réponse.
 - `SkillMastery` est mise à jour en fin de séance (moyenne glissante des 20 dernières réponses). Elle servira à la difficulté adaptative et à l'espace parent (lot 3).
-- Les séries du lot 1 passent de la mémoire du host à la base.
+- Les séries du lot 1 passent de la mémoire de l'application (`SeriesService` de `educator-core`) à la base.
 
 ## Critères d'acceptation
 
-- [ ] Migration EF Core et tests d'intégration.
+- [ ] Migration `educator-data` (nouvelle entrée de `MIGRATIONS`) et tests d'intégration (SQLite réel en fichier temporaire).
 - [ ] Séance abandonnée enregistrée avec `Abandoned = true` et les réponses déjà données.
 - [ ] Suppression d'un profil → suppression en cascade de ses séances, réponses et maîtrises.
 - [ ] Aucune donnée ne quitte l'ordinateur.

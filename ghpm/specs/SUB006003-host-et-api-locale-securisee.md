@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fM4
-rev: 2026-10-10T19:56:51Z
+rev: 2026-10-11T07:56:44Z
 url: https://github.com/georgesp/Educator/issues/63
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: SUB006003 — Host et API locale sécurisée
-status: In progress
+title: SUB006003 — Commandes Tauri typées entre le front et le cœur
+status: Done
 size: M
 estimate:
 startDate:
@@ -19,22 +19,26 @@ order: 4
 
 ## User story
 
-En tant que développeur, je veux une API locale typée et sécurisée entre le front et le backend afin de faire évoluer les deux sans casser le contrat.
+En tant que développeur, je veux un contrat typé entre le front et le cœur Rust afin de faire évoluer les deux sans casser le contrat.
 
 ## Comportement attendu
 
-- `Educator.Host` : ASP.NET Core, écoute en loopback sur un port libre, logs Serilog dans le dossier de données.
-- Toutes les routes `/api/ui/*` exigent l'en-tête `X-Local-Token` (token aléatoire généré au démarrage).
-- CORS limité aux origines du front (`http://localhost:1420` en dev, `tauri://localhost`, `http://tauri.localhost`).
-- OpenAPI exposée par le host ; client TypeScript généré (`openapi-typescript` + `openapi-fetch`), jamais écrit à la main.
-- `GET /api/ui/status` : version, état de la base, état de Piper.
+- Le front appelle des commandes Tauri (`invoke`) : aucun port réseau ouvert, donc ni token ni CORS à gérer.
+- Contrats dans `web/src-tauri/src/contracts.rs` ; types TypeScript générés (`ts-rs`, `web/src/api/types.ts`), jamais écrits à la main.
+- Erreurs : `CommandError { status, title, detail, field }`, avec les codes 400 / 404 / 409 / 503.
+- Logs (`tauri-plugin-log`) dans la console et dans `logs/` du dossier de données.
+- Commande `get_status` : version, état de la base, état de Piper.
 
 ## Critères d'acceptation
 
-- [x] Requête sans token ou avec un mauvais token → `401`.
-- [x] Script `npm run api:generate` régénère le client depuis l'OpenAPI.
-- [x] Tests d'intégration de l'API (WebApplicationFactory).
+- [x] Aucun port HTTP ouvert par l'application.
+- [x] Script `npm run api:generate` régénère les types TypeScript depuis les contrats Rust.
+- [x] Tests des commandes (`services.rs`, base SQLite temporaire et contenu du dépôt).
 
-## Implémentation (2026-10-10)
+## Implémentation
 
-Tests d'intégration sur TestServer (`Microsoft.AspNetCore.TestHost`) plutôt que WebApplicationFactory, pour garder le `Main` du host. L'OpenAPI est exportée dans `web/openapi/openapi.json` (`--export-openapi`) ; le test `CommittedOpenApiFile_MatchesTheApi` vérifie qu'elle est à jour.
+`commands.rs` (une commande par opération, exécutée avec `spawn_blocking`), `services.rs` (adaptateurs testés sans
+Tauri), `bindings.rs` : le test `types_ts_is_up_to_date` régénère `web/src/api/types.ts` et échoue s'il n'était pas à
+jour (vérifié aussi en CI).
+
+*Première version en .NET (2026-10-10), portée en Rust au lot 1bis (2026-10-11, ADR 0003).*

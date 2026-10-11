@@ -4,7 +4,7 @@ Fiche : SUB000106. Schéma : [`content/schemas/skill.schema.json`](../../content
 
 Une **compétence** est une notion travaillée à une classe et à une période. Elle est décrite par un fichier
 `content/skills/math/<id>.json`. Les exercices ne sont **jamais stockés** : le moteur
-(`Educator.Core/Exercises`) les génère en direct à partir de ces règles, avec une graine aléatoire
+(`crates/educator-core`, module `exercises`) les génère en direct à partir de ces règles, avec une graine aléatoire
 qui permet de rejouer une série à l'identique.
 
 ## Exemple
@@ -60,12 +60,12 @@ Les propriétés inconnues sont refusées. Le résultat d'une soustraction n'est
 - **QCM** : la bonne réponse et 3 erreurs crédibles (±1, erreur de retenue ±10, opération inversée), jamais
   négatives ni en double, dans un ordre aléatoire.
 - **Graine** : la même compétence et la même graine redonnent exactement la même série.
-- La réponse attendue reste dans le host : le front ne la reçoit qu'après la réponse de l'enfant.
+- La réponse attendue reste dans le cœur Rust : le front ne la reçoit qu'après la réponse de l'enfant.
 
 ## Validation
 
-Au démarrage, le host charge les compétences ; un fichier invalide est ignoré et consigné dans les logs.
-L'enfant ne voit donc jamais une règle cassée. Ce sont les **tests** qui échouent (`Educator.Content.Tests`,
+Au démarrage, l'application charge les compétences ; un fichier invalide est ignoré et consigné dans les logs.
+L'enfant ne voit donc jamais une règle cassée. Ce sont les **tests** qui échouent (`crates/educator-content/tests`,
 lancés par la CI) :
 
 - chaque fichier respecte le schéma JSON ;
@@ -77,7 +77,7 @@ lancés par la CI) :
 
 `content/calendar/periods.json` donne la date de début de chaque période (1er septembre, 4 novembre, 5 janvier,
 9 mars, 4 mai). Ces dates sont placées après les vacances de toutes les zones, si bien que la période calculée ne
-dépend pas de la zone. Juillet et août comptent dans la période 5. `GET /api/ui/skills?grade=CE1` renvoie les
+dépend pas de la zone. Juillet et août comptent dans la période 5. La commande `get_skills` (`grade: "CE1"`) renvoie les
 compétences triées par période et indique la période en cours.
 
 ## Programme de référence

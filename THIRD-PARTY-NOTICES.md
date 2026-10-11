@@ -21,22 +21,22 @@ demandée par les auteurs est à reprendre de cette page avant la première dist
 **espeak-ng (GPL-3.0)** : Piper et ses bibliothèques sont exécutés comme programme séparé. Leur code source est
 disponible aux adresses ci-dessus ; le texte de la licence GPL-3.0 sera joint aux installeurs (lot packaging).
 
-## Backend .NET (paquets NuGet)
+## Cœur Rust (crates)
 
-| Paquet | Licence |
+| Crate | Licence |
 |---|---|
-| Microsoft.EntityFrameworkCore.Sqlite, Microsoft.AspNetCore.OpenApi, Microsoft.Extensions.* | MIT |
-| SQLitePCLRaw (SQLite) | Apache-2.0 (SQLite : domaine public) |
-| Serilog, Serilog.Extensions.Logging, Serilog.Sinks.File | Apache-2.0 |
-| xUnit, NSubstitute, coverlet (tests uniquement) | Apache-2.0 / BSD-3-Clause / MIT |
+| rusqlite (avec SQLite embarqué, `bundled`) | MIT (SQLite : domaine public) |
+| rand, rand_chacha, uuid, serde, serde_json, thiserror, log, chrono, roxmltree, sha2 | MIT ou Apache-2.0 |
+| tauri-plugin-log | MIT ou Apache-2.0 |
+| ts-rs, jsonschema, regex, tempfile (développement uniquement) | MIT ou Apache-2.0 |
 
 ## Front et coque (npm, crates)
 
 | Paquet | Licence |
 |---|---|
-| React, React DOM, React Router, TanStack Query, Motion, openapi-fetch | MIT |
+| React, React DOM, React Router, TanStack Query, Motion | MIT |
 | Tauri et ses plugins | MIT ou Apache-2.0 |
 | Polices Lexend et Barlow Condensed (`@fontsource/lexend`, `@fontsource/barlow-condensed`, embarquées dans le front) | SIL Open Font License 1.1 |
-| Vite, Vitest, Playwright, TypeScript, openapi-typescript (développement uniquement) | MIT / Apache-2.0 |
+| Vite, Vitest, Playwright, TypeScript (développement uniquement) | MIT / Apache-2.0 |
 
 La liste exhaustive des dépendances transitives sera générée au lot packaging.

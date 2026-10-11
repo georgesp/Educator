@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Rp0
-rev: 2026-10-10T19:28:55Z
+rev: 2026-10-11T07:56:30Z
 url: https://github.com/georgesp/Educator/issues/3
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB000102 — Profils — modèle, stockage et API"
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
@@ -30,7 +30,7 @@ En tant que parent, je veux que plusieurs enfants aient chacun leur profil sur l
 
 ## Modèle
 
-Entité `Profile` (EF Core, table `Profile`) :
+Table `Profile` (`educator-data`) :
 
 | Champ | Type | Remarque |
 |---|---|---|
@@ -39,33 +39,33 @@ Entité `Profile` (EF Core, table `Profile`) :
 | `Grade` | enum en texte | `CP`, `CE1`, `CE2`, `CM1`, `CM2` |
 | `CharacterId` | texte | id de `characters.json` ; deviendra la configuration d'avatar au lot 3 |
 | `Points` | entier | ≥ 0 |
-| `CreatedAt`, `UpdatedAt`, `LastUsedAt` | ms Unix UTC | via intercepteur + `TimeProvider` |
+| `CreatedAt`, `UpdatedAt`, `LastUsedAt` | ms Unix UTC | renseignés à partir de l'horloge injectée (`Clock`) |
 
-## API locale
+## Commandes Tauri
 
-- `GET /api/ui/profiles` (trié par `LastUsedAt` décroissant)
-- `POST /api/ui/profiles` `{ name, grade }` → personnage aléatoire
-- `PATCH /api/ui/profiles/{id}` `{ name?, grade?, characterId? }`
-- `POST /api/ui/profiles/{id}/reroll-character` → nouveau personnage aléatoire, différent du précédent
-- `POST /api/ui/profiles/{id}/select` → met à jour `LastUsedAt`
-- `DELETE /api/ui/profiles/{id}`
+- `list_profiles` (trié par `LastUsedAt` décroissant)
+- `create_profile` `{ name, grade, characterId? }` → personnage aléatoire si absent
+- `update_profile` `{ id, changes: { name?, grade?, characterId? } }`
+- `reroll_character` → nouveau personnage aléatoire, différent du précédent
+- `select_profile` → met à jour `LastUsedAt`
+- `delete_profile`
 
 ## Critères d'acceptation
 
-- [x] Migration EF Core `AddProfile` appliquée au démarrage.
-- [x] Validation côté host : nom vide, trop long ou en double → `400` avec message en français.
-- [x] Tests unitaires du service (création, tirage aléatoire, unicité du nom) et tests d'intégration de l'API.
-- [x] Contrat OpenAPI à jour, client TypeScript régénéré.
+- [x] Migration créant la table `Profile` appliquée au démarrage.
+- [x] Validation dans le cœur : nom vide, trop long ou en double → erreur `400` avec message en français.
+- [x] Tests unitaires du service (création, tirage aléatoire, unicité du nom) et tests des commandes.
+- [x] Contrats à jour, types TypeScript régénérés.
 
 ## Notes techniques
 
-- Le tirage aléatoire passe par une abstraction (`IRandomSource`) injectable pour les tests.
-- Mêmes règles de stockage que l'ADR 0001 de GitHubProjectManager (dates en ms UTC, enums en texte, `IDbContextFactory`).
+- Le tirage aléatoire passe par un trait (`RandomSource`) injectable pour les tests.
+- Règles de stockage de l'ADR 0003 (dates en ms UTC, enums en texte, Guid v7).
 
 ## Implémentation (2026-10-11)
 
-- Core : `Profile`, `IProfileStore`, `ProfileService` (validation, tirage via `IRandomSource`, nouveau tirage toujours différent).
-- Data : table `Profile`, migration `AddProfile`, index unique sur `NormalizedName` (prénom en majuscules). Les points ne changent que par `AddPointsAsync`, une mise à jour atomique.
-- Messages d'erreur : « Écris ton prénom. », « Ton prénom est trop long : 20 lettres au maximum. », « Ce prénom est déjà pris. Choisis-en un autre. ». Ils arrivent dans `detail` d'un problème 400, avec `field`.
-- `GET /api/ui/characters/draw?except=` tire le personnage montré à l'écran de création. `POST /api/ui/profiles` accepte ce `characterId`, ce qui garde le tirage côté host.
-- Tests : `ProfileServiceTests` (unitaires), `SqliteProfileStoreTests` (SQLite réelle), `ProfileEndpointsTests` (API).
+- `educator-core` : `Profile`, `ProfileStore`, `ProfileService` (validation, tirage via `RandomSource`, nouveau tirage toujours différent).
+- `educator-data` : table `Profile`, index unique sur `NormalizedName` (prénom en majuscules). Les points ne changent que par `add_points`, une mise à jour atomique.
+- Messages d'erreur : « Écris ton prénom. », « Ton prénom est trop long : 20 lettres au maximum. », « Ce prénom est déjà pris. Choisis-en un autre. ». Ils arrivent dans `detail` d'une erreur 400, avec `field`.
+- `draw_character { except }` tire le personnage montré à l'écran de création. `create_profile` accepte ce `characterId`, ce qui garde le tirage dans le cœur.
+- Tests : `educator-core/tests/profiles.rs` (unitaires), `educator-data/tests/database.rs` (SQLite réelle), tests de `services.rs` (commandes).

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5R2o
-rev: 2026-10-10T19:29:07Z
+rev: 2026-10-11T07:56:39Z
 url: https://github.com/georgesp/Educator/issues/11
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000110 — Points gagnés
-status: In progress
+status: Done
 size: S
 estimate:
 startDate:
@@ -34,7 +34,7 @@ En tant qu'enfant, je veux gagner des points quand je réussis afin d'avoir envi
 - [x] Barème défini dans un fichier de contenu (`content/rewards/points.json`), pas en dur dans le code.
 - [x] Les points gagnés s'affichent avec une petite animation au récapitulatif de fin de série, puis dans le menu.
 - [x] Une série abandonnée rapporte les points des bonnes réponses déjà données, sans bonus.
-- [ ] Tests unitaires du calcul des points.
+- [x] Tests unitaires du calcul des points.
 
 ## Notes techniques
 
@@ -42,7 +42,7 @@ En tant qu'enfant, je veux gagner des points quand je réussis afin d'avoir envi
 
 ## Implémentation (2026-10-11)
 
-- Barème : `content/rewards/points.json`, lu par `SmallContentLoader`. Le calcul est dans `PointsRules` (Core).
+- Barème : `content/rewards/points.json`, lu par `load_points` (`educator-content`). Le calcul est dans `PointsRules` (`educator-core`).
 - Les points sont ajoutés au profil de façon atomique, une seule fois par série.
 - Le récapitulatif affiche « +N points » avec une animation. Le badge du menu compte jusqu'au nouveau total.
-- Tests : `PointsRulesTests`, `SeriesServiceTests`, `SeriesEndpointsTests`.
+- Tests : `educator-core/tests/points.rs` et `series.rs`, tests de `services.rs`.

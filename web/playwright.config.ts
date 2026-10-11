@@ -2,11 +2,9 @@ import { defineConfig, devices } from "@playwright/test";
 import process from "node:process";
 
 /**
- * End-to-end tests of the front in a browser, with the UI API mocked by `page.route`
- * (no .NET backend needed). The Vite dev server is started on its own port.
+ * End-to-end tests of the front in a browser, with the Tauri commands simulated in the page
+ * (see `mockApi` in e2e/lot1.spec.ts). The Vite dev server is started on its own port.
  */
-export const E2E_BACKEND_URL = "http://127.0.0.1:5999";
-export const E2E_TOKEN = "e2e-token";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -30,6 +28,5 @@ export default defineConfig({
     command: "npx vite --port 4173 --strictPort",
     url: "http://localhost:4173",
     reuseExistingServer: !process.env.CI,
-    env: { VITE_EDUCATOR_BASE_URL: E2E_BACKEND_URL, VITE_EDUCATOR_TOKEN: E2E_TOKEN },
   },
 });

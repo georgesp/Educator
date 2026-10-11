@@ -1,7 +1,6 @@
-import type { ReadyBackend } from "./backend";
+import { invoke } from "@tauri-apps/api/core";
 import {
-  createApiClient,
-  unwrap,
+  toApiError,
   type AnswerMode,
   type Character,
   type Grade,
@@ -14,12 +13,12 @@ import {
   type UpdateProfile,
 } from "./client";
 
-/** Operations of the UI API used by the screens. Injected through BackendContext (mocked in tests). */
+/** Operations of the application core used by the screens. Injected through BackendContext (mocked in tests). */
 export type UiApi = {
   getStatus(): Promise<StatusResponse>;
   getSkills(grade: Grade): Promise<Skills>;
   getCharacters(): Promise<Character[]>;
-  /** A character drawn at random by the host, different from `except`. */
+  /** A character drawn at random, different from `except`. */
   drawCharacter(except?: string): Promise<Character>;
   /** SVG source of a character. */
   getCharacterSvg(id: string): Promise<string>;
@@ -30,33 +29,37 @@ export type UiApi = {
   startSeries(profileId: string, skillId: string, answerMode: AnswerMode): Promise<Series>;
   answerSeries(seriesId: string, index: number, answer: number): Promise<SeriesAnswer>;
   abandonSeries(seriesId: string): Promise<SeriesSummary>;
-  /** WAV of a French text (numbers and signs are read as words by the host). */
+  /** WAV of a French text (numbers and signs are read as words by the core). */
   speak(text: string, speed?: number): Promise<Blob>;
 };
 
-export function createUiApi(backend: ReadyBackend): UiApi {
-  const client = createApiClient(backend);
+/** Calls a Tauri command (src-tauri/src/commands.rs); a rejection becomes an ApiError. */
+async function call<T>(command: string, args?: Record<string, unknown>): Promise<T> {
+  try {
+    return await invoke<T>(command, args);
+  } catch (error) {
+    throw toApiError(error);
+  }
+}
+
+export function createUiApi(): UiApi {
   return {
-    getStatus: async () => unwrap(await client.GET("/api/ui/status")),
-    getSkills: async (grade) => unwrap(await client.GET("/api/ui/skills", { params: { query: { grade } } })),
-    getCharacters: async () => unwrap(await client.GET("/api/ui/characters")),
-    drawCharacter: async (except) =>
-      unwrap(await client.GET("/api/ui/characters/draw", { params: { query: except === undefined ? {} : { except } } })),
-    getCharacterSvg: async (id) =>
-      unwrap(await client.GET("/api/ui/characters/{id}.svg", { params: { path: { id } }, parseAs: "text" })) as string,
-    listProfiles: async () => unwrap(await client.GET("/api/ui/profiles")),
-    createProfile: async (name, grade, characterId) =>
-      unwrap(await client.POST("/api/ui/profiles", { body: { name, grade, characterId } })),
-    updateProfile: async (id, changes) =>
-      unwrap(await client.PATCH("/api/ui/profiles/{id}", { params: { path: { id } }, body: changes })),
-    selectProfile: async (id) => unwrap(await client.POST("/api/ui/profiles/{id}/select", { params: { path: { id } } })),
-    startSeries: async (profileId, skillId, answerMode) =>
-      unwrap(await client.POST("/api/ui/series", { body: { profileId, skillId, answerMode } })),
-    answerSeries: async (seriesId, index, answer) =>
-      unwrap(await client.POST("/api/ui/series/{id}/answers", { params: { path: { id: seriesId } }, body: { index, answer } })),
-    abandonSeries: async (seriesId) =>
-      unwrap(await client.POST("/api/ui/series/{id}/abandon", { params: { path: { id: seriesId } } })),
-    speak: async (text, speed) =>
-      unwrap(await client.POST("/api/ui/speech", { body: { text, speed }, parseAs: "blob" })) as Blob,
+    getStatus: () => call("get_status"),
+    getSkills: (grade) => call("get_skills", { grade }),
+    getCharacters: () => call("get_characters"),
+    drawCharacter: (except) => call("draw_character", { except: except ?? null }),
+    getCharacterSvg: (id) => call("get_character_svg", { id }),
+    listProfiles: () => call("list_profiles"),
+    createProfile: (name, grade, characterId) => call("create_profile", { request: { name, grade, characterId } }),
+    updateProfile: (id, changes) => call("update_profile", { id, changes }),
+    selectProfile: (id) => call("select_profile", { id }),
+    startSeries: (profileId, skillId, answerMode) => call("start_series", { request: { profileId, skillId, answerMode } }),
+    answerSeries: (seriesId, index, answer) => call("answer_series", { seriesId, index, answer }),
+    abandonSeries: (seriesId) => call("abandon_series", { seriesId }),
+    speak: async (text, speed) => {
+      // Raw bytes: an ArrayBuffer in Tauri (a list of numbers from a simulated core).
+      const wav = await call<ArrayBuffer | number[]>("speak", { text, speed: speed ?? null });
+      return new Blob([new Uint8Array(wav)], { type: "audio/wav" });
+    },
   };
 }

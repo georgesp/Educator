@@ -1,55 +1,48 @@
-import createClient, { type Middleware } from "openapi-fetch";
-import type { ReadyBackend } from "./backend";
-import type { components, paths } from "./schema";
+import type * as Types from "./types";
 
-export type Schemas = components["schemas"];
-export type StatusResponse = Schemas["StatusResponse"];
-export type Grade = Schemas["Grade"];
-export type AnswerMode = Schemas["AnswerMode"];
-export type HiddenPart = Schemas["HiddenPart"];
-export type Profile = Schemas["ProfileResponse"];
-export type UpdateProfile = Schemas["UpdateProfileRequest"];
-export type Character = Schemas["CharacterResponse"];
-export type Skills = Schemas["SkillsResponse"];
-export type Skill = Schemas["SkillResponse"];
-export type Series = Schemas["SeriesResponse"];
-export type Exercise = Schemas["ExerciseResponse"];
-export type SeriesAnswer = Schemas["SeriesAnswerResponse"];
-export type SeriesSummary = Schemas["SeriesSummaryResponse"];
+// Types exchanged with the application core (Tauri commands), generated from
+// src-tauri/src/contracts.rs into ./types.ts by `npm run api:generate` — never written by hand.
+export type StatusResponse = Types.StatusResponse;
+export type StartupStatus = Types.StartupStatus;
+export type Grade = Types.Grade;
+export type AnswerMode = Types.AnswerMode;
+export type HiddenPart = Types.HiddenPart;
+export type Profile = Types.ProfileResponse;
+export type UpdateProfile = Types.UpdateProfileRequest;
+export type Character = Types.CharacterResponse;
+export type Skills = Types.SkillsResponse;
+export type Skill = Types.SkillResponse;
+export type Series = Types.SeriesResponse;
+export type Exercise = Types.ExerciseResponse;
+export type SeriesAnswer = Types.SeriesAnswerResponse;
+export type SeriesSummary = Types.SeriesSummaryResponse;
+export type CommandError = Types.CommandError;
 
-/** Error returned by the UI API (RFC 7807 problem details). */
+/**
+ * Error returned by a command. `status` keeps the meaning of the former HTTP API (400 invalid input,
+ * 404 unknown, 409 conflict, 503 unavailable); `detail` is a French sentence for the child on profile errors.
+ */
 export class ApiError extends Error {
   constructor(
     readonly status: number,
     readonly title: string,
     readonly detail?: string,
+    readonly field?: string,
   ) {
     super(detail ? `${title}: ${detail}` : title);
     this.name = "ApiError";
   }
 }
 
-/** Typed client of the UI API, generated from web/openapi/openapi.json — never written by hand. */
-export function createApiClient(backend: ReadyBackend) {
-  const client = createClient<paths>({ baseUrl: backend.baseUrl });
-  const auth: Middleware = {
-    onRequest({ request }) {
-      request.headers.set("X-Local-Token", backend.token);
-      return request;
-    },
-  };
-  client.use(auth);
-  return client;
+function isCommandError(value: unknown): value is CommandError {
+  return typeof value === "object" && value !== null && "status" in value && "title" in value;
 }
 
-type Problem = { title?: string | null; detail?: string | null } | undefined;
-
-/** Unwraps an openapi-fetch result: the data, or an ApiError. */
-export function unwrap<T>(result: { data?: T; error?: unknown; response: Response }): T {
-  if (result.error !== undefined || (result.data === undefined && result.response.status !== 204)) {
-    const problem = result.error as Problem;
-    throw new ApiError(result.response.status, problem?.title ?? result.response.statusText, problem?.detail ?? undefined);
+/** An ApiError from what a command rejected with (a CommandError, or a message from Tauri itself). */
+export function toApiError(error: unknown): ApiError {
+  if (isCommandError(error)) {
+    return new ApiError(error.status, error.title, error.detail ?? undefined, error.field ?? undefined);
   }
 
-  return result.data as T;
+  return new ApiError(500, "Unexpected error", error instanceof Error ? error.message : String(error));
 }

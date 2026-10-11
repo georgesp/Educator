@@ -1,6 +1,6 @@
 # ADR 0001 — Architecture d'Educator
 
-- **Statut** : acceptée
+- **Statut** : remplacée par [ADR 0003](0003-backend-rust.md) (backend en Rust, 2026-10-11)
 - **Date** : 2026-10-10
 - **Fiche** : SUB006001 (lot 0 — socle technique)
 

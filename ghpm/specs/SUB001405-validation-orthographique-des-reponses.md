@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WRE
+rev: 2026-10-10T19:39:09Z
 url: https://github.com/georgesp/Educator/issues/21
 type: Issue
 repository: georgesp/Educator
@@ -29,6 +30,6 @@ En tant qu'enfant, je veux voir exactement où je me suis trompé afin de corrig
 
 ## Critères d'acceptation
 
-- [ ] Code dans `Educator.Core`, sans dépendance.
+- [ ] Code dans la crate `educator-core`, sans dépendance d'infrastructure.
 - [ ] Tests unitaires : accents manquants, accent erroné (è / é), lettre doublée, lettre manquante, inversion, majuscule.
 - [ ] La correction renvoyée au front permet de surligner chaque lettre.

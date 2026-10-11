@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5k6M
-rev: 2026-10-10T20:08:44Z
+rev: 2026-10-11T07:56:52Z
 url: https://github.com/georgesp/Educator/issues/69
 type: Issue
 repository: georgesp/Educator
@@ -26,18 +26,18 @@ ne bloquent pas le développement des lots 1 à 4, qui se fait avec `npm run tau
 
 ## Objectif
 
-Qu'un parent puisse installer Educator comme n'importe quel logiciel, sur macOS et Windows, sans .NET, Node ni Rust,
+Qu'un parent puisse installer Educator comme n'importe quel logiciel, sur macOS et Windows, sans Node ni Rust,
 et sans alerte de sécurité bloquante.
 
 ## Contenu
 
-- Installeurs `.dmg` et `.msi` / NSIS, host .NET self-contained et Piper embarqués (fiche SUB006008, rattachée à ce lot).
-- Contenu pédagogique embarqué : le dossier `content/` (compétences, calendrier des périodes, barème, personnages
-  SVG, schémas) doit être placé à côté du host installé. Aujourd'hui, il est copié à côté du host à la compilation
-  par `Educator.Content.csproj`, et `ContentDirectory.Resolve()` le cherche à cet endroit (ou dans `EDUCATOR_CONTENT_DIR`).
+- Installeurs `.dmg` et `.msi` / NSIS, Piper et la voix embarqués (fiche SUB006008, rattachée à ce lot).
+- Contenu pédagogique embarqué : le dossier `content/` est une ressource Tauri (`bundle.resources` de
+  `tauri.conf.json`, lot 1bis) ; `find_content_directory` (`educator-content`) le cherche dans les ressources de
+  l'application (ou dans `EDUCATOR_CONTENT_DIR`). À vérifier dans les installeurs. Piper reste à ajouter aux ressources.
 - Signature du code macOS et notarisation Apple (certificat Developer ID, secrets dans GitHub Actions).
 - Signature Windows : à évaluer (coût d'un certificat vs alerte SmartScreen pour une application gratuite).
-- Validation complète sur Windows : lancement, host, SQLite, Piper, parcours du lot 0.
+- Validation complète sur Windows : lancement, SQLite, Piper, parcours du lot 1.
 - Mise à jour de l'application : à évaluer (`tauri-plugin-updater` ou téléchargement manuel).
 
 ## Critères d'acceptation

@@ -1,9 +1,12 @@
 [package]
 name = "educator-shell"
-version = "0.1.0"
-description = "Tauri shell of Educator: starts the .NET backend (educator-host) and hosts the web front"
-authors = ["Georges Portier"]
-edition = "2021"
+description = "Educator desktop application (Tauri 2): commands called by the front, shared state, start-up, logs. Business rules live in the educator-* crates."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
 
 [lib]
 # The `_lib` suffix avoids a name clash between the lib and the bin on Windows,
@@ -15,17 +18,26 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
+educator-core.workspace = true
+educator-content.workspace = true
+educator-data.workspace = true
 tauri = { version = "2", features = [] }
+tauri-plugin-log = "2"
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+uuid.workspace = true
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+
+# Desktop only: one window per computer (the database is shared) and remembered window size.
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-single-instance = "2"
 tauri-plugin-window-state = "2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-uuid = { version = "1", features = ["v4"] }
 
-# https://tauri.app/concept/size/#cargo-configuration
-[profile.release]
-codegen-units = 1
-lto = true
-opt-level = 3
-panic = "abort"
-strip = true
+[dev-dependencies]
+# TypeScript types of the commands, written to web/src/api/types.ts by `cargo test` (npm run api:generate).
+ts-rs = "11"
+tempfile.workspace = true
+
+[lints]
+workspace = true

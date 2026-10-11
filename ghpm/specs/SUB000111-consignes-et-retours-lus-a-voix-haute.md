@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5R4A
-rev: 2026-10-10T19:29:08Z
+rev: 2026-10-11T07:56:40Z
 url: https://github.com/georgesp/Educator/issues/12
 type: Issue
 repository: georgesp/Educator
@@ -23,7 +23,7 @@ En tant qu'enfant de CP qui ne lit pas encore bien, je veux entendre les consign
 
 ## Comportement attendu
 
-- Le front demande la lecture d'un texte au host : `POST /api/ui/speech` `{ text }` → audio WAV (ou URL d'un fichier en cache).
+- Le front demande la lecture d'un texte au cœur : commande `speak { text }` → audio WAV.
 - Textes lus au lot 1 : consignes des écrans (choix du profil, menu, choix du mode), consigne de l'exercice, calcul (« sept plus cinq »), correction (« sept plus cinq égale douze »), encouragements.
 - Les nombres et symboles sont convertis en texte français avant la synthèse (`+` → « plus », `-` → « moins », `?` → « combien »).
 - Cache disque des fichiers audio (clé : hash du texte + voix + vitesse) dans le dossier de données de l'application.
@@ -42,9 +42,9 @@ En tant qu'enfant de CP qui ne lit pas encore bien, je veux entendre les consign
 
 ## Implémentation (2026-10-11)
 
-- `POST /api/ui/speech` `{ text, speed? }` renvoie un WAV. La vitesse par défaut est de 0,9, un peu ralentie.
-- `FrenchSpeechText` (Core) écrit les nombres en toutes lettres jusqu'au million, avec les règles du français (« soixante et onze », « quatre-vingts », « deux cents »). Il convertit aussi `+`, `−`, `=`, et lit le `?` d'un calcul « combien ».
-- Cache disque `SpeechCache` (Content) dans `<données>/speech-cache/`. La clé est le SHA-256 de la voix, de la vitesse et du texte. Le cache garde au plus 2 000 fichiers ; au-delà, les plus anciens sont supprimés.
+- `speak { text, speed? }` renvoie un WAV (binaire). La vitesse par défaut est de 0,9, un peu ralentie.
+- `speech::normalize` (`educator-core`) écrit les nombres en toutes lettres jusqu'au million, avec les règles du français (« soixante et onze », « quatre-vingts », « deux cents »). Il convertit aussi `+`, `−`, `=`, et lit le `?` d'un calcul « combien ».
+- Cache disque `SpeechCache` (`educator-content`) dans `<données>/speech-cache/`. La clé est le SHA-256 de la voix, de la vitesse et du texte. Le cache garde au plus 2 000 fichiers ; au-delà, les plus anciens sont supprimés.
 - Front : `useSpeech`, une seule lecture à la fois.
 - Textes lus : la consigne de chaque écran au premier affichage, la consigne et le calcul du premier exercice, la correction après une erreur, le récapitulatif.
 - Reste à mesurer sur Mac avec Piper : le temps avant le début du son, et le fonctionnement hors ligne. Mon environnement n'a pas pu télécharger la voix cette fois-ci, et les tests utilisent une voix factice.

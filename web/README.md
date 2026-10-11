@@ -1,6 +1,6 @@
-# Front et coque Tauri
+# Front et application Tauri
 
-Front React + TypeScript (Vite) et coque Tauri 2 (`src-tauri/`). Architecture : `docs/adr/0001-architecture.md`.
+Front React + TypeScript (Vite) et application Tauri 2 (`src-tauri/`). Architecture : `docs/adr/0003-backend-rust.md`.
 
 ## Lancer l'application
 
@@ -9,39 +9,35 @@ npm install
 npm run tauri dev
 ```
 
-La coque lance le host .NET avec `dotnet run` (compilation au premier lancement, d'où quelques secondes
-d'attente), lui transmet un token aléatoire et le port libre qu'il a choisi, puis l'arrête à la fermeture.
+Tauri compile le workspace Cargo (premier lancement plus long), ouvre la fenêtre et charge le contenu et la base
+en arrière-plan : l'écran « Démarrage… » s'affiche une fraction de seconde. Il n'y a plus de serveur local : le front
+appelle des commandes Tauri (`src/api/ui.ts` → `src-tauri/src/commands.rs`).
 
-## Front seul dans un navigateur
+Le front seul dans un navigateur (`npm run dev`) affiche un message d'erreur : les commandes n'existent que dans la
+fenêtre Tauri. Pour travailler l'interface sans l'application, utiliser les tests (commandes simulées).
 
-Utile pour travailler l'interface avec le rechargement à chaud du navigateur :
+## Types des commandes
 
-```bash
-# terminal 1, à la racine du dépôt
-EDUCATOR_UI_TOKEN=dev dotnet run --project src/Educator.Host -- --port 5250
-# terminal 2, dans web/ (cp .env.example .env.local la première fois)
-npm run dev   # http://localhost:1421
-```
-
-## Client de l'API
-
-Le client TypeScript est **généré** depuis l'OpenAPI du host, jamais écrit à la main :
+Les types TypeScript (`src/api/types.ts`) sont **générés** depuis `src-tauri/src/contracts.rs`, jamais écrits à la
+main :
 
 ```bash
-npm run api:generate   # host → openapi/openapi.json → src/api/schema.d.ts
+npm run api:generate   # cargo test : régénère src/api/types.ts s'il n'est pas à jour
 ```
 
-À relancer après toute modification d'un endpoint ou d'un DTO, puis commiter les deux fichiers.
-Le test .NET `CommittedOpenApiFile_MatchesTheApi` et la CI échouent sinon.
+À relancer après toute modification d'un contrat, puis commiter `src/api/types.ts`. Le test
+`bindings::types_ts_is_up_to_date` et la CI échouent sinon (le premier lancement régénère le fichier et échoue,
+le second passe).
 
 ## Tests
 
 ```bash
 npm test            # Vitest (composants)
-npm run test:e2e    # Playwright (parcours, API simulée) ; la première fois : npx playwright install chromium
+npm run test:e2e    # Playwright (parcours, commandes Tauri simulées dans la page) ;
+                    # la première fois : npx playwright install chromium
 ```
 
 ## Page de démonstration des composants
 
-Avec `npm run dev`, la route `#/dev/composants` montre tous les composants enfant (`src/components/child/`) sur
+En développement (`npm run tauri dev`), la route `#/dev/composants` montre tous les composants enfant (`src/components/child/`) sur
 une seule page. Elle n'existe pas dans le build de l'application.

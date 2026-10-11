@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5k7s
-rev: 2026-10-10T20:08:42Z
+rev: 2026-10-11T07:56:50Z
 url: https://github.com/georgesp/Educator/issues/70
 type: Issue
 repository: georgesp/Educator
@@ -26,19 +26,21 @@ au plus tôt une régression ou un problème propre à une plateforme, sans mach
 
 - Workflow GitHub Actions `ci.yml` déclenché à chaque push et pull request.
 - Matrice `macos-latest` et `windows-latest`.
-- .NET : `dotnet restore`, `dotnet build` (warnings en erreurs), `dotnet test` (catégories `Unit` et `Integration`).
-- Front : `npm ci`, vérification que le client API généré est à jour, `npm run build`, Vitest.
-- Coque Tauri : `cargo check` sur `web/src-tauri` (sans packaging).
-- Caches NuGet, npm et Cargo pour garder un temps d'exécution raisonnable.
+- Rust : `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`.
+- Front : `npm ci`, `npm run build`, Vitest ; types TypeScript générés vérifiés à jour.
+- Caches npm et Cargo pour garder un temps d'exécution raisonnable.
 - Playwright : au moins le parcours d'exemple sur une plateforme.
 
 ## Critères d'acceptation
 
 - [ ] Pipeline vert sur macOS et Windows.
 - [ ] Un test volontairement cassé fait échouer le pipeline.
-- [ ] Badge de statut dans le `README.md`.
+- [x] Badge de statut dans le `README.md`.
 
 ## Implémentation (2026-10-10)
 
-Workflow `.github/workflows/ci.yml` écrit (jobs .NET, front + coque, Playwright) mais à copier à la main dans le dépôt : les outils de Claude ne peuvent pas écrire dans `.github/workflows`. Badge ajouté au `README.md`.
-Caches : NuGet (`actions/cache`, clé sur `Directory.Packages.props` et les `.csproj`), npm (`setup-node`) et Cargo (`rust-cache`). Chaîne du job vérifiée sur un clone neuf dans l'environnement de Claude.
+Workflow `.github/workflows/ci.yml` : job Rust (macOS, Windows), job front (macOS, Windows), Playwright (Linux). Badge
+dans le `README.md`. Caches : npm (`setup-node`) et Cargo (`rust-cache`). Chaîne vérifiée dans l'environnement de
+Claude ; reste à la voir verte sur GitHub.
+
+*Première version en .NET (2026-10-10), portée en Rust au lot 1bis (2026-10-11, ADR 0003).*

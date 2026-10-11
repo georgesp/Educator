@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5RoA
-rev: 2026-10-10T19:28:53Z
+rev: 2026-10-11T07:56:28Z
 url: https://github.com/georgesp/Educator/issues/2
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000101 — Personnages SVG des profils
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
@@ -50,12 +50,12 @@ Jeu initial de personnages, **tous dans le même style artistique** :
 ## Notes techniques
 
 - SVG optimisés (pas de métadonnées d'éditeur), couleurs en variables de palette pour permettre des déclinaisons.
-- Fichiers embarqués avec le contenu et servis par le host (`GET /api/ui/characters`, `GET /api/ui/characters/{id}.svg`).
+- Fichiers embarqués avec le contenu et fournis par les commandes `get_characters` et `get_character_svg`.
 
 ## Implémentation (2026-10-11)
 
 - 11 personnages dans `content/characters/` : lion, ours, lapin, renard, cochon, 3 garçons, 3 filles. Ils partagent les mêmes formes, le même contour de 5 px et la palette commune `palette.json`. Chaque couleur est écrite `var(--nom, #valeur)`, ce qui permet des déclinaisons.
 - Groupes nommés `body`, `head`, `face`, `clothes`, plus `hair`, `ears` ou `mane`. Les enfants ont en plus `hair-front` pour la frange.
 - Planche de contrôle : `content/characters/planche.html` (256, 96 et 48 px), relue visuellement. À valider par Georges.
-- Tests (`CharacterContentTests`, `ContentValidationTests`) : chaque SVG est valide, sans script ni lien externe ; les groupes et les ancres sont présents ; les couleurs viennent de la palette ; le JSON respecte son schéma.
-- API : `GET /api/ui/characters` et `GET /api/ui/characters/{id}.svg`.
+- Tests (`educator-content` : `tests/characters.rs`, `tests/content_validation.rs`) : chaque SVG est valide, sans script ni lien externe ; les groupes et les ancres sont présents ; les couleurs viennent de la palette ; le JSON respecte son schéma.
+- Commandes : `get_characters`, `draw_character` et `get_character_svg`.

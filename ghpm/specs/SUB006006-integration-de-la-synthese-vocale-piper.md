@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fRQ
-rev: 2026-10-10T19:56:55Z
+rev: 2026-10-11T07:56:47Z
 url: https://github.com/georgesp/Educator/issues/66
 type: Issue
 repository: georgesp/Educator
@@ -26,7 +26,7 @@ En tant qu'enfant, je veux entendre une voix claire en français afin de compren
 - Choix d'une voix française Piper : écoute comparative de 2 ou 3 voix sur des mots et consignes pour enfants, choix documenté dans une ADR (`docs/adr/0002-voix-piper.md`).
 - Vérification de la **licence** du binaire Piper et de la voix retenue (usage gratuit, redistribution dans un installeur).
 - Binaire Piper + modèle de voix embarqués pour macOS (arm64, x64) et Windows (x64).
-- Service `ISpeechSynthesizer` dans `Educator.Content` : texte → fichier WAV, vitesse réglable.
+- Trait `SpeechSynthesizer` (`educator-core`), implémenté par `PiperSpeechSynthesizer` (`educator-content`) : texte → WAV, vitesse réglable.
 
 ## Critères d'acceptation
 
@@ -36,4 +36,4 @@ En tant qu'enfant, je veux entendre une voix claire en français afin de compren
 
 ## Implémentation (2026-10-10)
 
-Voir `docs/adr/0002-voix-piper.md`. La version macOS publiée de Piper est un binaire Intel sans ses bibliothèques : le script l'assemble avec celles de piper-phonemize, et l'ensemble tourne sous Rosetta 2 sur Apple Silicon. Processus Piper longue durée (`--json-input`), préchauffé au démarrage. Mesuré sous Linux : 0,9 s pour 10 mots au premier appel, 0,13 s pour l'énoncé d'une addition ensuite. Voix proposée `fr_FR-siwis-medium` (CC BY 4.0), à confirmer à l'écoute avec `scripts/compare-voices.sh`. Reste à vérifier hors ligne sur macOS et Windows.
+Voir `docs/adr/0002-voix-piper.md`. La version macOS publiée de Piper est un binaire Intel sans ses bibliothèques : le script l'assemble avec celles de piper-phonemize, et l'ensemble tourne sous Rosetta 2 sur Apple Silicon. Processus Piper longue durée (`--json-input`), préchauffé au démarrage de l'application à la vitesse enfant (0,9). Mesuré sous Linux avec la version .NET : 0,9 s pour 10 mots au premier appel, 0,13 s pour l'énoncé d'une addition ensuite ; le même protocole est repris en Rust (lot 1bis). Voix proposée `fr_FR-siwis-medium` (CC BY 4.0), à confirmer à l'écoute avec `scripts/compare-voices.sh`. Reste à vérifier hors ligne sur macOS et Windows.
