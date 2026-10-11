@@ -42,11 +42,19 @@ skillsGrade: Grade,
  */
 currentPeriod: number, skills: Array<SkillResponse>, };
 
-export type SkillResponse = { id: string, title: string, instruction: string, period: number, 
+export type SkillResponse = { id: string, title: string, instruction: string, 
 /**
- * True for the skills of the current period.
+ * Period where the skill is offered to this grade.
  */
-isCurrentPeriod: boolean, answerModes: Array<AnswerMode>, };
+period: number, 
+/**
+ * True for the skills of the current period (revisions excepted).
+ */
+isCurrentPeriod: boolean, 
+/**
+ * Grade the skill comes from when it is offered as a revision (SUB000113), otherwise `null`.
+ */
+revisionFrom: Grade | null, answerModes: Array<AnswerMode>, };
 
 export type CharacterResponse = { id: string, name: string, kind: CharacterKind, };
 

@@ -1,6 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { setVoiceEnabled } from "../audio/useSpeech";
 import { fakeApi, renderApp } from "../test/renderWithApp";
 
 describe("MenuScreen", () => {
@@ -13,6 +14,7 @@ describe("MenuScreen", () => {
   });
 
   it("opens Exercises, and says aloud that the locked entries come soon", async () => {
+    setVoiceEnabled(true);
     const api = fakeApi();
     const router = renderApp(api, "/menu");
     const user = userEvent.setup();

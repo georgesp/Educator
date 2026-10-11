@@ -19,6 +19,8 @@
   --incorrect: #a14400;
   --checker-dark: #1a1a1f;
   --checker-light: #ffffff;
+  --firework-gold: #f2b705;
+  --firework-blue: #1f6fd1;
 
   --font-body: "Lexend", ui-rounded, "Segoe UI", system-ui, sans-serif;
   --font-display: "Barlow Condensed", "Lexend", system-ui, sans-serif;
@@ -567,6 +569,57 @@ body {
   gap: 16px;
 }
 
+/* Profile sheet (SUB000115). */
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.character-picker {
+  margin: 12px 0 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.character-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.character-choice {
+  padding: 4px;
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.character-choice[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--surface-strong);
+}
+
+.character-choice:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
 /* Menu: vertical menu on the left, profile panel on the right. */
 .menu-screen {
   flex: 1;
@@ -1071,6 +1124,45 @@ body {
   .choice-grid {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
   }
+}
+
+/* Fireworks for a series without any mistake (SUB000114). Over everything, never in the way of a click. */
+.fireworks {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fireworks-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.fireworks-spark {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.fireworks-still {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.fireworks-stars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  color: var(--firework-gold);
 }
 
 @media (prefers-reduced-motion: reduce) {

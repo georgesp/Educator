@@ -1,6 +1,7 @@
 import { createHashRouter, type RouteObject } from "react-router";
 import { Layout } from "../components/Layout";
 import { ComponentsDemoScreen } from "../screens/ComponentsDemoScreen";
+import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { MenuScreen } from "../screens/MenuScreen";
 import { ModeScreen } from "../screens/ModeScreen";
 import { ProfilesScreen } from "../screens/ProfilesScreen";
@@ -11,6 +12,7 @@ import { SkillsScreen } from "../screens/SkillsScreen";
 export const screenRoutes: RouteObject[] = [
   { index: true, element: <ProfilesScreen /> },
   { path: "menu", element: <MenuScreen /> },
+  { path: "profil/:profileId", element: <EditProfileScreen /> },
   { path: "exercices", element: <SkillsScreen /> },
   { path: "exercices/:skillId", element: <ModeScreen /> },
   { path: "serie/:skillId/:mode", element: <SeriesScreen /> },

@@ -1,5 +1,7 @@
 use educator_content::{load_skills, parse_skill};
-use educator_core::skills::{AnswerMode, CarryRule, ExerciseFormat, OperandRule, TrivialCase};
+use educator_core::skills::{
+    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, TrivialCase,
+};
 use educator_core::Grade;
 
 const VALID: &str = r#"
@@ -36,6 +38,21 @@ fn valid_file_gives_the_skill() {
         skill.formats
     );
     assert_eq!(vec![AnswerMode::Keyboard], skill.answer_modes);
+}
+
+#[test]
+fn also_offered_is_loaded() {
+    let json = VALID.replace(
+        r#""source": "Tests""#,
+        r#""source": "Tests", "alsoOffered": [ { "grade": "CE2", "period": 2 } ]"#,
+    );
+    let skill = parse_skill(&json, Some("test-add")).unwrap();
+
+    assert_eq!(vec![Placement::new(Grade::CE2, 2)], skill.also_offered);
+    assert!(parse_skill(VALID, Some("test-add"))
+        .unwrap()
+        .also_offered
+        .is_empty());
 }
 
 #[test]
@@ -77,6 +94,26 @@ fn invalid_file_is_reported() {
             r#"[ { "min": 0, "max": 10 }, { "min": 0, "max": 10, "multipleOf": 2 } ]"#,
             r#"[ { "min": 0, "max": 99999 }, { "min": 0, "max": 99999 } ]"#,
             "Rule too wide",
+        ),
+        (
+            r#""source": "Tests""#,
+            r#""source": "Tests", "alsoOffered": [ { "grade": "CE3", "period": 1 } ]"#,
+            "alsoOffered.grade 'CE3' is unknown",
+        ),
+        (
+            r#""source": "Tests""#,
+            r#""source": "Tests", "alsoOffered": [ { "grade": "CE2", "period": 0 } ]"#,
+            "alsoOffered: period 0",
+        ),
+        (
+            r#""source": "Tests""#,
+            r#""source": "Tests", "alsoOffered": [ { "grade": "CE1", "period": 4 } ]"#,
+            "own grade",
+        ),
+        (
+            r#""source": "Tests""#,
+            r#""source": "Tests", "alsoOffered": [ { "grade": "CE2", "period": 1 }, { "grade": "CE2", "period": 2 } ]"#,
+            "listed twice",
         ),
     ];
     for (from, to, expected) in cases {

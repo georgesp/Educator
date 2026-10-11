@@ -89,3 +89,9 @@ export const ArrowIcon = (p: IconProps) => (
     <path d="M5 12h14M13 6l6 6-6 6" />
   </Icon>
 );
+/** Filled star (still version of the fireworks, SUB000114). */
+export const StarIcon = (p: IconProps) => (
+  <Icon {...p} fill="currentColor">
+    <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />
+  </Icon>
+);

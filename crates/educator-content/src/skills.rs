@@ -5,8 +5,8 @@
 use crate::{ContentProblem, Loaded};
 use educator_core::exercises::CalculationSpace;
 use educator_core::skills::{
-    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Skill, SkillCatalog, SkillConstraints,
-    SkillOperation, Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
+    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, Skill, SkillCatalog,
+    SkillConstraints, SkillOperation, Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
 };
 use educator_core::Grade;
 use serde::Deserialize;
@@ -133,6 +133,14 @@ struct SkillFile {
     formats: Vec<String>,
     answer_modes: Vec<String>,
     source: String,
+    also_offered: Option<Vec<PlacementFile>>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PlacementFile {
+    grade: String,
+    period: i32,
 }
 
 #[derive(Deserialize)]
@@ -277,6 +285,32 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         &mut errors,
     );
 
+    let mut also_offered = Vec::new();
+    for placement in file.also_offered.as_deref().unwrap_or_default() {
+        let placement_grade =
+            parse_enum(&placement.grade, "alsoOffered.grade", GRADES, &mut errors);
+        if !(i32::from(FIRST_PERIOD)..=i32::from(LAST_PERIOD)).contains(&placement.period) {
+            errors.push(format!(
+                "alsoOffered: period {} must be between 1 and 5.",
+                placement.period
+            ));
+        } else if let Some(placement_grade) = placement_grade {
+            let period = u8::try_from(placement.period).expect("checked");
+            if Some(placement_grade) == grade {
+                errors.push(format!(
+                    "alsoOffered: {placement_grade} is the skill's own grade; only other grades can be added."
+                ));
+            } else if also_offered
+                .iter()
+                .any(|p: &Placement| p.grade == placement_grade)
+            {
+                errors.push(format!("alsoOffered: {placement_grade} is listed twice."));
+            } else {
+                also_offered.push(Placement::new(placement_grade, period));
+            }
+        }
+    }
+
     if !errors.is_empty() {
         return Err(errors);
     }
@@ -308,6 +342,7 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         formats,
         answer_modes,
         source: file.source.trim().to_owned(),
+        also_offered,
     };
 
     let combinations = skill.combination_count();

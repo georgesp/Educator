@@ -3,7 +3,7 @@
  * Gentle for a mistake (two soft notes), never a buzzer. Can be muted (stored in localStorage until the
  * Options of lot 3).
  */
-export type SoundName = "correct" | "incorrect" | "finished";
+export type SoundName = "correct" | "incorrect" | "finished" | "celebration";
 
 const MUTED_KEY = "educator.sounds.muted";
 
@@ -21,6 +21,16 @@ const melodies: Record<SoundName, Array<[frequency: number, start: number, durat
     [659.25, 0.12, 0.12], // E5
     [783.99, 0.24, 0.12], // G5
     [1046.5, 0.36, 0.35], // C6
+  ],
+  // Fireworks (SUB000114): a rising fanfare, a little longer than « finished ».
+  celebration: [
+    [523.25, 0, 0.1], // C5
+    [659.25, 0.1, 0.1], // E5
+    [783.99, 0.2, 0.1], // G5
+    [1046.5, 0.3, 0.18], // C6
+    [783.99, 0.5, 0.1], // G5
+    [1046.5, 0.6, 0.12], // C6
+    [1318.51, 0.72, 0.5], // E6
   ],
 };
 

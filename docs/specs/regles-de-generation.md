@@ -50,13 +50,22 @@ qui permet de rejouer une série à l'identique.
 | `formats` | `result`, `missingOperand` | `7 + 5 = ?` ou `7 + ? = 12` (le trou est à gauche ou à droite, au hasard) |
 | `answerModes` | `keyboard`, `choice` | Saisie au clavier ou QCM à 4 propositions |
 | `source` | texte | Référence du programme officiel justifiant la règle |
+| `alsoOffered` (facultatif) | liste de `{ "grade", "period" }` | Autres classes où la compétence est aussi proposée, en révision (une seule fois par classe, jamais la sienne) |
 
 Les propriétés inconnues sont refusées. Le résultat d'une soustraction n'est jamais négatif.
 
 ## Ce que fait le moteur
 
 - **Série** : 10 exercices par défaut, sans doublon (7 + 5 et 5 + 7 comptent comme un seul).
-- **Format** : 60 % `result` et 40 % `missingOperand` quand la compétence permet les deux.
+- **Variété** (SUB000112) :
+  - une compétence `mixed` a autant d'additions que de soustractions (5 et 5) ;
+  - jamais deux fois de suite la même forme (même opération et même format) quand la compétence en offre
+    plusieurs : une compétence d'une seule opération avec les deux formats alterne donc `result` et
+    `missingOperand` ;
+  - un même nombre ne revient pas plus de 3 fois comme opérande dans une série, quand la règle laisse assez
+    d'autres nombres (les opérandes à moins de 4 valeurs possibles, comme « 1 ou 2 », ne sont pas comptés).
+- **Format** : tiré à 60 % `result` et 40 % `missingOperand` quand la compétence permet les deux, sauf quand la règle
+  de variété impose de changer.
 - **QCM** : la bonne réponse et 3 erreurs crédibles (±1, erreur de retenue ±10, opération inversée), jamais
   négatives ni en double, dans un ordre aléatoire.
 - **Graine** : la même compétence et la même graine redonnent exactement la même série.
@@ -71,7 +80,11 @@ lancés par la CI) :
 - chaque fichier respecte le schéma JSON ;
 - chaque règle permet **au moins 20 exercices différents** (règle trop étroite sinon) ;
 - 10 000 tirages par compétence respectent toutes les contraintes ;
-- le CP et le CE1 ont des compétences dans chacune des 5 périodes.
+- le CP et le CE1 ont des compétences dans chacune des 5 périodes ;
+- en CE1 période 1, les compétences du CP période 5 sont proposées en révision, sans doublon.
+
+`cargo run -p educator-content --example samples` régénère `docs/specs/echantillons-lot1.md` (20 exercices par
+compétence) pour la relecture.
 
 ## Périodes de l'année
 
@@ -79,6 +92,16 @@ lancés par la CI) :
 9 mars, 4 mai). Ces dates sont placées après les vacances de toutes les zones, si bien que la période calculée ne
 dépend pas de la zone. Juillet et août comptent dans la période 5. La commande `get_skills` (`grade: "CE1"`) renvoie les
 compétences triées par période et indique la période en cours.
+
+## Révisions entre classes (SUB000113)
+
+Les compétences de la **période 5** d'une classe sont aussi proposées en **période 1 de la classe suivante**, sous
+le titre « Révisions », avec l'étiquette de leur classe d'origine (`revisionFrom: "CP"` dans
+`get_skills`). Une compétence peut déclarer d'autres rattachements avec `alsoOffered` ; un rattachement déclaré
+remplace la règle par défaut pour cette classe. Les points gagnés sur une révision comptent normalement.
+
+Les classes qui n'ont pas encore de compétences (CE2 à CM2 au lot 1) reçoivent ce qui est proposé au CE1, révisions
+comprises.
 
 ## Programme de référence
 

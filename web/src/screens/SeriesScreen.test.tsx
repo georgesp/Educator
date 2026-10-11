@@ -1,10 +1,14 @@
 import { act, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
+import { setVoiceEnabled } from "../audio/useSpeech";
 import { fakeApi, renderApp, twoExercises } from "../test/renderWithApp";
 import { AUTO_NEXT_DELAY_MS } from "./SeriesScreen";
 
 describe("SeriesScreen", () => {
+  // These tests check what is read aloud: the voice is off by default (see voice.test.tsx).
+  beforeEach(() => setVoiceEnabled(true));
+
   it("keyboard mode: a right answer moves on, a mistake shows the correction, then the summary", async () => {
     const api = fakeApi();
     renderApp(api, "/serie/cp-add-sum-10/Keyboard");
@@ -31,6 +35,24 @@ describe("SeriesScreen", () => {
     expect(await screen.findByRole("heading", { name: "Série terminée !" })).toBeInTheDocument();
     expect(screen.getByText("1 bonne réponse sur 2")).toBeInTheDocument();
     expect(screen.getByText("+40 points")).toBeInTheDocument();
+    // 1 out of 2: no fireworks.
+    expect(screen.queryByTestId("fireworks")).not.toBeInTheDocument();
+  });
+
+  it("fireworks when every answer is right, and only then", async () => {
+    const api = fakeApi();
+    renderApp(api, "/serie/cp-add-sum-10/Keyboard");
+    const user = userEvent.setup();
+
+    await user.type(await screen.findByLabelText("Ta réponse"), "7{Enter}");
+    await waitFor(() => expect(screen.getByLabelText("5 + ? = 9")).toBeInTheDocument(), { timeout: AUTO_NEXT_DELAY_MS + 1000 });
+    await user.type(screen.getByLabelText("Ta réponse"), "4{Enter}");
+
+    expect(await screen.findByText("2 bonnes réponses sur 2", {}, { timeout: AUTO_NEXT_DELAY_MS + 1000 })).toBeInTheDocument();
+    expect(screen.getByTestId("fireworks")).toHaveAccessibleName("Bravo, tout est juste !");
+    expect(api.speak).toHaveBeenLastCalledWith(expect.stringMatching(/^Bravo, tout est juste ! Série terminée !/));
+    // The buttons of the summary stay usable during the animation.
+    expect(screen.getByRole("button", { name: "Recommencer" })).toBeEnabled();
   });
 
   it("choice mode: four tiles, the picked one is checked by the host", async () => {

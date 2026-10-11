@@ -14,6 +14,12 @@ pub enum Grade {
 impl Grade {
     pub const ALL: [Grade; 5] = [Grade::CP, Grade::CE1, Grade::CE2, Grade::CM1, Grade::CM2];
 
+    /// The grade before this one (CE1 → CP), `None` for CP.
+    pub fn previous(self) -> Option<Grade> {
+        let index = Grade::ALL.iter().position(|g| *g == self)?;
+        index.checked_sub(1).map(|i| Grade::ALL[i])
+    }
+
     pub fn as_str(self) -> &'static str {
         match self {
             Grade::CP => "CP",

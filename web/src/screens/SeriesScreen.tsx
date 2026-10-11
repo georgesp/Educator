@@ -9,6 +9,7 @@ import { useApi } from "../app/BackendContext";
 import { queryKeys } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
 import { Feedback } from "../components/child/Feedback";
+import { Fireworks } from "../components/child/Fireworks";
 import { NumberPad } from "../components/child/NumberPad";
 import { PointsBadge } from "../components/child/PointsBadge";
 import { RaceTrack } from "../components/child/RaceTrack";
@@ -79,8 +80,11 @@ function SeriesRun({ profile }: { profile: Profile }) {
   const finish = (summary: SeriesSummary) => {
     setPoints(summary.profilePoints);
     setPhase({ kind: "finished", summary });
-    playSound("finished");
-    void speak(fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned));
+    // Everything right: fireworks, a fanfare and « Bravo, tout est juste ! » (SUB000114).
+    const perfect = summary.correctCount === summary.exerciseCount;
+    playSound(perfect ? "celebration" : "finished");
+    const spoken = fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
+    void speak(perfect ? `${fr.series.allRight} ${spoken}` : spoken);
     void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
   };
 
@@ -290,7 +294,8 @@ function Summary({ summary, onAgain, onMenu }: { summary: SeriesSummary; onAgain
     <motion.section className="summary" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       <h1 className="title">{fr.series.finished}</h1>
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
-      {perfect && <p className="summary-perfect">{fr.series.perfect}</p>}
+      {perfect && <Fireworks label={fr.series.allRight} />}
+      {perfect && <p className="summary-perfect">{fr.series.allRight}</p>}
       <motion.p
         className="summary-points"
         initial={{ scale: 0.6, opacity: 0 }}

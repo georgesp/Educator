@@ -27,6 +27,7 @@ pub fn skill(id: &str) -> Skill {
         formats: vec![ExerciseFormat::Result, ExerciseFormat::MissingOperand],
         answer_modes: vec![AnswerMode::Keyboard, AnswerMode::Choice],
         source: "Tests".to_owned(),
+        also_offered: Vec::new(),
     }
 }
 

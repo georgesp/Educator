@@ -110,14 +110,14 @@ impl Services {
 
     pub fn skills(&self, grade: Grade) -> SkillsResponse {
         let current_period = self.calendar.period_of((self.today)());
-        let (skills_grade, skills) = self.skills.for_or_fallback(Subject::Math, grade.into());
+        let (skills_grade, offered) = self.skills.offered_or_fallback(Subject::Math, grade.into());
         SkillsResponse {
             grade,
             skills_grade: skills_grade.into(),
             current_period,
-            skills: skills
-                .into_iter()
-                .map(|s| SkillResponse::new(s, current_period))
+            skills: offered
+                .iter()
+                .map(|o| SkillResponse::offered(o, current_period))
                 .collect(),
         }
     }
@@ -390,6 +390,25 @@ mod tests {
     }
 
     #[test]
+    fn ce1_gets_the_cp_revisions_after_its_own_first_period() {
+        let skills = fixture().services.skills(Grade::CE1);
+        let first: Vec<_> = skills.skills.iter().filter(|s| s.period == 1).collect();
+
+        assert!(first.iter().any(|s| s.revision_from == Some(Grade::CP)));
+        // Own skills first, then the revisions, which are never « en ce moment ».
+        let revision_start = first
+            .iter()
+            .position(|s| s.revision_from.is_some())
+            .unwrap();
+        assert!(first[revision_start..]
+            .iter()
+            .all(|s| s.revision_from == Some(Grade::CP) && !s.is_current_period));
+        assert!(first[..revision_start]
+            .iter()
+            .all(|s| s.revision_from.is_none()));
+    }
+
+    #[test]
     fn grades_without_skills_get_the_ce1_ones() {
         let skills = fixture().services.skills(Grade::CM2);
 
@@ -440,6 +459,71 @@ mod tests {
         assert_eq!(
             404,
             f.services.select_profile("not-a-guid").unwrap_err().status
+        );
+    }
+
+    /// SUB000115: name, grade and character changed together, points kept, and the skills
+    /// follow the new grade.
+    #[test]
+    fn a_profile_sheet_change_keeps_the_points_and_moves_the_skills() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let series = f
+            .services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "cp-add-sum-10".to_owned(),
+                answer_mode: AnswerMode::Keyboard,
+                seed: Some(1),
+            })
+            .unwrap();
+        let points = f
+            .services
+            .abandon_series(&series.series_id)
+            .unwrap()
+            .profile_points;
+
+        let updated = f
+            .services
+            .update_profile(
+                &lea.id,
+                UpdateProfileRequest {
+                    name: Some("Léonie".to_owned()),
+                    grade: Some(Grade::CE1),
+                    character_id: Some("renard".to_owned()),
+                },
+            )
+            .unwrap();
+
+        assert_eq!(
+            ("Léonie", Grade::CE1, "renard", points),
+            (
+                updated.name.as_str(),
+                updated.grade,
+                updated.character_id.as_str(),
+                updated.points
+            )
+        );
+        let skills = f.services.skills(updated.grade);
+        assert_eq!(Grade::CE1, skills.skills_grade);
+        assert!(skills
+            .skills
+            .iter()
+            .all(|s| s.id.starts_with("ce1-") || s.revision_from == Some(Grade::CP)));
+
+        let refused = f
+            .services
+            .update_profile(
+                &lea.id,
+                UpdateProfileRequest {
+                    character_id: Some("dragon".to_owned()),
+                    ..Default::default()
+                },
+            )
+            .unwrap_err();
+        assert_eq!(
+            (400, Some("characterId")),
+            (refused.status, refused.field.as_deref())
         );
     }
 

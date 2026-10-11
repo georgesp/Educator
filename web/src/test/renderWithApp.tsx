@@ -40,8 +40,8 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       skillsGrade: "CP",
       currentPeriod: 1,
       skills: [
-        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, answerModes: ["Keyboard", "Choice"] },
-        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, answerModes: ["Keyboard"] },
+        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"] },
+        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"] },
       ],
     }),
     getCharacters: vi.fn().mockResolvedValue([

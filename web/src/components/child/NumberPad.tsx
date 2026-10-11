@@ -10,9 +10,13 @@ type NumberPadProps = {
   submitLabel?: string;
 };
 
-const DIGITS = ["7", "8", "9", "4", "5", "6", "1", "2", "3"];
+/** Reading order, like a phone keypad: 1 2 3 on the top row, then 4 5 6, then 7 8 9. */
+export const DIGITS = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-/** On-screen keypad 0–9 with Erase and Validate, for children who do not use the keyboard yet. */
+/**
+ * On-screen keypad 0–9 with Erase and Validate, for children who do not use the keyboard yet.
+ * Keys are rendered in DOM order so that tab order and screen readers follow the visual order.
+ */
 export function NumberPad({ value, onChange, onSubmit, maxLength = 10, disabled = false, submitLabel = fr.series.check }: NumberPadProps) {
   const type = (digit: string) => {
     if (value.length < maxLength) {

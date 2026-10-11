@@ -56,7 +56,7 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
           grade: "CP",
           skillsGrade: "CP",
           currentPeriod: 1,
-          skills: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, answerModes: ["Keyboard", "Choice"] }],
+          skills: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"] }],
         };
       case "start_series": {
         const { answerMode } = args.request as { answerMode: "Keyboard" | "Choice" };
@@ -142,6 +142,8 @@ test("a CP child creates a profile, then does a whole series with the keyboard, 
   await expect(page.getByRole("heading", { name: "Série terminée !" })).toBeVisible();
   await expect(page.getByText("9 bonnes réponses sur 10")).toBeVisible();
   await expect(page.getByText("+110 points")).toBeVisible();
+  // One mistake: no fireworks (SUB000114).
+  await expect(page.getByRole("img", { name: "Bravo, tout est juste !" })).toHaveCount(0);
 
   // Back to the menu: points are up to date. Then a QCM series, mouse only.
   await page.locator(".summary").getByRole("button", { name: "Menu" }).click();
@@ -156,6 +158,10 @@ test("a CP child creates a profile, then does a whole series with the keyboard, 
 
   await expect(page.getByText("10 bonnes réponses sur 10")).toBeVisible();
   await expect(page.getByText("+140 points")).toBeVisible();
+  // Everything right: fireworks, which do not block the summary buttons.
+  await expect(page.getByRole("img", { name: "Bravo, tout est juste !" })).toBeVisible();
+  await page.locator(".summary").getByRole("button", { name: "Menu" }).click();
+  await expect(page.getByLabel("250 points")).toBeVisible();
 });
 
 test("an existing profile is chosen on the first screen", async ({ page }) => {

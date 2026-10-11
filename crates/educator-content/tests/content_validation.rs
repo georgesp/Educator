@@ -2,9 +2,11 @@
 //! application in front of a child (SUB000106, SUB000107, SUB000108).
 
 use educator_content::{EducatorContent, MIN_DISTINCT_EXERCISES};
-use educator_core::exercises::{generate_series, CalculationSpace, DEFAULT_LENGTH};
+use educator_core::exercises::{
+    generate_series, ArithmeticOperation, CalculationSpace, DEFAULT_LENGTH,
+};
 use educator_core::points::PointsRules;
-use educator_core::skills::{Date, SkillCatalog, Subject};
+use educator_core::skills::{AnswerMode, Date, SkillCatalog, Subject};
 use educator_core::Grade;
 use std::collections::{BTreeSet, HashSet};
 use std::path::{Path, PathBuf};
@@ -142,6 +144,61 @@ fn every_skill_ten_thousand_draws_respect_every_constraint() {
             }
         }
     }
+}
+
+/// SUB000112: subtractions with small numbers from the first period of CP.
+#[test]
+fn cp_offers_subtractions_within_ten_from_period_one() {
+    let skill = content().skills.find("cp-sub-within-10").unwrap();
+    assert_eq!((Grade::CP, 1), (skill.grade, skill.period));
+    assert!(skill.source.contains("Educator"), "{}", skill.source);
+    for seed in 0..1000u64 {
+        for exercise in generate_series(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
+        {
+            let c = exercise.calculation;
+            assert_eq!(ArithmeticOperation::Subtraction, c.operation);
+            assert!((2..=10).contains(&c.left) && c.result() > 0, "{c}");
+        }
+    }
+}
+
+/// SUB000112: « ajouter ou enlever 1 ou 2 » around 10, with at least 4 subtractions out of 10.
+#[test]
+fn adding_or_removing_one_or_two_balances_the_operations() {
+    let skill = content().skills.find("cp-add-sub-1-2").unwrap();
+    assert_eq!(1, skill.period);
+    for seed in 0..1000u64 {
+        let series = generate_series(skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
+        let subtractions = series
+            .iter()
+            .filter(|e| e.calculation.operation == ArithmeticOperation::Subtraction)
+            .count();
+        assert!(subtractions >= 4, "seed {seed}: {subtractions}");
+        assert!(series.iter().all(|e| e.calculation.left <= 12));
+    }
+}
+
+/// SUB000113: in CE1 period 1, the CP period 5 skills come back as revisions, once each.
+#[test]
+fn ce1_revises_the_last_period_of_cp() {
+    let skills = &content().skills;
+    let offered = skills.offered_to(Subject::Math, Grade::CE1);
+    let cp_last: BTreeSet<&str> = skills
+        .for_grade(Subject::Math, Grade::CP)
+        .iter()
+        .filter(|s| s.period == 5)
+        .map(|s| s.id.as_str())
+        .collect();
+    let revised: BTreeSet<&str> = offered
+        .iter()
+        .filter(|o| o.revision_from == Some(Grade::CP) && o.period == 1)
+        .map(|o| o.skill.id.as_str())
+        .collect();
+
+    assert!(!cp_last.is_empty());
+    assert_eq!(cp_last, revised);
+    let ids: Vec<&str> = offered.iter().map(|o| o.skill.id.as_str()).collect();
+    assert_eq!(ids.len(), ids.iter().collect::<HashSet<_>>().len());
 }
 
 #[test]

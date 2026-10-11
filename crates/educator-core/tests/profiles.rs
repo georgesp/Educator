@@ -171,3 +171,30 @@ fn unknown_grade_reads_choose_your_grade() {
         educator_core::profiles::parse_grade("CE2").unwrap()
     );
 }
+
+/// SUB000115: a profile edited afterwards follows the creation rules and keeps its points.
+#[test]
+fn update_checks_the_name_like_the_creation_and_keeps_the_points() {
+    let service = service();
+    service.create("Léa", Grade::CP, None).unwrap();
+    let tom = service.create("Tom", Grade::CP, None).unwrap();
+
+    for (name, message) in [
+        ("  ", "Écris ton prénom."),
+        (
+            "Maximilien-Alexandre-Jean",
+            "Ton prénom est trop long : 20 lettres au maximum.",
+        ),
+        ("léa", "Ce prénom est déjà pris. Choisis-en un autre."),
+    ] {
+        let (field, actual) = validation_message(service.update(tom.id, Some(name), None, None));
+        assert_eq!(("name", message), (field, actual.as_str()));
+    }
+
+    let unchanged = service.select(tom.id).unwrap();
+    assert_eq!("Tom", unchanged.name);
+    assert!(matches!(
+        service.update(Uuid::now_v7(), Some("Zoé"), None, None),
+        Err(Error::ProfileNotFound(_))
+    ));
+}

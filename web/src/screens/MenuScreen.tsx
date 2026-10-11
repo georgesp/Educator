@@ -95,6 +95,10 @@ function Menu({ profile }: { profile: Profile }) {
         <div className="profile-panel-name">
           <span className="profile-panel-title">{profile.name}</span>
           <Link to="/">{fr.menu.changeProfile}</Link>
+          <Link className="profile-edit" to={`/profil/${encodeURIComponent(profile.id)}?retour=menu`} aria-label={fr.profiles.editLabel(profile.name)}>
+            <PencilIcon size={20} />
+            {fr.profiles.edit}
+          </Link>
         </div>
         <dl className="profile-stats">
           <div className="profile-stat">

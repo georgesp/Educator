@@ -107,6 +107,35 @@
       "type": "string",
       "minLength": 1,
       "description": "Référence du programme officiel justifiant la règle."
+    },
+    "alsoOffered": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Autres classes (et période) où la compétence est aussi proposée, en révision (SUB000113). Par défaut, les compétences de la période 5 sont déjà proposées en période 1 de la classe suivante.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "grade",
+          "period"
+        ],
+        "properties": {
+          "grade": {
+            "enum": [
+              "CP",
+              "CE1",
+              "CE2",
+              "CM1",
+              "CM2"
+            ]
+          },
+          "period": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      }
     }
   },
   "$defs": {

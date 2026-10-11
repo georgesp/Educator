@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5RnI
-rev: 2026-10-11T07:56:51Z
+rev: 2026-10-11T15:22:46Z
 url: https://github.com/georgesp/Educator/issues/1
 type: Issue
 repository: georgesp/Educator
@@ -53,11 +53,12 @@ Première version utilisable par un enfant de CP ou CE1 : il choisit ou crée so
 
 Toutes les sous-fiches sont implémentées et testées dans l'environnement Linux de Claude :
 
-- version Rust (lot 1bis) : 92 tests Rust, `clippy -D warnings` propre, 15 tests Vitest et 2 parcours Playwright verts ;
+- version Rust (lot 1bis), avec les retours d'essai (SUB000112 à SUB000116) : 107 tests Rust, `clippy -D warnings`
+  propre, 27 tests Vitest et 2 parcours Playwright verts ;
 - `npm run build` sans erreur ;
 - parcours lancé dans la vraie application Tauri (Linux, Xvfb) : création de profil, compétences, série au clavier.
 
-Reste à faire par Georges : le parcours complet sur macOS avec la vraie voix (`npm run tauri dev`), les délais de lecture, la relecture des personnages et des échantillons d'exercices, puis Windows plus tard.
+Reste à faire par Georges : le parcours complet sur macOS avec la vraie voix (`npm run tauri dev`), les délais de lecture (SUB000109, SUB000111), la relecture des personnages et des échantillons d'exercices régénérés (SUB000112), puis Windows plus tard.
 
 ## Historique
 

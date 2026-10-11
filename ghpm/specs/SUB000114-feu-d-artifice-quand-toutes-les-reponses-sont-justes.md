@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAvtg
+rev: 2026-10-11T15:22:48Z
 url: https://github.com/georgesp/Educator/issues/75
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000114 — Feu d'artifice quand toutes les réponses sont justes
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -33,11 +34,28 @@ En tant qu'enfant, je veux une belle récompense visuelle quand j'ai tout juste 
 
 ## Critères d'acceptation
 
-- [ ] Feu d'artifice affiché après une série 10/10, et seulement dans ce cas.
-- [ ] Composant réutilisable (`Fireworks` dans `web/src/components/child/`), mentionné dans la fiche du mode examen.
-- [ ] Version sans mouvement quand `prefers-reduced-motion` est actif.
-- [ ] Test Vitest (affiché à 10/10, absent à 9/10) et parcours Playwright mis à jour.
+- [x] Feu d'artifice affiché après une série 10/10, et seulement dans ce cas.
+- [x] Composant réutilisable (`Fireworks` dans `web/src/components/child/`), mentionné dans la fiche du mode examen.
+- [x] Version sans mouvement quand `prefers-reduced-motion` est actif.
+- [x] Test Vitest (affiché à 10/10, absent à 9/10) et parcours Playwright mis à jour.
 
 ## Notes techniques
 
 - Canvas ou Framer Motion, sans dépendance réseau ; pas de bibliothèque lourde.
+
+## Implémentation (2026-10-11)
+
+- Composant `Fireworks` (`web/src/components/child/Fireworks.tsx`) en Framer Motion, sans canvas ni dépendance :
+  - 5 gerbes d'étincelles aux couleurs du thème (variables `--primary`, `--correct`, `--firework-gold`,
+    `--firework-blue`) ;
+  - 2,6 s d'animation, dans un calque `pointer-events: none` : les boutons du récapitulatif restent utilisables.
+- Affiché sur le récapitulatif seulement quand toutes les réponses sont justes. Le message « Bravo, tout est
+  juste ! » est écrit et lu par Piper avant le récapitulatif parlé.
+- Son de fête `celebration` (Web Audio, comme les autres sons) : il respecte le bouton qui coupe les sons, en
+  attendant le réglage des Options.
+- `prefers-reduced-motion` : trois étoiles fixes à la place des étincelles, à côté du message.
+- Mentionné dans la fiche du mode examen (SUB001414).
+- Tests :
+  - `Fireworks.test.tsx` : animation puis disparition, version fixe ;
+  - `SeriesScreen.test.tsx` : feu d'artifice à 2/2 et absent à 1/2 ;
+  - Playwright : absent à 9/10, présent à 10/10, et le bouton Menu reste cliquable pendant l'animation.

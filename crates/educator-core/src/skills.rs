@@ -27,6 +27,38 @@ pub struct Skill {
     pub answer_modes: Vec<AnswerMode>,
     /// Reference of the official programme justifying the skill.
     pub source: String,
+    /// Other grades and periods where the skill is also offered (SUB000113), besides the default
+    /// revision rule ([`SkillCatalog::offered_to`]).
+    pub also_offered: Vec<Placement>,
+}
+
+/// A grade and a period where a skill is offered.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct Placement {
+    pub grade: Grade,
+    pub period: u8,
+}
+
+impl Placement {
+    pub const fn new(grade: Grade, period: u8) -> Self {
+        Self { grade, period }
+    }
+}
+
+/// Period of grade N whose skills are offered again, as revisions, to grade N + 1 (SUB000113).
+pub const REVISED_PERIOD: u8 = LAST_PERIOD;
+
+/// Period of grade N + 1 where the revisions of grade N are offered.
+pub const REVISION_PERIOD: u8 = FIRST_PERIOD;
+
+/// A skill as offered to a grade: its own skills, and the skills of another grade offered as revisions.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct OfferedSkill<'a> {
+    pub skill: &'a Skill,
+    /// Period of the grade where it is offered (the skill's own period when it is not a revision).
+    pub period: u8,
+    /// Grade the skill comes from, when it is offered as a revision.
+    pub revision_from: Option<Grade>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -204,6 +236,66 @@ pub trait SkillCatalog: Send + Sync {
         } else {
             (FALLBACK_GRADE, self.for_grade(subject, FALLBACK_GRADE))
         }
+    }
+
+    /// Everything offered to a grade (SUB000113): its own skills, plus as revisions the skills of
+    /// period [`REVISED_PERIOD`] of the grade before (offered in period [`REVISION_PERIOD`]) and
+    /// the skills declaring this grade in `also_offered`. A skill appears once (its own grade first).
+    /// Sorted by period, the grade's own skills before the revisions, then by id.
+    fn offered_to(&self, subject: Subject, grade: Grade) -> Vec<OfferedSkill<'_>> {
+        let mut offered: Vec<OfferedSkill<'_>> = self
+            .for_grade(subject, grade)
+            .into_iter()
+            .map(|skill| OfferedSkill {
+                skill,
+                period: skill.period,
+                revision_from: None,
+            })
+            .collect();
+
+        let previous = grade.previous();
+        let mut revisions: Vec<OfferedSkill<'_>> = Vec::new();
+        for skill in self
+            .all()
+            .iter()
+            .filter(|s| s.subject == subject && s.grade != grade)
+        {
+            let by_default = (Some(skill.grade) == previous && skill.period == REVISED_PERIOD)
+                .then_some(REVISION_PERIOD);
+            let declared = skill
+                .also_offered
+                .iter()
+                .find(|p| p.grade == grade)
+                .map(|p| p.period);
+            if let Some(period) = declared.or(by_default) {
+                revisions.push(OfferedSkill {
+                    skill,
+                    period,
+                    revision_from: Some(skill.grade),
+                });
+            }
+        }
+
+        offered.extend(revisions);
+        offered.sort_by(|a, b| {
+            a.period
+                .cmp(&b.period)
+                .then_with(|| a.revision_from.is_some().cmp(&b.revision_from.is_some()))
+                .then_with(|| a.revision_from.cmp(&b.revision_from))
+                .then_with(|| a.skill.id.cmp(&b.skill.id))
+        });
+        offered
+    }
+
+    /// [`SkillCatalog::offered_to`] a grade; when the grade has no skill of its own yet, what is
+    /// offered to [`FALLBACK_GRADE`] (its skills and its revisions), like [`SkillCatalog::for_or_fallback`].
+    fn offered_or_fallback(
+        &self,
+        subject: Subject,
+        grade: Grade,
+    ) -> (Grade, Vec<OfferedSkill<'_>>) {
+        let (shown, _) = self.for_or_fallback(subject, grade);
+        (shown, self.offered_to(subject, shown))
     }
 }
 

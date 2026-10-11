@@ -7,7 +7,7 @@
 use educator_core::characters::{self, CharacterInfo};
 use educator_core::exercises::{self, Exercise, SeriesSummary};
 use educator_core::profiles::Profile;
-use educator_core::skills::{self, Skill};
+use educator_core::skills;
 use serde::{Deserialize, Serialize};
 
 // ── Enums ────────────────────────────────────────────────────────────────────────────────────
@@ -151,7 +151,7 @@ pub struct SpeechStatusResponse {
 
 // ── Skills (SUB000106) ───────────────────────────────────────────────────────────────────────
 
-/// The skills of a grade, sorted by period.
+/// The skills offered to a grade, sorted by period (its own skills before the revisions).
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(test, derive(ts_rs::TS))]
@@ -172,20 +172,25 @@ pub struct SkillResponse {
     pub id: String,
     pub title: String,
     pub instruction: String,
+    /// Period where the skill is offered to this grade.
     pub period: u8,
-    /// True for the skills of the current period.
+    /// True for the skills of the current period (revisions excepted).
     pub is_current_period: bool,
+    /// Grade the skill comes from when it is offered as a revision (SUB000113), otherwise `null`.
+    pub revision_from: Option<Grade>,
     pub answer_modes: Vec<AnswerMode>,
 }
 
 impl SkillResponse {
-    pub fn new(skill: &Skill, current_period: u8) -> Self {
+    pub fn offered(offered: &skills::OfferedSkill<'_>, current_period: u8) -> Self {
+        let skill = offered.skill;
         Self {
             id: skill.id.clone(),
             title: skill.title.clone(),
             instruction: skill.instruction.clone(),
-            period: skill.period,
-            is_current_period: skill.period == current_period,
+            period: offered.period,
+            is_current_period: offered.revision_from.is_none() && offered.period == current_period,
+            revision_from: offered.revision_from.map(Into::into),
             answer_modes: skill.answer_modes.iter().map(|m| (*m).into()).collect(),
         }
     }
