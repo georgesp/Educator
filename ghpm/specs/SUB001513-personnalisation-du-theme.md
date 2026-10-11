@@ -1,8 +1,17 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzg_9gVw
+url: https://github.com/georgesp/Educator/issues/71
 type: Issue
-title: Personnalisation du thème
+repository: georgesp/Educator
+labels: []
+# Editable
+title: SUB001513 — Personnalisation du thème
 status: Todo
 size: M
+estimate:
+startDate:
+endDate:
 parent: "#15"
 order: 525
 ---
