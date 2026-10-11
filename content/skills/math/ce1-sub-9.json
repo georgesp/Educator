@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-sub-9",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "title": "Enlever 9",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "subtraction",
+  "operands": [
+    {
+      "min": 10,
+      "max": 199
+    },
+    {
+      "min": 9,
+      "max": 9,
+      "values": [
+        9
+      ]
+    }
+  ],
+  "constraints": {
+    "carry": "any"
+  },
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — calcul mental : soustraire 9 en retirant 10 puis en ajoutant 1 (à partir de la période 2)."
+}

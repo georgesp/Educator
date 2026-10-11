@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000107 — Moteur de génération des exercices de calcul
-status: Todo
+status: In progress
 size: L
 estimate:
 startDate:
@@ -40,13 +40,27 @@ En tant qu'enfant, je veux des exercices toujours nouveaux et adaptés à ma cla
 
 ## Critères d'acceptation
 
-- [ ] Génération dans `Educator.Core`, sans dépendance à la base ni à HTTP.
-- [ ] Tests de propriété : pour chaque compétence du contenu, 10 000 tirages respectent toutes les contraintes.
-- [ ] Tests des distracteurs (pas de doublon, pas de négatif, pas la bonne réponse).
-- [ ] Test de reproductibilité par graine.
-- [ ] La réponse attendue n'est jamais envoyée au front avant que l'enfant ait répondu.
+- [x] Génération dans `Educator.Core`, sans dépendance à la base ni à HTTP.
+- [x] Tests de propriété : pour chaque compétence du contenu, 10 000 tirages respectent toutes les contraintes.
+- [x] Tests des distracteurs (pas de doublon, pas de négatif, pas la bonne réponse).
+- [x] Test de reproductibilité par graine.
+- [x] La réponse attendue n'est jamais envoyée au front avant que l'enfant ait répondu.
 
 ## Notes techniques
 
 - La série en cours est gardée en mémoire dans le host (série courte) ; l'enregistrement détaillé des séances et réponses arrive au lot 2.
 - `explanation` : phrase simple affichée et lue en cas d'erreur, ex. « 7 + 5 = 12 ».
+
+## Implémentation (2026-10-11)
+
+- `CalculationSpace` énumère une fois tous les calculs permis par une compétence. Le moteur tire dans cette liste : chaque exercice est valide par construction, et le compte des exercices différents est exact.
+- `SeriesGenerator` : 10 exercices sans doublon (7 + 5 = 5 + 7), 60 % `result` et 40 % `missingOperand`, graine reproductible.
+- Distracteurs du QCM :
+  - ±1 ;
+  - ±10 (erreur de retenue) ;
+  - opération inversée quand on demande le résultat ;
+  - quand un nombre manque, le résultat recopié, ou pour `? − b = r` la soustraction au lieu de l'addition.
+  - Ce dernier cas a été ajusté après revue : l'opération inversée y donnait des valeurs peu crédibles (68 + ? = 70 → 138).
+- `SeriesService` : séries en mémoire (50 au plus), une réponse par exercice, points versés une seule fois en fin de série ou à l'abandon.
+- API : `POST /api/ui/series` (paramètre `seed` facultatif pour rejouer une série), `POST /api/ui/series/{id}/answers` et `POST /api/ui/series/{id}/abandon`. Le nombre demandé est mis à `null` dans la réponse.
+- Tests : `SeriesGeneratorTests`, `SeriesServiceTests`, `ContentValidationTests` (10 000 tirages par compétence), `SeriesEndpointsTests`.

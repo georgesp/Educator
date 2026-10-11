@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000110 — Points gagnés
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -30,11 +30,18 @@ En tant qu'enfant, je veux gagner des points quand je réussis afin d'avoir envi
 
 ## Critères d'acceptation
 
-- [ ] Barème défini dans un fichier de contenu (`content/rewards/points.json`), pas en dur dans le code.
-- [ ] Les points gagnés s'affichent avec une petite animation au récapitulatif de fin de série, puis dans le menu.
-- [ ] Une série abandonnée rapporte les points des bonnes réponses déjà données, sans bonus.
+- [x] Barème défini dans un fichier de contenu (`content/rewards/points.json`), pas en dur dans le code.
+- [x] Les points gagnés s'affichent avec une petite animation au récapitulatif de fin de série, puis dans le menu.
+- [x] Une série abandonnée rapporte les points des bonnes réponses déjà données, sans bonus.
 - [ ] Tests unitaires du calcul des points.
 
 ## Notes techniques
 
 - Les niveaux, étoiles et badges basés sur ces points arrivent au lot 3.
+
+## Implémentation (2026-10-11)
+
+- Barème : `content/rewards/points.json`, lu par `SmallContentLoader`. Le calcul est dans `PointsRules` (Core).
+- Les points sont ajoutés au profil de façon atomique, une seule fois par série.
+- Le récapitulatif affiche « +N points » avec une animation. Le badge du menu compte jusqu'au nouveau total.
+- Tests : `PointsRulesTests`, `SeriesServiceTests`, `SeriesEndpointsTests`.

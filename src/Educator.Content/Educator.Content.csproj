@@ -13,6 +13,11 @@
     <ProjectReference Include="..\Educator.Core\Educator.Core.csproj" />
   </ItemGroup>
 
+  <!-- The pedagogical content (repository root) is copied next to every assembly that references this project. -->
+  <ItemGroup>
+    <Content Include="..\..\content\**\*" LinkBase="content" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <InternalsVisibleTo Include="Educator.Content.Tests" />
   </ItemGroup>

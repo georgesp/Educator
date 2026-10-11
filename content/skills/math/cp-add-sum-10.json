@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-add-sum-10",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "title": "Additions jusqu'à 10",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "addition",
+  "operands": [
+    {
+      "min": 0,
+      "max": 10
+    },
+    {
+      "min": 0,
+      "max": 10
+    }
+  ],
+  "constraints": {
+    "maxResult": 10,
+    "carry": "any",
+    "excludeTrivial": [
+      "plusZero"
+    ]
+  },
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — faits numériques : tables d'addition réintroduites en périodes 1 et 2."
+}

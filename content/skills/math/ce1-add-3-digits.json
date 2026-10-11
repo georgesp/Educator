@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-add-3-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "title": "Additions jusqu'à 1 000",
+  "instruction": "Calcule.",
+  "operation": "addition",
+  "operands": [
+    {
+      "min": 100,
+      "max": 899
+    },
+    {
+      "min": 100,
+      "max": 899
+    }
+  ],
+  "constraints": {
+    "maxResult": 999,
+    "carry": "any"
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — addition posée de nombres de trois chiffres (245 + 437). Période choisie par Educator."
+}

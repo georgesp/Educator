@@ -35,3 +35,5 @@ En tant que développeur, je veux un exercice minimal qui traverse toutes les co
 ## Implémentation (2026-10-10)
 
 Endpoints `POST /exercises/additions`, `POST …/{id}/answer`, `GET …/{id}/speech` ; le host garde les exercices en mémoire et ne transmet jamais la réponse attendue avant la réponse de l'enfant. Vérifié de bout en bout sous Linux, avec le vrai Piper. Reste le parcours sur macOS et Windows.
+
+**Lot 1 (2026-10-11)** : cette preuve de concept est remplacée par les séries d'exercices (SUB000107, SUB000109). Ont été retirés : les routes `/exercises/additions`, `AdditionGenerator`, `PendingExercises`, l'écran `AdditionScreen` et leurs tests.

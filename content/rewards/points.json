@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/points.schema.json",
+  "perCorrectAnswer": 10,
+  "seriesCompletedBonus": 20,
+  "perfectSeriesBonus": 20
+}

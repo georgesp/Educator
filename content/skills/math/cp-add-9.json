@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-add-9",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "title": "Ajouter 9",
+  "instruction": "Calcule.",
+  "operation": "addition",
+  "operands": [
+    {
+      "min": 10,
+      "max": 89
+    },
+    {
+      "min": 9,
+      "max": 9,
+      "values": [
+        9
+      ]
+    }
+  ],
+  "constraints": {
+    "maxResult": 99,
+    "carry": "any"
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : ajouter 9 en ajoutant 10 puis en retirant 1. Période choisie par Educator."
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "../schemas/characters.schema.json",
+  "characters": [
+    {
+      "id": "lion",
+      "name": "Lion",
+      "file": "lion.svg",
+      "kind": "animal",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 56
+        },
+        "eyes": {
+          "x": 128,
+          "y": 114
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "ours",
+      "name": "Ours",
+      "file": "ours.svg",
+      "kind": "animal",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 56
+        },
+        "eyes": {
+          "x": 128,
+          "y": 114
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "lapin",
+      "name": "Lapin",
+      "file": "lapin.svg",
+      "kind": "animal",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 56
+        },
+        "eyes": {
+          "x": 128,
+          "y": 114
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "renard",
+      "name": "Renard",
+      "file": "renard.svg",
+      "kind": "animal",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 56
+        },
+        "eyes": {
+          "x": 128,
+          "y": 114
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "cochon",
+      "name": "Cochon",
+      "file": "cochon.svg",
+      "kind": "animal",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 56
+        },
+        "eyes": {
+          "x": 128,
+          "y": 114
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "garcon-court",
+      "name": "Garçon aux cheveux courts",
+      "file": "garcon-court.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "garcon-boucles",
+      "name": "Garçon aux cheveux bouclés",
+      "file": "garcon-boucles.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "garcon-epis",
+      "name": "Garçon aux cheveux en épis",
+      "file": "garcon-epis.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "fille-longue",
+      "name": "Fille aux cheveux longs",
+      "file": "fille-longue.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "fille-couettes",
+      "name": "Fille aux couettes",
+      "file": "fille-couettes.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    },
+    {
+      "id": "fille-queue",
+      "name": "Fille à la queue-de-cheval",
+      "file": "fille-queue.svg",
+      "kind": "child",
+      "anchors": {
+        "headTop": {
+          "x": 128,
+          "y": 46
+        },
+        "eyes": {
+          "x": 128,
+          "y": 118
+        },
+        "neck": {
+          "x": 128,
+          "y": 180
+        }
+      }
+    }
+  ]
+}

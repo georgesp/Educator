@@ -31,6 +31,9 @@ et sans alerte de sécurité bloquante.
 ## Contenu
 
 - Installeurs `.dmg` et `.msi` / NSIS, host .NET self-contained et Piper embarqués (fiche SUB006008, rattachée à ce lot).
+- Contenu pédagogique embarqué : le dossier `content/` (compétences, calendrier des périodes, barème, personnages
+  SVG, schémas) doit être placé à côté du host installé. Aujourd'hui, il est copié à côté du host à la compilation
+  par `Educator.Content.csproj`, et `ContentDirectory.Resolve()` le cherche à cet endroit (ou dans `EDUCATOR_CONTENT_DIR`).
 - Signature du code macOS et notarisation Apple (certificat Developer ID, secrets dans GitHub Actions).
 - Signature Windows : à évaluer (coût d'un certificat vs alerte SmartScreen pour une application gratuite).
 - Validation complète sur Windows : lancement, host, SQLite, Piper, parcours du lot 0.
@@ -43,3 +46,5 @@ et sans alerte de sécurité bloquante.
 - [ ] Sur macOS, pas d'alerte Gatekeeper bloquante (si signature retenue) ; sinon procédure d'ouverture documentée
       dans le README.
 - [ ] Procédure de publication d'une version documentée (`docs/release.md`).
+- [ ] L'application installée charge tout le contenu : aucun « Invalid content skipped » dans les logs, compétences
+      et personnages présents.

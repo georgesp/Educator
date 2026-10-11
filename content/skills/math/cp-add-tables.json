@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-add-tables",
+  "subject": "math",
+  "grade": "CP",
+  "period": 2,
+  "title": "Tables d'addition",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "addition",
+  "operands": [
+    {
+      "min": 1,
+      "max": 9
+    },
+    {
+      "min": 1,
+      "max": 9
+    }
+  ],
+  "constraints": {
+    "carry": "any"
+  },
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — faits numériques : tables d'addition connues dans les deux sens (égalités à trou)."
+}

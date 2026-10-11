@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-sub-3-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "title": "Soustractions jusqu'à 1 000",
+  "instruction": "Calcule.",
+  "operation": "subtraction",
+  "operands": [
+    {
+      "min": 200,
+      "max": 999
+    },
+    {
+      "min": 100,
+      "max": 899
+    }
+  ],
+  "constraints": {
+    "carry": "any",
+    "excludeTrivial": [
+      "minusSelf"
+    ]
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — soustraction posée de nombres de trois chiffres. Période choisie par Educator."
+}

@@ -20,48 +20,192 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/ui/exercises/additions": {
+    "/api/ui/skills": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        post: operations["createAddition"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/ui/exercises/additions/{id}/answer": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["answerAddition"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/ui/exercises/additions/{id}/speech": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["readAddition"];
+        get: operations["getSkills"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/characters": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getCharacters"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/characters/draw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["drawCharacter"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/characters/{id}.svg": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getCharacterSvg"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/speech": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["speak"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listProfiles"];
+        put?: never;
+        post: operations["createProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/profiles/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteProfile"];
+        options?: never;
+        head?: never;
+        patch: operations["updateProfile"];
+        trace?: never;
+    };
+    "/api/ui/profiles/{id}/reroll-character": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["rerollCharacter"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/profiles/{id}/select": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["selectProfile"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/series": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["startSeries"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/series/{id}/answers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["answerSeries"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/ui/series/{id}/abandon": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["abandonSeries"];
         delete?: never;
         options?: never;
         head?: never;
@@ -72,27 +216,42 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AdditionExerciseResponse: {
-            /** Format: uuid */
+        /** @enum {unknown} */
+        AnswerMode: "Keyboard" | "Choice";
+        /** @enum {unknown} */
+        CharacterKind: "Animal" | "Child";
+        CharacterResponse: {
             id: string;
-            /** Format: int32 */
-            left: number;
-            /** Format: int32 */
-            right: number;
-            statement: string;
+            name: string;
+            kind: components["schemas"]["CharacterKind"];
         };
-        AnswerRequest: {
-            /** Format: int32 */
-            answer: number;
-        };
-        AnswerResponse: {
-            isCorrect: boolean;
-            /** Format: int32 */
-            expectedAnswer: number;
+        CreateProfileRequest: {
+            name: string;
+            grade: components["schemas"]["Grade"];
+            characterId?: null | string;
         };
         DatabaseStatusResponse: {
             isReady: boolean;
         };
+        ExerciseResponse: {
+            /** Format: int32 */
+            index: number;
+            /** Format: int32 */
+            left: null | number;
+            operator: string;
+            /** Format: int32 */
+            right: null | number;
+            /** Format: int32 */
+            result: null | number;
+            hidden: components["schemas"]["HiddenPart"];
+            prompt: string;
+            spokenPrompt: string;
+            choices: null | number[];
+        };
+        /** @enum {unknown} */
+        Grade: "CP" | "CE1" | "CE2" | "CM1" | "CM2";
+        /** @enum {unknown} */
+        HiddenPart: "Left" | "Right" | "Result";
         ProblemDetails: {
             type?: null | string;
             title?: null | string;
@@ -101,15 +260,93 @@ export interface components {
             detail?: null | string;
             instance?: null | string;
         };
+        ProfileResponse: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            grade: components["schemas"]["Grade"];
+            characterId: string;
+            /** Format: int32 */
+            points: number;
+            /** Format: date-time */
+            lastUsedAt: string;
+        };
+        SeriesAnswerRequest: {
+            /** Format: int32 */
+            index: number;
+            /** Format: int32 */
+            answer: number;
+        };
+        SeriesAnswerResponse: {
+            correct: boolean;
+            /** Format: int32 */
+            expected: number;
+            explanation: string;
+            summary: null | components["schemas"]["SeriesSummaryResponse"];
+        };
+        SeriesResponse: {
+            /** Format: uuid */
+            seriesId: string;
+            /** Format: int32 */
+            seed: number;
+            skillId: string;
+            instruction: string;
+            answerMode: components["schemas"]["AnswerMode"];
+            exercises: components["schemas"]["ExerciseResponse"][];
+        };
+        SeriesSummaryResponse: {
+            /** Format: int32 */
+            correctCount: number;
+            /** Format: int32 */
+            exerciseCount: number;
+            /** Format: int32 */
+            pointsEarned: number;
+            /** Format: int32 */
+            profilePoints: number;
+        };
+        SkillResponse: {
+            id: string;
+            title: string;
+            instruction: string;
+            /** Format: int32 */
+            period: number;
+            isCurrentPeriod: boolean;
+            answerModes: components["schemas"]["AnswerMode"][];
+        };
+        SkillsResponse: {
+            grade: components["schemas"]["Grade"];
+            skillsGrade: components["schemas"]["Grade"];
+            /** Format: int32 */
+            currentPeriod: number;
+            skills: components["schemas"]["SkillResponse"][];
+        };
+        SpeechRequest: {
+            text: string;
+            /** Format: double */
+            speed?: null | number;
+        };
         SpeechStatusResponse: {
             isAvailable: boolean;
             voice: null | string;
             problem: null | string;
         };
+        StartSeriesRequest: {
+            /** Format: uuid */
+            profileId: string;
+            skillId: string;
+            answerMode: components["schemas"]["AnswerMode"];
+            /** Format: int32 */
+            seed?: null | number;
+        };
         StatusResponse: {
             version: string;
             database: components["schemas"]["DatabaseStatusResponse"];
             speech: components["schemas"]["SpeechStatusResponse"];
+        };
+        UpdateProfileRequest: {
+            name?: null | string;
+            grade?: null | components["schemas"]["Grade"];
+            characterId?: null | string;
         };
     };
     responses: never;
@@ -140,7 +377,29 @@ export interface operations {
             };
         };
     };
-    createAddition: {
+    getSkills: {
+        parameters: {
+            query: {
+                grade: components["schemas"]["Grade"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillsResponse"];
+                };
+            };
+        };
+    };
+    getCharacters: {
         parameters: {
             query?: never;
             header?: never;
@@ -155,25 +414,21 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AdditionExerciseResponse"];
+                    "application/json": components["schemas"]["CharacterResponse"][];
                 };
             };
         };
     };
-    answerAddition: {
+    drawCharacter: {
         parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
+            query?: {
+                except?: string;
             };
+            header?: never;
+            path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AnswerRequest"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description OK */
             200: {
@@ -181,25 +436,14 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AnswerResponse"];
-                };
-            };
-            /** @description Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                    "application/json": components["schemas"]["CharacterResponse"];
                 };
             };
         };
     };
-    readAddition: {
+    getCharacterSvg: {
         parameters: {
-            query?: {
-                speed?: number;
-            };
+            query?: never;
             header?: never;
             path: {
                 id: string;
@@ -214,11 +458,44 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "audio/wav": string;
+                    "image/svg+xml": string;
                 };
             };
             /** @description Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    speak: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SpeechRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "audio/wav": string;
+                };
+            };
+            /** @description Bad Request */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -233,6 +510,212 @@ export interface operations {
                 };
                 content: {
                     "application/problem+json": components["schemas"]["ProblemDetails"];
+                };
+            };
+        };
+    };
+    listProfiles: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"][];
+                };
+            };
+        };
+    };
+    createProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+        };
+    };
+    deleteProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description No Content */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+        };
+    };
+    rerollCharacter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+        };
+    };
+    selectProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+        };
+    };
+    startSeries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StartSeriesRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeriesResponse"];
+                };
+            };
+        };
+    };
+    answerSeries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SeriesAnswerRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeriesAnswerResponse"];
+                };
+            };
+        };
+    };
+    abandonSeries: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeriesSummaryResponse"];
                 };
             };
         };

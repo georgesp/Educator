@@ -40,3 +40,8 @@ Le test .NET `CommittedOpenApiFile_MatchesTheApi` et la CI échouent sinon.
 npm test            # Vitest (composants)
 npm run test:e2e    # Playwright (parcours, API simulée) ; la première fois : npx playwright install chromium
 ```
+
+## Page de démonstration des composants
+
+Avec `npm run dev`, la route `#/dev/composants` montre tous les composants enfant (`src/components/child/`) sur
+une seule page. Elle n'existe pas dans le build de l'application.

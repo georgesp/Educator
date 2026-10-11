@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "points.schema.json",
+  "title": "Barème des points",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "perCorrectAnswer",
+    "seriesCompletedBonus",
+    "perfectSeriesBonus"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "perCorrectAnswer": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Points par bonne réponse."
+    },
+    "seriesCompletedBonus": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Bonus pour une série terminée, quel que soit le score."
+    },
+    "perfectSeriesBonus": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Bonus supplémentaire pour une série sans faute."
+    }
+  }
+}

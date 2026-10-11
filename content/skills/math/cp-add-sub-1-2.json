@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-add-sub-1-2",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "title": "Ajouter ou enlever 1 ou 2",
+  "instruction": "Calcule.",
+  "operation": "mixed",
+  "operands": [
+    {
+      "min": 0,
+      "max": 30
+    },
+    {
+      "min": 1,
+      "max": 2,
+      "values": [
+        1,
+        2
+      ]
+    }
+  ],
+  "constraints": {
+    "maxResult": 30,
+    "carry": "any"
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : ajouter ou soustraire 1 ou 2. Période choisie par Educator."
+}

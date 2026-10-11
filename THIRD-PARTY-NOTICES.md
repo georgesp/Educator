@@ -36,6 +36,7 @@ disponible aux adresses ci-dessus ; le texte de la licence GPL-3.0 sera joint au
 |---|---|
 | React, React DOM, React Router, TanStack Query, Motion, openapi-fetch | MIT |
 | Tauri et ses plugins | MIT ou Apache-2.0 |
+| Polices Lexend et Barlow Condensed (`@fontsource/lexend`, `@fontsource/barlow-condensed`, embarquées dans le front) | SIL Open Font License 1.1 |
 | Vite, Vitest, Playwright, TypeScript, openapi-typescript (développement uniquement) | MIT / Apache-2.0 |
 
 La liste exhaustive des dépendances transitives sera générée au lot packaging.

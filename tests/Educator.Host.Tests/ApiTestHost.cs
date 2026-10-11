@@ -30,13 +30,14 @@ internal sealed class ApiTestHost : IAsyncDisposable
 
     public FakeSpeechSynthesizer Speech => (FakeSpeechSynthesizer)App.Services.GetRequiredService<ISpeechSynthesizer>();
 
-    public static async Task<ApiTestHost> StartAsync(bool initializeDatabase = true)
+    public static async Task<ApiTestHost> StartAsync(bool initializeDatabase = true, Action<IServiceCollection>? services = null)
     {
         var directory = Path.Combine(Path.GetTempPath(), "educator-tests", Guid.NewGuid().ToString("N"));
         var app = HostApplication.Build(
             new HostSettings
             {
                 DatabasePath = Path.Combine(directory, AppDataPaths.DatabaseFileName),
+                SpeechCacheDirectory = Path.Combine(directory, "speech-cache"),
                 ApiOptions = new LocalApiOptions { UiToken = Token },
                 RunBackgroundServices = false,
             },
@@ -45,6 +46,7 @@ internal sealed class ApiTestHost : IAsyncDisposable
                 builder.WebHost.UseTestServer();
                 builder.Services.RemoveAll<ISpeechSynthesizer>();
                 builder.Services.AddSingleton<ISpeechSynthesizer, FakeSpeechSynthesizer>();
+                services?.Invoke(builder.Services);
             });
 
         if (initializeDatabase)
@@ -66,6 +68,18 @@ internal sealed class ApiTestHost : IAsyncDisposable
         }
 
         return request;
+    }
+
+    /// <summary>Sends a JSON request to <c>/api/ui{path}</c> with the right token.</summary>
+    public async Task<HttpResponseMessage> SendAsync(HttpMethod method, string path, object? body = null)
+    {
+        using var request = Request(method, path);
+        if (body is not null)
+        {
+            request.Content = System.Net.Http.Json.JsonContent.Create(body);
+        }
+
+        return await Client.SendAsync(request);
     }
 
     public async ValueTask DisposeAsync()

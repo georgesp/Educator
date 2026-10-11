@@ -58,6 +58,7 @@ public static class Program
                 Port = commandLine.Port,
                 ParentProcessId = commandLine.ParentProcessId,
                 DatabasePath = AppDataPaths.DatabasePath,
+                SpeechCacheDirectory = Path.Combine(AppDataPaths.AppDataDirectory, "speech-cache"),
             });
 
             var database = app.Services.GetRequiredService<DatabaseInitializer>();

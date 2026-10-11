@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000103 — Écran de choix et de création du profil
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -35,12 +35,20 @@ En tant qu'enfant, je veux choisir mon profil ou en créer un nouveau dès l'ouv
 
 ## Critères d'acceptation
 
-- [ ] Création, sélection et retirage du personnage fonctionnent avec la souris seule.
-- [ ] Les erreurs de validation (nom vide, déjà pris) s'affichent en phrase simple, sans code d'erreur.
-- [ ] Le profil choisi est mémorisé pour la session (contexte front) et `LastUsedAt` est mis à jour.
-- [ ] Rendu correct de 1 à 8 profils sans défilement sur une fenêtre de 1280 × 800.
-- [ ] Test de parcours (Playwright) : création d'un profil puis sélection.
+- [x] Création, sélection et retirage du personnage fonctionnent avec la souris seule.
+- [x] Les erreurs de validation (nom vide, déjà pris) s'affichent en phrase simple, sans code d'erreur.
+- [x] Le profil choisi est mémorisé pour la session (contexte front) et `LastUsedAt` est mis à jour.
+- [x] Rendu correct de 1 à 8 profils sans défilement sur une fenêtre de 1280 × 800.
+- [x] Test de parcours (Playwright) : création d'un profil puis sélection.
 
 ## Notes techniques
 
 - Composants maison de la charte enfant (voir fiche « Charte graphique et composants enfant »).
+
+## Implémentation (2026-10-11)
+
+- Écran `ProfilesScreen` : grille des profils (personnage, prénom, classe) et carte « Nouveau profil ». Sans profil, l'écran de création s'affiche directement.
+- Création : prénom, 5 boutons de classe, personnage tiré au hasard avec « Changer de personnage », puis « C'est parti ! ». Le personnage affiché est tiré par le host (`GET /api/ui/characters/draw`), puis transmis à la création : c'est bien lui qui est enregistré.
+- La consigne est lue au premier affichage, et le bouton Écouter la relit.
+- Contrôlé en capture d'écran : 9 profils et la carte « Nouveau profil » tiennent sans défilement en 1280 × 800.
+- Tests : `ProfilesScreen.test.tsx` (Vitest) ; `e2e/lot1.spec.ts` (création, puis sélection d'un profil existant).

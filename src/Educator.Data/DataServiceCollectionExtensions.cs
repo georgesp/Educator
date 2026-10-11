@@ -1,5 +1,7 @@
+using Educator.Core.Profiles;
 using Educator.Core.Settings;
 using Educator.Data.Interceptors;
+using Educator.Data.Profiles;
 using Educator.Data.Settings;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +33,7 @@ public static class DataServiceCollectionExtensions
 
         services.AddSingleton<DatabaseInitializer>();
         services.AddSingleton<IAppSettingsStore, SqliteAppSettingsStore>();
+        services.AddSingleton<IProfileStore, SqliteProfileStore>();
 
         return services;
     }

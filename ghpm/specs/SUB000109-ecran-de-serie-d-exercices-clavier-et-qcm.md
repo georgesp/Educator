@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000109 — Écran de série d'exercices (clavier et QCM)
-status: Todo
+status: In progress
 size: L
 estimate:
 startDate:
@@ -39,7 +39,22 @@ En tant qu'enfant, je veux enchaîner une série de calculs en tapant ma répons
 
 ## Critères d'acceptation
 
-- [ ] Parcours complet réalisable à la souris seule et au clavier seul.
-- [ ] Le champ de saisie n'accepte que des chiffres (10 caractères max).
+- [x] Parcours complet réalisable à la souris seule et au clavier seul.
+- [x] Le champ de saisie n'accepte que des chiffres (10 caractères max).
 - [ ] Aucun délai perceptible (< 200 ms) entre la validation et le retour.
-- [ ] Test de parcours (Playwright) avec une graine fixe : série complète en mode clavier puis en mode QCM.
+- [x] Test de parcours (Playwright) avec une graine fixe : série complète en mode clavier puis en mode QCM.
+
+## Implémentation (2026-10-11)
+
+- Écrans `SkillsScreen` (période en cours mise en avant), `ModeScreen` (« J'écris la réponse » / « Je choisis la réponse ») et `SeriesScreen`.
+- Dans la série :
+  - le calcul s'affiche en très grand, avec le champ de réponse ou le « ? » à la place du nombre demandé ;
+  - mode clavier : `NumberPad` et clavier physique, validation par Entrée ;
+  - mode QCM : 4 tuiles ;
+  - la progression est une piste à 10 pastilles avec une voiture qui avance jusqu'au drapeau à damier ;
+  - « Quitter » demande une confirmation simple, puis abandonne la série (les bonnes réponses sont gardées) ;
+  - récapitulatif final avec « Recommencer » et « Menu ».
+- Juste : animation et son, puis exercice suivant après 0,9 s. Faux : la réponse donnée est barrée, la bonne réponse est affichée et lue, puis le bouton « Suivant » apparaît.
+- Délai mesuré sur le host (Linux) entre l'envoi et le retour d'une réponse : moins de 5 ms. Le critère < 200 ms est à confirmer sur Mac dans l'application complète.
+- Les réponses de plus de 9 chiffres sont plafonnées côté front : ce sont de simples mauvaises réponses.
+- Tests : `SeriesScreen.test.tsx` ; `e2e/lot1.spec.ts` fait une série complète au clavier (Entrée), puis une série en QCM à la souris. Elle utilise une série fixe simulée, l'équivalent d'une graine fixe.

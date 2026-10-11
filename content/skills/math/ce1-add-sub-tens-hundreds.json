@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-add-sub-tens-hundreds",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Ajouter ou enlever des dizaines et des centaines",
+  "instruction": "Calcule.",
+  "operation": "mixed",
+  "operands": [
+    {
+      "min": 100,
+      "max": 999
+    },
+    {
+      "min": 10,
+      "max": 900,
+      "multipleOf": 10
+    }
+  ],
+  "constraints": {
+    "maxResult": 999,
+    "carry": "any",
+    "excludeTrivial": [
+      "minusSelf"
+    ]
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — calcul mental : ajouter ou soustraire des dizaines entières et des centaines (234 + 60, 746 + 80). Période choisie par Educator."
+}

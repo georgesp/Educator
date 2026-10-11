@@ -25,19 +25,29 @@
         }
       }
     },
-    "/api/ui/exercises/additions": {
-      "post": {
+    "/api/ui/skills": {
+      "get": {
         "tags": [
           "UI"
         ],
-        "operationId": "createAddition",
+        "operationId": "getSkills",
+        "parameters": [
+          {
+            "name": "grade",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Grade"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionExerciseResponse"
+                  "$ref": "#/components/schemas/SkillsResponse"
                 }
               }
             }
@@ -45,40 +55,81 @@
         }
       }
     },
-    "/api/ui/exercises/additions/{id}/answer": {
-      "post": {
+    "/api/ui/characters": {
+      "get": {
         "tags": [
           "UI"
         ],
-        "operationId": "answerAddition",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AnswerRequest"
-              }
-            }
-          },
-          "required": true
-        },
+        "operationId": "getCharacters",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnswerResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CharacterResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/characters/draw": {
+      "get": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "drawCharacter",
+        "parameters": [
+          {
+            "name": "except",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharacterResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/characters/{id}.svg": {
+      "get": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "getCharacterSvg",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "image/svg\u002Bxml": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -96,32 +147,22 @@
         }
       }
     },
-    "/api/ui/exercises/additions/{id}/speech": {
-      "get": {
+    "/api/ui/speech": {
+      "post": {
         "tags": [
           "UI"
         ],
-        "operationId": "readAddition",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
+        "operationId": "speak",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpeechRequest"
+              }
             }
           },
-          {
-            "name": "speed",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double",
-              "default": 1
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -134,8 +175,8 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/problem\u002Bjson": {
                 "schema": {
@@ -156,61 +197,337 @@
           }
         }
       }
+    },
+    "/api/ui/profiles": {
+      "get": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "listProfiles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProfileResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "createProfile",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/profiles/{id}": {
+      "patch": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "updateProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "deleteProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/ui/profiles/{id}/reroll-character": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "rerollCharacter",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/profiles/{id}/select": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "selectProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/series": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "startSeries",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartSeriesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/series/{id}/answers": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "answerSeries",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeriesAnswerRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesAnswerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ui/series/{id}/abandon": {
+      "post": {
+        "tags": [
+          "UI"
+        ],
+        "operationId": "abandonSeries",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "AdditionExerciseResponse": {
+      "AnswerMode": {
+        "enum": [
+          "Keyboard",
+          "Choice"
+        ]
+      },
+      "CharacterKind": {
+        "enum": [
+          "Animal",
+          "Child"
+        ]
+      },
+      "CharacterResponse": {
         "required": [
           "id",
-          "left",
-          "right",
-          "statement"
+          "name",
+          "kind"
         ],
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "left": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "right": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statement": {
             "type": "string"
-          }
-        }
-      },
-      "AnswerRequest": {
-        "required": [
-          "answer"
-        ],
-        "type": "object",
-        "properties": {
-          "answer": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "AnswerResponse": {
-        "required": [
-          "isCorrect",
-          "expectedAnswer"
-        ],
-        "type": "object",
-        "properties": {
-          "isCorrect": {
-            "type": "boolean"
           },
-          "expectedAnswer": {
-            "type": "integer",
-            "format": "int32"
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/CharacterKind"
+          }
+        }
+      },
+      "CreateProfileRequest": {
+        "required": [
+          "name",
+          "grade"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "grade": {
+            "$ref": "#/components/schemas/Grade"
+          },
+          "characterId": {
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -224,6 +541,85 @@
             "type": "boolean"
           }
         }
+      },
+      "ExerciseResponse": {
+        "required": [
+          "index",
+          "left",
+          "operator",
+          "right",
+          "result",
+          "hidden",
+          "prompt",
+          "spokenPrompt",
+          "choices"
+        ],
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "left": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "operator": {
+            "type": "string"
+          },
+          "right": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "result": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "hidden": {
+            "$ref": "#/components/schemas/HiddenPart"
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "spokenPrompt": {
+            "type": "string"
+          },
+          "choices": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "Grade": {
+        "enum": [
+          "CP",
+          "CE1",
+          "CE2",
+          "CM1",
+          "CM2"
+        ]
+      },
+      "HiddenPart": {
+        "enum": [
+          "Left",
+          "Right",
+          "Result"
+        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -261,6 +657,231 @@
           }
         }
       },
+      "ProfileResponse": {
+        "required": [
+          "id",
+          "name",
+          "grade",
+          "characterId",
+          "points",
+          "lastUsedAt"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "grade": {
+            "$ref": "#/components/schemas/Grade"
+          },
+          "characterId": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lastUsedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SeriesAnswerRequest": {
+        "required": [
+          "index",
+          "answer"
+        ],
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "answer": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SeriesAnswerResponse": {
+        "required": [
+          "correct",
+          "expected",
+          "explanation",
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "correct": {
+            "type": "boolean"
+          },
+          "expected": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "summary": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SeriesSummaryResponse"
+              }
+            ]
+          }
+        }
+      },
+      "SeriesResponse": {
+        "required": [
+          "seriesId",
+          "seed",
+          "skillId",
+          "instruction",
+          "answerMode",
+          "exercises"
+        ],
+        "type": "object",
+        "properties": {
+          "seriesId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "seed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "skillId": {
+            "type": "string"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "answerMode": {
+            "$ref": "#/components/schemas/AnswerMode"
+          },
+          "exercises": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExerciseResponse"
+            }
+          }
+        }
+      },
+      "SeriesSummaryResponse": {
+        "required": [
+          "correctCount",
+          "exerciseCount",
+          "pointsEarned",
+          "profilePoints"
+        ],
+        "type": "object",
+        "properties": {
+          "correctCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "exerciseCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pointsEarned": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "profilePoints": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "SkillResponse": {
+        "required": [
+          "id",
+          "title",
+          "instruction",
+          "period",
+          "isCurrentPeriod",
+          "answerModes"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "period": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isCurrentPeriod": {
+            "type": "boolean"
+          },
+          "answerModes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswerMode"
+            }
+          }
+        }
+      },
+      "SkillsResponse": {
+        "required": [
+          "grade",
+          "skillsGrade",
+          "currentPeriod",
+          "skills"
+        ],
+        "type": "object",
+        "properties": {
+          "grade": {
+            "$ref": "#/components/schemas/Grade"
+          },
+          "skillsGrade": {
+            "$ref": "#/components/schemas/Grade"
+          },
+          "currentPeriod": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillResponse"
+            }
+          }
+        }
+      },
+      "SpeechRequest": {
+        "required": [
+          "text"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "speed": {
+            "type": [
+              "null",
+              "number"
+            ],
+            "format": "double"
+          }
+        }
+      },
       "SpeechStatusResponse": {
         "required": [
           "isAvailable",
@@ -286,6 +907,33 @@
           }
         }
       },
+      "StartSeriesRequest": {
+        "required": [
+          "profileId",
+          "skillId",
+          "answerMode"
+        ],
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skillId": {
+            "type": "string"
+          },
+          "answerMode": {
+            "$ref": "#/components/schemas/AnswerMode"
+          },
+          "seed": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          }
+        }
+      },
       "StatusResponse": {
         "required": [
           "version",
@@ -302,6 +950,33 @@
           },
           "speech": {
             "$ref": "#/components/schemas/SpeechStatusResponse"
+          }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "grade": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/Grade"
+              }
+            ]
+          },
+          "characterId": {
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       }

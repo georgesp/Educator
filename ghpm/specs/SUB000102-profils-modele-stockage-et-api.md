@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB000102 — Profils — modèle, stockage et API"
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -51,12 +51,20 @@ Entité `Profile` (EF Core, table `Profile`) :
 
 ## Critères d'acceptation
 
-- [ ] Migration EF Core `AddProfile` appliquée au démarrage.
-- [ ] Validation côté host : nom vide, trop long ou en double → `400` avec message en français.
-- [ ] Tests unitaires du service (création, tirage aléatoire, unicité du nom) et tests d'intégration de l'API.
-- [ ] Contrat OpenAPI à jour, client TypeScript régénéré.
+- [x] Migration EF Core `AddProfile` appliquée au démarrage.
+- [x] Validation côté host : nom vide, trop long ou en double → `400` avec message en français.
+- [x] Tests unitaires du service (création, tirage aléatoire, unicité du nom) et tests d'intégration de l'API.
+- [x] Contrat OpenAPI à jour, client TypeScript régénéré.
 
 ## Notes techniques
 
 - Le tirage aléatoire passe par une abstraction (`IRandomSource`) injectable pour les tests.
 - Mêmes règles de stockage que l'ADR 0001 de GitHubProjectManager (dates en ms UTC, enums en texte, `IDbContextFactory`).
+
+## Implémentation (2026-10-11)
+
+- Core : `Profile`, `IProfileStore`, `ProfileService` (validation, tirage via `IRandomSource`, nouveau tirage toujours différent).
+- Data : table `Profile`, migration `AddProfile`, index unique sur `NormalizedName` (prénom en majuscules). Les points ne changent que par `AddPointsAsync`, une mise à jour atomique.
+- Messages d'erreur : « Écris ton prénom. », « Ton prénom est trop long : 20 lettres au maximum. », « Ce prénom est déjà pris. Choisis-en un autre. ». Ils arrivent dans `detail` d'un problème 400, avec `field`.
+- `GET /api/ui/characters/draw?except=` tire le personnage montré à l'écran de création. `POST /api/ui/profiles` accepte ce `characterId`, ce qui garde le tirage côté host.
+- Tests : `ProfileServiceTests` (unitaires), `SqliteProfileStoreTests` (SQLite réelle), `ProfileEndpointsTests` (API).

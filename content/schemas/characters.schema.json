@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "characters.schema.json",
+  "title": "Personnages des profils",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "characters"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "file",
+          "kind",
+          "anchors"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+\\.svg$"
+          },
+          "kind": {
+            "enum": [
+              "animal",
+              "child"
+            ]
+          },
+          "anchors": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "headTop",
+              "eyes",
+              "neck"
+            ],
+            "description": "Points d'ancrage des accessoires (lot 3), en coordonnées de la viewBox 256 × 256.",
+            "properties": {
+              "headTop": {
+                "$ref": "#/$defs/point"
+              },
+              "eyes": {
+                "$ref": "#/$defs/point"
+              },
+              "neck": {
+                "$ref": "#/$defs/point"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 256
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 256
+        }
+      }
+    }
+  }
+}

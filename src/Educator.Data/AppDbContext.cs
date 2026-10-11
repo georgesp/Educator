@@ -1,3 +1,4 @@
+using Educator.Core;
 using Educator.Data.Converters;
 using Educator.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,8 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<AppSettingEntity> AppSettings => Set<AppSettingEntity>();
 
+    public DbSet<ProfileEntity> Profiles => Set<ProfileEntity>();
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         ArgumentNullException.ThrowIfNull(configurationBuilder);
@@ -29,6 +32,7 @@ public sealed class AppDbContext : DbContext
 
         // Enums are stored as text: add `configurationBuilder.Properties<MyEnum>().HaveConversion<string>();`
         // for every enum mapped to a column.
+        configurationBuilder.Properties<Grade>().HaveConversion<string>().HaveMaxLength(8);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

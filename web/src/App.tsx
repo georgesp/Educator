@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider } from "react-router";
 import { BackendGate } from "./app/BackendGate";
+import { ProfileProvider } from "./app/ProfileContext";
 import { router } from "./app/routes";
 
 const queryClient = new QueryClient({
@@ -14,7 +15,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BackendGate>
-        <RouterProvider router={router} />
+        <ProfileProvider>
+          <RouterProvider router={router} />
+        </ProfileProvider>
       </BackendGate>
     </QueryClientProvider>
   );

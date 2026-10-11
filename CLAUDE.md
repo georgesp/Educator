@@ -91,8 +91,10 @@ d'architecture.
 - Erreurs au format problem+json. OpenAPI : `GET /openapi/v1.json`.
 - Pas de SSE (pas d'événement temps réel à pousser).
 - Port libre choisi par l'OS (`--port 0`) ; le token vient de `EDUCATOR_UI_TOKEN` (aléatoire si absent).
-- Endpoints (lot 0) : `GET /status`, `POST /exercises/additions`, `POST /exercises/additions/{id}/answer`,
-  `GET /exercises/additions/{id}/speech` (WAV, `503` si la voix est indisponible).
+- Endpoints : `GET /status` ; lot 1 (`Api/LearningEndpoints.cs`) : `GET /skills`, `GET /characters`,
+  `GET /characters/draw`, `GET /characters/{id}.svg`, `/profiles` (CRUD, `select`, `reroll-character`),
+  `POST /series`, `POST /series/{id}/answers`, `POST /series/{id}/abandon`, `POST /speech` (WAV, `503` si la voix
+  est indisponible).
 - DTO dans `Educator.Host/Api/Contracts.cs`, toutes les propriétés `required` (schéma OpenAPI exact).
   Après toute modification d'un endpoint ou d'un DTO : `cd web && npm run api:generate`, puis commiter
   `web/openapi/openapi.json` et `web/src/api/schema.d.ts` (le test `CommittedOpenApiFile_MatchesTheApi` le vérifie).
@@ -116,6 +118,7 @@ Voir `docs/adr/0002-voix-piper.md`. `ISpeechSynthesizer` (Core) est implémenté
 | `EDUCATOR_BACKEND_URL` | Avec `EDUCATOR_UI_TOKEN` : la coque utilise un host déjà lancé au lieu d'en démarrer un |
 | `EDUCATOR_DATA_DIR` | Dossier de données (base, logs) au lieu du dossier standard — tests, débogage |
 | `EDUCATOR_PIPER_DIR`, `EDUCATOR_PIPER_VOICE` | Emplacement de Piper et voix utilisée |
+| `EDUCATOR_CONTENT_DIR` | Dossier du contenu pédagogique au lieu de la copie `content/` placée à côté du host |
 
 ## Stockage local (SQLite)
 

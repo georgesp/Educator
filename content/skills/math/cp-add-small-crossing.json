@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-add-small-crossing",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "title": "Ajouter un petit nombre en passant la dizaine",
+  "instruction": "Calcule.",
+  "operation": "addition",
+  "operands": [
+    {
+      "min": 11,
+      "max": 89
+    },
+    {
+      "min": 2,
+      "max": 8
+    }
+  ],
+  "constraints": {
+    "maxResult": 99,
+    "carry": "required"
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : ajouter un nombre inférieur à 9 en passant par la dizaine supérieure (47 + 8). Période choisie par Educator."
+}

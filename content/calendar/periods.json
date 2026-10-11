@@ -1,0 +1,31 @@
+{
+  "$schema": "../schemas/calendar.schema.json",
+  "comment": "Début de chaque période (mois, jour). Dates placées après les vacances de toutes les zones : le résultat ne dépend pas de la zone. Juillet et août comptent dans la période 5.",
+  "periods": [
+    {
+      "period": 1,
+      "month": 9,
+      "day": 1
+    },
+    {
+      "period": 2,
+      "month": 11,
+      "day": 4
+    },
+    {
+      "period": 3,
+      "month": 1,
+      "day": 5
+    },
+    {
+      "period": 4,
+      "month": 3,
+      "day": 9
+    },
+    {
+      "period": 5,
+      "month": 5,
+      "day": 4
+    }
+  ]
+}

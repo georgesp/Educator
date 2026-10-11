@@ -1,0 +1,180 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState, type FormEvent } from "react";
+import { useNavigate } from "react-router";
+import { ApiError, type Character, type Grade, type Profile } from "../api/client";
+import { useApi } from "../app/BackendContext";
+import { useProfileSession } from "../app/ProfileContext";
+import { queryKeys, useProfiles } from "../app/queries";
+import { CharacterImage } from "../components/child/CharacterImage";
+import { SpeakButton } from "../components/child/SpeakButton";
+import { DiceIcon, PlusIcon } from "../components/icons";
+import { fr } from "../i18n/fr";
+
+const GRADES: Grade[] = ["CP", "CE1", "CE2", "CM1", "CM2"];
+
+/** First screen (SUB000103): choose a profile, or create one. Without any profile, the creation shows at once. */
+export function ProfilesScreen() {
+  const profiles = useProfiles();
+  const [creating, setCreating] = useState(false);
+
+  if (profiles.isLoading) {
+    return (
+      <main className="centered">
+        <p className="message">{fr.app.loading}</p>
+      </main>
+    );
+  }
+
+  if (profiles.isError) {
+    return (
+      <main className="centered">
+        <p className="message">{fr.app.error}</p>
+      </main>
+    );
+  }
+
+  const list = profiles.data ?? [];
+  if (creating || list.length === 0) {
+    return <CreateProfile canCancel={list.length > 0} onCancel={() => setCreating(false)} />;
+  }
+
+  return (
+    <main className="screen">
+      <header className="screen-header">
+        <h1 className="title">{fr.profiles.title}</h1>
+        <SpeakButton text={fr.profiles.spoken} autoPlay />
+      </header>
+      <ul className="profile-grid">
+        {list.map((profile) => (
+          <li key={profile.id}>
+            <ProfileCard profile={profile} />
+          </li>
+        ))}
+        <li>
+          <button type="button" className="profile-card profile-card-new" onClick={() => setCreating(true)}>
+            <span className="profile-new-icon">
+              <PlusIcon size={64} />
+            </span>
+            <span className="profile-name">{fr.profiles.newProfile}</span>
+          </button>
+        </li>
+      </ul>
+    </main>
+  );
+}
+
+function ProfileCard({ profile }: { profile: Profile }) {
+  const api = useApi();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { setProfileId } = useProfileSession();
+  const select = useMutation({
+    mutationFn: () => api.selectProfile(profile.id),
+    onSuccess: async () => {
+      setProfileId(profile.id);
+      await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+      await navigate("/menu");
+    },
+  });
+
+  return (
+    <button type="button" className="profile-card" onClick={() => select.mutate()} disabled={select.isPending} aria-label={fr.profiles.choose(profile.name)}>
+      <CharacterImage id={profile.characterId} size={144} />
+      <span className="profile-name">{profile.name}</span>
+      <span className="profile-grade">{fr.grades[profile.grade]}</span>
+    </button>
+  );
+}
+
+function CreateProfile({ canCancel, onCancel }: { canCancel: boolean; onCancel(): void }) {
+  const api = useApi();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { setProfileId } = useProfileSession();
+  const [name, setName] = useState("");
+  const [grade, setGrade] = useState<Grade>("CP");
+  // The host draws the character shown here; « Changer de personnage » asks for another one.
+  const [character, setCharacter] = useState<Character | null>(null);
+  const draw = useMutation({ mutationFn: (except?: string) => api.drawCharacter(except), onSuccess: setCharacter });
+  const { mutate: drawCharacter } = draw;
+  useEffect(() => drawCharacter(undefined), [drawCharacter]);
+
+  const create = useMutation({
+    mutationFn: () => api.createProfile(name, grade, character?.id),
+    onSuccess: async (profile) => {
+      setProfileId(profile.id);
+      await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+      await navigate("/menu");
+    },
+  });
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    create.mutate();
+  };
+
+  const error = create.error instanceof ApiError && create.error.status === 400 ? create.error.detail : create.isError ? fr.app.error : null;
+
+  return (
+    <main className="screen">
+      <header className="screen-header">
+        <h1 className="title">{fr.profiles.createTitle}</h1>
+        <SpeakButton text={fr.profiles.createSpoken} autoPlay />
+      </header>
+      <form className="create-profile" onSubmit={submit}>
+        <div className="create-fields">
+          <label className="field-label" htmlFor="profile-name">
+            {fr.profiles.nameLabel}
+          </label>
+          <input
+            id="profile-name"
+            className="text-input"
+            value={name}
+            maxLength={20}
+            autoComplete="off"
+            autoFocus
+            onChange={(e) => setName(e.target.value)}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? "profile-error" : undefined}
+          />
+          {error && (
+            <p id="profile-error" className="form-error" role="alert">
+              {error}
+            </p>
+          )}
+
+          <fieldset className="grade-picker">
+            <legend className="field-label">{fr.profiles.gradeLabel}</legend>
+            <div className="grade-buttons">
+              {GRADES.map((g) => (
+                <button key={g} type="button" className="grade-button" aria-pressed={grade === g} onClick={() => setGrade(g)}>
+                  {fr.grades[g]}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        <div className="create-character">
+          <span className="field-label">{fr.profiles.characterLabel}</span>
+          {character ? <CharacterImage id={character.id} size={208} alt={character.name} /> : <span className="character-placeholder" style={{ width: 208, height: 208 }} />}
+          <button type="button" className="button" onClick={() => drawCharacter(character?.id)} disabled={draw.isPending}>
+            <DiceIcon size={24} />
+            {fr.profiles.rerollCharacter}
+          </button>
+        </div>
+
+        <div className="create-actions">
+          {canCancel && (
+            <button type="button" className="button" onClick={onCancel}>
+              {fr.profiles.cancel}
+            </button>
+          )}
+          <button type="submit" className="button button-primary" disabled={create.isPending}>
+            {fr.profiles.start}
+          </button>
+        </div>
+      </form>
+    </main>
+  );
+}

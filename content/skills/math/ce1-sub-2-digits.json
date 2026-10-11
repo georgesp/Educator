@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-sub-2-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Soustractions de nombres plus petits que 100",
+  "instruction": "Calcule.",
+  "operation": "subtraction",
+  "operands": [
+    {
+      "min": 20,
+      "max": 99
+    },
+    {
+      "min": 10,
+      "max": 99
+    }
+  ],
+  "constraints": {
+    "carry": "any",
+    "excludeTrivial": [
+      "minusSelf"
+    ]
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — soustraction posée introduite en période 3 au plus tard."
+}

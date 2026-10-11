@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "skill.schema.json",
+  "title": "Compétence Educator",
+  "description": "Une notion travaillée à une classe et une période, décrite par des règles de génération (SUB000106). Les exercices sont générés en direct, jamais stockés.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "subject",
+    "grade",
+    "period",
+    "title",
+    "instruction",
+    "operation",
+    "operands",
+    "constraints",
+    "formats",
+    "answerModes",
+    "source"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Identifiant stable, identique au nom du fichier (sans .json)."
+    },
+    "subject": {
+      "enum": [
+        "math"
+      ]
+    },
+    "grade": {
+      "enum": [
+        "CP",
+        "CE1",
+        "CE2",
+        "CM1",
+        "CM2"
+      ]
+    },
+    "period": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Période de l'année scolaire : 1 rentrée → Toussaint, 2 → Noël, 3 → hiver, 4 → printemps, 5 → été."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "Titre court montré à l'enfant."
+    },
+    "instruction": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Consigne affichée et lue au premier exercice."
+    },
+    "operation": {
+      "enum": [
+        "addition",
+        "subtraction",
+        "mixed"
+      ],
+      "description": "mixed : chaque exercice est une addition ou une soustraction."
+    },
+    "operands": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "Règle de l'opérande de gauche puis de droite (pour une soustraction, la gauche est le nombre dont on enlève).",
+      "items": {
+        "$ref": "#/$defs/operand"
+      }
+    },
+    "constraints": {
+      "$ref": "#/$defs/constraints"
+    },
+    "formats": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "result",
+          "missingOperand"
+        ]
+      },
+      "description": "result : 7 + 5 = ? ; missingOperand : 7 + ? = 12."
+    },
+    "answerModes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "keyboard",
+          "choice"
+        ]
+      }
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Référence du programme officiel justifiant la règle."
+    }
+  },
+  "$defs": {
+    "operand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "multipleOf": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Seulement les multiples de ce nombre (10 : dizaines entières)."
+        },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Valeurs exactes autorisées (comprises entre min et max)."
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minResult": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxResult": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exactResult": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Résultat imposé (compléments)."
+        },
+        "resultMultipleOf": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Le résultat est un multiple de ce nombre (10 : complément à la dizaine)."
+        },
+        "carry": {
+          "enum": [
+            "any",
+            "forbidden",
+            "required"
+          ],
+          "default": "any",
+          "description": "Retenue (addition) ou passage de la dizaine / emprunt (soustraction) dans au moins une colonne."
+        },
+        "excludeTrivial": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "plusZero",
+              "minusZero",
+              "minusSelf"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

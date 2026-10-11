@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Educator.Content;
+using Educator.Core;
 using Educator.Core.Exercises;
+using Educator.Core.Profiles;
 using Educator.Data;
 using Educator.Host.Api;
 using Serilog;
@@ -23,9 +25,10 @@ internal static class HostApplication
         var services = builder.Services;
         services.AddSingleton(TimeProvider.System);
         services.AddData(settings.DatabasePath);
-        services.AddContent();
-        services.AddSingleton(sp => new AdditionGenerator(Random.Shared, sp.GetRequiredService<TimeProvider>()));
-        services.AddSingleton<PendingExercises>();
+        services.AddContent(contentDirectory: settings.ContentDirectory, speechCacheDirectory: settings.SpeechCacheDirectory);
+        services.AddSingleton<IRandomSource>(SystemRandomSource.Instance);
+        services.AddSingleton<ProfileService>();
+        services.AddSingleton<SeriesService>();
 
         services.AddSingleton(settings.ApiOptions);
         services.AddProblemDetails();
@@ -80,6 +83,12 @@ internal sealed record HostSettings
     public int? ParentProcessId { get; init; }
 
     public required string DatabasePath { get; init; }
+
+    /// <summary>Pedagogical content folder; null: next to the host (see <c>ContentDirectory.Resolve</c>).</summary>
+    public string? ContentDirectory { get; init; }
+
+    /// <summary>Disk cache of the synthesized sentences; null: a folder in the temporary directory.</summary>
+    public string? SpeechCacheDirectory { get; init; }
 
     public LocalApiOptions ApiOptions { get; init; } = new();
 

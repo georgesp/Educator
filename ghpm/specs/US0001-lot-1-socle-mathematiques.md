@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0001 — Lot 1 — Socle mathématiques
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
@@ -48,3 +48,13 @@ Première version utilisable par un enfant de CP ou CE1 : il choisit ou crée so
 - [ ] Toutes les sous-issues sont terminées.
 - [ ] Parcours complet testé sur macOS et Windows : création de profil → menu → notion → série de 10 exercices → points affichés.
 - [ ] Un enfant de CP peut réaliser le parcours sans aide (consignes lues, gros boutons, pavé numérique).
+
+## Implémentation (2026-10-11)
+
+Toutes les sous-fiches sont implémentées et testées dans l'environnement Linux de Claude :
+
+- 263 tests .NET, 15 tests Vitest et 2 parcours Playwright, tous verts ;
+- build .NET Release sans avertissement ;
+- `npm run build` sans erreur.
+
+Reste à faire par Georges : le parcours complet sur macOS avec la vraie voix (`npm run tauri dev`), les délais de lecture, la relecture des personnages et des échantillons d'exercices, puis Windows plus tard.

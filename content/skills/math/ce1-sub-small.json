@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-sub-small",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Enlever un petit nombre",
+  "instruction": "Calcule.",
+  "operation": "subtraction",
+  "operands": [
+    {
+      "min": 20,
+      "max": 999
+    },
+    {
+      "min": 2,
+      "max": 8
+    }
+  ],
+  "constraints": {
+    "carry": "any"
+  },
+  "formats": [
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — calcul mental : soustraire un nombre inférieur à 9, avec ou sans changement de dizaine (523 − 7). Période choisie par Educator."
+}

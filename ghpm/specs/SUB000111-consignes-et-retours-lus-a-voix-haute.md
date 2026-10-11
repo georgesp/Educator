@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000111 — Consignes et retours lus à voix haute
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -31,10 +31,19 @@ En tant qu'enfant de CP qui ne lit pas encore bien, je veux entendre les consign
 ## Critères d'acceptation
 
 - [ ] Temps entre le clic et le début du son < 300 ms pour un texte en cache, < 1,5 s sinon.
-- [ ] Tests unitaires de la conversion texte (nombres jusqu'à 1 000, symboles).
+- [x] Tests unitaires de la conversion texte (nombres jusqu'à 1 000, symboles).
 - [ ] Fonctionne hors ligne sur macOS et Windows.
 
 ## Notes techniques
 
 - Repose sur l'intégration Piper du lot 0 (binaire + voix française embarqués).
 - Vitesse de lecture légèrement ralentie par défaut ; réglage exposé plus tard dans les Options.
+
+## Implémentation (2026-10-11)
+
+- `POST /api/ui/speech` `{ text, speed? }` renvoie un WAV. La vitesse par défaut est de 0,9, un peu ralentie.
+- `FrenchSpeechText` (Core) écrit les nombres en toutes lettres jusqu'au million, avec les règles du français (« soixante et onze », « quatre-vingts », « deux cents »). Il convertit aussi `+`, `−`, `=`, et lit le `?` d'un calcul « combien ».
+- Cache disque `SpeechCache` (Content) dans `<données>/speech-cache/`. La clé est le SHA-256 de la voix, de la vitesse et du texte. Le cache garde au plus 2 000 fichiers ; au-delà, les plus anciens sont supprimés.
+- Front : `useSpeech`, une seule lecture à la fois.
+- Textes lus : la consigne de chaque écran au premier affichage, la consigne et le calcul du premier exercice, la correction après une erreur, le récapitulatif.
+- Reste à mesurer sur Mac avec Piper : le temps avant le début du son, et le fonctionnement hors ligne. Mon environnement n'a pas pu télécharger la voix cette fois-ci, et les tests utilisent une voix factice.

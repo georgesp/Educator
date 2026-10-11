@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "palette.schema.json",
+  "title": "Palette commune des personnages",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "colors"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "string"
+    },
+    "colors": {
+      "type": "object",
+      "description": "Nom de variable CSS (sans --) → couleur hexadécimale.",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^#[0-9A-F]{6}$"
+      }
+    }
+  }
+}
