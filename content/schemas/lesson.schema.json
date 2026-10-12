@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "lesson.schema.json",
+  "title": "Leçon Educator",
+  "description": "Une leçon courte et animée (SUB001409) : des slides (texte affiché, texte lu, animation de la bibliothèque SUB000117), puis un quiz, puis les exercices des compétences liées. Le chargeur Rust (educator-content::lessons) ajoute les règles qu'un schéma ne sait pas dire : compétences existantes, bonds qui tombent sur une graduation, textes lus assez courts une fois les nombres écrits en lettres, titre en premier et « Je retiens » en dernier.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "subject", "grade", "period", "skillIds", "title", "durationMinutes", "slides", "quiz", "sources"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Identifiant stable, identique au nom du fichier (sans .json)."
+    },
+    "subject": { "enum": ["math"] },
+    "grade": { "enum": ["CP", "CE1", "CE2", "CM1", "CM2"] },
+    "period": { "type": "integer", "minimum": 1, "maximum": 5, "description": "Période où la leçon est proposée." },
+    "skillIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+      "description": "Compétences travaillées après la leçon (« Je m'entraîne »), la première étant la principale. Même matière et même classe que la leçon."
+    },
+    "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "durationMinutes": { "type": "integer", "minimum": 1, "maximum": 10, "description": "Durée visée, voix comprise (3 à 5 minutes)." },
+    "slides": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 12,
+      "items": { "$ref": "#/$defs/slide" }
+    },
+    "quiz": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/question" }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https://" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "slide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "text", "speech", "animation"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 40, "description": "Petit titre (« Rappel », « À toi »)." },
+        "text": { "type": "string", "minLength": 1, "maxLength": 220, "description": "Texte affiché : une ou deux phrases courtes." },
+        "speech": { "type": "string", "minLength": 1, "description": "Texte lu par la voix (au plus 300 caractères une fois les nombres en lettres)." },
+        "animation": { "$ref": "#/$defs/animation" }
+      }
+    },
+    "animation": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "enum": ["titleCard", "recapCard", "calcChain", "numberLine", "tensUnits"] }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "type": { "const": "titleCard" },
+            "title": { "type": "string", "minLength": 1, "maxLength": 60 },
+            "subtitle": { "type": "string", "minLength": 1, "maxLength": 120 }
+          },
+          "required": ["title"],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "type": { "const": "recapCard" },
+            "text": { "type": "string", "minLength": 1, "maxLength": 220, "description": "La règle en une phrase." },
+            "example": { "type": "string", "minLength": 1, "maxLength": 80 }
+          },
+          "required": ["text"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Calcul en chaîne de flèches (46 → + 20 → 66 → − 1 → 65). Mode « show » : les chaînes apparaissent pas à pas ; « match » : l'enfant relie chaque calcul (départ + total) à sa chaîne.",
+          "properties": {
+            "type": { "const": "calcChain" },
+            "mode": { "enum": ["show", "match"] },
+            "chains": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["start", "steps"],
+                "properties": {
+                  "start": { "type": "integer", "minimum": 0 },
+                  "steps": { "type": "array", "minItems": 1, "maxItems": 4, "items": { "type": "integer", "not": { "const": 0 } } },
+                  "crossed": { "type": "boolean", "description": "Erreur classique, montrée barrée." }
+                }
+              }
+            }
+          },
+          "required": ["chains"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Piste graduée de « from » à « to » (au plus 41 graduations) ; la voiture part de « start » et fait les bonds « jumps ». Interactive : l'enfant clique où la voiture arrive après chaque bond.",
+          "properties": {
+            "type": { "const": "numberLine" },
+            "from": { "type": "integer", "minimum": 0 },
+            "to": { "type": "integer", "minimum": 1 },
+            "step": { "type": "integer", "minimum": 1 },
+            "start": { "type": "integer", "minimum": 0 },
+            "jumps": { "type": "array", "maxItems": 4, "items": { "type": "integer", "not": { "const": 0 } } },
+            "interactive": { "type": "boolean" },
+            "hoverValues": {
+              "type": "boolean",
+              "description": "Piste interactive : la valeur d'une graduation s'affiche quand la souris la survole (vrai par défaut). À mettre à false quand repérer un nombre sur la piste est justement ce que la leçon apprend."
+            }
+          },
+          "required": ["from", "to", "start"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Barres de dix et cubes ; « completeTen » montre en pointillés les cubes qui manquent pour la dizaine suivante.",
+          "properties": {
+            "type": { "const": "tensUnits" },
+            "value": { "type": "integer", "minimum": 1, "maximum": 999 },
+            "completeTen": { "type": "boolean" }
+          },
+          "required": ["value"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "spoken", "answer", "explanation"],
+      "properties": {
+        "question": { "type": "string", "minLength": 1, "maxLength": 80, "description": "Question affichée (« 46 + 19 = ? »)." },
+        "spoken": { "type": "string", "minLength": 1, "description": "Question lue (« Combien font 46 + 19 ? »)." },
+        "answer": { "type": "integer", "minimum": 0 },
+        "choices": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 0 },
+          "description": "Propositions d'un QCM (la réponse en fait partie) ; sans propositions, l'enfant écrit la réponse."
+        },
+        "explanation": { "type": "string", "minLength": 1, "description": "Explication courte, affichée et lue après la réponse." }
+      }
+    }
+  }
+}

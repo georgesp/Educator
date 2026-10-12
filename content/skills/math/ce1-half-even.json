@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-half-even",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Moitié d'un nombre pair",
+  "instruction": "Trouve la moitié en décomposant : 46, c'est 40 + 6.",
+  "operation": "doubleHalf",
+  "halves": {
+    "min": 22,
+    "max": 200,
+    "multipleOf": 2
+  },
+  "formats": [
+    "phrase"
+  ],
+  "progression": "easyFirst",
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — calcul mental : moitié d'un nombre pair en le décomposant (46 = 40 + 6, donc 23). Dizaines paires d'abord (46, 84), puis impaires (56) ; période 4 : choix d'Educator."
+}

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fSg
-rev: 2026-10-11T07:56:48Z
+rev: 2026-10-11T19:12:53Z
 url: https://github.com/georgesp/Educator/issues/67
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006007 — Premier exercice d'addition de bout en bout
-status: In progress
+status: Done
 size: S
 estimate:
 startDate:

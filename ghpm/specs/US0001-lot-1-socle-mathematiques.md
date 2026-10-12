@@ -41,7 +41,7 @@ Première version utilisable par un enfant de CP ou CE1 : il choisit ou crée so
 
 - Orthographe, leçons, examens, chrono, enregistrement détaillé des statistiques (lot 2).
 - Niveaux, étoiles, badges, accessoires d'avatar, difficulté adaptative, espace parent (lot 3).
-- Multiplication, division, CE2 → CM2 (lot 4).
+- Multiplication, division, CE2 → CM2 (lots 4, 5 et 6, un par niveau).
 
 ## Critères d'acceptation
 

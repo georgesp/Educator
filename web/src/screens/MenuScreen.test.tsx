@@ -19,12 +19,20 @@ describe("MenuScreen", () => {
     const router = renderApp(api, "/menu");
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole("button", { name: /Leçons/ }));
+    await user.click(await screen.findByRole("button", { name: /Examen/ }));
     expect(api.speak).toHaveBeenCalledWith("Cette partie arrive bientôt.");
     expect(router.state.location.pathname).toBe("/menu");
 
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
     await waitFor(() => expect(router.state.location.pathname).toBe("/exercices"));
+  });
+
+  it("opens Lessons", async () => {
+    const router = renderApp(fakeApi(), "/menu");
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: /Leçons/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons"));
   });
 
   it("moves between the entries with the arrow keys", async () => {

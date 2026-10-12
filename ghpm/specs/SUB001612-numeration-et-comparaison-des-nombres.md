@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001612 — Numération et comparaison des nombres
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -37,3 +37,5 @@ En tant qu'enfant, je veux comprendre comment s'écrivent les nombres (unités, 
 - [ ] Compétences par classe et période vérifiées contre les repères annuels, `source` renseignée.
 - [ ] Conversion nombre → texte français (réutilisée de la lecture des consignes) étendue jusqu'au million.
 - [ ] Leçon associée pour chaque compétence.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

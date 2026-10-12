@@ -897,6 +897,7 @@ dependencies = [
  "educator-core",
  "jsonschema",
  "log",
+ "rand",
  "regex",
  "roxmltree",
  "serde",

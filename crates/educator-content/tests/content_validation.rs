@@ -3,7 +3,8 @@
 
 use educator_content::{EducatorContent, MIN_DISTINCT_EXERCISES};
 use educator_core::exercises::{
-    generate_series, ArithmeticOperation, CalculationSpace, DEFAULT_LENGTH,
+    distinct_count, generate_series, Answer, ArithmeticOperation, CalculationSpace, Input,
+    DEFAULT_LENGTH,
 };
 use educator_core::points::PointsRules;
 use educator_core::skills::{AnswerMode, Date, SkillCatalog, Subject};
@@ -40,6 +41,22 @@ fn content_has_no_problem() {
 fn every_file_matches_its_json_schema() {
     let cases = [
         ("skills/math", None, "skill.schema.json"),
+        (
+            "problems",
+            Some("additive.json"),
+            "problem-templates.schema.json",
+        ),
+        (
+            "problems",
+            Some("two-steps.json"),
+            "problem-templates.schema.json",
+        ),
+        (
+            "problems",
+            Some("multiplicative.json"),
+            "problem-templates.schema.json",
+        ),
+        ("problems", Some("words.json"), "problem-words.schema.json"),
         ("calendar", Some("periods.json"), "calendar.schema.json"),
         ("rewards", Some("points.json"), "points.schema.json"),
         (
@@ -99,47 +116,79 @@ fn cp_and_ce1_have_skills_in_every_period() {
 fn every_skill_allows_at_least_twenty_different_exercises() {
     for skill in content().skills.all() {
         assert!(
-            CalculationSpace::of(skill).distinct_count() >= MIN_DISTINCT_EXERCISES,
+            distinct_count(skill) >= MIN_DISTINCT_EXERCISES,
             "{}",
             skill.id
         );
     }
 }
 
-/// Property test: 10 000 exercises per skill (1 000 series) respect every rule.
+/// Property test: 10 000 exercises per skill (1 000 series) respect every rule; 2 000 series for
+/// the families of the CE1 complements (SUB000118 to SUB000124).
 #[test]
 fn every_skill_ten_thousand_draws_respect_every_constraint() {
     for skill in content().skills.all() {
-        for seed in 0..1000u64 {
+        let seeds = if skill.operation.is_calculation() && skill.params.focus.is_empty() {
+            1000u64
+        } else {
+            2000u64
+        };
+        for seed in 0..seeds {
             let mode = skill.answer_modes[(seed as usize) % skill.answer_modes.len()];
             let series = generate_series(skill, seed, mode, DEFAULT_LENGTH).unwrap();
+            assert_eq!(DEFAULT_LENGTH, series.len(), "{}", skill.id);
             assert_eq!(
                 series.len(),
-                series
-                    .iter()
-                    .map(|e| e.calculation.duplicate_key())
-                    .collect::<HashSet<_>>()
-                    .len()
+                series.iter().map(|e| &e.key).collect::<HashSet<_>>().len(),
+                "{} seed {seed}: duplicate",
+                skill.id
             );
             for exercise in &series {
                 assert!(
-                    CalculationSpace::is_valid(skill, &exercise.calculation),
-                    "{} seed {seed}: {}",
+                    skill.formats.contains(&exercise.format),
+                    "{} seed {seed}: format {:?}",
                     skill.id,
-                    exercise.calculation
+                    exercise.format
                 );
-                assert!(skill.formats.contains(&exercise.format()));
-                assert!(exercise.expected() >= 0);
-                if let Some(choices) = &exercise.choices {
-                    assert_eq!(
-                        4,
-                        choices
-                            .iter()
-                            .filter(|c| **c >= 0)
-                            .collect::<HashSet<_>>()
-                            .len()
+                assert!(
+                    exercise.is_correct(&exercise.expected.as_given()),
+                    "{} seed {seed}",
+                    skill.id
+                );
+                assert!(!exercise.explanation.is_empty() && !exercise.spoken.is_empty());
+                if let Some(c) = &exercise.calculation {
+                    assert!(
+                        CalculationSpace::is_valid(skill, &c.calculation),
+                        "{} seed {seed}: {}",
+                        skill.id,
+                        c.calculation
                     );
-                    assert!(choices.contains(&exercise.expected()));
+                    assert!(c.expected() >= 0);
+                }
+                if let Answer::Number(n) = exercise.expected {
+                    assert!(n >= 0, "{} seed {seed}", skill.id);
+                }
+                if let Some(choices) = &exercise.choices {
+                    assert_eq!(Input::Pick, exercise.input);
+                    assert!(choices.len() >= 3, "{} seed {seed}", skill.id);
+                    let right = choices
+                        .iter()
+                        .filter(|c| exercise.is_correct(&c.as_given()))
+                        .count();
+                    assert_eq!(1, right, "{} seed {seed}: {choices:?}", skill.id);
+                    let labels: HashSet<String> = choices.iter().map(Answer::label).collect();
+                    assert_eq!(choices.len(), labels.len(), "{} seed {seed}", skill.id);
+                    assert!(choices
+                        .iter()
+                        .all(|c| !matches!(c, Answer::Number(n) if *n < 0)));
+                    if matches!(exercise.expected, Answer::Number(_)) {
+                        assert_eq!(4, choices.len());
+                    }
+                } else {
+                    assert!(
+                        mode == AnswerMode::Keyboard
+                            || exercise.input != Input::Number { slots: 1 }
+                    );
                 }
             }
         }
@@ -155,7 +204,7 @@ fn cp_offers_subtractions_within_ten_from_period_one() {
     for seed in 0..1000u64 {
         for exercise in generate_series(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
         {
-            let c = exercise.calculation;
+            let c = exercise.calculation.unwrap().calculation;
             assert_eq!(ArithmeticOperation::Subtraction, c.operation);
             assert!((2..=10).contains(&c.left) && c.result() > 0, "{c}");
         }
@@ -171,10 +220,10 @@ fn adding_or_removing_one_or_two_balances_the_operations() {
         let series = generate_series(skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
         let subtractions = series
             .iter()
-            .filter(|e| e.calculation.operation == ArithmeticOperation::Subtraction)
+            .filter(|e| calculation(e).operation == ArithmeticOperation::Subtraction)
             .count();
         assert!(subtractions >= 4, "seed {seed}: {subtractions}");
-        assert!(series.iter().all(|e| e.calculation.left <= 12));
+        assert!(series.iter().all(|e| calculation(e).left <= 12));
     }
 }
 
@@ -210,6 +259,12 @@ fn current_period_comes_from_the_calendar_file() {
 #[test]
 fn points_come_from_the_rewards_file() {
     assert_eq!(PointsRules::new(10, 20, 20), content().points);
+}
+
+fn calculation(
+    exercise: &educator_core::exercises::Exercise,
+) -> educator_core::exercises::Calculation {
+    exercise.calculation.as_ref().unwrap().calculation
 }
 
 fn read_json(path: &Path) -> serde_json::Value {

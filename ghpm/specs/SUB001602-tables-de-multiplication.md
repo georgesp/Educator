@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001602 — Tables de multiplication
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -32,3 +32,5 @@ En tant qu'enfant, je veux apprendre et réviser mes tables de multiplication af
 
 - [ ] Distracteurs adaptés (table voisine, ± le multiplicande).
 - [ ] Tests du générateur.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

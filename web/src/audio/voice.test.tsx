@@ -18,12 +18,12 @@ describe("voice switch", () => {
     // Profile choice, menu (with the hover reading), skills, mode and series: no speaker button anywhere.
     await user.click(await screen.findByRole("button", { name: "Jouer avec le profil de Léa" }));
     await screen.findByRole("heading", { name: "En piste, Léa !" });
-    await user.hover(screen.getByRole("button", { name: /Leçons/ }));
-    await user.click(screen.getByRole("button", { name: /Leçons/ }));
+    await user.hover(screen.getByRole("button", { name: /Examen/ }));
+    await user.click(screen.getByRole("button", { name: /Examen/ }));
     expect(screen.queryByRole("button", { name: /Écouter/ })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
-    await screen.findByRole("heading", { name: "Exercices de calcul" });
+    await screen.findByRole("heading", { name: "Exercices de maths" });
     expect(screen.queryByRole("button", { name: /Écouter/ })).not.toBeInTheDocument();
     await user.click(await screen.findByRole("button", { name: /Additions jusqu'à 10/ }));
     await user.click(await screen.findByRole("button", { name: /J'écris la réponse/ }));

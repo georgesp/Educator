@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-problems-additive",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "title": "Problèmes additifs",
+  "instruction": "Lis le problème et trouve la réponse.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "partWhole",
+      "transformation",
+      "comparison"
+    ],
+    "maxNumber": 1000,
+    "startMaxNumber": 100
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — au moins dix problèmes par semaine ; parties-tout (transformations incluses) et comparaison additive en une étape. Nombres jusqu'à 100 en début de série, puis jusqu'à 1 000 : choix d'Educator."
+}

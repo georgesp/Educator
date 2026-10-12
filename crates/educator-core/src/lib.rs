@@ -1,5 +1,5 @@
 //! Domain of Educator (lot 1bis, port of `Educator.Core`): skills and their generation rules, the
-//! exercise engine, profiles, points and the text read by the voice.
+//! exercise engine, lessons, profiles, points and the text read by the voice.
 //!
 //! Pure code: no file, database, process or UI access. Storage, content loading and speech
 //! synthesis are traits implemented by the other crates (`educator-data`, `educator-content`).
@@ -11,6 +11,8 @@ pub mod clock;
 mod error;
 pub mod exercises;
 mod grade;
+pub mod lessons;
+pub mod numbers;
 pub mod points;
 pub mod profiles;
 pub mod random;

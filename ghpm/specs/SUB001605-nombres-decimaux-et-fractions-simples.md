@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001605 — Nombres décimaux et fractions simples
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -30,3 +30,5 @@ En tant qu'enfant de CM1 ou CM2, je veux m'entraîner sur les décimaux et les f
 
 - [ ] Validation tolérante aux zéros inutiles (« 3,50 » = « 3,5 »).
 - [ ] Animation `numberLine` étendue aux décimaux et fractions.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

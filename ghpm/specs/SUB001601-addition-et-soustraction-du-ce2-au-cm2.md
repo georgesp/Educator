@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001601 — Addition et soustraction du CE2 au CM2
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -29,3 +29,5 @@ En tant qu'enfant de CE2 à CM2, je veux m'entraîner sur des additions et soust
 
 - [ ] Compétences JSON par période, vérifiées contre les repères annuels, `source` renseignée.
 - [ ] Tests de propriété du moteur sur les nouvelles plages.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

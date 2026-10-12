@@ -37,10 +37,13 @@ impl CalculationSpace {
     }
 
     /// Whether `calculation` respects every rule of `skill`.
+    /// A multiplication may be shown with its factors swapped (`7 × 13` for the rule `13 × 7`).
     pub fn is_valid(skill: &Skill, calculation: &Calculation) -> bool {
+        let in_rules = |c: &Calculation| skill.left.allows(c.left) && skill.right.allows(c.right);
+        let commuted = calculation.operation == ArithmeticOperation::Multiplication
+            && in_rules(&calculation.commuted());
         is_allowed_operation(skill.operation, calculation.operation)
-            && skill.left.allows(calculation.left)
-            && skill.right.allows(calculation.right)
+            && (in_rules(calculation) || commuted)
             && respects_constraints(&skill.constraints, calculation)
     }
 
@@ -54,6 +57,9 @@ impl CalculationSpace {
                 ArithmeticOperation::Addition,
                 ArithmeticOperation::Subtraction,
             ],
+            SkillOperation::Multiplication => &[ArithmeticOperation::Multiplication],
+            // Not calculations: see `family`.
+            _ => &[],
         };
 
         let mut calculations = Vec::new();
@@ -81,8 +87,13 @@ impl CalculationSpace {
 }
 
 impl Skill {
-    /// Pairs of operands the rule combines (both operations for a mixed skill), without listing them.
+    /// Pairs of operands the rule combines (both operations for a mixed skill), without listing
+    /// them; 0 for the families that are not calculations.
     pub fn combination_count(&self) -> i64 {
+        if !self.operation.is_calculation() {
+            return 0;
+        }
+
         let factor = if self.operation == SkillOperation::Mixed {
             2
         } else {
@@ -96,7 +107,9 @@ fn is_allowed_operation(allowed: SkillOperation, operation: ArithmeticOperation)
     match allowed {
         SkillOperation::Addition => operation == ArithmeticOperation::Addition,
         SkillOperation::Subtraction => operation == ArithmeticOperation::Subtraction,
-        SkillOperation::Mixed => true,
+        SkillOperation::Mixed => operation != ArithmeticOperation::Multiplication,
+        SkillOperation::Multiplication => operation == ArithmeticOperation::Multiplication,
+        _ => false,
     }
 }
 

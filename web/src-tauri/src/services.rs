@@ -6,7 +6,8 @@ use crate::contracts::*;
 use educator_content::EducatorContent;
 use educator_core::characters::CharacterCatalog;
 use educator_core::clock::Clock;
-use educator_core::exercises::SeriesService;
+use educator_core::exercises::{multiplication_table, SeriesService, TABLE_LAST_FACTOR};
+use educator_core::lessons::LessonCatalog;
 use educator_core::profiles::ProfileService;
 use educator_core::random::RandomSource;
 use educator_core::skills::{Date, SchoolCalendar, SkillCatalog, Subject};
@@ -32,6 +33,7 @@ pub struct Locations {
 
 pub struct Services {
     skills: Arc<dyn SkillCatalog>,
+    lessons: Arc<dyn LessonCatalog>,
     characters: Arc<dyn CharacterCatalog>,
     calendar: SchoolCalendar,
     profiles: ProfileService,
@@ -62,9 +64,10 @@ impl Services {
         }
 
         log::info!(
-            "Content loaded from {}: {} skills, {} characters.",
+            "Content loaded from {}: {} skills, {} lessons, {} characters.",
             content.directory.display(),
             content.skills.all().len(),
+            content.lessons.all().len(),
             content.characters.all().len()
         );
 
@@ -79,6 +82,7 @@ impl Services {
 
         let skills: Arc<dyn SkillCatalog> = Arc::new(content.skills);
         let characters: Arc<dyn CharacterCatalog> = Arc::new(content.characters);
+        let lessons: Arc<dyn LessonCatalog> = Arc::new(content.lessons);
         Ok(Services {
             profiles: ProfileService::new(
                 store.clone(),
@@ -88,6 +92,7 @@ impl Services {
             ),
             series: SeriesService::new(Arc::clone(&skills), store, content.points, random, clock),
             skills,
+            lessons,
             characters,
             calendar: content.calendar,
             speech,
@@ -236,17 +241,37 @@ impl Services {
         &self,
         series_id: &str,
         index: u32,
-        answer: i32,
+        answer: AnswerPayload,
     ) -> Result<SeriesAnswerResponse, CommandError> {
         let outcome = self
             .series
-            .answer(series_id_of(series_id)?, index as usize, answer)
+            .answer(series_id_of(series_id)?, index as usize, &answer.into())
             .map_err(|e| series_error(e, "Answer refused"))?;
         Ok(SeriesAnswerResponse {
             correct: outcome.correct,
-            expected: outcome.expected,
+            expected: AnswerPayload::from(&outcome.expected),
+            expected_label: outcome.expected_label,
             explanation: outcome.explanation,
+            help: outcome.help.as_ref().map(Into::into),
             summary: outcome.summary.map(Into::into),
+        })
+    }
+
+    /// « Mes tables » (SUB000119): the table of a number from 0 to 10.
+    pub fn multiplication_table(
+        &self,
+        number: i32,
+    ) -> Result<MultiplicationTableResponse, CommandError> {
+        let lines = multiplication_table(number).ok_or_else(|| {
+            CommandError::new(
+                400,
+                "Unknown table",
+                format!("No multiplication table of {number} (0 to {TABLE_LAST_FACTOR})."),
+            )
+        })?;
+        Ok(MultiplicationTableResponse {
+            number,
+            lines: lines.iter().map(Into::into).collect(),
         })
     }
 
@@ -256,6 +281,59 @@ impl Services {
             .abandon(series_id_of(series_id)?)
             .map_err(|e| series_error(e, "Series already over"))?;
         Ok(summary.into())
+    }
+
+    /// The lessons of a grade (SUB001410). They follow the exercises: a grade without skills yet
+    /// gets the CE1 lessons, like it gets the CE1 skills, so that « Je m'entraîne » always finds the
+    /// skill of the lesson; a grade with skills but no lesson yet gets an empty list.
+    pub fn lessons(&self, grade: Grade) -> LessonsResponse {
+        let current_period = self.calendar.period_of((self.today)());
+        let (lessons_grade, _) = self.skills.offered_or_fallback(Subject::Math, grade.into());
+        let lessons = self.lessons.for_grade(Subject::Math, lessons_grade);
+        LessonsResponse {
+            grade,
+            lessons_grade: lessons_grade.into(),
+            current_period,
+            lessons: lessons
+                .iter()
+                .map(|l| LessonSummaryResponse::new(l, current_period))
+                .collect(),
+        }
+    }
+
+    pub fn lesson(&self, id: &str) -> Result<LessonResponse, CommandError> {
+        self.lessons
+            .find(id)
+            .map(Into::into)
+            .ok_or_else(|| unknown_lesson(id))
+    }
+
+    /// Checks an answer of the end-of-lesson quiz (SUB001411).
+    pub fn answer_lesson_quiz(
+        &self,
+        lesson_id: &str,
+        index: u32,
+        answer: AnswerPayload,
+    ) -> Result<QuizAnswerResponse, CommandError> {
+        let lesson = self
+            .lessons
+            .find(lesson_id)
+            .ok_or_else(|| unknown_lesson(lesson_id))?;
+        let outcome = lesson
+            .check_quiz(index as usize, &answer.into())
+            .ok_or_else(|| {
+                CommandError::new(
+                    404,
+                    "Unknown question",
+                    format!("No question {index} in lesson {lesson_id}."),
+                )
+            })?;
+        Ok(QuizAnswerResponse {
+            correct: outcome.correct,
+            expected: AnswerPayload::from(&outcome.expected),
+            expected_label: outcome.expected.label(),
+            explanation: outcome.explanation,
+        })
     }
 
     /// WAV of a French text; numbers and calculation signs are read as words (« 7 + 5 » → « sept plus cinq »).
@@ -297,6 +375,10 @@ fn profile_id(id: &str) -> Result<Uuid, CommandError> {
 
 fn series_id_of(id: &str) -> Result<Uuid, CommandError> {
     parse_id(id, "Unknown series", "series in progress")
+}
+
+fn unknown_lesson(id: &str) -> CommandError {
+    CommandError::new(404, "Unknown lesson", format!("No lesson with id {id}."))
 }
 
 fn profile_error(error: Error) -> CommandError {
@@ -358,6 +440,10 @@ mod tests {
             _dir: dir,
             services,
         }
+    }
+
+    fn number(value: i32) -> AnswerPayload {
+        AnswerPayload::Number { value }
     }
 
     fn create(services: &Services, name: &str) -> ProfileResponse {
@@ -578,20 +664,22 @@ mod tests {
         assert_eq!(10, series.exercises.len());
         let mut last = None;
         for exercise in &series.exercises {
-            let hidden = [exercise.left, exercise.right, exercise.result]
+            let slots = exercise
+                .statement
                 .iter()
-                .filter(|v| v.is_none())
+                .filter(|t| matches!(t, TokenResponse::Slot { .. }))
                 .count();
             assert_eq!(
-                1, hidden,
+                1, slots,
                 "exactly one number is hidden: {}",
                 exercise.prompt
             );
+            assert_eq!(InputResponse::Pick, exercise.input);
             assert_eq!(4, exercise.choices.as_ref().unwrap().len());
             // Find the expected answer by trying the choices: the first answer is the one recorded.
             let probe = f
                 .services
-                .answer_series(&series.series_id, exercise.index, -1)
+                .answer_series(&series.series_id, exercise.index, number(-1))
                 .unwrap();
             assert!(!probe.correct);
             last = probe.summary;
@@ -631,11 +719,13 @@ mod tests {
 
         assert_eq!(400, start("unknown").unwrap_err().status);
         let series = start("cp-add-sum-10").unwrap();
-        f.services.answer_series(&series.series_id, 0, 1).unwrap();
+        f.services
+            .answer_series(&series.series_id, 0, number(1))
+            .unwrap();
         assert_eq!(
             409,
             f.services
-                .answer_series(&series.series_id, 0, 1)
+                .answer_series(&series.series_id, 0, number(1))
                 .unwrap_err()
                 .status
         );
@@ -644,7 +734,7 @@ mod tests {
         assert_eq!(
             404,
             f.services
-                .answer_series(&series.series_id, 1, 1)
+                .answer_series(&series.series_id, 1, number(1))
                 .unwrap_err()
                 .status
         );
@@ -662,5 +752,264 @@ mod tests {
         let error = f.services.speak("7 + 5", None).unwrap_err();
         assert_eq!(503, error.status);
         assert_eq!(Some("tests".to_owned()), error.detail);
+    }
+
+    #[test]
+    fn every_ce1_family_hides_its_answer_and_checks_the_payload() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        for skill in [
+            "ce1-num-compare",
+            "ce1-num-frame-line",
+            "ce1-num-read-write",
+            "ce1-parity",
+            "ce1-frac-compare-add",
+            "ce1-problems-additive",
+        ] {
+            let modes = if skill == "ce1-num-compare" || skill == "ce1-parity" {
+                vec![AnswerMode::Keyboard]
+            } else {
+                vec![AnswerMode::Keyboard, AnswerMode::Choice]
+            };
+            for mode in modes {
+                let series = f
+                    .services
+                    .start_series(StartSeriesRequest {
+                        profile_id: lea.id.clone(),
+                        skill_id: skill.to_owned(),
+                        answer_mode: mode,
+                        seed: Some(3),
+                    })
+                    .unwrap();
+                let json = serde_json::to_string(&series).unwrap();
+                assert!(json.contains("\"kind\""), "{json}");
+                for exercise in &series.exercises {
+                    // A wrong answer of the wrong kind is simply wrong; the correction gives the right one.
+                    let outcome = f
+                        .services
+                        .answer_series(
+                            &series.series_id,
+                            exercise.index,
+                            AnswerPayload::YesNo { value: true },
+                        )
+                        .unwrap();
+                    assert!(!outcome.expected_label.is_empty());
+                    assert!(!outcome.explanation.is_empty());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn a_picked_choice_is_right_when_it_is_the_expected_answer() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let series = f
+            .services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "ce1-num-read-write".to_owned(),
+                answer_mode: AnswerMode::Choice,
+                seed: Some(11),
+            })
+            .unwrap();
+        let first = &series.exercises[0];
+        let wrong = f
+            .services
+            .answer_series(&series.series_id, 0, AnswerPayload::Number { value: -5 })
+            .unwrap();
+        let right = first
+            .choices
+            .as_ref()
+            .unwrap()
+            .iter()
+            .find(|c| c.answer == wrong.expected)
+            .expect("the expected answer is one of the choices");
+        assert_eq!(right.label, wrong.expected_label);
+    }
+
+    #[test]
+    fn multiplication_tables() {
+        let f = fixture();
+        let table = f.services.multiplication_table(7).unwrap();
+        assert_eq!(11, table.lines.len());
+        assert_eq!(
+            (7, 3, 21),
+            (
+                table.lines[3].left,
+                table.lines[3].right,
+                table.lines[3].result
+            )
+        );
+        assert_eq!(400, f.services.multiplication_table(11).unwrap_err().status);
+    }
+
+    #[test]
+    fn answer_payloads_use_the_kind_tag() {
+        let payload: AnswerPayload =
+            serde_json::from_str(r#"{ "kind": "fraction", "numerator": 2, "denominator": 4 }"#)
+                .unwrap();
+        assert_eq!(
+            educator_core::exercises::Answer::Fraction(educator_core::exercises::Fraction::new(
+                2, 4
+            )),
+            payload.into()
+        );
+        let sign: AnswerPayload =
+            serde_json::from_str(r#"{ "kind": "comparison", "sign": "<" }"#).unwrap();
+        assert_eq!(
+            AnswerPayload::Comparison {
+                sign: ComparisonSign::Less
+            },
+            sign
+        );
+    }
+
+    #[test]
+    fn lessons_of_ce1_list_the_lesson_on_adding_9_19_29() {
+        let lessons = fixture().services.lessons(Grade::CE1);
+
+        assert_eq!(Grade::CE1, lessons.lessons_grade);
+        let lesson = lessons
+            .lessons
+            .iter()
+            .find(|l| l.id == "ce1-add-9-19-29")
+            .unwrap();
+        assert_eq!(2, lesson.period);
+        assert!(!lesson.is_current_period);
+    }
+
+    #[test]
+    fn a_grade_without_skills_gets_the_ce1_lessons() {
+        let lessons = fixture().services.lessons(Grade::CM1);
+
+        assert_eq!(Grade::CM1, lessons.grade);
+        assert_eq!(Grade::CE1, lessons.lessons_grade);
+        assert!(!lessons.lessons.is_empty());
+    }
+
+    /// CP has its own skills: no CE1 lesson, whose « Je m'entraîne » would lead to a skill the CP
+    /// profile is not offered.
+    #[test]
+    fn cp_gets_no_lesson_of_another_grade() {
+        let lessons = fixture().services.lessons(Grade::CP);
+
+        assert_eq!(Grade::CP, lessons.lessons_grade);
+        assert!(lessons.lessons.is_empty());
+    }
+
+    #[test]
+    fn the_skill_of_every_lesson_is_offered_where_the_lesson_is() {
+        let f = fixture();
+        for grade in [Grade::CP, Grade::CE1, Grade::CE2, Grade::CM1, Grade::CM2] {
+            let skills = f.services.skills(grade);
+            for summary in f.services.lessons(grade).lessons {
+                let lesson = f.services.lesson(&summary.id).unwrap();
+                assert!(
+                    skills.skills.iter().any(|s| s.id == lesson.skill_ids[0]),
+                    "{grade:?}: {}",
+                    lesson.id
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn a_lesson_comes_with_computed_animations_and_without_the_answers() {
+        let f = fixture();
+        let lesson = f.services.lesson("ce1-add-9-19-29").unwrap();
+
+        assert_eq!(vec!["ce1-add-9-19-29".to_owned()], lesson.skill_ids);
+        assert_eq!(10, lesson.slides.len());
+        assert_eq!(2, lesson.slides.iter().filter(|s| s.interactive).count());
+        assert_eq!(
+            AnimationResponse::TensUnits {
+                value: 19,
+                hundreds: 0,
+                tens: 1,
+                units: 9,
+                missing: 1
+            },
+            lesson.slides[2].animation
+        );
+        let AnimationResponse::NumberLine {
+            jumps,
+            hover_values,
+            ..
+        } = &lesson.slides[5].animation
+        else {
+            panic!("slide 6 is a number line");
+        };
+        assert!(*hover_values);
+        assert_eq!(
+            vec![
+                JumpResponse {
+                    delta: 20,
+                    value: 77
+                },
+                JumpResponse {
+                    delta: -1,
+                    value: 76
+                }
+            ],
+            *jumps
+        );
+        let json = serde_json::to_value(&lesson).unwrap();
+        assert_eq!("numberLine", json["slides"][5]["animation"]["type"]);
+        assert_eq!(true, json["slides"][5]["animation"]["hoverValues"]);
+        assert!(json["quiz"][0].get("answer").is_none());
+        assert_eq!(
+            3,
+            lesson.quiz[1].choices.as_ref().map(Vec::len).unwrap_or(0)
+        );
+        assert_eq!(404, f.services.lesson("nothing").unwrap_err().status);
+    }
+
+    #[test]
+    fn the_quiz_is_checked_by_the_core_with_its_explanation() {
+        let f = fixture();
+
+        let right = f
+            .services
+            .answer_lesson_quiz("ce1-add-9-19-29", 0, number(37))
+            .unwrap();
+        assert!(right.correct);
+        assert!(right.explanation.contains("28 + 10 = 38"));
+
+        let wrong = f
+            .services
+            .answer_lesson_quiz("ce1-add-9-19-29", 1, number(66))
+            .unwrap();
+        assert!(!wrong.correct);
+        assert_eq!(number(65), wrong.expected);
+        assert_eq!("65", wrong.expected_label);
+
+        let missing = f
+            .services
+            .answer_lesson_quiz("ce1-add-9-19-29", 9, number(1))
+            .unwrap_err();
+        assert_eq!(404, missing.status);
+    }
+
+    #[test]
+    fn every_lesson_text_read_aloud_is_accepted_by_the_voice() {
+        assert_eq!(educator_content::MAX_SPOKEN_LENGTH, MAX_SPEECH_LENGTH);
+        let f = fixture();
+        for summary in f.services.lessons(Grade::CE1).lessons {
+            let lesson = f.services.lesson(&summary.id).unwrap();
+            let texts = lesson
+                .slides
+                .iter()
+                .map(|s| s.speech.clone())
+                .chain(lesson.quiz.iter().map(|q| q.spoken.clone()));
+            for text in texts {
+                // The voice is unavailable in the tests: 503 means the text itself was accepted.
+                assert_eq!(
+                    503,
+                    f.services.speak(&text, None).unwrap_err().status,
+                    "{text}"
+                );
+            }
+        }
     }
 }

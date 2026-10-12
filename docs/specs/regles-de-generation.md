@@ -79,12 +79,78 @@ lancés par la CI) :
 
 - chaque fichier respecte le schéma JSON ;
 - chaque règle permet **au moins 20 exercices différents** (règle trop étroite sinon) ;
-- 10 000 tirages par compétence respectent toutes les contraintes ;
+- 10 000 tirages par compétence respectent toutes les contraintes (20 000 pour les compléments du CE1 et les tables) ;
 - le CP et le CE1 ont des compétences dans chacune des 5 périodes ;
 - en CE1 période 1, les compétences du CP période 5 sont proposées en révision, sans doublon.
 
-`cargo run -p educator-content --example samples` régénère `docs/specs/echantillons-lot1.md` (20 exercices par
-compétence) pour la relecture.
+`cargo run -p educator-content --example samples` régénère `docs/specs/echantillons-lot1.md` (additions et
+soustractions) et `docs/specs/echantillons-ce1.md` (compléments du CE1), 20 exercices par compétence, pour la relecture.
+
+## Familles des compléments du CE1 (SUB000118 à SUB000124)
+
+Le champ `operation` choisit la famille. Les calculs (`addition`, `subtraction`, `mixed`, `multiplication`) gardent
+`operands` et `constraints` ; les autres familles ne les ont pas et décrivent leurs nombres autrement. Les règles de
+variété restent les mêmes : pas de doublon dans une série, formats équilibrés et jamais deux fois de suite le même
+quand la compétence en a plusieurs.
+
+| Famille | Champs propres | Formats |
+|---|---|---|
+| `multiplication` | `operands`, `constraints`, `focus` (tables travaillées), `picture: "arrayGrid"`, `progression` | `result`, `missingOperand` (aussi `30 = 3 × ?`), `phrase` (`5 + 5 + 5 = ? × 5`) |
+| `numeration` | `numbers` (même forme qu'un opérande) | `recompose`, `decompose`, `placeValue`, `writeNumber`, `readNumber`, `compare`, `order`, `frame`, `numberLinePoint`, `yesNo`, `multiChoice` |
+| `doubleHalf` | `doubles`, `halves`, `timesTwentyFive`, `progression` | `phrase` (« Quel est le double de 35 ? »), `result` (« Le double de 35 = ? ») |
+| `fraction` | `fractions: { denominators, unitOnly }` | `fractionPicture`, `fractionWords`, `compare`, `result` (somme ou différence) |
+| `problem` | `problems: { kinds, maxNumber, startMaxNumber }` | `problem` |
+
+- **Multiplication** : les facteurs sont montrés dans un ordre ou l'autre (sauf avec l'image des rangées) ; avec
+  `focus`, 7 exercices sur 10 portent sur les tables travaillées, les autres révisent les autres tables ; `0 × ? = 0`
+  n'est jamais demandé (toutes les réponses seraient justes). Pour 11 à 19 × 2 à 9, la correction montre la
+  décomposition (`13 × 7 = 10 × 7 + 3 × 7 = 70 + 21 = 91`) et le quadrillage coupé après 10 colonnes.
+- **`progression: "easyFirst"`** : les exercices les plus faciles d'abord (× 0, 1, 2, 5, 10, puis un petit facteur ;
+  moitiés des dizaines paires avant les impaires, puis au-delà de 100).
+- **Numération** : les comparaisons et les rangements portent sur des nombres proches (mêmes chiffres dans un autre
+  ordre, un seul chiffre changé), pour que le bon rang décide ; la correction dit à quel rang. Les nombres en lettres
+  sont écrits en orthographe traditionnelle ; la graphie de 1990 (`deux-cent-quatre-vingts`) est toujours acceptée et
+  n'est jamais proposée comme mauvaise réponse. La droite graduée a 11 graduations, de 1 en 1, de 10 en 10 ou de
+  100 en 100.
+- **Fractions** : toute fraction égale est acceptée (2/4 pour 1/2) ; la correction montre la forme attendue.
+- **Réponses** : nombre, fraction, signe (`<`, `>`, `=`), oui / non, suite ordonnée (rangement, encadrement),
+  ensemble (tous les nombres pairs), texte (écriture en lettres). Le mode `keyboard` fait produire la réponse (pavé,
+  signes, glisser-déposer) ; le mode `choice` la fait choisir parmi des propositions. Une compétence qui n'a qu'un
+  mode ouvre directement la série.
+
+## Problèmes (SUB000124)
+
+Les énoncés sont générés à partir de **gabarits** (`content/problems/*.json`, schéma
+`problem-templates.schema.json`) et de mots tirés au hasard (`content/problems/words.json`, schéma
+`problem-words.schema.json` : prénoms, autant de filles que de garçons, objets, contenants).
+
+```json
+{
+  "id": "comparison-more",
+  "kind": "comparison",
+  "text": "{name} a {a} {objects}. {name2} en a {b} de plus. Combien de {objects} {name2} a-t-{il2} ?",
+  "variables": { "a": { "min": 5 }, "b": { "min": 2 } },
+  "answer": "a + b",
+  "solution": "{a} + {b} = {answer}. {name2} a {answer} {objects}.",
+  "mistakes": ["a - b"],
+  "help": { "bars": [["a"], ["a", "b"]] }
+}
+```
+
+- `kind` : `partWhole`, `transformation`, `comparison` (une étape), `twoSteps`, `product`, `sharing`, `mixed`.
+- `variables` : plages des nombres ; sans `max`, la taille de la compétence (`maxNumber`, ou `startMaxNumber` pour
+  les 6 premiers exercices de la série). `derived` : valeurs intermédiaires (`"p": "a * b"`), utilisables dans le
+  texte. `checks` : conditions du tirage (`"c < p"`). Tous les nombres (variables, valeurs intermédiaires, réponse)
+  restent entre 0 et la taille de la compétence ; une division doit tomber juste.
+- Dans `text` et `solution` : `{a}`… les nombres, `{name}`, `{name2}` les prénoms, `{il}`/`{Il}` et `{il2}`/`{Il2}`
+  leurs pronoms, `{ils}` (« elles » pour deux filles), `{object}`/`{objects}`, `{container}`/`{containers}`.
+  L'élision est faite à la génération (« combien d'images », « qu'Inès »). Le texte ne contient jamais la réponse.
+- `mistakes` : erreurs typiques proposées en QCM (mauvaise opération, une seule étape faite). Les nombres de
+  l'énoncé sont aussi proposés (nombre recopié).
+- `help` : schéma montré avec la correction, en barres (`bars`, `total`) ou en groupes (`groups`, `perGroup`).
+
+Un gabarit invalide (variable inconnue, expression incorrecte, aucun tirage possible à la taille de la compétence)
+est ignoré au démarrage et fait échouer les tests.
 
 ## Périodes de l'année
 

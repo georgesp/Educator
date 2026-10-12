@@ -5,7 +5,8 @@
 use educator_core::characters::{CharacterCatalog, CharacterInfo, CharacterKind};
 use educator_core::profiles::{Profile, ProfileStore};
 use educator_core::skills::{
-    AnswerMode, ExerciseFormat, OperandRule, Skill, SkillConstraints, SkillOperation, Subject,
+    AnswerMode, ExerciseFormat, OperandRule, Skill, SkillConstraints, SkillOperation, SkillParams,
+    Subject,
 };
 use educator_core::{Grade, Result};
 use std::collections::HashMap;
@@ -28,6 +29,7 @@ pub fn skill(id: &str) -> Skill {
         answer_modes: vec![AnswerMode::Keyboard, AnswerMode::Choice],
         source: "Tests".to_owned(),
         also_offered: Vec::new(),
+        params: SkillParams::default(),
     }
 }
 

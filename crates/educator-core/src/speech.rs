@@ -99,12 +99,13 @@ const TENS: [&str; 7] = [
 const MAX_NUMBER: u32 = 999_999_999;
 
 fn is_sign(c: char) -> bool {
-    matches!(c, '+' | '-' | '−' | '–' | '=' | '×')
+    matches!(c, '+' | '-' | '−' | '–' | '=' | '×' | '<' | '>')
 }
 
 /// Prepares a text for the speech engine: numbers become French words and the calculation symbols
-/// become words (`+` « plus », `−` « moins », `=` « égale », a `?` standing for a number
-/// « combien »), so that the voice reads « sept plus cinq égale douze ».
+/// become words (`+` « plus », `−` « moins », `=` « égale », `×` « fois », `<` « est plus petit
+/// que », `>` « est plus grand que », a `?` standing for a number « combien »), so that the voice
+/// reads « sept plus cinq égale douze ».
 pub fn normalize(text: &str) -> String {
     let chars: Vec<char> = text.chars().collect();
 
@@ -125,7 +126,10 @@ pub fn normalize(text: &str) -> String {
         .replace('+', " plus ")
         .replace(['−', '–'], " moins ")
         .replace('=', " égale ")
-        .replace('×', " fois ");
+        .replace('×', " fois ")
+        .replace('<', " est plus petit que ")
+        .replace('>', " est plus grand que ")
+        .replace('→', " : ");
 
     // A hyphen between two numbers is a minus sign; hyphens inside words are kept.
     let chars: Vec<char> = step.chars().collect();

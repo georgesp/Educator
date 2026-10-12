@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001409 — Format des leçons
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -31,5 +31,5 @@ Fichiers `content/lessons/{subject}/*.json`, schéma `lesson.schema.json` :
 
 ## Critères d'acceptation
 
-- [ ] Schéma documenté, validation au build.
-- [ ] Une leçon d'exemple complète.
+- [x] Schéma documenté, validation au build.
+- [x] Une leçon d'exemple complète.

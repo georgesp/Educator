@@ -1,4 +1,4 @@
-use super::{generate_series, Exercise, DEFAULT_LENGTH};
+use super::{generate_series, Answer, Exercise, Picture, DEFAULT_LENGTH};
 use crate::clock::{uuid_v7, Clock};
 use crate::points::PointsRules;
 use crate::profiles::ProfileStore;
@@ -31,7 +31,7 @@ impl Series {
         self.answers.iter().filter(|a| **a == Some(true)).count()
     }
 
-    fn record(&mut self, index: usize, answer: i32) -> Result<(Exercise, bool, bool)> {
+    fn record(&mut self, index: usize, answer: &Answer) -> Result<(Exercise, bool, bool)> {
         if self.closed {
             return Err(Error::SeriesRequest("The series is over.".to_owned()));
         }
@@ -60,8 +60,12 @@ impl Series {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AnswerOutcome {
     pub correct: bool,
-    pub expected: i32,
+    pub expected: Answer,
+    /// The expected answer as written in the correction (« 3/4 », « < », « 300 et 400 »).
+    pub expected_label: String,
     pub explanation: String,
+    /// Picture shown with the correction (decomposition, bar model).
+    pub help: Option<Picture>,
     /// End of series (points awarded), when this answer was the last one.
     pub summary: Option<SeriesSummary>,
 }
@@ -175,7 +179,7 @@ impl SeriesService {
         Ok(series)
     }
 
-    pub fn answer(&self, series_id: Uuid, index: usize, answer: i32) -> Result<AnswerOutcome> {
+    pub fn answer(&self, series_id: Uuid, index: usize, answer: &Answer) -> Result<AnswerOutcome> {
         let (exercise, correct, completed, profile_id, correct_count, count) = {
             let mut state = self.lock();
             let series = state
@@ -202,8 +206,10 @@ impl SeriesService {
 
         Ok(AnswerOutcome {
             correct,
-            expected: exercise.expected(),
-            explanation: exercise.explanation(),
+            expected_label: exercise.expected_label(),
+            expected: exercise.expected,
+            explanation: exercise.explanation,
+            help: exercise.help,
             summary,
         })
     }

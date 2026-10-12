@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001603 — Multiplication posée et calcul mental multiplicatif
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -30,3 +30,5 @@ En tant qu'enfant de CE2 à CM2, je veux m'entraîner à la multiplication posé
 
 - [ ] Composant d'opération posée réutilisable (addition, soustraction, multiplication).
 - [ ] Validation case par case avec correction ciblée.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

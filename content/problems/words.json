@@ -1,0 +1,169 @@
+{
+  "$schema": "../schemas/problem-words.schema.json",
+  "names": [
+    {
+      "name": "Léa",
+      "feminine": true
+    },
+    {
+      "name": "Tom",
+      "feminine": false
+    },
+    {
+      "name": "Inès",
+      "feminine": true
+    },
+    {
+      "name": "Noah",
+      "feminine": false
+    },
+    {
+      "name": "Aya",
+      "feminine": true
+    },
+    {
+      "name": "Lucas",
+      "feminine": false
+    },
+    {
+      "name": "Chloé",
+      "feminine": true
+    },
+    {
+      "name": "Adam",
+      "feminine": false
+    },
+    {
+      "name": "Jade",
+      "feminine": true
+    },
+    {
+      "name": "Yanis",
+      "feminine": false
+    },
+    {
+      "name": "Lina",
+      "feminine": true
+    },
+    {
+      "name": "Hugo",
+      "feminine": false
+    },
+    {
+      "name": "Emma",
+      "feminine": true
+    },
+    {
+      "name": "Ibrahim",
+      "feminine": false
+    },
+    {
+      "name": "Zoé",
+      "feminine": true
+    },
+    {
+      "name": "Malo",
+      "feminine": false
+    },
+    {
+      "name": "Sofia",
+      "feminine": true
+    },
+    {
+      "name": "Kenzo",
+      "feminine": false
+    },
+    {
+      "name": "Louise",
+      "feminine": true
+    },
+    {
+      "name": "Gabriel",
+      "feminine": false
+    },
+    {
+      "name": "Maëlys",
+      "feminine": true
+    },
+    {
+      "name": "Nathan",
+      "feminine": false
+    },
+    {
+      "name": "Amira",
+      "feminine": true
+    },
+    {
+      "name": "Liam",
+      "feminine": false
+    }
+  ],
+  "objects": [
+    {
+      "singular": "bille",
+      "plural": "billes"
+    },
+    {
+      "singular": "carte",
+      "plural": "cartes"
+    },
+    {
+      "singular": "image",
+      "plural": "images"
+    },
+    {
+      "singular": "autocollant",
+      "plural": "autocollants"
+    },
+    {
+      "singular": "crayon",
+      "plural": "crayons"
+    },
+    {
+      "singular": "perle",
+      "plural": "perles"
+    },
+    {
+      "singular": "coquillage",
+      "plural": "coquillages"
+    },
+    {
+      "singular": "timbre",
+      "plural": "timbres"
+    },
+    {
+      "singular": "petite voiture",
+      "plural": "petites voitures"
+    },
+    {
+      "singular": "figurine",
+      "plural": "figurines"
+    },
+    {
+      "singular": "feutre",
+      "plural": "feutres"
+    },
+    {
+      "singular": "livre",
+      "plural": "livres"
+    }
+  ],
+  "containers": [
+    {
+      "singular": "boîte",
+      "plural": "boîtes"
+    },
+    {
+      "singular": "paquet",
+      "plural": "paquets"
+    },
+    {
+      "singular": "sachet",
+      "plural": "sachets"
+    },
+    {
+      "singular": "sac",
+      "plural": "sacs"
+    }
+  ]
+}

@@ -1,0 +1,528 @@
+/*
+ * Lessons (SUB001410) and their animations (SUB000117), in the « S1 · Grand Prix » theme: every color and
+ * font comes from the variables of the theme (styles.css), so a personalised theme applies to the lessons too.
+ * Racing red (--primary) marks what is new or important.
+ */
+
+.lesson-progress {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.lesson-slide {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px 32px 24px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.lesson-slide-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lesson-slide-title {
+  margin: 0;
+  padding: 4px 26px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 36px;
+  text-transform: uppercase;
+  color: var(--primary-text);
+  background: var(--primary);
+  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+}
+
+.lesson-slide .speak-button {
+  background: var(--surface-strong);
+}
+
+.lesson-slide-text {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.lesson-stage {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: var(--surface-strong);
+  border-radius: var(--radius);
+}
+
+.lesson-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lesson-nav .button:not(.button-primary) {
+  background: var(--surface-strong);
+}
+
+.lesson-nav .button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.lesson-your-turn {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-strong);
+}
+
+.lesson-hint {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--text);
+}
+
+.lesson-hint-done {
+  color: var(--correct);
+}
+
+/* titleCard */
+.lesson-title-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.lesson-checker {
+  align-self: stretch;
+  height: 22px;
+  background-color: var(--checker-light);
+  background-image:
+    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%),
+    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%);
+  background-size: 22px 22px;
+  background-position:
+    0 0,
+    11px 11px;
+}
+
+.lesson-title-card-title {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 76px;
+  line-height: 0.95;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.lesson-title-card-subtitle {
+  margin: 0;
+  font-size: 26px;
+  color: var(--primary-strong);
+  font-weight: 700;
+}
+
+/* recapCard */
+.lesson-recap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 860px;
+  padding: 24px 32px;
+  border: 5px solid var(--primary);
+  border-radius: var(--radius);
+  background: var(--surface-strong);
+}
+
+.lesson-recap-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 34px;
+  text-transform: uppercase;
+  color: var(--primary-strong);
+}
+
+.lesson-recap-text {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.lesson-recap-example {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 52px;
+}
+
+/* calcChain */
+.lesson-chains {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.lesson-chain {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 72px;
+}
+
+.chain-value {
+  min-width: 96px;
+  padding: 4px 14px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 56px;
+  text-align: center;
+  background: var(--surface);
+  border-radius: 10px;
+}
+
+.chain-value-result {
+  color: var(--primary-text);
+  background: var(--text);
+}
+
+.chain-arrow {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.chain-step {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.chain-step-key {
+  color: var(--primary-strong);
+}
+
+.chain-arrow-line {
+  position: relative;
+  width: 88px;
+  height: 4px;
+  background: var(--text);
+}
+
+.chain-arrow-line::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: -7px;
+  border-left: 14px solid var(--text);
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+
+.lesson-chain-crossed {
+  opacity: 0.75;
+}
+
+.lesson-chain-crossed .chain-value-result {
+  background: var(--incorrect);
+  text-decoration: line-through;
+}
+
+.chain-wrong {
+  margin-left: 12px;
+  padding: 6px 14px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary-text);
+  background: var(--incorrect);
+  border-radius: 8px;
+}
+
+/* calcChain, mode match */
+.lesson-match {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.lesson-match-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  width: min(100%, 820px);
+}
+
+.lesson-match-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lesson-match-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lesson-match-item {
+  min-height: 72px;
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: 4px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.lesson-match-chain {
+  font-size: 28px;
+}
+
+.lesson-match-item:focus-visible,
+.line-hit:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
+.match-selected {
+  border-color: var(--primary);
+}
+
+.match-linked {
+  color: var(--correct);
+  border-color: var(--correct);
+  background: var(--surface-strong);
+  cursor: default;
+}
+
+/* numberLine */
+.lesson-line {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.lesson-line-svg {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  overflow: visible;
+}
+
+.line-road {
+  fill: #3a3a42;
+}
+
+.line-checker-light {
+  fill: var(--checker-light);
+}
+
+.line-checker-dark {
+  fill: var(--checker-dark);
+}
+
+.line-tick {
+  stroke: var(--checker-light);
+  stroke-width: 3;
+}
+
+.line-label {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 700;
+  fill: var(--text);
+}
+
+.line-label-key {
+  font-size: 32px;
+  font-weight: 800;
+  fill: var(--primary-strong);
+}
+
+.line-label-reached {
+  font-weight: 800;
+}
+
+/* Starting point of the car: its own color (blue), apart from the racing red of what is new. */
+.lesson-line {
+  --line-start-color: var(--firework-blue);
+}
+
+.line-start {
+  fill: var(--line-start-color);
+  stroke: var(--checker-light);
+  stroke-width: 3;
+}
+
+.line-label-start {
+  font-size: 32px;
+  font-weight: 800;
+  fill: var(--line-start-color);
+}
+
+/* Value of the graduation under the pointer. */
+.line-hover {
+  pointer-events: none;
+}
+
+.line-hover-box {
+  fill: var(--surface-strong);
+  stroke: var(--text);
+  stroke-width: 3;
+}
+
+.line-hover-text {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 800;
+  fill: var(--text);
+}
+
+.line-jump {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.line-jump-key {
+  stroke: var(--primary);
+}
+
+.line-jump-label {
+  font-family: var(--font-body);
+  font-size: 28px;
+  font-weight: 800;
+  fill: var(--text);
+}
+
+.line-target {
+  fill: none;
+  stroke: var(--firework-gold);
+  stroke-width: 6;
+}
+
+.line-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.line-hit:hover {
+  fill: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.line-hit[aria-disabled="true"] {
+  cursor: default;
+  fill: transparent;
+}
+
+/* tensUnits */
+.lesson-blocks {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lesson-blocks svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.block-missing {
+  fill: var(--surface-strong);
+  stroke: var(--primary);
+  stroke-width: 2.5;
+  stroke-dasharray: 5 4;
+}
+
+.lesson-blocks-caption {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-strong);
+}
+
+/* Quiz and end of the lesson */
+.lesson-quiz-question {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 64px;
+  text-align: center;
+}
+
+.lesson-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.lesson-summary-actions .big-button {
+  width: auto;
+  min-width: 320px;
+}
+
+@media (max-width: 760px) {
+  .lesson-slide {
+    padding: 18px;
+  }
+
+  .lesson-title-card-title {
+    font-size: 48px;
+  }
+
+  .chain-value {
+    min-width: 64px;
+    font-size: 36px;
+  }
+
+  .chain-arrow-line {
+    width: 48px;
+  }
+
+  .lesson-match-columns {
+    gap: 18px;
+  }
+}
+
+.lesson-quiz .answer {
+  width: 2.6em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 72px;
+}

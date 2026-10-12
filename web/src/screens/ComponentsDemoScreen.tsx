@@ -28,7 +28,7 @@ export function ComponentsDemoScreen() {
       <section>
         <h2 className="section-title">BigButton</h2>
         <div className="demo-row">
-          <BigButton number="01" label="Exercices" hint="Additions et soustractions" icon={<PencilIcon />} variant="primary" />
+          <BigButton number="01" label="Exercices" hint="Nombres et calcul" icon={<PencilIcon />} variant="primary" />
           <BigButton number="02" label="Leçons" hint="Au stand, bientôt" icon={<LockIcon />} locked />
           <BigButton label="Bouton contour" variant="outline" />
         </div>
@@ -42,7 +42,7 @@ export function ComponentsDemoScreen() {
 
       <section>
         <h2 className="section-title">ChoiceGrid</h2>
-        <ChoiceGrid choices={[11, 12, 13, 22]} onPick={setPicked} picked={picked} expected={picked === null ? null : 12} label="Exemple de QCM" />
+        <ChoiceGrid labels={["11", "12", "13", "22"]} onPick={setPicked} picked={picked} expected={picked === null ? null : 1} label="Exemple de QCM" />
       </section>
 
       <section>

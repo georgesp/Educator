@@ -2,8 +2,8 @@ mod common;
 
 use common::{skill, test_skill};
 use educator_core::exercises::{
-    build_choices, generate_series, ArithmeticOperation, Calculation, CalculationSpace, Exercise,
-    HiddenPart, CHOICE_COUNT, DEFAULT_LENGTH,
+    build_choices, generate_calculations, ArithmeticOperation, Calculation, CalculationExercise,
+    CalculationSpace, HiddenPart, CHOICE_COUNT, DEFAULT_LENGTH,
 };
 use educator_core::random::SeededRng;
 use educator_core::skills::{
@@ -14,7 +14,7 @@ use educator_core::Error;
 use rand::SeedableRng;
 use std::collections::HashSet;
 
-fn describe(series: &[Exercise]) -> String {
+fn describe(series: &[CalculationExercise]) -> String {
     series
         .iter()
         .map(|e| format!("{} {:?}", e.prompt(), e.choices))
@@ -26,9 +26,9 @@ fn describe(series: &[Exercise]) -> String {
 fn same_seed_same_skill_give_the_same_series() {
     let skill = test_skill();
 
-    let first = generate_series(&skill, 42, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
-    let second = generate_series(&skill, 42, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
-    let other = generate_series(&skill, 43, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
+    let first = generate_calculations(&skill, 42, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
+    let second = generate_calculations(&skill, 42, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
+    let other = generate_calculations(&skill, 43, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
 
     assert_eq!(describe(&first), describe(&second));
     assert_ne!(describe(&first), describe(&other));
@@ -44,7 +44,8 @@ fn series_has_ten_exercises_without_duplicates() {
     };
 
     for seed in 0..500 {
-        let series = generate_series(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
+        let series =
+            generate_calculations(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
 
         assert_eq!(DEFAULT_LENGTH, series.len());
         assert_eq!(
@@ -75,7 +76,7 @@ fn constraints_are_always_respected() {
     };
 
     for seed in 0..1000 {
-        for e in generate_series(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap() {
+        for e in generate_calculations(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap() {
             assert_eq!(ArithmeticOperation::Subtraction, e.calculation.operation);
             assert_eq!(0, e.calculation.left % 10);
             assert!((1..=9).contains(&e.calculation.right));
@@ -93,20 +94,20 @@ fn formats_follow_the_skill() {
     missing_only.formats = vec![ExerciseFormat::MissingOperand];
     let both = skill("both");
 
-    let all: Vec<Exercise> = (0..200)
+    let all: Vec<CalculationExercise> = (0..200)
         .flat_map(|seed| {
-            generate_series(&both, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
+            generate_calculations(&both, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
         })
         .collect();
 
     assert!(
-        generate_series(&result_only, 1, AnswerMode::Keyboard, DEFAULT_LENGTH)
+        generate_calculations(&result_only, 1, AnswerMode::Keyboard, DEFAULT_LENGTH)
             .unwrap()
             .iter()
             .all(|e| e.hidden == HiddenPart::Result)
     );
     assert!(
-        generate_series(&missing_only, 1, AnswerMode::Keyboard, DEFAULT_LENGTH)
+        generate_calculations(&missing_only, 1, AnswerMode::Keyboard, DEFAULT_LENGTH)
             .unwrap()
             .iter()
             .all(|e| e.hidden != HiddenPart::Result)
@@ -140,7 +141,7 @@ fn choices_are_four_credible_different_natural_numbers() {
     for skill in [small, sub, mixed] {
         for seed in 0..300 {
             for exercise in
-                generate_series(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap()
+                generate_calculations(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap()
             {
                 let choices = exercise.choices.clone().unwrap();
                 assert_eq!(CHOICE_COUNT, choices.len());
@@ -160,7 +161,7 @@ fn choices_are_four_credible_different_natural_numbers() {
 
 #[test]
 fn choices_include_the_classic_mistakes() {
-    let exercise = Exercise::new(0, Calculation::addition(27, 15), HiddenPart::Result);
+    let exercise = CalculationExercise::new(0, Calculation::addition(27, 15), HiddenPart::Result);
 
     for seed in 0..50 {
         let choices = build_choices(&exercise, &mut SeededRng::seed_from_u64(seed));
@@ -174,7 +175,7 @@ fn choices_include_the_classic_mistakes() {
 
 #[test]
 fn choices_for_a_missing_number_include_the_copied_result() {
-    let exercise = Exercise::new(0, Calculation::addition(68, 2), HiddenPart::Right);
+    let exercise = CalculationExercise::new(0, Calculation::addition(68, 2), HiddenPart::Right);
 
     for seed in 0..50 {
         let choices = build_choices(&exercise, &mut SeededRng::seed_from_u64(seed));
@@ -196,14 +197,14 @@ fn narrow_skill_is_refused() {
 
     assert_eq!(6, CalculationSpace::of(&narrow).distinct_count()); // 0+10, 1+9 … 5+5
     assert!(matches!(
-        generate_series(&narrow, 1, AnswerMode::Keyboard, DEFAULT_LENGTH),
+        generate_calculations(&narrow, 1, AnswerMode::Keyboard, DEFAULT_LENGTH),
         Err(Error::InvalidSkill(_))
     ));
 }
 
 // Variety of a series (SUB000112).
 
-fn shape(exercise: &Exercise) -> (ArithmeticOperation, ExerciseFormat) {
+fn shape(exercise: &CalculationExercise) -> (ArithmeticOperation, ExerciseFormat) {
     (exercise.calculation.operation, exercise.format())
 }
 
@@ -242,7 +243,8 @@ fn variety_skills() -> Vec<educator_core::skills::Skill> {
 fn no_duplicate_calculation_in_a_series() {
     for skill in variety_skills() {
         for seed in 0..2000 {
-            let series = generate_series(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
+            let series =
+                generate_calculations(&skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap();
             let keys: HashSet<_> = series
                 .iter()
                 .map(|e| e.calculation.duplicate_key())
@@ -268,7 +270,7 @@ fn never_twice_the_same_shape_in_a_row_when_the_skill_offers_several() {
 
         for seed in 0..2000 {
             let series =
-                generate_series(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
+                generate_calculations(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
             for pair in series.windows(2) {
                 assert_ne!(
                     shape(&pair[0]),
@@ -286,7 +288,8 @@ fn never_twice_the_same_shape_in_a_row_when_the_skill_offers_several() {
 fn both_formats_alternate_in_a_single_operation_skill() {
     let skill = &variety_skills()[0];
     for seed in 0..500 {
-        let series = generate_series(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
+        let series =
+            generate_calculations(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
         for pair in series.windows(2) {
             assert_ne!(pair[0].format(), pair[1].format(), "seed {seed}");
         }
@@ -298,7 +301,7 @@ fn a_mixed_skill_has_as_many_subtractions_as_additions() {
     for skill in &variety_skills()[1..3] {
         for seed in 0..2000 {
             let series =
-                generate_series(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
+                generate_calculations(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
             let subtractions = series
                 .iter()
                 .filter(|e| e.calculation.operation == ArithmeticOperation::Subtraction)
@@ -314,7 +317,7 @@ fn an_operand_comes_back_at_most_three_times_when_the_rule_allows_it() {
         let count_right = skill.right.allowed_count() >= 4;
         for seed in 0..2000 {
             let series =
-                generate_series(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
+                generate_calculations(&skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap();
             let mut uses = std::collections::HashMap::<i32, usize>::new();
             for e in &series {
                 let mut operands = vec![e.calculation.left];

@@ -6,17 +6,34 @@ export type StatusResponse = Types.StatusResponse;
 export type StartupStatus = Types.StartupStatus;
 export type Grade = Types.Grade;
 export type AnswerMode = Types.AnswerMode;
-export type HiddenPart = Types.HiddenPart;
 export type Profile = Types.ProfileResponse;
 export type UpdateProfile = Types.UpdateProfileRequest;
 export type Character = Types.CharacterResponse;
 export type Skills = Types.SkillsResponse;
 export type Skill = Types.SkillResponse;
 export type Series = Types.SeriesResponse;
+export type SkillFamily = Types.SkillFamily;
 export type Exercise = Types.ExerciseResponse;
+export type Token = Types.TokenResponse;
+export type Picture = Types.PictureResponse;
+export type Input = Types.InputResponse;
+export type Choice = Types.ChoiceResponse;
+export type AnswerPayload = Types.AnswerPayload;
+export type ComparisonSign = Types.ComparisonSign;
 export type SeriesAnswer = Types.SeriesAnswerResponse;
+export type MultiplicationTable = Types.MultiplicationTableResponse;
 export type SeriesSummary = Types.SeriesSummaryResponse;
 export type CommandError = Types.CommandError;
+export type Lessons = Types.LessonsResponse;
+export type LessonSummary = Types.LessonSummaryResponse;
+export type Lesson = Types.LessonResponse;
+export type Slide = Types.SlideResponse;
+export type Animation = Types.AnimationResponse;
+export type Chain = Types.ChainResponse;
+export type ChainMode = Types.ChainMode;
+export type Jump = Types.JumpResponse;
+export type QuizQuestion = Types.QuizQuestionResponse;
+export type QuizAnswer = Types.QuizAnswerResponse;
 
 /**
  * Error returned by a command. `status` keeps the meaning of the former HTTP API (400 invalid input,

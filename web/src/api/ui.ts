@@ -2,9 +2,14 @@ import { invoke } from "@tauri-apps/api/core";
 import {
   toApiError,
   type AnswerMode,
+  type AnswerPayload,
   type Character,
   type Grade,
+  type Lesson,
+  type Lessons,
+  type MultiplicationTable,
   type Profile,
+  type QuizAnswer,
   type Series,
   type SeriesAnswer,
   type SeriesSummary,
@@ -27,8 +32,15 @@ export type UiApi = {
   updateProfile(id: string, changes: UpdateProfile): Promise<Profile>;
   selectProfile(id: string): Promise<Profile>;
   startSeries(profileId: string, skillId: string, answerMode: AnswerMode): Promise<Series>;
-  answerSeries(seriesId: string, index: number, answer: number): Promise<SeriesAnswer>;
+  answerSeries(seriesId: string, index: number, answer: AnswerPayload): Promise<SeriesAnswer>;
   abandonSeries(seriesId: string): Promise<SeriesSummary>;
+  /** « Mes tables »: the multiplication table of a number from 0 to 10. */
+  getMultiplicationTable(number: number): Promise<MultiplicationTable>;
+  /** Lessons of a grade (those of CE1 when the grade has none yet). */
+  listLessons(grade: Grade): Promise<Lessons>;
+  getLesson(id: string): Promise<Lesson>;
+  /** Checks an answer of the end-of-lesson quiz (the core knows the expected answers). */
+  answerLessonQuiz(lessonId: string, index: number, answer: AnswerPayload): Promise<QuizAnswer>;
   /** WAV of a French text (numbers and signs are read as words by the core). */
   speak(text: string, speed?: number): Promise<Blob>;
 };
@@ -56,6 +68,10 @@ export function createUiApi(): UiApi {
     startSeries: (profileId, skillId, answerMode) => call("start_series", { request: { profileId, skillId, answerMode } }),
     answerSeries: (seriesId, index, answer) => call("answer_series", { seriesId, index, answer }),
     abandonSeries: (seriesId) => call("abandon_series", { seriesId }),
+    getMultiplicationTable: (number) => call("get_multiplication_table", { number }),
+    listLessons: (grade) => call("list_lessons", { grade }),
+    getLesson: (id) => call("get_lesson", { id }),
+    answerLessonQuiz: (lessonId, index, answer) => call("answer_lesson_quiz", { lessonId, index, answer }),
     speak: async (text, speed) => {
       // Raw bytes: an ArrayBuffer in Tauri (a list of numbers from a simulated core).
       const wav = await call<ArrayBuffer | number[]>("speak", { text, speed: speed ?? null });

@@ -1,19 +1,31 @@
 import { expect, test, type Page } from "@playwright/test";
 
-type Exercise = { index: number; left: number | null; operator: string; right: number | null; result: number | null; hidden: string; prompt: string; spokenPrompt: string; choices: number[] | null };
+type Choice = { label: string; answer: { kind: "number"; value: number } };
+type Exercise = {
+  index: number;
+  question: string | null;
+  statement: ({ kind: "number"; value: number } | { kind: "sign"; value: string } | { kind: "slot"; slot: number })[];
+  picture: null;
+  input: { kind: "number"; slots: number } | { kind: "pick" };
+  prompt: string;
+  spokenPrompt: string;
+  choices: Choice[] | null;
+};
 
 /** A fixed series of 10 additions a + 1 = ? (answer a + 1), like a series replayed with a fixed seed. */
 function series(answerMode: "Keyboard" | "Choice") {
   const exercises: Exercise[] = Array.from({ length: 10 }, (_, i) => ({
     index: i,
-    left: i + 1,
-    operator: "+",
-    right: 1,
-    result: null,
-    hidden: "Result",
+    question: null,
+    statement: [{ kind: "number", value: i + 1 }, { kind: "sign", value: "+" }, { kind: "number", value: 1 }, { kind: "sign", value: "=" }, { kind: "slot", slot: 0 }],
+    picture: null,
+    input: answerMode === "Choice" ? { kind: "pick" } : { kind: "number", slots: 1 },
     prompt: `${i + 1} + 1 = ?`,
     spokenPrompt: `Combien font ${i + 1} plus 1 ?`,
-    choices: answerMode === "Choice" ? [i + 2, i + 3, i + 12, i + 1].sort((a, b) => a - b) : null,
+    choices:
+      answerMode === "Choice"
+        ? [i + 2, i + 3, i + 12, i + 1].sort((a, b) => a - b).map((value) => ({ label: String(value), answer: { kind: "number", value } }))
+        : null,
   }));
   return { seriesId: `series-${answerMode}`, seed: 42, skillId: "cp-add-sum-10", instruction: "Calcule.", answerMode, exercises };
 }
@@ -56,16 +68,16 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
           grade: "CP",
           skillsGrade: "CP",
           currentPeriod: 1,
-          skills: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"] }],
+          skills: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation" }],
         };
       case "start_series": {
         const { answerMode } = args.request as { answerMode: "Keyboard" | "Choice" };
         return series(answerMode);
       }
       case "answer_series": {
-        const { seriesId, index, answer } = args as { seriesId: string; index: number; answer: number };
+        const { seriesId, index, answer } = args as { seriesId: string; index: number; answer: { kind: string; value: number } };
         const expected = index + 2;
-        const correct = answer === expected;
+        const correct = answer.kind === "number" && answer.value === expected;
         answered.set(seriesId, (answered.get(seriesId) ?? 0) + (correct ? 1 : 0));
         const done = index === 9;
         const count = answered.get(seriesId) ?? 0;
@@ -76,8 +88,10 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
         }
         return {
           correct,
-          expected,
+          expected: { kind: "number", value: expected },
+          expectedLabel: String(expected),
           explanation: `${index + 1} + 1 = ${expected}`,
+          help: null,
           summary: done ? { correctCount: count, exerciseCount: 10, pointsEarned: earned, profilePoints: (profiles[0] as { points: number }).points } : null,
         };
       }

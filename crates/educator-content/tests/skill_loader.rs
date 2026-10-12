@@ -60,8 +60,8 @@ fn invalid_file_is_reported() {
     let cases = [
         (
             r#""operation": "addition""#,
-            r#""operation": "multiplication""#,
-            "operation 'multiplication' is unknown",
+            r#""operation": "division""#,
+            "operation 'division' is unknown",
         ),
         (
             r#""grade": "CE1""#,

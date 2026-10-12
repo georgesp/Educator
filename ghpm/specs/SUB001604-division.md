@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001604 — Division
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -30,3 +30,5 @@ En tant qu'enfant, je veux comprendre et pratiquer la division afin de résoudre
 - [ ] Saisie du quotient et du reste dans deux champs.
 - [ ] Composant d'opération posée étendu à la division.
 - [ ] Tests de propriété (reste < diviseur, pas de division par 0).
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

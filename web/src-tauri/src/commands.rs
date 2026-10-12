@@ -119,7 +119,7 @@ pub async fn answer_series(
     state: State<'_, Arc<AppState>>,
     series_id: String,
     index: u32,
-    answer: i32,
+    answer: AnswerPayload,
 ) -> CommandResult<SeriesAnswerResponse> {
     run(state, move |s| s.answer_series(&series_id, index, answer)).await
 }
@@ -130,6 +130,45 @@ pub async fn abandon_series(
     series_id: String,
 ) -> CommandResult<SeriesSummaryResponse> {
     run(state, move |s| s.abandon_series(&series_id)).await
+}
+
+#[tauri::command]
+pub async fn get_multiplication_table(
+    state: State<'_, Arc<AppState>>,
+    number: i32,
+) -> CommandResult<MultiplicationTableResponse> {
+    run(state, move |s| s.multiplication_table(number)).await
+}
+
+/// The lessons of a grade (CE1 ones when the grade has none yet).
+#[tauri::command]
+pub async fn list_lessons(
+    state: State<'_, Arc<AppState>>,
+    grade: Grade,
+) -> CommandResult<LessonsResponse> {
+    run(state, move |s| Ok(s.lessons(grade))).await
+}
+
+#[tauri::command]
+pub async fn get_lesson(
+    state: State<'_, Arc<AppState>>,
+    id: String,
+) -> CommandResult<LessonResponse> {
+    run(state, move |s| s.lesson(&id)).await
+}
+
+/// Checks an answer of the end-of-lesson quiz.
+#[tauri::command]
+pub async fn answer_lesson_quiz(
+    state: State<'_, Arc<AppState>>,
+    lesson_id: String,
+    index: u32,
+    answer: AnswerPayload,
+) -> CommandResult<QuizAnswerResponse> {
+    run(state, move |s| {
+        s.answer_lesson_quiz(&lesson_id, index, answer)
+    })
+    .await
 }
 
 /// WAV bytes (`audio/wav`), received as an `ArrayBuffer` by the front.

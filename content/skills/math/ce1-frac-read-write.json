@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-frac-read-write",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Lire et écrire des fractions jusqu'à 1",
+  "instruction": "Trouve la fraction coloriée, lis-la ou écris-la.",
+  "operation": "fraction",
+  "fractions": {
+    "denominators": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10
+    ]
+  },
+  "formats": [
+    "fractionPicture",
+    "fractionWords"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — fractions non unitaires inférieures ou égales à 1 ; mots « numérateur » et « dénominateur ». Période 3 : choix d'Educator."
+}

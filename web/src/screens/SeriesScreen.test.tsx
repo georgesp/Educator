@@ -20,7 +20,7 @@ describe("SeriesScreen", () => {
     expect(api.speak).toHaveBeenCalledWith("Calcule. Combien font 3 plus 4 ?");
 
     await user.type(input, "a7{Enter}");
-    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, 7);
+    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 7 });
     expect(await screen.findByRole("status")).toHaveTextContent("Bravo !");
 
     // The next exercise comes by itself.
@@ -59,7 +59,11 @@ describe("SeriesScreen", () => {
     const withChoices = {
       ...twoExercises,
       answerMode: "Choice" as const,
-      exercises: twoExercises.exercises.map((e) => ({ ...e, choices: e.index === 0 ? [6, 7, 8, 17] : [3, 4, 5, 14] })),
+      exercises: twoExercises.exercises.map((e) => ({
+        ...e,
+        input: { kind: "pick" as const },
+        choices: (e.index === 0 ? [6, 7, 8, 17] : [3, 4, 5, 14]).map((value) => ({ label: String(value), answer: { kind: "number" as const, value } })),
+      })),
     };
     const api = fakeApi({ startSeries: async () => withChoices });
     renderApp(api, "/serie/cp-add-sum-10/Choice");
@@ -67,7 +71,7 @@ describe("SeriesScreen", () => {
 
     await user.click(await screen.findByRole("button", { name: "8" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, 8);
+    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 8 });
     expect(await screen.findByText("3 + 4 = 7")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "7" })).toHaveClass("choice-right");
     expect(screen.queryByLabelText("Ta réponse")).not.toBeInTheDocument();

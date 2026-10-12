@@ -26,7 +26,13 @@ function Skills({ profile }: { profile: Profile }) {
   // Skills of the grade before, offered again at the start of the year (SUB000113).
   const revisions = data?.skills.filter((s) => s.revisionFrom !== null) ?? [];
   const others = data?.skills.filter((s) => !s.isCurrentPeriod && s.revisionFrom === null) ?? [];
-  const open = (skill: Skill) => void navigate(`/exercices/${encodeURIComponent(skill.id)}`);
+  // A single way to answer: straight to the series, no question asked.
+  const open = (skill: Skill) =>
+    void navigate(
+      skill.answerModes.length === 1 ? `/serie/${encodeURIComponent(skill.id)}/${skill.answerModes[0]}` : `/exercices/${encodeURIComponent(skill.id)}`,
+    );
+  // « Mes tables » next to the multiplications (SUB000119).
+  const hasTables = data?.skills.some((s) => s.family === "Multiplication") ?? false;
 
   return (
     <main className="screen">
@@ -36,6 +42,11 @@ function Skills({ profile }: { profile: Profile }) {
         </button>
         <h1 className="title">{fr.skills.title}</h1>
         <SpeakButton text={usesFallback ? `${fr.skills.noSkills} ${fr.skills.spoken}` : fr.skills.spoken} autoPlay />
+        {hasTables && (
+          <button type="button" className="button tables-button" onClick={() => void navigate("/tables")}>
+            {fr.skills.tables}
+          </button>
+        )}
       </header>
 
       {skills.isError && <p className="message">{fr.app.error}</p>}

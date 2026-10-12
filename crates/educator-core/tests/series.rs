@@ -2,7 +2,7 @@ mod common;
 
 use common::{skill, test_skill, InMemoryProfileStore};
 use educator_core::clock::{unix_ms, ManualClock};
-use educator_core::exercises::{SeriesService, SeriesSummary};
+use educator_core::exercises::{Answer, Exercise, SeriesService, SeriesSummary};
 use educator_core::points::PointsRules;
 use educator_core::profiles::{Profile, ProfileStore};
 use educator_core::random::ScriptedRandom;
@@ -55,6 +55,14 @@ fn fixture(extra: Vec<educator_core::skills::Skill>) -> Fixture {
     }
 }
 
+/// An answer that is surely wrong (the expected number plus one).
+fn wrong_answer(exercise: &Exercise) -> Answer {
+    match exercise.expected {
+        Answer::Number(n) => Answer::Number(n + 1),
+        _ => panic!("number exercises only"),
+    }
+}
+
 fn points(fixture: &Fixture) -> i32 {
     fixture
         .profiles
@@ -76,7 +84,7 @@ fn perfect_series_earns_answers_and_both_bonuses() {
     for exercise in &series.exercises {
         let outcome = f
             .service
-            .answer(series.id, exercise.index, exercise.expected())
+            .answer(series.id, exercise.index, &exercise.expected)
             .unwrap();
         assert!(outcome.correct);
         assert_eq!(exercise.index == 9, outcome.summary.is_some());
@@ -105,17 +113,17 @@ fn mistakes_are_corrected_without_losing_points() {
 
     let wrong = f
         .service
-        .answer(series.id, 0, series.exercises[0].expected() + 1)
+        .answer(series.id, 0, &wrong_answer(&series.exercises[0]))
         .unwrap();
     for exercise in series.exercises.iter().skip(1) {
         f.service
-            .answer(series.id, exercise.index, exercise.expected())
+            .answer(series.id, exercise.index, &exercise.expected)
             .unwrap();
     }
 
     assert!(!wrong.correct);
-    assert_eq!(series.exercises[0].expected(), wrong.expected);
-    assert_eq!(series.exercises[0].explanation(), wrong.explanation);
+    assert_eq!(series.exercises[0].expected, wrong.expected);
+    assert_eq!(series.exercises[0].explanation, wrong.explanation);
     assert_eq!(90 + 20, points(&f));
 }
 
@@ -127,12 +135,12 @@ fn abandoned_series_keeps_correct_answers_without_bonus() {
         .start(f.profile.id, "test-skill", AnswerMode::Keyboard, Some(3))
         .unwrap();
     f.service
-        .answer(series.id, 0, series.exercises[0].expected())
+        .answer(series.id, 0, &series.exercises[0].expected)
         .unwrap();
     f.service
-        .answer(series.id, 1, series.exercises[1].expected())
+        .answer(series.id, 1, &series.exercises[1].expected)
         .unwrap();
-    f.service.answer(series.id, 2, -1).unwrap();
+    f.service.answer(series.id, 2, &Answer::Number(-1)).unwrap();
 
     let summary = f.service.abandon(series.id).unwrap();
 
@@ -146,7 +154,7 @@ fn abandoned_series_keeps_correct_answers_without_bonus() {
         summary
     );
     assert!(matches!(
-        f.service.answer(series.id, 3, 0),
+        f.service.answer(series.id, 3, &Answer::Number(0)),
         Err(Error::SeriesNotFound(_))
     ));
 }
@@ -158,14 +166,14 @@ fn same_exercise_cannot_be_answered_twice() {
         .service
         .start(f.profile.id, "test-skill", AnswerMode::Keyboard, None)
         .unwrap();
-    f.service.answer(series.id, 0, 1).unwrap();
+    f.service.answer(series.id, 0, &Answer::Number(1)).unwrap();
 
     assert!(matches!(
-        f.service.answer(series.id, 0, 1),
+        f.service.answer(series.id, 0, &Answer::Number(1)),
         Err(Error::SeriesRequest(_))
     ));
     assert!(matches!(
-        f.service.answer(series.id, 10, 1),
+        f.service.answer(series.id, 10, &Answer::Number(1)),
         Err(Error::SeriesRequest(_))
     ));
 }

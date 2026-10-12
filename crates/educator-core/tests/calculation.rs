@@ -1,4 +1,4 @@
-use educator_core::exercises::{Calculation, Exercise, HiddenPart};
+use educator_core::exercises::{Calculation, CalculationExercise, HiddenPart};
 
 #[test]
 fn addition_carry() {
@@ -60,9 +60,9 @@ fn display_is_the_complete_equality() {
 #[test]
 fn exercise_hides_the_asked_number() {
     let calculation = Calculation::addition(7, 5);
-    let result = Exercise::new(0, calculation, HiddenPart::Result);
-    let missing_right = Exercise::new(1, calculation, HiddenPart::Right);
-    let missing_left = Exercise::new(2, calculation, HiddenPart::Left);
+    let result = CalculationExercise::new(0, calculation, HiddenPart::Result);
+    let missing_right = CalculationExercise::new(1, calculation, HiddenPart::Right);
+    let missing_left = CalculationExercise::new(2, calculation, HiddenPart::Left);
 
     assert_eq!("7 + 5 = ?", result.prompt());
     assert_eq!(12, result.expected());

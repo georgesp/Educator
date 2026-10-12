@@ -2,6 +2,7 @@
 //! (`content/skills/math/*.json`, SUB000106). Exercises are never stored: the engine generates them
 //! from these rules ([`crate::exercises::generate_series`]).
 
+use crate::exercises::ProblemSet;
 use crate::Grade;
 
 pub const FIRST_PERIOD: u8 = 1;
@@ -30,6 +31,51 @@ pub struct Skill {
     /// Other grades and periods where the skill is also offered (SUB000113), besides the default
     /// revision rule ([`SkillCatalog::offered_to`]).
     pub also_offered: Vec<Placement>,
+    /// Rules of the families other than addition and subtraction (CE1 complements, SUB000118 to
+    /// SUB000124): numbers, facts, fractions, problems, progression.
+    pub params: SkillParams,
+}
+
+/// Generation rules beyond the two operands (empty for additions and subtractions).
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Default)]
+pub struct SkillParams {
+    /// Numbers worked on (numeration): 100 to 999, multiples of 2…
+    pub numbers: Option<OperandRule>,
+    /// Multiplication: the tables worked on (« tables de 3 et 4 »); the other values of the rule
+    /// are revisions mixed in.
+    pub focus: Vec<i32>,
+    pub progression: Progression,
+    /// Picture shown with each exercise.
+    pub picture: Option<SkillPicture>,
+    /// Doubles to know (SUB000122).
+    pub doubles: Option<OperandRule>,
+    /// Numbers whose half is asked.
+    pub halves: Option<OperandRule>,
+    /// Multiples of 25: « 3 fois 25 ».
+    pub times_twenty_five: Vec<i32>,
+    /// Fractions: allowed denominators (SUB000123).
+    pub denominators: Vec<u32>,
+    /// Fractions: only 1/b.
+    pub unit_fractions_only: bool,
+    /// Problems: the templates and words resolved at loading (SUB000124).
+    pub problems: Option<ProblemSet>,
+}
+
+/// Order of the exercises in a series.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum Progression {
+    /// Any order.
+    #[default]
+    Mixed,
+    /// The easiest exercises first (× 2, × 5, × 10, small factors; halves of even tens…).
+    EasyFirst,
+}
+
+/// Picture shown with each exercise of a skill.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SkillPicture {
+    /// Rows of dots: 3 × 5 drawn as 3 rows of 5.
+    ArrayGrid,
 }
 
 /// A grade and a period where a skill is offered.
@@ -66,12 +112,33 @@ pub enum Subject {
     Math,
 }
 
-/// Operation of a skill. `Mixed`: each exercise is an addition or a subtraction.
+/// Operation (family) of a skill. `Mixed`: each exercise is an addition or a subtraction.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum SkillOperation {
     Addition,
     Subtraction,
     Mixed,
+    Multiplication,
+    /// Numbers: place value, reading and writing, comparing, ordering, number line, parity.
+    Numeration,
+    /// Doubles and halves (facts, half of an even number).
+    DoubleHalf,
+    Fraction,
+    /// Word problems generated from templates.
+    Problem,
+}
+
+impl SkillOperation {
+    /// Families generated from two operand rules (`left op right`).
+    pub fn is_calculation(&self) -> bool {
+        matches!(
+            self,
+            SkillOperation::Addition
+                | SkillOperation::Subtraction
+                | SkillOperation::Mixed
+                | SkillOperation::Multiplication
+        )
+    }
 }
 
 /// Allowed values of one operand: the integers of `[min, max]`, optionally only the multiples of
@@ -190,13 +257,44 @@ pub enum TrivialCase {
     MinusSelf,
 }
 
-/// How the calculation is asked.
+/// How the exercise is asked.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum ExerciseFormat {
     /// The result is asked: `7 + 5 = ?`.
     Result,
-    /// An operand is asked: `7 + ? = 12`.
+    /// An operand is asked: `7 + ? = 12` (multiplication: also `30 = 3 × ?`).
     MissingOperand,
+    /// A sentence: « Quel est le double de 35 ? »; for a multiplication, the repeated addition
+    /// `5 + 5 + 5 = ? × 5`.
+    Phrase,
+    /// Hundreds, tens and units → the number.
+    Recompose,
+    /// The number → `347 = 300 + ? + 7`.
+    Decompose,
+    /// Digit or number of tens: « Combien de dizaines dans 347 ? ».
+    PlaceValue,
+    /// A number in words → in digits.
+    WriteNumber,
+    /// A number in digits → pick its words.
+    ReadNumber,
+    /// `438 ? 483` → `<`, `>` or `=`.
+    Compare,
+    /// Put 3 to 5 numbers in order.
+    Order,
+    /// `… < 347 < …` between two tens or two hundreds.
+    Frame,
+    /// Read or place a number on a graduated line.
+    NumberLinePoint,
+    /// A yes / no question (« 573 est-il pair ? »).
+    YesNo,
+    /// Pick every right number of a list.
+    MultiChoice,
+    /// A colored bar or disc → the fraction.
+    FractionPicture,
+    /// « trois quarts » ↔ 3/4.
+    FractionWords,
+    /// A word problem.
+    Problem,
 }
 
 /// How the child answers.

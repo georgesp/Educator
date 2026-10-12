@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fRQ
-rev: 2026-10-11T07:56:47Z
+rev: 2026-10-11T19:12:41Z
 url: https://github.com/georgesp/Educator/issues/66
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006006 — Intégration de la synthèse vocale Piper
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:

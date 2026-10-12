@@ -1,12 +1,14 @@
 //! Loads and validates the skills (`content/skills/<subject>/*.json`, SUB000106). The rules mirror
 //! `content/schemas/skill.schema.json` and add what a schema cannot say (bounds in order, enough
-//! different exercises). An invalid file is skipped and reported.
+//! different exercises, formats of the family). An invalid file is skipped and reported.
 
+use crate::problems::{load_problems, template_works_at, ProblemBank, KINDS};
 use crate::{ContentProblem, Loaded};
-use educator_core::exercises::CalculationSpace;
+use educator_core::exercises::{distinct_count, ProblemSet};
 use educator_core::skills::{
-    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, Skill, SkillCatalog,
-    SkillConstraints, SkillOperation, Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
+    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, Progression, Skill,
+    SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture, Subject,
+    TrivialCase, FIRST_PERIOD, LAST_PERIOD,
 };
 use educator_core::Grade;
 use serde::Deserialize;
@@ -50,8 +52,28 @@ impl SkillCatalog for Skills {
     }
 }
 
-/// Every `*.json` below `skills_directory`, in path order.
+/// Every `*.json` below `skills_directory`, in path order; the problem templates are read from the
+/// sibling folder `problems`.
 pub fn load_skills(skills_directory: &Path) -> Loaded<Vec<Skill>> {
+    let bank = skills_directory
+        .parent()
+        .map(|content| load_problems(&content.join("problems")))
+        .unwrap_or(Loaded {
+            value: ProblemBank::default(),
+            problems: Vec::new(),
+        });
+    let mut loaded = load_skills_with(skills_directory, &bank.value);
+    let mut problems = bank.problems;
+    problems.append(&mut loaded.problems);
+    Loaded {
+        value: loaded.value,
+        problems,
+    }
+}
+
+/// Every `*.json` below `skills_directory`, in path order, the problem skills taking their
+/// templates from `bank`.
+pub fn load_skills_with(skills_directory: &Path, bank: &ProblemBank) -> Loaded<Vec<Skill>> {
     let mut skills: Vec<Skill> = Vec::new();
     let mut problems = Vec::new();
     if !skills_directory.is_dir() {
@@ -77,7 +99,7 @@ pub fn load_skills(skills_directory: &Path) -> Loaded<Vec<Skill>> {
         let stem = file.file_stem().map(|s| s.to_string_lossy().into_owned());
         let parsed = std::fs::read_to_string(&file)
             .map_err(|e| vec![e.to_string()])
-            .and_then(|json| parse_skill(&json, stem.as_deref()));
+            .and_then(|json| parse_skill_with(&json, stem.as_deref(), bank));
         match parsed {
             Err(errors) => problems.extend(
                 errors
@@ -128,12 +150,37 @@ struct SkillFile {
     title: String,
     instruction: String,
     operation: String,
-    operands: Vec<OperandFile>,
-    constraints: ConstraintsFile,
+    operands: Option<Vec<OperandFile>>,
+    constraints: Option<ConstraintsFile>,
     formats: Vec<String>,
     answer_modes: Vec<String>,
     source: String,
     also_offered: Option<Vec<PlacementFile>>,
+    numbers: Option<OperandFile>,
+    focus: Option<Vec<i32>>,
+    progression: Option<String>,
+    picture: Option<String>,
+    doubles: Option<OperandFile>,
+    halves: Option<OperandFile>,
+    times_twenty_five: Option<Vec<i32>>,
+    fractions: Option<FractionsFile>,
+    problems: Option<ProblemsFile>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct FractionsFile {
+    denominators: Vec<u32>,
+    #[serde(default)]
+    unit_only: bool,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct ProblemsFile {
+    kinds: Vec<String>,
+    max_number: i64,
+    start_max_number: Option<i64>,
 }
 
 #[derive(Deserialize)]
@@ -152,7 +199,7 @@ struct OperandFile {
     values: Option<Vec<i32>>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct ConstraintsFile {
     min_result: Option<i32>,
@@ -164,7 +211,17 @@ struct ConstraintsFile {
 }
 
 /// Parses and validates one skill; `expected_id` is the file name. Returns every error found.
+/// Problem skills need templates: see [`parse_skill_with`].
 pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<String>> {
+    parse_skill_with(json, expected_id, &ProblemBank::default())
+}
+
+/// [`parse_skill`], the problem skills taking their templates and words from `bank`.
+pub fn parse_skill_with(
+    json: &str,
+    expected_id: Option<&str>,
+    bank: &ProblemBank,
+) -> Result<Skill, Vec<String>> {
     let file: SkillFile =
         serde_json::from_str(json).map_err(|e| vec![format!("Invalid JSON: {e}")])?;
 
@@ -207,15 +264,52 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         "source is required (official programme reference).".to_owned(),
     );
 
-    if file.operands.len() != 2 {
+    let operation = parse_enum(&file.operation, "operation", OPERATIONS, &mut errors);
+    let is_calculation = operation.is_some_and(|o| o.is_calculation());
+    let empty_operands = Vec::new();
+    let operands = file.operands.as_ref().unwrap_or(&empty_operands);
+    let default_constraints = ConstraintsFile::default();
+    let constraints = file.constraints.as_ref().unwrap_or(&default_constraints);
+    let mut check = |ok: bool, message: String| {
+        if !ok {
+            errors.push(message);
+        }
+    };
+    if is_calculation {
         check(
-            false,
+            operands.len() == 2,
             "operands must hold exactly two rules (left, right).".to_owned(),
+        );
+        check(
+            file.constraints.is_some(),
+            "constraints is required for a calculation.".to_owned(),
+        );
+    } else if operation.is_some() {
+        check(
+            file.operands.is_none() && file.constraints.is_none(),
+            format!(
+                "operands and constraints are only for calculations, not '{}'.",
+                file.operation
+            ),
         );
     }
 
-    for (i, operand) in file.operands.iter().enumerate() {
-        let position = if i == 0 { "left" } else { "right" };
+    let mut named_rules: Vec<(String, &OperandFile)> = operands
+        .iter()
+        .enumerate()
+        .map(|(i, o)| ((if i == 0 { "left" } else { "right" }).to_owned(), o))
+        .collect();
+    for (name, rule) in [
+        ("numbers", &file.numbers),
+        ("doubles", &file.doubles),
+        ("halves", &file.halves),
+    ] {
+        if let Some(rule) = rule {
+            named_rules.push((name.to_owned(), rule));
+        }
+    }
+
+    for (position, operand) in &named_rules {
         check(
             operand.min >= 0 && operand.max <= MAX_OPERAND && operand.min <= operand.max,
             format!("{position} operand: need 0 <= min <= max <= {MAX_OPERAND}."),
@@ -240,7 +334,6 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         );
     }
 
-    let constraints = &file.constraints;
     check(
         constraints.min_result.is_none()
             || constraints.max_result.is_none()
@@ -264,7 +357,6 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
 
     let subject = parse_enum(&file.subject, "subject", SUBJECTS, &mut errors);
     let grade = parse_enum(&file.grade, "grade", GRADES, &mut errors);
-    let operation = parse_enum(&file.operation, "operation", OPERATIONS, &mut errors);
     let formats = parse_list(&file.formats, "formats", FORMATS, false, &mut errors);
     let answer_modes = parse_list(
         &file.answer_modes,
@@ -311,10 +403,15 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         }
     }
 
+    let params = operation
+        .map(|operation| family_params(operation, &file, &formats, bank, &mut errors))
+        .unwrap_or_default();
+
     if !errors.is_empty() {
         return Err(errors);
     }
 
+    let unused = OperandRule::range(0, 0);
     let operand = |o: &OperandFile| OperandRule {
         min: o.min,
         max: o.max,
@@ -329,8 +426,8 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         title: file.title.trim().to_owned(),
         instruction: file.instruction.trim().to_owned(),
         operation: operation.expect("checked"),
-        left: operand(&file.operands[0]),
-        right: operand(&file.operands[1]),
+        left: operands.first().map_or(unused.clone(), operand),
+        right: operands.get(1).map_or(unused, operand),
         constraints: SkillConstraints {
             min_result: constraints.min_result,
             max_result: constraints.max_result,
@@ -343,6 +440,7 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         answer_modes,
         source: file.source.trim().to_owned(),
         also_offered,
+        params,
     };
 
     let combinations = skill.combination_count();
@@ -352,7 +450,7 @@ pub fn parse_skill(json: &str, expected_id: Option<&str>) -> Result<Skill, Vec<S
         )]);
     }
 
-    let distinct = CalculationSpace::of(&skill).distinct_count();
+    let distinct = distinct_count(&skill);
     if distinct < MIN_DISTINCT_EXERCISES {
         return Err(vec![format!(
             "Rule too narrow: {distinct} different exercises, at least {MIN_DISTINCT_EXERCISES} needed."
@@ -374,11 +472,262 @@ const OPERATIONS: &[(&str, SkillOperation)] = &[
     ("addition", SkillOperation::Addition),
     ("subtraction", SkillOperation::Subtraction),
     ("mixed", SkillOperation::Mixed),
+    ("multiplication", SkillOperation::Multiplication),
+    ("numeration", SkillOperation::Numeration),
+    ("doubleHalf", SkillOperation::DoubleHalf),
+    ("fraction", SkillOperation::Fraction),
+    ("problem", SkillOperation::Problem),
 ];
 const FORMATS: &[(&str, ExerciseFormat)] = &[
     ("result", ExerciseFormat::Result),
     ("missingOperand", ExerciseFormat::MissingOperand),
+    ("phrase", ExerciseFormat::Phrase),
+    ("recompose", ExerciseFormat::Recompose),
+    ("decompose", ExerciseFormat::Decompose),
+    ("placeValue", ExerciseFormat::PlaceValue),
+    ("writeNumber", ExerciseFormat::WriteNumber),
+    ("readNumber", ExerciseFormat::ReadNumber),
+    ("compare", ExerciseFormat::Compare),
+    ("order", ExerciseFormat::Order),
+    ("frame", ExerciseFormat::Frame),
+    ("numberLinePoint", ExerciseFormat::NumberLinePoint),
+    ("yesNo", ExerciseFormat::YesNo),
+    ("multiChoice", ExerciseFormat::MultiChoice),
+    ("fractionPicture", ExerciseFormat::FractionPicture),
+    ("fractionWords", ExerciseFormat::FractionWords),
+    ("problem", ExerciseFormat::Problem),
 ];
+
+/// Formats each family can generate.
+fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
+    use ExerciseFormat as F;
+    match operation {
+        SkillOperation::Addition | SkillOperation::Subtraction | SkillOperation::Mixed => {
+            &[F::Result, F::MissingOperand]
+        }
+        SkillOperation::Multiplication => &[F::Result, F::MissingOperand, F::Phrase],
+        SkillOperation::Numeration => &[
+            F::Recompose,
+            F::Decompose,
+            F::PlaceValue,
+            F::WriteNumber,
+            F::ReadNumber,
+            F::Compare,
+            F::Order,
+            F::Frame,
+            F::NumberLinePoint,
+            F::YesNo,
+            F::MultiChoice,
+        ],
+        SkillOperation::DoubleHalf => &[F::Phrase, F::Result],
+        SkillOperation::Fraction => &[F::FractionPicture, F::FractionWords, F::Compare, F::Result],
+        SkillOperation::Problem => &[F::Problem],
+    }
+}
+
+/// Largest number of a statement (CE1 goes to 1 000, the later grades further).
+pub const MAX_PROBLEM_NUMBER: i64 = 1_000_000;
+
+/// The rules beyond the operands, checked against the family of the skill.
+fn family_params(
+    operation: SkillOperation,
+    file: &SkillFile,
+    formats: &[ExerciseFormat],
+    bank: &ProblemBank,
+    errors: &mut Vec<String>,
+) -> SkillParams {
+    let name = &file.operation;
+    for format in formats {
+        if !family_formats(operation).contains(format) {
+            errors.push(format!("formats: {format:?} is not a format of '{name}'."));
+        }
+    }
+
+    let mut only_for = |present: bool, field: &str, allowed: &[SkillOperation]| {
+        if present && !allowed.contains(&operation) {
+            errors.push(format!("{field} is not used by '{name}'."));
+        }
+    };
+    only_for(
+        file.numbers.is_some(),
+        "numbers",
+        &[SkillOperation::Numeration],
+    );
+    only_for(
+        file.focus.is_some(),
+        "focus",
+        &[SkillOperation::Multiplication],
+    );
+    only_for(
+        file.picture.is_some(),
+        "picture",
+        &[SkillOperation::Multiplication],
+    );
+    only_for(
+        file.doubles.is_some() || file.halves.is_some() || file.times_twenty_five.is_some(),
+        "doubles, halves and timesTwentyFive",
+        &[SkillOperation::DoubleHalf],
+    );
+    only_for(
+        file.fractions.is_some(),
+        "fractions",
+        &[SkillOperation::Fraction],
+    );
+    only_for(
+        file.problems.is_some(),
+        "problems",
+        &[SkillOperation::Problem],
+    );
+
+    let operand = |o: &OperandFile| OperandRule {
+        min: o.min,
+        max: o.max,
+        multiple_of: o.multiple_of,
+        values: o.values.clone(),
+    };
+    let mut params = SkillParams {
+        numbers: file.numbers.as_ref().map(operand),
+        focus: file.focus.clone().unwrap_or_default(),
+        doubles: file.doubles.as_ref().map(operand),
+        halves: file.halves.as_ref().map(operand),
+        times_twenty_five: file.times_twenty_five.clone().unwrap_or_default(),
+        ..SkillParams::default()
+    };
+
+    params.progression = match file.progression.as_deref() {
+        None | Some("mixed") => Progression::Mixed,
+        Some("easyFirst") => Progression::EasyFirst,
+        Some(other) => {
+            errors.push(format!(
+                "progression '{other}' is unknown (allowed: mixed, easyFirst)."
+            ));
+            Progression::Mixed
+        }
+    };
+    params.picture = match file.picture.as_deref() {
+        None => None,
+        Some("arrayGrid") => Some(SkillPicture::ArrayGrid),
+        Some(other) => {
+            errors.push(format!(
+                "picture '{other}' is unknown (allowed: arrayGrid)."
+            ));
+            None
+        }
+    };
+
+    match operation {
+        SkillOperation::Multiplication => {
+            if let Some(operands) = &file.operands {
+                let allowed = |v: i32| {
+                    operands.iter().any(|o| {
+                        v >= o.min && v <= o.max && o.values.as_ref().is_none_or(|l| l.contains(&v))
+                    })
+                };
+                if params.focus.iter().any(|v| !allowed(*v)) {
+                    errors.push(
+                        "focus: every table worked on must be allowed by an operand.".to_owned(),
+                    );
+                }
+            }
+        }
+        SkillOperation::Numeration => {
+            if file.numbers.is_none() {
+                errors.push("numbers is required for numeration.".to_owned());
+            }
+            if file.numbers.as_ref().is_some_and(|n| n.max > 1_000_000) {
+                errors.push("numbers: at most 1 000 000.".to_owned());
+            }
+        }
+        SkillOperation::DoubleHalf => {
+            if params.doubles.is_none()
+                && params.halves.is_none()
+                && params.times_twenty_five.is_empty()
+            {
+                errors.push("doubleHalf needs doubles, halves or timesTwentyFive.".to_owned());
+            }
+            if params
+                .times_twenty_five
+                .iter()
+                .any(|k| !(1..=40).contains(k))
+            {
+                errors.push("timesTwentyFive: numbers from 1 to 40.".to_owned());
+            }
+        }
+        SkillOperation::Fraction => match &file.fractions {
+            None => errors.push("fractions is required for fraction.".to_owned()),
+            Some(fractions) => {
+                if fractions.denominators.is_empty()
+                    || fractions
+                        .denominators
+                        .iter()
+                        .any(|d| !(2..=100).contains(d))
+                {
+                    errors.push("fractions.denominators: from 2 to 100, at least one.".to_owned());
+                }
+                params.denominators = fractions.denominators.clone();
+                params.unit_fractions_only = fractions.unit_only;
+            }
+        },
+        SkillOperation::Problem => match &file.problems {
+            None => errors.push("problems is required for problem.".to_owned()),
+            Some(problems) => {
+                let kinds: Vec<_> = problems
+                    .kinds
+                    .iter()
+                    .filter_map(|k| parse_enum(k, "problems.kinds", KINDS, errors))
+                    .collect();
+                if kinds.is_empty() {
+                    errors.push("problems.kinds must not be empty.".to_owned());
+                }
+                let scales_ok = (1..=MAX_PROBLEM_NUMBER).contains(&problems.max_number)
+                    && problems
+                        .start_max_number
+                        .is_none_or(|s| s >= 1 && s <= problems.max_number);
+                if !scales_ok {
+                    errors.push(
+                        "problems: need 1 <= startMaxNumber <= maxNumber <= 1 000 000.".to_owned(),
+                    );
+                }
+                let mut templates = Vec::new();
+                for kind in &kinds {
+                    let of_kind: Vec<_> = bank.of_kind(*kind).cloned().collect();
+                    if of_kind.is_empty() {
+                        errors.push(format!("problems: no template of kind {kind:?}."));
+                    }
+                    templates.extend(of_kind);
+                }
+                if scales_ok {
+                    for template in &templates {
+                        for scale in [Some(problems.max_number), problems.start_max_number]
+                            .into_iter()
+                            .flatten()
+                        {
+                            if !template_works_at(template, scale) {
+                                errors.push(format!(
+                                    "problems: template {} gives no numbers up to {scale}.",
+                                    template.id
+                                ));
+                            }
+                        }
+                    }
+                }
+                if bank.words.names.len() < 2 {
+                    errors.push("problems: the words file (names, objects) is missing.".to_owned());
+                }
+                params.problems = Some(ProblemSet {
+                    kinds,
+                    templates,
+                    words: bank.words.clone(),
+                    max_number: problems.max_number,
+                    start_max_number: problems.start_max_number,
+                });
+            }
+        },
+        _ => {}
+    }
+
+    params
+}
 const ANSWER_MODES: &[(&str, AnswerMode)] = &[
     ("keyboard", AnswerMode::Keyboard),
     ("choice", AnswerMode::Choice),

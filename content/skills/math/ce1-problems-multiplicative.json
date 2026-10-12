@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-problems-multiplicative",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Problèmes multiplicatifs et mixtes",
+  "instruction": "Lis le problème et trouve la réponse.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "product",
+      "sharing",
+      "mixed"
+    ],
+    "maxNumber": 100
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — problèmes multiplicatifs en une étape (valeur du tout, partage équitable : nombre de parts ou valeur d'une part) et mixtes en deux étapes. Nombres jusqu'à 100 et période 4 : choix d'Educator."
+}

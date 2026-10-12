@@ -84,6 +84,10 @@ pub fn run() {
             commands::start_series,
             commands::answer_series,
             commands::abandon_series,
+            commands::get_multiplication_table,
+            commands::list_lessons,
+            commands::get_lesson,
+            commands::answer_lesson_quiz,
             commands::speak,
         ])
         .run(tauri::generate_context!())
