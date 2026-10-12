@@ -1,24 +1,25 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACY04
+rev: 2026-10-12T19:34:12Z
 url: https://github.com/georgesp/Educator/issues/122
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: US0122 — Lot 1.4 — CP — exercices et leçons de mathématiques
+title: US0122 — Lot 7 — CP — exercices et leçons de mathématiques
 status: Todo
 size: XL
 estimate:
 startDate:
 endDate:
 parent:
-order: 2500
+order: 1910
 ---
 
 Source : demande de Georges du 2026-10-11 — ajouter au lot 1 les exercices et les leçons de mathématiques de chaque classe.
 
-- **Lot** : 1.4 — CP — exercices et leçons de mathématiques
+- **Lot** : 7 — CP — exercices et leçons de mathématiques
 - **Prérequis** : fiche « Lot 1 — Socle mathématiques » (formats de numération, comparaison, `phrase`, `problem` créés pour le CE1), le composant d'opération posée du lot 4 et le format `sequence` du lot 5 ; les thèmes qui n'en dépendent pas peuvent démarrer plus tôt.
 - **Lot suivant** : fiche « Lot 2 — Orthographe, leçons et examens ».
 

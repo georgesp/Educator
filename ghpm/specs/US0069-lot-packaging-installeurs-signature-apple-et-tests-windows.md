@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5k6M
-rev: 2026-10-11T07:56:52Z
+rev: 2026-10-11T15:22:48Z
 url: https://github.com/georgesp/Educator/issues/69
 type: Issue
 repository: georgesp/Educator
@@ -14,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent:
-order: 800
+order: 650
 ---
 
 Lot sorti du lot 0 (socle technique) le 2026-10-10 : le packaging, la signature et la validation sur Windows

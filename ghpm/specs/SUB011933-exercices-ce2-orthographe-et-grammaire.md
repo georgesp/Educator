@@ -1,10 +1,20 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhAQvKU
+rev: 2026-10-12T19:26:28Z
+url: https://github.com/georgesp/Educator/issues/231
 type: Issue
-title: Exercices CE2 — Orthographe et grammaire
+repository: georgesp/Educator
+labels: []
+# Editable
+title: SUB011933 — Exercices CE2 — Orthographe et grammaire
 status: Todo
 size: L
-parent: "specs/US0119-lot-1-1-ce2-exercices-et-lecons-de-mathematiques.md"
-order: 1630
+estimate:
+startDate:
+endDate:
+parent: "#119"
+order: 1250
 ---
 
 Source : ancien lot 4 (SUB001607 à SUB001610), découpé par classe — décision de Georges du 2026-10-12.

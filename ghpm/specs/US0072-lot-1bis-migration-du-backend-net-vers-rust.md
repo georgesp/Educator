@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAvpk
-rev: 2026-10-11T17:36:42Z
+rev: 2026-10-12T19:32:54Z
 url: https://github.com/georgesp/Educator/issues/72
 type: Issue
 repository: georgesp/Educator
@@ -14,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent:
-order: 130
+order: 100
 ---
 
 Source : étude de faisabilité d'une version tablette (2026-10-11).

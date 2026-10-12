@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACZq0
+rev: 2026-10-11T18:50:19Z
 url: https://github.com/georgesp/Educator/issues/159
 type: Issue
 repository: georgesp/Educator
@@ -13,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent: "#120"
-order: 1830
+order: 1400
 ---
 
 ## User story

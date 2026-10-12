@@ -1,19 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYPU
+rev: 2026-10-12T19:53:43Z
 url: https://github.com/georgesp/Educator/issues/101
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB000133 — Leçon CE1 — Ajouter 9, 19 ou 29"
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
 endDate:
 parent: "#1"
-order: 1140
+order: 665
 ---
 
 ## User story

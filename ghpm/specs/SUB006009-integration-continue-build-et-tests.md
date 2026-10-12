@@ -1,20 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5k7s
-rev: 2026-10-11T07:56:50Z
+rev: 2026-10-12T19:31:27Z
 url: https://github.com/georgesp/Educator/issues/70
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006009 — Intégration continue (build et tests)
-status: In progress
+status: Done
 size: S
 estimate:
 startDate:
 endDate:
 parent: "#60"
-order: 9
+order: 90
 ---
 
 ## User story

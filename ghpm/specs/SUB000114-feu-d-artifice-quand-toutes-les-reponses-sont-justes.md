@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAAvtg
-rev: 2026-10-11T15:22:48Z
+rev: 2026-10-11T16:02:53Z
 url: https://github.com/georgesp/Educator/issues/75
 type: Issue
 repository: georgesp/Educator
@@ -14,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent: "#1"
-order: 122
+order: 220
 ---
 
 Source : retours de Georges après les premiers essais du lot 1 (2026-10-11).

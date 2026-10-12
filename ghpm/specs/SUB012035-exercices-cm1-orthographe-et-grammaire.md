@@ -1,10 +1,20 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhAQvSg
+rev: 2026-10-12T19:26:32Z
+url: https://github.com/georgesp/Educator/issues/233
 type: Issue
-title: Exercices CM1 — Orthographe et grammaire
+repository: georgesp/Educator
+labels: []
+# Editable
+title: SUB012035 — Exercices CM1 — Orthographe et grammaire
 status: Todo
 size: L
-parent: "specs/US0120-lot-1-2-cm1-exercices-et-lecons-de-mathematiques.md"
-order: 2050
+estimate:
+startDate:
+endDate:
+parent: "#120"
+order: 1620
 ---
 
 Source : ancien lot 4 (SUB001607 à SUB001610), découpé par classe — décision de Georges du 2026-10-12.

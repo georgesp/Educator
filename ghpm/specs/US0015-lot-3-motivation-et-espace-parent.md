@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WJs
+rev: 2026-10-10T19:39:23Z
 url: https://github.com/georgesp/Educator/issues/15
 type: Issue
 repository: georgesp/Educator
@@ -13,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent:
-order: 400
+order: 510
 ---
 
 Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), sections 9 à 11 et 13.

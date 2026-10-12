@@ -1,10 +1,20 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhAQvYQ
+rev: 2026-10-12T19:26:36Z
+url: https://github.com/georgesp/Educator/issues/235
 type: Issue
-title: Exercices CM2 — Orthographe et grammaire
+repository: georgesp/Educator
+labels: []
+# Editable
+title: SUB012125 — Exercices CM2 — Orthographe et grammaire
 status: Todo
 size: L
-parent: "specs/US0121-lot-1-3-cm2-exercices-et-lecons-de-mathematiques.md"
-order: 2350
+estimate:
+startDate:
+endDate:
+parent: "#121"
+order: 1890
 ---
 
 Source : ancien lot 4 (SUB001607 à SUB001610), découpé par classe — décision de Georges du 2026-10-12.

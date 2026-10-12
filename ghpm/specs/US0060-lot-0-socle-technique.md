@@ -1,20 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fJ0
-rev: 2026-10-11T07:56:50Z
+rev: 2026-10-12T19:31:32Z
 url: https://github.com/georgesp/Educator/issues/60
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: US0060 — Lot 0 — Socle technique
-status: In progress
+status: Done
 size: XL
 estimate:
 startDate:
 endDate:
 parent:
-order: 1
+order: 10
 ---
 
 Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), sections 2 et 13.
