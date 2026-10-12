@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-num-frame-line",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Encadrer et placer sur une droite graduée",
+  "instruction": "Encadre le nombre, ou trouve sa place sur la droite graduée.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 0,
+    "max": 1000
+  },
+  "formats": [
+    "frame",
+    "numberLinePoint"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — encadrer et intercaler des nombres, les placer sur une demi-droite graduée. Période 3 : choix d'Educator."
+}

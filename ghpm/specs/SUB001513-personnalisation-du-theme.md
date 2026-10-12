@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_9gVw
+rev: 2026-10-11T07:56:52Z
 url: https://github.com/georgesp/Educator/issues/71
 type: Issue
 repository: georgesp/Educator
@@ -43,4 +44,4 @@ un nouveau thème redéfinit les mêmes variables dans son propre bloc.
 ## Notes techniques
 
 - Le front applique `data-theme` sur l'élément racine ; aucune couleur en dur dans les composants.
-- Les thèmes disponibles sont du contenu (liste validée), pas des valeurs codées dans le host.
+- Les thèmes disponibles sont du contenu (liste validée), pas des valeurs codées dans l'application.

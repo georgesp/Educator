@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001610 — Premières notions de grammaire
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -34,3 +34,5 @@ En tant qu'enfant, je veux reconnaître les éléments de la phrase afin de mieu
 
 - [ ] Notions alignées sur la terminologie des programmes officiels en vigueur.
 - [ ] Banque de phrases relue.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

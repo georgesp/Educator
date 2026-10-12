@@ -1,31 +1,6 @@
 ## -------------------------------------------------------
-## .gitignore — Educator (.NET 10 / Tauri 2 / React)
+## .gitignore — Educator (Rust / Tauri 2 / React)
 ## -------------------------------------------------------
-
-# ========================
-# .NET — build outputs
-# ========================
-[Bb]in/
-[Oo]bj/
-[Oo]ut/
-[Ll]og/
-[Ll]ogs/
-publish/
-**/publish/
-artifacts/
-
-# ========================
-# .NET / NuGet
-# ========================
-*.user
-*.suo
-*.userprefs
-*.nupkg
-*.snupkg
-.nuget/
-packages/
-project.lock.json
-project.fragment.lock.json
 
 # ========================
 # Front (Node / Vite)
@@ -43,11 +18,11 @@ playwright/.cache/
 # ========================
 # Tauri / Rust
 # ========================
+# Workspace Cargo à la racine (lot 1bis) ; l'ancien dossier de la coque seule reste ignoré.
+/target/
 web/src-tauri/target/
 # Schémas générés par Tauri au build
 web/src-tauri/gen/
-# Host .NET publié et copié comme ressource Tauri au packaging
-web/src-tauri/resources/host/
 
 # ========================
 # Piper (binaires et voix téléchargés par script, jamais commités)
@@ -57,9 +32,7 @@ vendor/piper/
 # ========================
 # IDE
 # ========================
-.vs/
 .idea/
-*.DotSettings.user
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
@@ -89,8 +62,6 @@ $RECYCLE.BIN/
 # ========================
 # Secrets
 # ========================
-appsettings.Development.json
-appsettings.Local.json
 secrets.json
 *.pfx
 *.p12
@@ -112,7 +83,7 @@ coverage/
 lcov.info
 
 # ========================
-# SQLite (bases locales, runtime / EF design-time)
+# SQLite (bases locales)
 # ========================
 *.db
 *.db-shm

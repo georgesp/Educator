@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WfI
+rev: 2026-10-10T19:39:19Z
 url: https://github.com/georgesp/Educator/issues/30
 type: Issue
 repository: georgesp/Educator
@@ -27,6 +28,7 @@ En tant qu'enfant, je veux passer un petit examen afin de voir ce que je sais fa
 - Sans chrono.
 - Résultat : score, **points forts** et **notions à retravailler** (par compétence), avec un lien direct vers la leçon et les exercices correspondants.
 - `SkillMastery` mise à jour avec les résultats.
+- Examen réussi sans aucune faute : feu d'artifice, avec le composant `Fireworks` (`web/src/components/child/`) créé par SUB000114.
 
 ## Critères d'acceptation
 

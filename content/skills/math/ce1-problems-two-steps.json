@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-problems-two-steps",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Problèmes en deux étapes",
+  "instruction": "Lis le problème : il faut deux calculs.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "twoSteps"
+    ],
+    "maxNumber": 1000,
+    "startMaxNumber": 100
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — problèmes additifs en deux étapes, champ numérique jusqu'à 1 000. Période 3 : choix d'Educator."
+}

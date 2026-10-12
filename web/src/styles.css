@@ -19,6 +19,8 @@
   --incorrect: #a14400;
   --checker-dark: #1a1a1f;
   --checker-light: #ffffff;
+  --firework-gold: #f2b705;
+  --firework-blue: #1f6fd1;
 
   --font-body: "Lexend", ui-rounded, "Segoe UI", system-ui, sans-serif;
   --font-display: "Barlow Condensed", "Lexend", system-ui, sans-serif;
@@ -567,6 +569,57 @@ body {
   gap: 16px;
 }
 
+/* Profile sheet (SUB000115). */
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.character-picker {
+  margin: 12px 0 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.character-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.character-choice {
+  padding: 4px;
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.character-choice[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--surface-strong);
+}
+
+.character-choice:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
 /* Menu: vertical menu on the left, profile panel on the right. */
 .menu-screen {
   flex: 1;
@@ -1073,6 +1126,45 @@ body {
   }
 }
 
+/* Fireworks for a series without any mistake (SUB000114). Over everything, never in the way of a click. */
+.fireworks {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fireworks-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.fireworks-spark {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.fireworks-still {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.fireworks-stars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  color: var(--firework-gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1089,4 +1181,422 @@ body {
 .exercise-card .speak-button,
 .profile-panel .speak-button {
   background: var(--surface-strong);
+}
+
+/* ── CE1 families (SUB000118 to SUB000124): statements, pictures and inputs ─────────────────── */
+
+.equation-medium {
+  font-size: 64px;
+}
+
+.equation-small {
+  font-size: 42px;
+  letter-spacing: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.equation-text {
+  font-size: 0.6em;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.exercise-question {
+  max-width: 900px;
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.exercise-problem {
+  font-size: 26px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.exercise-hint,
+.order-hint {
+  margin: 0;
+  font-size: 20px;
+  color: var(--muted);
+}
+
+.feedback-detail-long {
+  max-width: 900px;
+  font-size: 26px;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.answer-small {
+  width: 2.6em;
+}
+
+/* A fraction: numerator above the denominator. */
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.7em;
+  line-height: 1.05;
+}
+
+.fraction-top {
+  padding: 0 0.15em;
+  border-bottom: 0.08em solid currentColor;
+}
+
+.fraction-input {
+  gap: 6px;
+}
+
+.fraction-input .answer {
+  font-size: 1em;
+}
+
+.fraction-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--text);
+}
+
+.choice-tile .fraction {
+  font-size: 0.85em;
+}
+
+.choice-grid-words {
+  grid-template-columns: repeat(2, minmax(220px, 420px));
+}
+
+.choice-grid-words .choice-tile {
+  min-height: 80px;
+  padding: 10px 16px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.choice-grid-many {
+  grid-template-columns: repeat(4, minmax(110px, 150px));
+}
+
+.choice-chosen {
+  color: var(--primary-text);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.choice-missed {
+  color: var(--correct);
+  border-color: var(--correct);
+  border-style: dashed;
+}
+
+.sign-buttons,
+.yes-no {
+  display: flex;
+  gap: 20px;
+}
+
+.sign-tile {
+  width: 120px;
+  font-size: 64px;
+}
+
+.yes-no-tile {
+  min-width: 180px;
+  font-size: 38px;
+}
+
+.multi-choice,
+.order-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.order-list {
+  display: flex;
+  gap: 14px;
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+  border-radius: 14px;
+}
+
+.order-right {
+  outline: 4px solid var(--correct);
+}
+
+.order-wrong {
+  outline: 4px solid var(--incorrect);
+}
+
+.order-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 120px;
+  padding: 14px 10px 8px;
+  background: var(--surface-strong);
+  border: 4px solid var(--border);
+  border-radius: 14px;
+  cursor: grab;
+  user-select: none;
+}
+
+.order-number {
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.order-arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.order-arrow {
+  width: 40px;
+  height: 36px;
+  font: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.order-arrow:disabled {
+  color: var(--disabled);
+  cursor: default;
+}
+
+.order-arrow:focus-visible,
+.tick-target:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.answer-help {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.answer-help figcaption {
+  font-size: 20px;
+  color: var(--muted);
+}
+
+/* Pictures. */
+.picture {
+  max-width: 100%;
+  height: auto;
+}
+
+.picture-groups {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.block {
+  fill: var(--surface-strong);
+  stroke: var(--border);
+  stroke-width: 1.4;
+}
+
+.block-hundred {
+  fill: #f6d4d5;
+}
+
+.block-ten {
+  fill: #fbe3a6;
+}
+
+.block-unit {
+  fill: #cfe3f7;
+}
+
+.block-line {
+  stroke: var(--border);
+  stroke-width: 0.4;
+}
+
+.part {
+  fill: var(--surface-strong);
+  stroke: var(--border);
+  stroke-width: 3;
+}
+
+.part-colored {
+  fill: var(--primary);
+}
+
+.line-axis {
+  stroke: var(--border);
+  stroke-width: 4;
+}
+
+.line-end,
+.line-arrow {
+  fill: var(--border);
+}
+
+.line-arrow {
+  fill: var(--primary);
+}
+
+.tick-line {
+  stroke: var(--border);
+  stroke-width: 3;
+}
+
+.tick-label {
+  font-size: 22px;
+  font-weight: 700;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.tick-target {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.tick-target:hover {
+  fill: rgb(215 38 43 / 0.12);
+}
+
+.tick-right .tick-line {
+  stroke: var(--correct);
+  stroke-width: 6;
+}
+
+.tick-right .tick-label {
+  fill: var(--correct);
+}
+
+.tick-wrong .tick-line {
+  stroke: var(--incorrect);
+  stroke-width: 6;
+}
+
+.tick-wrong .tick-label {
+  fill: var(--incorrect);
+  text-decoration: line-through;
+}
+
+.dot {
+  fill: var(--primary);
+}
+
+.dot-other {
+  fill: var(--firework-blue);
+}
+
+.split-line {
+  stroke: var(--border);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.bar {
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+.bar-0 {
+  fill: #f6d4d5;
+}
+
+.bar-1 {
+  fill: #cfe3f7;
+}
+
+.bar-2 {
+  fill: #fbe3a6;
+}
+
+.bar-total {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+.bar-label {
+  font-size: 22px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.group-box {
+  fill: var(--surface-strong);
+  stroke: var(--border);
+  stroke-width: 2;
+}
+
+/* « Mes tables ». */
+.tables-button {
+  margin-left: auto;
+}
+
+.table-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.table-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 32px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+
+.table-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.table-lines {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 6px 48px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.table-line {
+  display: flex;
+  gap: 14px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.equation-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-lines {
+  grid-auto-flow: column;
+  grid-template-rows: repeat(6, auto);
 }

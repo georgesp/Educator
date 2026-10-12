@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-num-read-write",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "title": "Lire et écrire les nombres jusqu'à 1 000",
+  "instruction": "Écris le nombre en chiffres, ou choisis la bonne écriture en lettres.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 10,
+    "max": 1000
+  },
+  "formats": [
+    "writeNumber",
+    "readNumber"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — nombres jusqu'à mille au plus tard en période 2 : écrire en chiffres un nombre dicté, lire un nombre et l'écrire en lettres (orthographe traditionnelle ; la graphie de 1990 est acceptée)."
+}

@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WNM
+rev: 2026-10-10T19:39:05Z
 url: https://github.com/georgesp/Educator/issues/18
 type: Issue
 repository: georgesp/Educator
@@ -43,5 +44,5 @@ Fichiers `content/words/*.json` validés par `content/schemas/word.schema.json` 
 ## Critères d'acceptation
 
 - [ ] Schéma documenté ; un mot invalide fait échouer le build.
-- [ ] `GET /api/ui/skills?subject=spelling&grade=CP` fonctionne comme pour les maths.
+- [ ] `get_skills` pour l'orthographe (`subject: "spelling"`, `grade: "CP"`) fonctionne comme pour les maths.
 - [ ] Test : chaque compétence d'orthographe dispose d'au moins 30 mots.

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useSpeech } from "../../audio/useSpeech";
+import { isVoiceEnabled, useSpeech } from "../../audio/useSpeech";
 import { fr } from "../../i18n/fr";
 import { SpeakerIcon } from "../icons";
 
@@ -11,7 +11,7 @@ type SpeakButtonProps = {
   compact?: boolean;
 };
 
-/** Reads a French text aloud with the local voice. */
+/** Reads a French text aloud with the local voice. Not shown while the voice is switched off. */
 export function SpeakButton({ text, autoPlay = false, label = fr.common.listen, compact = false }: SpeakButtonProps) {
   const speak = useSpeech();
   const played = useRef<string | null>(null);
@@ -22,6 +22,10 @@ export function SpeakButton({ text, autoPlay = false, label = fr.common.listen, 
       void speak(text);
     }
   }, [autoPlay, speak, text]);
+
+  if (!isVoiceEnabled()) {
+    return null;
+  }
 
   return (
     <button type="button" className={compact ? "speak-button speak-compact" : "speak-button"} onClick={() => void speak(text)} aria-label={compact ? label : undefined}>

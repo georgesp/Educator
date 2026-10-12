@@ -1,0 +1,35 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-mul-tables-2-5-10",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Tables de 2, 5 et 10",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "multiplication",
+  "operands": [
+    {
+      "min": 2,
+      "max": 10,
+      "values": [
+        2,
+        5,
+        10
+      ]
+    },
+    {
+      "min": 0,
+      "max": 10
+    }
+  ],
+  "constraints": {},
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — tables de multiplication dans les deux sens (A × B avec A et B de 0 à 10). L'ordre des tables (2, 5 et 10, puis 3 et 4, puis 6 à 9) et la période 3 sont un choix d'Educator."
+}

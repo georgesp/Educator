@@ -1,0 +1,90 @@
+---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhACanQ
+url: https://github.com/georgesp/Educator/issues/209
+type: Issue
+repository: georgesp/Educator
+labels: []
+# Editable
+title: "SUB012121 — Leçon CM2 — Multiples, diviseurs et diviseurs communs"
+status: Todo
+size: M
+estimate:
+startDate:
+endDate:
+parent: "#121"
+order: 2140
+---
+
+## User story
+
+En tant qu'enfant de CM2, je veux une leçon courte et animée qui m'explique comment trouver tous les diviseurs d'un nombre, avant de m'entraîner.
+
+## Leçon
+
+- **Classe / période** : CM2, période 2.
+- **Compétences liées** (`skillIds`) : `cm2-divisors`, `cm2-common-divisors` — exercices : la fiche « Exercices CM2 — Multiples, diviseurs et diviseurs communs ».
+- **Objectif** : trouver tous les diviseurs par paires, repérer diviseurs et multiples communs.
+- **Durée visée** : 3 à 5 minutes, 10 slides.
+- **Vocabulaire du programme** : « diviseur », « multiple », « diviseur commun », « multiple commun ».
+
+## Déroulé (scénario des slides)
+
+| # | À l'écran et à la voix | Animation / interaction |
+|---|---|---|
+| 1 | **Titre** — « Multiples, diviseurs et diviseurs communs » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
+| 2 | **Rappel** — Divisible par 2, 5, 10 : regarder le dernier chiffre. | `numberLine` (pas de 2, 5, 10) |
+| 3 | **Des grilles** — 24 voitures : toutes les grilles rectangulaires possibles. | `arrayGrid` |
+| 4 | **Par paires** — 1 × 24, 2 × 12, 3 × 8, 4 × 6 : 8 diviseurs. | `arrayGrid` + `equation` |
+| 5 | **À toi** — Interaction : trouve toutes les grilles de 18. | `arrayGrid` (interactif) |
+| 6 | **Diviseurs communs** — 18 et 24 : 1, 2, 3, 6 apparaissent dans les deux listes. | `groupObjects` (tri) |
+| 7 | **Multiples communs** — Bonds de 4 et bonds de 6 : les voitures se retrouvent sur 12, 24… | `numberLine` (deux voitures) |
+| 8 | **À toi** — Interaction : quand les deux voitures se croisent-elles ? | `numberLine` (interactif) |
+| 9 | **Utilité** — Ranger 18 casques et 24 pneus en paquets identiques. | `barModel` |
+| 10 | **Je retiens** — « Les diviseurs vont par paires : 24 = 1 × 24 = 2 × 12 = 3 × 8 = 4 × 6. » | `recapCard` |
+
+Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
+détaillé) se fait dans le fichier JSON. « Interaction » : l'enfant manipule (glisser, cliquer) ; la leçon attend son
+geste et le guide doucement en cas d'erreur, sans message culpabilisant.
+
+## Animations
+
+- Utilisées : `arrayGrid`, `barModel`, `equation`, `groupObjects`, `numberLine`, `recapCard`, `titleCard`, décrites dans la fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- **Patte graphique** : charte « S1 · Grand Prix » (SUB000105) — fond blanc, surfaces `#F3F3F5`, texte graphite,
+  rouge course `#D7262B` pour ce qui est nouveau ou important, Lexend pour le texte et Barlow Condensed italique pour
+  les titres, bandeau damier, parallélogrammes ; les objets (voitures, casques, drapeaux, pneus) reprennent la palette
+  des personnages (`content/characters/palette.json`). Mouvements courts (< 600 ms par étape), synchronisés avec la voix,
+  remplacés par des fondus si le système demande de réduire les animations.
+
+## Quiz de fin de leçon (SUB001411)
+
+1. Tous les diviseurs de 24 ?
+2. Diviseurs communs de 18 et 24 ? (choix multiple)
+3. Un multiple commun de 4 et 6 ?
+4. 7 est-il un diviseur de 84 ?
+
+Chaque question a une explication courte, affichée et lue après la réponse.
+
+## Sources
+
+- [Programme de mathématiques du cycle 3 (arrêté du 10 avril 2025, BO n°16 du 17 avril 2025 ; CM1 à la rentrée 2025, CM2 à la rentrée 2026)](https://www.education.gouv.fr/sites/default/files/programme-de-math-matiques-pour-le-cycle-3-439827.pdf)
+- [Livret d'accompagnement de mathématiques CM2 (eduscol, 2026)](https://eduscol.education.gouv.fr/sites/default/files/document/2026-livret-accompagnement-mathematiques-cm2-128556.pdf)
+- [Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement](https://www.reseau-canope.fr/lesfondamentaux/)
+
+Rédaction originale et reformulée : aucun texte ni visuel copié.
+
+## Critères d'acceptation
+
+- [ ] Leçon `content/lessons/math/cm2-multiples-diviseurs.json`, validée par `lesson.schema.json`, `skillIds` = `cm2-divisors`, `cm2-common-divisors`.
+- [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [ ] Nombres et vocabulaire conformes au programme du cycle 3, sources listées dans le fichier.
+- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [ ] Relue et validée par Georges.
+
+## Dépendances
+
+- Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
+- Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Mascotte (SUB001417) : facultative, la leçon fonctionne sans.

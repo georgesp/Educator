@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WwM
+rev: 2026-10-10T19:39:35Z
 url: https://github.com/georgesp/Educator/issues/44
 type: Issue
 repository: georgesp/Educator
@@ -34,6 +35,6 @@ Toutes les données viennent des tables enregistrées depuis le lot 2.
 
 ## Critères d'acceptation
 
-- [ ] Endpoints `/api/ui/parent/...` testés sur des jeux de données simulés.
+- [ ] Commandes Tauri de l'espace parent testées sur des jeux de données simulés.
 - [ ] Affichage correct pour un profil sans aucune séance.
 - [ ] Graphiques lisibles et accessibles (couleurs + libellés).

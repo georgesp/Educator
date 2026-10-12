@@ -7,7 +7,10 @@ import { PencilIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
-/** Exercises → Mathematics (SUB000109): the skills of the profile's grade, the current period first. */
+/**
+ * Exercises → Mathematics (SUB000109): the skills of the profile's grade, the current period first,
+ * then the revisions of the grade before (SUB000113), then the other periods.
+ */
 export function SkillsScreen() {
   return <RequireProfile>{(profile) => <Skills profile={profile} />}</RequireProfile>;
 }
@@ -20,8 +23,16 @@ function Skills({ profile }: { profile: Profile }) {
   const usesFallback = data !== undefined && data.skillsGrade !== data.grade;
 
   const current = data?.skills.filter((s) => s.isCurrentPeriod) ?? [];
-  const others = data?.skills.filter((s) => !s.isCurrentPeriod) ?? [];
-  const open = (skill: Skill) => void navigate(`/exercices/${encodeURIComponent(skill.id)}`);
+  // Skills of the grade before, offered again at the start of the year (SUB000113).
+  const revisions = data?.skills.filter((s) => s.revisionFrom !== null) ?? [];
+  const others = data?.skills.filter((s) => !s.isCurrentPeriod && s.revisionFrom === null) ?? [];
+  // A single way to answer: straight to the series, no question asked.
+  const open = (skill: Skill) =>
+    void navigate(
+      skill.answerModes.length === 1 ? `/serie/${encodeURIComponent(skill.id)}/${skill.answerModes[0]}` : `/exercices/${encodeURIComponent(skill.id)}`,
+    );
+  // « Mes tables » next to the multiplications (SUB000119).
+  const hasTables = data?.skills.some((s) => s.family === "Multiplication") ?? false;
 
   return (
     <main className="screen">
@@ -31,6 +42,11 @@ function Skills({ profile }: { profile: Profile }) {
         </button>
         <h1 className="title">{fr.skills.title}</h1>
         <SpeakButton text={usesFallback ? `${fr.skills.noSkills} ${fr.skills.spoken}` : fr.skills.spoken} autoPlay />
+        {hasTables && (
+          <button type="button" className="button tables-button" onClick={() => void navigate("/tables")}>
+            {fr.skills.tables}
+          </button>
+        )}
       </header>
 
       {skills.isError && <p className="message">{fr.app.error}</p>}
@@ -45,6 +61,25 @@ function Skills({ profile }: { profile: Profile }) {
           <div className="skill-list">
             {current.map((skill) => (
               <BigButton key={skill.id} label={skill.title} hint={fr.skills.period(skill.period)} icon={<PencilIcon />} variant="primary" onClick={() => open(skill)} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {revisions.length > 0 && (
+        <section className="skill-section skill-section-revisions" aria-labelledby="skills-revisions">
+          <h2 id="skills-revisions" className="section-title">
+            {fr.skills.revisions}
+          </h2>
+          <div className="skill-list skill-list-compact">
+            {revisions.map((skill) => (
+              <BigButton
+                key={skill.id}
+                label={skill.title}
+                hint={fr.skills.revisionFrom(skill.revisionFrom ?? "")}
+                number={skill.revisionFrom ?? undefined}
+                onClick={() => open(skill)}
+              />
             ))}
           </div>
         </section>

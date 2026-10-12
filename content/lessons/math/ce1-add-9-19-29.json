@@ -1,0 +1,135 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-add-9-19-29",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-add-9-19-29"],
+  "title": "Ajouter 9, 19 ou 29",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, une astuce de pilote pour ajouter 9, 19 ou 29 très vite, de tête.",
+      "speech": "Aujourd'hui, tu vas apprendre une astuce de pilote : ajouter 9, 19 ou 29 très vite, dans ta tête.",
+      "animation": { "type": "titleCard", "title": "Ajouter 9, 19 ou 29", "subtitle": "L'astuce de la dizaine ronde" }
+    },
+    {
+      "title": "Rappel",
+      "text": "Pour ajouter 9, j'ajoute 10, puis j'enlève 1.",
+      "speech": "Tu te souviens ? 9, c'est 10 − 1. Pour calculer 37 + 9, j'ajoute 10 : j'arrive à 47. Puis j'enlève 1 : 46.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 37, "steps": [10, -1] }] }
+    },
+    {
+      "title": "19, presque 20",
+      "text": "19, c'est 1 dizaine et 9 unités. Il manque 1 cube pour faire 20 : 19 = 20 − 1.",
+      "speech": "Regarde 19 : une barre de dix et neuf cubes. Il manque un seul cube pour faire deux dizaines. 19, c'est presque 20 : 19 = 20 − 1.",
+      "animation": { "type": "tensUnits", "value": 19, "completeTen": true }
+    },
+    {
+      "title": "Ajouter 19",
+      "text": "46 + 19 : j'avance de 20 jusqu'à 66, puis je recule de 1. 46 + 19 = 65.",
+      "speech": "Calculons 46 + 19. Au lieu d'ajouter 19, la voiture avance de 20 : elle arrive à 66. Elle est allée 1 trop loin, alors elle recule de 1 : 65.",
+      "animation": { "type": "numberLine", "from": 40, "to": 70, "start": 46, "jumps": [20, -1] }
+    },
+    {
+      "title": "29, presque 30",
+      "text": "29 = 30 − 1. Pour 34 + 29 : j'ajoute 30, puis j'enlève 1. 34 + 29 = 63.",
+      "speech": "Et 29 ? C'est presque 30 : 29 = 30 − 1. Pour 34 + 29, j'ajoute 30 : 64. Puis j'enlève 1 : 63.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 34, "steps": [30, -1] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "57 + 19 : clique là où la voiture arrive après + 20, puis après − 1.",
+      "speech": "À toi ! Calcule 57 + 19 avec la voiture. Clique d'abord là où elle arrive quand elle avance de 20. Puis clique là où elle arrive quand elle recule de 1.",
+      "animation": { "type": "numberLine", "from": 55, "to": 80, "start": 57, "jumps": [20, -1], "interactive": true, "hoverValues": true }
+    },
+    {
+      "title": "Attention !",
+      "text": "À la fin, on enlève 1. On n'en ajoute pas !",
+      "speech": "Attention au piège ! Après avoir ajouté 20, j'enlève 1. Si j'ajoute 1, je trouve 67, et c'est faux. 46 + 19 = 65.",
+      "animation": {
+        "type": "calcChain",
+        "chains": [
+          { "start": 46, "steps": [20, -1] },
+          { "start": 46, "steps": [20, 1], "crossed": true }
+        ]
+      }
+    },
+    {
+      "title": "À toi !",
+      "text": "Relie chaque calcul à son chemin : clique sur un calcul, puis sur son chemin.",
+      "speech": "À toi ! Clique sur un calcul, puis sur le chemin qui permet de le faire. Fais-le pour les trois calculs.",
+      "animation": {
+        "type": "calcChain",
+        "mode": "match",
+        "chains": [
+          { "start": 24, "steps": [10, -1] },
+          { "start": 24, "steps": [20, -1] },
+          { "start": 24, "steps": [30, -1] }
+        ]
+      }
+    },
+    {
+      "title": "Course éclair",
+      "text": "35 + 9, 35 + 19, 35 + 29 : que remarques-tu ?",
+      "speech": "Course éclair ! 35 + 9 = 44. 35 + 19 = 54. 35 + 29 = 64. Tu as vu ? Le résultat grandit d'une dizaine à chaque fois, et il finit toujours par 4.",
+      "animation": {
+        "type": "calcChain",
+        "chains": [
+          { "start": 35, "steps": [10, -1] },
+          { "start": 35, "steps": [20, -1] },
+          { "start": 35, "steps": [30, -1] }
+        ]
+      }
+    },
+    {
+      "title": "Je retiens",
+      "text": "L'astuce à garder dans ta tête pour les calculs de pilote :",
+      "speech": "Je retiens : 9 = 10 − 1, 19 = 20 − 1 et 29 = 30 − 1. Pour les ajouter, j'ajoute la dizaine ronde, puis j'enlève 1.",
+      "animation": {
+        "type": "recapCard",
+        "text": "9 = 10 − 1, 19 = 20 − 1, 29 = 30 − 1 : j'ajoute la dizaine ronde, puis j'enlève 1.",
+        "example": "46 + 19 = 46 + 20 − 1 = 65"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "28 + 9 = ?",
+      "spoken": "Combien font 28 + 9 ?",
+      "answer": 37,
+      "explanation": "28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37."
+    },
+    {
+      "question": "46 + 19 = ?",
+      "spoken": "Combien font 46 + 19 ? Choisis la bonne réponse.",
+      "answer": 65,
+      "choices": [64, 65, 66],
+      "explanation": "46 + 20 = 66, puis j'enlève 1 : 46 + 19 = 65."
+    },
+    {
+      "question": "51 + 29 = ?",
+      "spoken": "Combien font 51 + 29 ?",
+      "answer": 80,
+      "explanation": "51 + 30 = 81, puis j'enlève 1 : 51 + 29 = 80."
+    },
+    {
+      "question": "Pour ajouter 29, j'ajoute … puis j'enlève 1.",
+      "spoken": "Pour ajouter 29, quel nombre est-ce que j'ajoute avant d'enlever 1 ?",
+      "answer": 30,
+      "choices": [20, 29, 30],
+      "explanation": "29 = 30 − 1 : j'ajoute 30, puis j'enlève 1."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul mental : ajouter 9, 19 ou 29",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

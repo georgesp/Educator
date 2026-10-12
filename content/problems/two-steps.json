@@ -1,0 +1,242 @@
+{
+  "$schema": "../schemas/problem-templates.schema.json",
+  "templates": [
+    {
+      "id": "two-steps-gain-loss",
+      "kind": "twoSteps",
+      "text": "{name} a {a} {objects}. {Il} en gagne {b}, puis en perd {c}. Combien de {objects} {name} a-t-{il} maintenant ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "s": "a + b"
+      },
+      "checks": [
+        "c < s"
+      ],
+      "answer": "s - c",
+      "solution": "{a} + {b} = {s} ; {s} − {c} = {answer}. {name} a {answer} {objects}.",
+      "mistakes": [
+        "a + b",
+        "a + b + c",
+        "a - c"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "answer",
+            "c"
+          ]
+        ],
+        "total": "s"
+      }
+    },
+    {
+      "id": "two-steps-garage-day",
+      "kind": "twoSteps",
+      "text": "Au garage, il y a {a} voitures. Le matin, {b} voitures partent. L'après-midi, {c} voitures arrivent. Combien de voitures y a-t-il le soir ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "d": "a - b"
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "d + c",
+      "solution": "{a} − {b} = {d} ; {d} + {c} = {answer}. Il y a {answer} voitures le soir.",
+      "mistakes": [
+        "a - b",
+        "a + b + c",
+        "a - b - c"
+      ],
+      "help": {
+        "bars": [
+          [
+            "d",
+            "b"
+          ],
+          [
+            "d",
+            "c"
+          ]
+        ],
+        "total": "a"
+      }
+    },
+    {
+      "id": "two-steps-together",
+      "kind": "twoSteps",
+      "text": "{name} a {a} {objects}. {name2} en a {b} de plus. Combien de {objects} ont-{ils} en tout ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "d": "a + b"
+      },
+      "answer": "a + d",
+      "solution": "{a} + {b} = {d} : {name2} a {d} {objects}. {a} + {d} = {answer}.",
+      "mistakes": [
+        "a + b",
+        "d"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "two-steps-three-places",
+      "kind": "twoSteps",
+      "text": "{name} a {c} {objects} : {a} dans une boîte, {b} dans un sac et les autres dans un tiroir. Combien y en a-t-il dans le tiroir ?",
+      "variables": {
+        "a": {
+          "min": 2
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 10
+        }
+      },
+      "derived": {
+        "s": "a + b"
+      },
+      "checks": [
+        "s < c"
+      ],
+      "answer": "c - s",
+      "solution": "{a} + {b} = {s} ; {c} − {s} = {answer}. Il y en a {answer} dans le tiroir.",
+      "mistakes": [
+        "c - a",
+        "c - b",
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b",
+            "answer"
+          ]
+        ],
+        "total": "c"
+      }
+    },
+    {
+      "id": "two-steps-bus",
+      "kind": "twoSteps",
+      "text": "Un bus part avec {a} passagers. Au premier arrêt, {b} passagers montent. Au deuxième arrêt, {c} passagers descendent. Combien de passagers y a-t-il maintenant dans le bus ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "s": "a + b"
+      },
+      "checks": [
+        "c < s"
+      ],
+      "answer": "s - c",
+      "solution": "{a} + {b} = {s} ; {s} − {c} = {answer}. Il y a {answer} passagers.",
+      "mistakes": [
+        "a + b",
+        "a + b + c",
+        "a - c"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ],
+          [
+            "answer",
+            "c"
+          ]
+        ],
+        "total": "s"
+      }
+    },
+    {
+      "id": "two-steps-money",
+      "kind": "twoSteps",
+      "text": "{name} a {a} euros. {Il} achète un livre à {b} euros et un jeu à {c} euros. Combien d'euros lui reste-t-il ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "s": "b + c"
+      },
+      "checks": [
+        "s < a"
+      ],
+      "answer": "a - s",
+      "solution": "{b} + {c} = {s} ; {a} − {s} = {answer}. Il reste {answer} euros à {name}.",
+      "mistakes": [
+        "a - b",
+        "a - c",
+        "b + c"
+      ],
+      "help": {
+        "bars": [
+          [
+            "b",
+            "c",
+            "answer"
+          ]
+        ],
+        "total": "a"
+      }
+    }
+  ]
+}

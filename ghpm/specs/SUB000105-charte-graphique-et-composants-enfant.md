@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Ru0
-rev: 2026-10-10T19:28:59Z
+rev: 2026-10-11T07:56:33Z
 url: https://github.com/georgesp/Educator/issues/6
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000105 — Charte graphique et composants enfant
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:

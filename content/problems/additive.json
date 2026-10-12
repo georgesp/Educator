@@ -1,0 +1,393 @@
+{
+  "$schema": "../schemas/problem-templates.schema.json",
+  "templates": [
+    {
+      "id": "part-whole-total",
+      "kind": "partWhole",
+      "text": "{name} a {a} {objects} dans une boîte et {b} dans un sac. Combien de {objects} {name} a-t-{il} en tout ?",
+      "variables": {
+        "a": {
+          "min": 2
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "answer": "a + b",
+      "solution": "{a} + {b} = {answer}. {name} a {answer} {objects}.",
+      "mistakes": [
+        "a - b",
+        "b - a"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "total": "answer"
+      }
+    },
+    {
+      "id": "part-whole-part",
+      "kind": "partWhole",
+      "text": "{name} a {c} {objects}. {a} sont dans une boîte, les autres sont dans un sac. Combien de {objects} sont dans le sac ?",
+      "variables": {
+        "c": {
+          "min": 10
+        },
+        "a": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "a < c"
+      ],
+      "answer": "c - a",
+      "solution": "{c} − {a} = {answer}. Il y a {answer} {objects} dans le sac.",
+      "mistakes": [
+        "c + a"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "answer"
+          ]
+        ],
+        "total": "c"
+      }
+    },
+    {
+      "id": "part-whole-school",
+      "kind": "partWhole",
+      "text": "Dans l'école, il y a {a} filles et {b} garçons. Combien d'élèves y a-t-il en tout ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 10
+        }
+      },
+      "answer": "a + b",
+      "solution": "{a} + {b} = {answer}. Il y a {answer} élèves.",
+      "mistakes": [
+        "a - b",
+        "b - a"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "total": "answer"
+      }
+    },
+    {
+      "id": "transformation-gain",
+      "kind": "transformation",
+      "text": "{name} a {a} {objects}. {name2} lui en donne {b}. Combien de {objects} {name} a-t-{il} maintenant ?",
+      "variables": {
+        "a": {
+          "min": 3
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "answer": "a + b",
+      "solution": "{a} + {b} = {answer}. {name} a maintenant {answer} {objects}.",
+      "mistakes": [
+        "a - b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "total": "answer"
+      }
+    },
+    {
+      "id": "transformation-loss",
+      "kind": "transformation",
+      "text": "{name} a {a} {objects}. {Il} en perd {b} à la récréation. Combien de {objects} lui reste-t-il ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "a - b",
+      "solution": "{a} − {b} = {answer}. Il reste {answer} {objects} à {name}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ]
+        ],
+        "total": "a"
+      }
+    },
+    {
+      "id": "transformation-unknown-change",
+      "kind": "transformation",
+      "text": "{name} avait {a} {objects}. Après la récréation, {il} en a {c}. Combien {name} en a-t-{il} gagné ?",
+      "variables": {
+        "a": {
+          "min": 3
+        },
+        "c": {
+          "min": 5
+        }
+      },
+      "checks": [
+        "a < c"
+      ],
+      "answer": "c - a",
+      "solution": "{c} − {a} = {answer}. {name} en a gagné {answer}.",
+      "mistakes": [
+        "c + a"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "answer"
+          ]
+        ],
+        "total": "c"
+      }
+    },
+    {
+      "id": "transformation-unknown-start",
+      "kind": "transformation",
+      "text": "{name} a reçu {b} {objects} pour son anniversaire. Maintenant, {il} en a {c}. Combien en avait-{il} avant ?",
+      "variables": {
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 5
+        }
+      },
+      "checks": [
+        "b < c"
+      ],
+      "answer": "c - b",
+      "solution": "{c} − {b} = {answer}. {name} en avait {answer} avant.",
+      "mistakes": [
+        "c + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ]
+        ],
+        "total": "c"
+      }
+    },
+    {
+      "id": "transformation-bus",
+      "kind": "transformation",
+      "text": "Un bus transporte {a} passagers. À l'arrêt, {b} passagers descendent. Combien de passagers reste-t-il dans le bus ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "a - b",
+      "solution": "{a} − {b} = {answer}. Il reste {answer} passagers.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ]
+        ],
+        "total": "a"
+      }
+    },
+    {
+      "id": "transformation-garage",
+      "kind": "transformation",
+      "text": "Un garage a {a} pneus en réserve. Le garagiste en reçoit {b} de plus. Combien de pneus a-t-il maintenant ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 4
+        }
+      },
+      "answer": "a + b",
+      "solution": "{a} + {b} = {answer}. Le garage a {answer} pneus.",
+      "mistakes": [
+        "a - b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "b"
+          ]
+        ],
+        "total": "answer"
+      }
+    },
+    {
+      "id": "comparison-more",
+      "kind": "comparison",
+      "text": "{name} a {a} {objects}. {name2} en a {b} de plus. Combien de {objects} {name2} a-t-{il2} ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "answer": "a + b",
+      "solution": "{a} + {b} = {answer}. {name2} a {answer} {objects}.",
+      "mistakes": [
+        "a - b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a"
+          ],
+          [
+            "a",
+            "b"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "comparison-less",
+      "kind": "comparison",
+      "text": "{name} a {a} {objects}. {name2} en a {b} de moins. Combien de {objects} {name2} a-t-{il2} ?",
+      "variables": {
+        "a": {
+          "min": 8
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "a - b",
+      "solution": "{a} − {b} = {answer}. {name2} a {answer} {objects}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ],
+          [
+            "answer"
+          ]
+        ],
+        "total": "a"
+      }
+    },
+    {
+      "id": "comparison-difference",
+      "kind": "comparison",
+      "text": "{name} a {a} {objects} et {name2} en a {c}. Combien {name2} en a-t-{il2} de plus que {name} ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "c": {
+          "min": 8
+        }
+      },
+      "checks": [
+        "a < c"
+      ],
+      "answer": "c - a",
+      "solution": "{c} − {a} = {answer}. {name2} en a {answer} de plus.",
+      "mistakes": [
+        "c + a"
+      ],
+      "help": {
+        "bars": [
+          [
+            "a",
+            "answer"
+          ],
+          [
+            "a"
+          ]
+        ],
+        "total": "c"
+      }
+    },
+    {
+      "id": "comparison-inverse",
+      "kind": "comparison",
+      "text": "{name} a {a} {objects}. C'est {b} de plus que {name2}. Combien de {objects} {name2} a-t-{il2} ?",
+      "variables": {
+        "a": {
+          "min": 8
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "a - b",
+      "solution": "{name} en a {b} de plus, donc {name2} en a moins : {a} − {b} = {answer}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ],
+          [
+            "answer"
+          ]
+        ],
+        "total": "a"
+      }
+    }
+  ]
+}

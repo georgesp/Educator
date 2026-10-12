@@ -8,13 +8,9 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-# C# files
-[*.cs]
+# Rust
+[*.rs]
 indent_size = 4
-
-# XML-based files
-[*.{csproj,props,targets,xml,slnx}]
-indent_size = 2
 
 # Front, JSON, YAML, Markdown
 [*.{ts,tsx,js,jsx,css,json,yml,yaml,md}]

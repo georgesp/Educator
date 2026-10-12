@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001609 — Accords
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -34,3 +34,5 @@ En tant qu'enfant, je veux m'entraîner aux accords afin d'écrire correctement 
 
 - [ ] Banque de phrases par notion et par classe, relue.
 - [ ] Validation stricte des accents, casse tolérée (règles du lot 2).
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5RxI
-rev: 2026-10-10T19:29:01Z
+rev: 2026-10-11T07:56:34Z
 url: https://github.com/georgesp/Educator/issues/7
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000106 — Format des règles de génération des exercices
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
@@ -54,13 +54,13 @@ Exemple :
 ## Critères d'acceptation
 
 - [x] Schéma JSON écrit et documenté (`docs/specs/` + exemples).
-- [x] Chargement des compétences au démarrage du host ; une règle invalide fait **échouer les tests et le build**, pas l'application devant l'enfant.
-- [x] `GET /api/ui/skills?subject=math&grade=CE1` renvoie les compétences de la classe, triées par période, avec la période « en cours » calculée depuis la date du jour.
+- [x] Chargement des compétences au démarrage de l'application ; une règle invalide fait **échouer les tests et le build**, pas l'application devant l'enfant.
+- [x] `get_skills { grade: "CE1" }` renvoie les compétences de la classe, triées par période, avec la période « en cours » calculée depuis la date du jour.
 - [x] Test : chaque règle peut produire au moins 20 exercices distincts (règle trop étroite détectée).
 
 ## Notes techniques
 
-- Projet `Educator.Content` : chargement, validation, exposition en lecture seule.
+- Crate `educator-content` : chargement, validation, exposition en lecture seule.
 - Calcul de la période en cours : découpage de l'année scolaire en 5 périodes (rentrée → Toussaint → Noël → hiver → printemps → été), dates paramétrées dans un fichier, sans dépendre de la zone de vacances.
 
 ## Implémentation (2026-10-11)
@@ -70,8 +70,8 @@ Exemple :
   - `operands[].multipleOf` et `operands[].values` ;
   - `constraints.minResult`, `exactResult` et `resultMultipleOf` ;
   - `excludeTrivial` : `plusZero`, `minusZero`, `minusSelf`.
-- Chargement : `Educator.Content/Skills/SkillLoader` refuse les propriétés inconnues et contrôle tout ce que dit le schéma, plus l'ordre des bornes et la règle des 20 exercices. Un fichier invalide est ignoré et consigné dans les logs, sans planter. Ce sont les tests qui échouent, et la CI avec eux.
-- Les fichiers sont aussi validés contre leur schéma JSON par les tests (validateur minimal dans `Educator.Content.Tests`).
+- Chargement : `educator-content` (`parse_skill`, `load_skills`) refuse les propriétés inconnues et contrôle tout ce que dit le schéma, plus l'ordre des bornes et la règle des 20 exercices. Un fichier invalide est ignoré et consigné dans les logs, sans planter. Ce sont les tests qui échouent, et la CI avec eux.
+- Les fichiers sont aussi validés contre leur schéma JSON par les tests (crate `jsonschema`, `tests/content_validation.rs`).
 - Période en cours : `content/calendar/periods.json` (1er sept., 4 nov., 5 janv., 9 mars, 4 mai). Ces dates tombent après les vacances de toutes les zones ; juillet et août comptent en période 5.
-- Une règle de plus de 2 millions de paires d'opérandes est refusée (« Rule too wide »). Sinon, l'énumération ralentirait le démarrage du host.
-- Le contenu est copié à côté du host à la compilation. `EDUCATOR_CONTENT_DIR` permet de pointer ailleurs.
+- Une règle de plus de 2 millions de paires d'opérandes est refusée (« Rule too wide »). Sinon, l'énumération ralentirait le démarrage de l'application.
+- Le contenu est embarqué comme ressource Tauri (`bundle.resources`). `EDUCATOR_CONTENT_DIR` permet de pointer ailleurs.

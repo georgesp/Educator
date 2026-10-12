@@ -1,0 +1,24 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-num-hundreds",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "title": "Centaines, dizaines et unités",
+  "instruction": "Trouve le nombre, ou ce que vaut chaque chiffre.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 100,
+    "max": 999
+  },
+  "formats": [
+    "recompose",
+    "decompose",
+    "placeValue"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — la centaine dès le début de la période 1 ; valeur des chiffres selon leur position (unités, dizaines, centaines)."
+}

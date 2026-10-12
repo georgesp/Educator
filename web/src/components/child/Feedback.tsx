@@ -22,7 +22,7 @@ export function Feedback({ kind, message, detail }: FeedbackProps) {
       transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <span className="feedback-message">{message}</span>
-      {detail && <span className="feedback-detail">{detail}</span>}
+      {detail && <span className={detail.length > 24 ? "feedback-detail feedback-detail-long" : "feedback-detail"}>{detail}</span>}
     </motion.div>
   );
 }

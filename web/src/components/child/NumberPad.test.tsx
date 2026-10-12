@@ -32,6 +32,28 @@ describe("NumberPad", () => {
     expect(onSubmit).toHaveBeenCalledWith("120");
   });
 
+  it("lays out the keys in reading order, 1 at the top left", () => {
+    render(<Harness onSubmit={vi.fn()} />);
+    const keys = screen.getAllByRole("button").map((button) => button.getAttribute("aria-label") ?? button.textContent);
+    expect(keys).toEqual(["1", "2", "3", "4", "5", "6", "7", "8", "9", "Effacer", "0", "Valider"]);
+  });
+
+  it("tabs through the keys in the same order", async () => {
+    render(<Harness onSubmit={vi.fn()} />);
+    const user = userEvent.setup();
+
+    const visited: string[] = [];
+    for (let i = 0; i < 9; i++) {
+      await user.tab();
+      visited.push(document.activeElement?.textContent ?? "");
+    }
+    // Erase and Validate are disabled while the answer is empty, so focus goes from 9 straight to 0.
+    await user.tab();
+    visited.push(document.activeElement?.textContent ?? "");
+
+    expect(visited).toEqual(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);
+  });
+
   it("stops at the maximum length", async () => {
     render(<Harness onSubmit={vi.fn()} maxLength={2} />);
     const user = userEvent.setup();

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Rrc
-rev: 2026-10-10T19:28:57Z
+rev: 2026-10-11T07:56:31Z
 url: https://github.com/georgesp/Educator/issues/4
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000103 — Écran de choix et de création du profil
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
@@ -49,7 +49,7 @@ En tant qu'enfant, je veux choisir mon profil ou en créer un nouveau dès l'ouv
 ## Implémentation (2026-10-11)
 
 - Écran `ProfilesScreen` : grille des profils (personnage, prénom, classe) et carte « Nouveau profil ». Sans profil, l'écran de création s'affiche directement.
-- Création : prénom, 5 boutons de classe, personnage tiré au hasard avec « Changer de personnage », puis « C'est parti ! ». Le personnage affiché est tiré par le host (`GET /api/ui/characters/draw`), puis transmis à la création : c'est bien lui qui est enregistré.
+- Création : prénom, 5 boutons de classe, personnage tiré au hasard avec « Changer de personnage », puis « C'est parti ! ». Le personnage affiché est tiré par le cœur (`draw_character`), puis transmis à la création : c'est bien lui qui est enregistré.
 - La consigne est lue au premier affichage, et le bouton Écouter la relit.
 - Contrôlé en capture d'écran : 9 profils et la carte « Nouveau profil » tiennent sans défilement en 1280 × 800.
 - Tests : `ProfilesScreen.test.tsx` (Vitest) ; `e2e/lot1.spec.ts` (création, puis sélection d'un profil existant).

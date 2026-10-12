@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-mul-tables-3-4",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Tables de 3 et 4",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "multiplication",
+  "operands": [
+    {
+      "min": 2,
+      "max": 10,
+      "values": [
+        2,
+        3,
+        4,
+        5,
+        10
+      ]
+    },
+    {
+      "min": 1,
+      "max": 10
+    }
+  ],
+  "constraints": {},
+  "focus": [
+    3,
+    4
+  ],
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — tables de multiplication, apprises progressivement sur toute l'année. Tables de 3 et 4 avec révision des tables de 2, 5 et 10 ; ordre et période 4 : choix d'Educator."
+}

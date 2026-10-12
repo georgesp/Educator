@@ -1,45 +1,34 @@
 import { invoke } from "@tauri-apps/api/core";
+import type { StartupStatus } from "./client";
 
 /**
- * State of the .NET backend (educator-host), as reported by the Tauri shell
- * (`get_backend` command, see src-tauri/src/backend.rs).
+ * Start-up of the application core (content and database), as reported by the `get_startup`
+ * command (src-tauri/src/state.rs). Everything runs inside the Tauri application: no server to wait for.
  */
-export type BackendStatus =
-  | { state: "starting" }
-  | { state: "ready"; baseUrl: string; token: string }
-  | { state: "failed"; message: string };
+export type { StartupStatus };
 
-export type ReadyBackend = Extract<BackendStatus, { state: "ready" }>;
+const POLL_INTERVAL_MS = 100;
 
-const POLL_INTERVAL_MS = 300;
-
-/** True inside the Tauri WebView; false in a plain browser (`npm run dev`, tests). */
-export const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
-
-/**
- * Current backend status. Outside Tauri, the backend is the one given by VITE_EDUCATOR_BASE_URL /
- * VITE_EDUCATOR_TOKEN (e.g. a host started with `dotnet run`, see web/README.md).
- */
-export async function getBackendStatus(): Promise<BackendStatus> {
-  if (isTauri) {
-    return invoke<BackendStatus>("get_backend");
-  }
-
-  const baseUrl = import.meta.env.VITE_EDUCATOR_BASE_URL;
-  const token = import.meta.env.VITE_EDUCATOR_TOKEN;
-  return baseUrl && token
-    ? { state: "ready", baseUrl, token }
-    : {
-        state: "failed",
-        message:
-          "Outside Tauri, set VITE_EDUCATOR_BASE_URL and VITE_EDUCATOR_TOKEN (web/.env.local) to reach a running educator-host.",
-      };
+/** True inside the Tauri WebView (or a test page simulating it); false in a plain browser. */
+export function isTauri(): boolean {
+  return typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 }
 
-/** Polls until the backend is ready or has failed (`dotnet run` builds the host first: this can take a while). */
-export async function waitForBackend(signal: AbortSignal): Promise<BackendStatus> {
+export async function getStartupStatus(): Promise<StartupStatus> {
+  if (!isTauri()) {
+    return {
+      state: "failed",
+      message: "Educator runs inside its Tauri window: start it with `npm run tauri dev` (web/README.md).",
+    };
+  }
+
+  return invoke<StartupStatus>("get_startup");
+}
+
+/** Polls until the core is ready or has failed (loading the content takes a fraction of a second). */
+export async function waitForStartup(signal: AbortSignal): Promise<StartupStatus> {
   for (;;) {
-    const status = await getBackendStatus();
+    const status = await getStartupStatus();
     if (status.state !== "starting" || signal.aborted) {
       return status;
     }

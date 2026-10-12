@@ -1,0 +1,309 @@
+{
+  "$schema": "../schemas/problem-templates.schema.json",
+  "templates": [
+    {
+      "id": "product-containers",
+      "kind": "product",
+      "text": "{name} a {a} {containers} de {b} {objects}. Combien de {objects} a-t-{il} en tout ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * b",
+      "solution": "{a} × {b} = {answer}. {name} a {answer} {objects}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "product-parking",
+      "kind": "product",
+      "text": "Dans un parking, il y a {a} rangées de {b} voitures. Combien de voitures y a-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * b",
+      "solution": "{a} × {b} = {answer}. Il y a {answer} voitures.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "product-tires",
+      "kind": "product",
+      "text": "Un garagiste change les pneus de {a} voitures. Chaque voiture a 4 pneus. Combien de pneus change-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * 4",
+      "solution": "{a} × 4 = {answer}. Il change {answer} pneus.",
+      "mistakes": [
+        "a + 4"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "4"
+      }
+    },
+    {
+      "id": "product-pages",
+      "kind": "product",
+      "text": "{name} lit {b} pages chaque jour pendant {a} jours. Combien de pages lit-{il} en tout ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 7
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * b",
+      "solution": "{a} × {b} = {answer}. {name} lit {answer} pages.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "sharing-value",
+      "kind": "sharing",
+      "text": "{name} partage {t} {objects} entre {a} amis. Chacun en reçoit autant. Combien de {objects} chaque ami reçoit-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "b",
+      "solution": "{a} × {answer} = {t}, donc chaque ami reçoit {answer} {objects}.",
+      "mistakes": [
+        "t - a",
+        "a"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "sharing-parts",
+      "kind": "sharing",
+      "text": "{name} range {t} {objects} par paquets de {b}. Combien de paquets fait-{il} ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "a",
+      "solution": "{answer} × {b} = {t}, donc {name} fait {answer} paquets.",
+      "mistakes": [
+        "t - b",
+        "b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "sharing-teams",
+      "kind": "sharing",
+      "text": "Il y a {t} enfants dans la cour. On fait des équipes de {b} enfants. Combien d'équipes peut-on faire ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "a",
+      "solution": "{answer} × {b} = {t}, donc on peut faire {answer} équipes.",
+      "mistakes": [
+        "t - b",
+        "b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "sharing-garages",
+      "kind": "sharing",
+      "text": "On range {t} voitures dans {a} garages, avec autant de voitures dans chaque garage. Combien de voitures y a-t-il dans chaque garage ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "b",
+      "solution": "{a} × {answer} = {t}, donc il y a {answer} voitures dans chaque garage.",
+      "mistakes": [
+        "t - a",
+        "a"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "mixed-parking-leave",
+      "kind": "mixed",
+      "text": "Un garage a {a} rangées de {b} voitures. {c} voitures partent. Combien de voitures reste-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        },
+        "c": {
+          "min": 1
+        }
+      },
+      "derived": {
+        "p": "a * b"
+      },
+      "checks": [
+        "c < p"
+      ],
+      "answer": "p - c",
+      "solution": "{a} × {b} = {p} ; {p} − {c} = {answer}. Il reste {answer} voitures.",
+      "mistakes": [
+        "p",
+        "p + c",
+        "a + b - c"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "mixed-buy-packs",
+      "kind": "mixed",
+      "text": "{name} avait {c} {objects}. {Il} achète {a} {containers} de {b} {objects}. Combien de {objects} a-t-{il} maintenant ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        },
+        "c": {
+          "min": 1
+        }
+      },
+      "derived": {
+        "p": "a * b"
+      },
+      "answer": "p + c",
+      "solution": "{a} × {b} = {p} ; {p} + {c} = {answer}. {name} a {answer} {objects}.",
+      "mistakes": [
+        "p",
+        "a + b + c"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    },
+    {
+      "id": "mixed-give-away",
+      "kind": "mixed",
+      "text": "{name} a {a} {containers} de {b} {objects}. {Il} en donne {c} à {name2}. Combien de {objects} lui reste-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 10
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        },
+        "c": {
+          "min": 1
+        }
+      },
+      "derived": {
+        "p": "a * b"
+      },
+      "checks": [
+        "c < p"
+      ],
+      "answer": "p - c",
+      "solution": "{a} × {b} = {p} ; {p} − {c} = {answer}. Il reste {answer} {objects} à {name}.",
+      "mistakes": [
+        "p",
+        "p + c"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      }
+    }
+  ]
+}

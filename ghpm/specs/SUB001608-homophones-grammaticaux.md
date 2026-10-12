@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001608 — Homophones grammaticaux
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -30,3 +30,5 @@ En tant qu'enfant, je veux savoir choisir entre « a » et « à », « et » et
 
 - [ ] Au moins 20 phrases par paire, relues.
 - [ ] L'astuce est affichée et lue après une erreur.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

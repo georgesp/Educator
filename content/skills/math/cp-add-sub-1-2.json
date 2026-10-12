@@ -10,7 +10,7 @@
   "operands": [
     {
       "min": 0,
-      "max": 30
+      "max": 12
     },
     {
       "min": 1,
@@ -22,7 +22,7 @@
     }
   ],
   "constraints": {
-    "maxResult": 30,
+    "maxResult": 14,
     "carry": "any"
   },
   "formats": [
@@ -32,5 +32,5 @@
     "keyboard",
     "choice"
   ],
-  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : ajouter ou soustraire 1 ou 2. Période choisie par Educator."
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : ajouter ou soustraire 1 ou 2. Période choisie par Educator ; en période 1, premier nombre autour de 10 (0 à 12)."
 }

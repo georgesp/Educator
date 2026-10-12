@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5fLc
-rev: 2026-10-10T19:56:50Z
+rev: 2026-10-11T19:12:32Z
 url: https://github.com/georgesp/Educator/issues/62
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: SUB006002 — Coque Tauri et lancement du host .NET
-status: In progress
+title: SUB006002 — Application Tauri et démarrage du cœur Rust
+status: Done
 size: M
 estimate:
 startDate:
@@ -19,22 +19,28 @@ order: 3
 
 ## User story
 
-En tant qu'utilisateur, je veux lancer une seule application afin de ne jamais voir le backend ni de terminal.
+En tant qu'utilisateur, je veux lancer une seule application afin de ne jamais voir de terminal ni de serveur.
 
 ## Comportement attendu
 
-- Projet `web/src-tauri` repris de GitHubProjectManager (`backend.rs`) et renommé (`educator-shell`, identifiant `com.georgesportier.educator`).
-- Tauri lance `Educator.Host` comme processus annexe, lit `{ baseUrl, token }` sur sa sortie standard et le transmet au front.
-- Arrêt propre du host à la fermeture de la fenêtre, y compris en cas de crash du front.
+- Projet `web/src-tauri` (`educator-shell`, identifiant `com.georgesportier.educator`).
+- Au lancement, la fenêtre s'ouvre tout de suite ; le contenu et la base sont chargés dans un thread, et le front attend `get_startup` (« Démarrage… »).
+- Seul processus annexe : Piper (voix), arrêté avec l'application.
 - Plugins : `single-instance`, `window-state`.
 - Fenêtre par défaut 1280 × 800, minimum 1024 × 700, titre « Educator ».
 
 ## Critères d'acceptation
 
-- [ ] Aucun processus host orphelin après fermeture (vérifié sur macOS et Windows).
-- [ ] Message d'erreur lisible si le host ne démarre pas dans les 10 s.
-- [x] Aucune logique métier dans le code Rust.
+- [ ] Aucun processus Piper orphelin après fermeture (vérifié sur macOS et Windows).
+- [x] Message d'erreur lisible si le démarrage échoue (contenu introuvable, base inaccessible).
+- [x] Aucune règle métier dans `web/src-tauri` (adaptateurs fins vers les crates).
 
-## Implémentation (2026-10-10)
+## Implémentation
 
-Coque `educator-shell` : host lancé avec `--port 0 --parent-pid`, délai de démarrage 10 s en release (180 s en dev, car `dotnet run` compile d'abord). Vérifié sous Linux (Xvfb) : la fenêtre affiche le front relié au host ; après `kill -9` de la coque, le host et Piper s'arrêtent seuls. `cargo clippy -D warnings` propre en debug et release. Reste à vérifier sur macOS et Windows.
+`state.rs` (démarrage en arrière-plan, état `starting` / `ready` / `failed`), `BackendGate` côté front. Plugins
+`single-instance` et `window-state` sur le bureau. Vérifié sous Linux (Xvfb) : la fenêtre affiche l'application ; avec
+une base inaccessible, l'écran « Oups ! L'application n'a pas pu démarrer. » affiche la cause et un bouton Réessayer.
+Piper lit ses consignes sur l'entrée standard : il s'arrête de lui-même quand l'application disparaît. Reste à
+vérifier l'absence de processus orphelin sur macOS et Windows.
+
+*Première version en .NET (2026-10-10), portée en Rust au lot 1bis (2026-10-11, ADR 0003).*

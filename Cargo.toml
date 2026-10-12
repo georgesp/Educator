@@ -1,0 +1,45 @@
+# Workspace Cargo d'Educator (lot 1bis, ADR 0003) : toute la logique est en Rust.
+# - crates/educator-core    : domaine et moteur d'exercices, code pur
+# - crates/educator-content : chargement et validation du contenu pédagogique, Piper (bureau)
+# - crates/educator-data    : SQLite (profils, réglages)
+# - web/src-tauri           : application Tauri (commandes, état partagé, démarrage, logs)
+[workspace]
+resolver = "2"
+members = ["crates/educator-core", "crates/educator-content", "crates/educator-data", "web/src-tauri"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+authors = ["Georges Portier"]
+license = "UNLICENSED"
+publish = false
+
+[workspace.dependencies]
+educator-core = { path = "crates/educator-core" }
+educator-content = { path = "crates/educator-content" }
+educator-data = { path = "crates/educator-data" }
+rand = "0.9"
+rand_chacha = "0.9"
+uuid = { version = "1", features = ["v7"] }
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+log = "0.4"
+tempfile = "3"
+
+# Warnings are errors in CI (`cargo clippy --workspace --all-targets -- -D warnings`).
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+# https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true

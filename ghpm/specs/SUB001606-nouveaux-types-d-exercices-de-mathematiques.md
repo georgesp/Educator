@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001606 — Nouveaux types d'exercices de mathématiques
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -34,3 +34,5 @@ En tant qu'enfant, je veux des exercices variés afin de ne pas m'ennuyer et de 
 - [ ] Chaque type est un format déclarable dans les compétences (`formats`).
 - [ ] Gabarits de problèmes en fichier de contenu, prénoms et objets variés.
 - [ ] Problèmes lus à voix haute.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

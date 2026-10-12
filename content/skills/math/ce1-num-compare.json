@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-num-compare",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "title": "Comparer et ranger les nombres jusqu'à 1 000",
+  "instruction": "Compare les nombres, puis range-les.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 100,
+    "max": 999
+  },
+  "formats": [
+    "compare",
+    "order"
+  ],
+  "answerModes": [
+    "keyboard"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — comparer des nombres (=, <, >) et les ordonner, jusqu'à 1 000. Période 2 : choix d'Educator, après les nombres jusqu'à 1 000 (au plus tard en période 2)."
+}

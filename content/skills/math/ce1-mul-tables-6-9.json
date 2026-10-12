@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-mul-tables-6-9",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "title": "Tables de 6 à 9 (découverte)",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "multiplication",
+  "operands": [
+    {
+      "min": 6,
+      "max": 9
+    },
+    {
+      "min": 1,
+      "max": 10
+    }
+  ],
+  "constraints": {},
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "progression": "easyFirst",
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — tables de multiplication (A et B de 0 à 10) ; leur mémorisation peut être encore imparfaite en fin de CE1. Faits les plus simples d'abord (× 2, × 5, × 10) ; période 5 : choix d'Educator."
+}

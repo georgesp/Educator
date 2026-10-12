@@ -1,0 +1,69 @@
+//! Writes the TypeScript types of the commands to `web/src/api/types.ts` and fails when the
+//! committed file was out of date (`npm run api:generate` runs this test; the CI checks it).
+
+use crate::contracts::*;
+use ts_rs::TS;
+
+#[test]
+fn types_ts_is_up_to_date() {
+    let declarations = [
+        Grade::decl(),
+        AnswerMode::decl(),
+        CharacterKind::decl(),
+        StartupStatus::decl(),
+        StatusResponse::decl(),
+        DatabaseStatusResponse::decl(),
+        SpeechStatusResponse::decl(),
+        SkillsResponse::decl(),
+        SkillResponse::decl(),
+        SkillFamily::decl(),
+        CharacterResponse::decl(),
+        ProfileResponse::decl(),
+        CreateProfileRequest::decl(),
+        UpdateProfileRequest::decl(),
+        StartSeriesRequest::decl(),
+        SeriesResponse::decl(),
+        ExerciseResponse::decl(),
+        TokenResponse::decl(),
+        FractionShape::decl(),
+        PictureResponse::decl(),
+        InputResponse::decl(),
+        ChoiceResponse::decl(),
+        ComparisonSign::decl(),
+        AnswerPayload::decl(),
+        SeriesAnswerResponse::decl(),
+        SeriesSummaryResponse::decl(),
+        MultiplicationTableResponse::decl(),
+        TableLineResponse::decl(),
+        LessonsResponse::decl(),
+        LessonSummaryResponse::decl(),
+        LessonResponse::decl(),
+        SlideResponse::decl(),
+        AnimationResponse::decl(),
+        ChainMode::decl(),
+        ChainResponse::decl(),
+        JumpResponse::decl(),
+        QuizQuestionResponse::decl(),
+        QuizAnswerResponse::decl(),
+        CommandError::decl(),
+    ];
+
+    let mut text = String::from(
+        "// Generated from web/src-tauri/src/contracts.rs by `npm run api:generate` (cargo test). Do not edit.\n\n",
+    );
+    for declaration in declarations {
+        text.push_str("export ");
+        text.push_str(&declaration);
+        text.push_str("\n\n");
+    }
+    let text = text.trim_end().to_owned() + "\n";
+
+    let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../src/api/types.ts");
+    let committed = std::fs::read_to_string(&path)
+        .unwrap_or_default()
+        .replace("\r\n", "\n");
+    if committed != text {
+        std::fs::write(&path, &text).unwrap();
+        panic!("web/src/api/types.ts was out of date: it has been regenerated, commit it.");
+    }
+}

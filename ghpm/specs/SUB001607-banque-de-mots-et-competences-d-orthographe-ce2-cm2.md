@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001607 — Banque de mots et compétences d'orthographe CE2–CM2
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -29,3 +29,5 @@ En tant qu'enfant de CE2 à CM2, je veux des dictées de mots adaptées à ma cl
 
 - [ ] Compétences par période vérifiées contre les repères annuels CE2, CM1, CM2.
 - [ ] Au moins 30 mots par compétence, audio Piper généré.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

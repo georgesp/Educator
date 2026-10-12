@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5R1s
-rev: 2026-10-10T19:29:05Z
+rev: 2026-10-11T07:56:38Z
 url: https://github.com/georgesp/Educator/issues/10
 type: Issue
 repository: georgesp/Educator
@@ -56,6 +56,6 @@ En tant qu'enfant, je veux enchaîner une série de calculs en tapant ma répons
   - « Quitter » demande une confirmation simple, puis abandonne la série (les bonnes réponses sont gardées) ;
   - récapitulatif final avec « Recommencer » et « Menu ».
 - Juste : animation et son, puis exercice suivant après 0,9 s. Faux : la réponse donnée est barrée, la bonne réponse est affichée et lue, puis le bouton « Suivant » apparaît.
-- Délai mesuré sur le host (Linux) entre l'envoi et le retour d'une réponse : moins de 5 ms. Le critère < 200 ms est à confirmer sur Mac dans l'application complète.
+- Délai mesuré dans la version .NET (Linux) entre l'envoi et le retour d'une réponse : moins de 5 ms ; les commandes Tauri évitent désormais le passage par HTTP. Le critère < 200 ms est à confirmer sur Mac dans l'application complète.
 - Les réponses de plus de 9 chiffres sont plafonnées côté front : ce sont de simples mauvaises réponses.
 - Tests : `SeriesScreen.test.tsx` ; `e2e/lot1.spec.ts` fait une série complète au clavier (Entrée), puis une série en QCM à la souris. Elle utilise une série fixe simulée, l'équivalent d'une graine fixe.

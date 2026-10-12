@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5R0U
-rev: 2026-10-10T19:29:04Z
+rev: 2026-10-11T07:56:37Z
 url: https://github.com/georgesp/Educator/issues/9
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000108 — Règles CP–CE1 addition et soustraction
-status: In progress
+status: Done
 size: M
 estimate:
 startDate:
@@ -59,4 +59,4 @@ intégrés aux compléments à la dizaine supérieure, comme le prévoit le prog
 
 - 19 compétences dans `content/skills/math/`, chacune avec sa `source`.
 - Revue : 20 exercices générés par compétence dans `docs/specs/echantillons-lot1.md`, relus par Claude. Cette relecture a conduit à ajuster les distracteurs des nombres manquants (voir SUB000107). Une relecture par Georges reste conseillée.
-- CE2 à CM2 : le host renvoie les compétences du CE1 (`skillsGrade` dans `GET /api/ui/skills`), et l'écran des exercices affiche « Les exercices de ta classe arrivent bientôt. En attendant, voici ceux du CE1. » et propose les compétences du CE1.
+- CE2 à CM2 : le cœur renvoie les compétences du CE1 (`skillsGrade` de `get_skills`), et l'écran des exercices affiche « Les exercices de ta classe arrivent bientôt. En attendant, voici ceux du CE1. » et propose les compétences du CE1.

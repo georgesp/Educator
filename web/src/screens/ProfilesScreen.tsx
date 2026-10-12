@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type FormEvent } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ApiError, type Character, type Grade, type Profile } from "../api/client";
 import { useApi } from "../app/BackendContext";
 import { useProfileSession } from "../app/ProfileContext";
 import { queryKeys, useProfiles } from "../app/queries";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { SpeakButton } from "../components/child/SpeakButton";
-import { DiceIcon, PlusIcon } from "../components/icons";
+import { DiceIcon, PencilIcon, PlusIcon } from "../components/icons";
 import { fr } from "../i18n/fr";
 
-const GRADES: Grade[] = ["CP", "CE1", "CE2", "CM1", "CM2"];
+export const GRADES: Grade[] = ["CP", "CE1", "CE2", "CM1", "CM2"];
 
 /** First screen (SUB000103): choose a profile, or create one. Without any profile, the creation shows at once. */
 export function ProfilesScreen() {
@@ -46,8 +46,12 @@ export function ProfilesScreen() {
       </header>
       <ul className="profile-grid">
         {list.map((profile) => (
-          <li key={profile.id}>
+          <li key={profile.id} className="profile-item">
             <ProfileCard profile={profile} />
+            <Link className="profile-edit" to={`/profil/${encodeURIComponent(profile.id)}`} aria-label={fr.profiles.editLabel(profile.name)}>
+              <PencilIcon size={20} />
+              {fr.profiles.edit}
+            </Link>
           </li>
         ))}
         <li>

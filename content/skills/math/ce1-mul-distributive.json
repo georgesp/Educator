@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-mul-distributive",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "title": "Multiplier en décomposant",
+  "instruction": "Calcule en décomposant : 13 × 7, c'est 10 × 7 + 3 × 7.",
+  "operation": "multiplication",
+  "operands": [
+    {
+      "min": 11,
+      "max": 19
+    },
+    {
+      "min": 2,
+      "max": 9
+    }
+  ],
+  "constraints": {},
+  "formats": [
+    "result"
+  ],
+  "progression": "easyFirst",
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — calcul mental : produit d'un nombre de 11 à 19 par un nombre inférieur à 10 en décomposant (13 × 7 = 70 + 21). Période 5 : choix d'Educator."
+}

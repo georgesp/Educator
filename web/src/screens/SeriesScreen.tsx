@@ -2,17 +2,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { useNavigate, useParams } from "react-router";
-import type { AnswerMode, Exercise, Profile, Series, SeriesAnswer, SeriesSummary } from "../api/client";
+import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer, SeriesSummary } from "../api/client";
 import { playSound } from "../audio/sounds";
 import { stopSpeech, useSpeech } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
 import { queryKeys } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
 import { Feedback } from "../components/child/Feedback";
+import { Fireworks } from "../components/child/Fireworks";
 import { NumberPad } from "../components/child/NumberPad";
 import { PointsBadge } from "../components/child/PointsBadge";
 import { RaceTrack } from "../components/child/RaceTrack";
 import { SpeakButton } from "../components/child/SpeakButton";
+import { MultiChoiceInput, OrderInput, SignButtons, YesNoButtons } from "../components/exercise/AnswerInputs";
+import { FractionText } from "../components/exercise/AnswerText";
+import { ExercisePicture } from "../components/exercise/ExercisePicture";
+import { Statement } from "../components/exercise/Statement";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
@@ -21,18 +26,33 @@ export const AUTO_NEXT_DELAY_MS = 900;
 
 const MAX_ANSWER_LENGTH = 10;
 
-/** The host reads answers as 32-bit integers: a longer number is simply a wrong answer. */
-const toAnswer = (text: string) => Math.min(Number.parseInt(text, 10), 2_147_483_647);
+/** The core reads numbers as 32-bit integers: a longer number is simply a wrong answer. */
+const toNumber = (text: string) => Math.min(Number.parseInt(text, 10), 2_147_483_647);
 
-/** A series of 10 exercises (SUB000109, SUB000110, SUB000111). */
+/** Same answer (a picked proposal, the expected one): same kind and same values. */
+const sameAnswer = (a: AnswerPayload, b: AnswerPayload) => JSON.stringify(a) === JSON.stringify(b);
+
+/** A series of 10 exercises (SUB000109, SUB000110, SUB000111; CE1 families SUB000118 to SUB000124). */
 export function SeriesScreen() {
   return <RequireProfile>{(profile) => <SeriesRun profile={profile} />}</RequireProfile>;
 }
 
 type Phase =
   | { kind: "answering" }
-  | { kind: "answered"; outcome: SeriesAnswer; answer: number }
+  | { kind: "answered"; outcome: SeriesAnswer; given: AnswerPayload }
   | { kind: "finished"; summary: SeriesSummary };
+
+/** Number of typed fields of an exercise: one number, two numbers (framing), a fraction. */
+function typedSlots(exercise: Exercise): number {
+  switch (exercise.input.kind) {
+    case "number":
+      return exercise.input.slots;
+    case "fraction":
+      return 2;
+    default:
+      return 0;
+  }
+}
 
 function SeriesRun({ profile }: { profile: Profile }) {
   const api = useApi();
@@ -45,20 +65,26 @@ function SeriesRun({ profile }: { profile: Profile }) {
   const [attempt, setAttempt] = useState(0);
   const [series, setSeries] = useState<Series | null>(null);
   const [index, setIndex] = useState(0);
-  const [answer, setAnswer] = useState("");
+  const [values, setValues] = useState<string[]>([]);
+  const [active, setActive] = useState(0);
   const [results, setResults] = useState<(boolean | null)[]>([]);
   const [phase, setPhase] = useState<Phase>({ kind: "answering" });
   const [confirmQuit, setConfirmQuit] = useState(false);
   const [points, setPoints] = useState(profile.points);
   const started = useRef(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const resetAnswer = () => {
+    setValues([]);
+    setActive(0);
+  };
 
   const start = useMutation({
     mutationFn: () => api.startSeries(profile.id, skillId, answerMode),
     onSuccess: (created) => {
       setSeries(created);
       setIndex(0);
-      setAnswer("");
+      resetAnswer();
       setResults(created.exercises.map(() => null));
       setPhase({ kind: "answering" });
       void speak(`${created.instruction} ${created.exercises[0]?.spokenPrompt ?? ""}`);
@@ -79,8 +105,11 @@ function SeriesRun({ profile }: { profile: Profile }) {
   const finish = (summary: SeriesSummary) => {
     setPoints(summary.profilePoints);
     setPhase({ kind: "finished", summary });
-    playSound("finished");
-    void speak(fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned));
+    // Everything right: fireworks, a fanfare and « Bravo, tout est juste ! » (SUB000114).
+    const perfect = summary.correctCount === summary.exerciseCount;
+    playSound(perfect ? "celebration" : "finished");
+    const spoken = fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
+    void speak(perfect ? `${fr.series.allRight} ${spoken}` : spoken);
     void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
   };
 
@@ -91,15 +120,15 @@ function SeriesRun({ profile }: { profile: Profile }) {
     }
 
     setIndex((i) => i + 1);
-    setAnswer("");
+    resetAnswer();
     setPhase({ kind: "answering" });
   };
 
   const check = useMutation({
-    mutationFn: (value: number) => api.answerSeries(series!.seriesId, index, value),
-    onSuccess: (outcome, value) => {
+    mutationFn: (given: AnswerPayload) => api.answerSeries(series!.seriesId, index, given),
+    onSuccess: (outcome, given) => {
       setResults((current) => current.map((r, i) => (i === index ? outcome.correct : r)));
-      setPhase({ kind: "answered", outcome, answer: value });
+      setPhase({ kind: "answered", outcome, given });
       if (!outcome.correct) {
         void speak(outcome.explanation);
       }
@@ -119,9 +148,9 @@ function SeriesRun({ profile }: { profile: Profile }) {
 
   useEffect(() => {
     if (phase.kind === "answering") {
-      inputRef.current?.focus();
+      inputRefs.current[active]?.focus();
     }
-  }, [phase, index]);
+  }, [phase, index, active]);
 
   const abandon = useMutation({
     mutationFn: () => api.abandonSeries(series!.seriesId),
@@ -131,16 +160,9 @@ function SeriesRun({ profile }: { profile: Profile }) {
     },
   });
 
-  const submit = (value: number) => {
+  const submit = (given: AnswerPayload) => {
     if (phase.kind === "answering" && !check.isPending) {
-      check.mutate(value);
-    }
-  };
-
-  const onSubmitForm = (event: FormEvent) => {
-    event.preventDefault();
-    if (answer !== "") {
-      submit(toAnswer(answer));
+      check.mutate(given);
     }
   };
 
@@ -163,9 +185,111 @@ function SeriesRun({ profile }: { profile: Profile }) {
     );
   }
 
-  const exercise = series.exercises[index];
+  const exercise = series.exercises[Math.min(index, series.exercises.length - 1)];
   const total = series.exercises.length;
   const answeredCount = results.filter((r) => r !== null).length;
+  const answered = phase.kind === "answered" ? phase : null;
+  const slots = typedSlots(exercise);
+  const typing = slots > 0 && phase.kind === "answering";
+  const value = (slot: number) => values[slot] ?? "";
+  const setValue = (slot: number, text: string) =>
+    setValues((current) => {
+      const next = [...current];
+      next[slot] = text.replace(/\D/g, "").slice(0, MAX_ANSWER_LENGTH);
+      return next;
+    });
+
+  /** The typed answer, once every field is filled; otherwise the next empty field gets the focus. */
+  const submitTyped = () => {
+    const empty = Array.from({ length: slots }, (_, i) => i).find((i) => value(i) === "");
+    if (empty !== undefined) {
+      setActive(empty);
+      return;
+    }
+
+    if (exercise.input.kind === "fraction") {
+      submit({ kind: "fraction", numerator: toNumber(value(0)), denominator: toNumber(value(1)) });
+    } else if (slots === 2) {
+      submit({ kind: "sequence", values: [toNumber(value(0)), toNumber(value(1))] });
+    } else {
+      submit({ kind: "number", value: toNumber(value(0)) });
+    }
+  };
+
+  const onSubmitForm = (event: FormEvent) => {
+    event.preventDefault();
+    if (value(active) !== "") {
+      if (active + 1 < slots && value(active + 1) === "") {
+        setActive(active + 1);
+      } else {
+        submitTyped();
+      }
+    }
+  };
+
+  const field = (slot: number, label: string) => (
+    <input
+      ref={(element) => {
+        inputRefs.current[slot] = element;
+      }}
+      className={slots === 1 ? "answer" : "answer answer-small"}
+      aria-label={label}
+      inputMode="numeric"
+      autoComplete="off"
+      maxLength={MAX_ANSWER_LENGTH}
+      value={value(slot)}
+      onFocus={() => setActive(slot)}
+      onChange={(e) => setValue(slot, e.target.value)}
+    />
+  );
+
+  /** What the child gave, written in a slot of the statement. */
+  const givenInSlot = (slot: number): ReactNode => {
+    if (!answered) {
+      return null;
+    }
+    const given = answered.given;
+    switch (given.kind) {
+      case "number":
+        return given.value;
+      case "sequence":
+        return given.values[slot];
+      case "fraction":
+        return <FractionText numerator={given.numerator} denominator={given.denominator} />;
+      case "comparison":
+        return given.sign;
+      default:
+        return null;
+    }
+  };
+
+  const renderSlot = (slot: number): ReactNode => {
+    if (answered) {
+      return <span className={`equation-slot ${answered.outcome.correct ? "slot-right" : "slot-wrong"}`}>{givenInSlot(slot) ?? "?"}</span>;
+    }
+
+    if (typing && exercise.input.kind === "fraction") {
+      return (
+        <span className="fraction fraction-input">
+          {field(0, fr.series.numerator)}
+          <span className="fraction-bar" aria-hidden="true" />
+          {field(1, fr.series.denominator)}
+        </span>
+      );
+    }
+
+    if (typing) {
+      return field(slot, slots === 1 ? fr.series.answerLabel : fr.series.slot(slot));
+    }
+
+    return <span className="equation-slot">?</span>;
+  };
+
+  const choiceLabels = exercise.choices?.map((c) => c.label) ?? [];
+  const pickedChoice = answered && exercise.choices ? exercise.choices.findIndex((c) => sameAnswer(c.answer, answered.given)) : null;
+  const expectedChoice = answered && exercise.choices ? exercise.choices.findIndex((c) => sameAnswer(c.answer, answered.outcome.expected)) : null;
+  const expected = answered?.outcome.expected ?? null;
+  const disabled = phase.kind !== "answering" || check.isPending;
 
   return (
     <main className="series-screen">
@@ -209,54 +333,102 @@ function SeriesRun({ profile }: { profile: Profile }) {
             <SpeakButton text={exercise.spokenPrompt} compact />
           </div>
 
-          <form className="equation-form" onSubmit={onSubmitForm}>
-            <Equation
-              exercise={exercise}
-              hiddenSlot={
-                phase.kind === "answered" ? (
-                  <span className={`equation-slot ${phase.outcome.correct ? "slot-right" : "slot-wrong"}`}>{phase.answer}</span>
-                ) : answerMode === "Keyboard" ? (
-                  <input
-                    ref={inputRef}
-                    className="answer"
-                    aria-label={fr.series.answerLabel}
-                    inputMode="numeric"
-                    autoComplete="off"
-                    maxLength={MAX_ANSWER_LENGTH}
-                    value={answer}
-                    onChange={(e) => setAnswer(e.target.value.replace(/\D/g, "").slice(0, MAX_ANSWER_LENGTH))}
-                  />
-                ) : (
-                  <span className="equation-slot">?</span>
-                )
-              }
-            />
+          {exercise.question && <p className={exercise.question.length > 60 ? "exercise-question exercise-problem" : "exercise-question"}>{exercise.question}</p>}
 
-            {phase.kind === "answering" && answerMode === "Keyboard" && (
-              <NumberPad value={answer} onChange={setAnswer} onSubmit={() => answer !== "" && submit(toAnswer(answer))} disabled={check.isPending} maxLength={MAX_ANSWER_LENGTH} />
+          {exercise.picture && (
+            <ExercisePicture
+              picture={exercise.picture}
+              onPickTick={exercise.input.kind === "numberLine" ? (n) => submit({ kind: "number", value: n }) : undefined}
+              picked={answered?.given.kind === "number" ? answered.given.value : null}
+              expected={answered && expected?.kind === "number" ? expected.value : null}
+              disabled={disabled}
+            />
+          )}
+
+          <form className="equation-form" onSubmit={onSubmitForm} key={`form-${index}`}>
+            <Statement tokens={exercise.statement} renderSlot={renderSlot} label={exercise.prompt} />
+            {/* Enter validates the typed answer. */}
+            <button type="submit" hidden tabIndex={-1} aria-hidden="true" />
+            {typing && answerMode === "Keyboard" && (
+              <NumberPad
+                value={value(active)}
+                onChange={(text) => setValue(active, text)}
+                onSubmit={() => (value(active) !== "" ? (active + 1 < slots && value(active + 1) === "" ? setActive(active + 1) : submitTyped()) : undefined)}
+                disabled={check.isPending}
+                maxLength={MAX_ANSWER_LENGTH}
+              />
             )}
           </form>
 
-          {answerMode === "Choice" && exercise.choices && (
+          {exercise.input.kind === "pick" && exercise.choices && (
             <ChoiceGrid
-              choices={exercise.choices}
-              onPick={submit}
-              picked={phase.kind === "answered" ? phase.answer : null}
-              expected={phase.kind === "answered" ? phase.outcome.expected : null}
-              disabled={phase.kind !== "answering" || check.isPending}
+              labels={choiceLabels}
+              onPick={(i) => submit(exercise.choices![i].answer)}
+              picked={pickedChoice}
+              expected={expectedChoice}
+              disabled={disabled}
               label={fr.series.choices}
             />
           )}
 
+          {exercise.input.kind === "comparison" && (
+            <SignButtons
+              key={`SignButtons-${index}`}
+              onPick={(sign) => submit({ kind: "comparison", sign })}
+              disabled={disabled}
+              picked={answered?.given.kind === "comparison" ? answered.given.sign : null}
+              expected={expected?.kind === "comparison" ? expected.sign : null}
+            />
+          )}
+
+          {exercise.input.kind === "yesNo" && (
+            <YesNoButtons
+              key={`YesNoButtons-${index}`}
+              onPick={(v) => submit({ kind: "yesNo", value: v })}
+              disabled={disabled}
+              picked={answered?.given.kind === "yesNo" ? answered.given.value : null}
+              expected={expected?.kind === "yesNo" ? expected.value : null}
+            />
+          )}
+
+          {exercise.input.kind === "order" && (
+            <OrderInput
+              key={`OrderInput-${index}`}
+              items={exercise.input.items}
+              ascending={exercise.input.ascending}
+              onSubmit={(order) => submit({ kind: "sequence", values: order })}
+              disabled={disabled}
+              correct={answered ? answered.outcome.correct : null}
+            />
+          )}
+
+          {exercise.input.kind === "multiChoice" && (
+            <MultiChoiceInput
+              key={`MultiChoiceInput-${index}`}
+              items={exercise.input.items}
+              onSubmit={(picked) => submit({ kind: "set", values: picked })}
+              disabled={disabled}
+              expected={expected?.kind === "set" ? expected.values : null}
+            />
+          )}
+
+          {exercise.input.kind === "numberLine" && phase.kind === "answering" && <p className="exercise-hint">{fr.series.numberLine}</p>}
+
           <AnimatePresence mode="wait">
-            {phase.kind === "answered" && (
-              <motion.div key={`${index}-${phase.outcome.correct}`} className="answer-feedback" exit={{ opacity: 0 }}>
-                {phase.outcome.correct ? (
+            {answered && (
+              <motion.div key={`${index}-${answered.outcome.correct}`} className="answer-feedback" exit={{ opacity: 0 }}>
+                {answered.outcome.correct ? (
                   <Feedback kind="correct" message={fr.series.correct[index % fr.series.correct.length]} />
                 ) : (
                   <>
-                    <Feedback kind="incorrect" message={fr.series.incorrect} detail={phase.outcome.explanation} />
-                    <button type="button" className="button button-primary" onClick={() => goNext(phase.outcome)} autoFocus>
+                    <Feedback kind="incorrect" message={fr.series.incorrect} detail={answered.outcome.explanation} />
+                    {answered.outcome.help && (
+                      <figure className="answer-help">
+                        <figcaption>{fr.series.help}</figcaption>
+                        <ExercisePicture picture={answered.outcome.help} />
+                      </figure>
+                    )}
+                    <button type="button" className="button button-primary" onClick={() => goNext(answered.outcome)} autoFocus>
                       {fr.series.next}
                     </button>
                   </>
@@ -271,26 +443,14 @@ function SeriesRun({ profile }: { profile: Profile }) {
   );
 }
 
-function Equation({ exercise, hiddenSlot }: { exercise: Exercise; hiddenSlot: ReactNode }) {
-  const part = (value: number | null) => (value === null ? hiddenSlot : <span>{value}</span>);
-  return (
-    <div className="equation" aria-label={exercise.prompt}>
-      {part(exercise.left)}
-      <span className="equation-sign">{exercise.operator}</span>
-      {part(exercise.right)}
-      <span className="equation-sign">=</span>
-      {part(exercise.result)}
-    </div>
-  );
-}
-
 function Summary({ summary, onAgain, onMenu }: { summary: SeriesSummary; onAgain(): void; onMenu(): void }) {
   const perfect = summary.correctCount === summary.exerciseCount;
   return (
     <motion.section className="summary" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       <h1 className="title">{fr.series.finished}</h1>
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
-      {perfect && <p className="summary-perfect">{fr.series.perfect}</p>}
+      {perfect && <Fireworks label={fr.series.allRight} />}
+      {perfect && <p className="summary-perfect">{fr.series.allRight}</p>}
       <motion.p
         className="summary-points"
         initial={{ scale: 0.6, opacity: 0 }}

@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-sub-within-10",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "title": "Soustractions jusqu'à 10",
+  "instruction": "Calcule ou trouve le nombre qui manque.",
+  "operation": "subtraction",
+  "operands": [
+    {
+      "min": 2,
+      "max": 10
+    },
+    {
+      "min": 1,
+      "max": 9
+    }
+  ],
+  "constraints": {
+    "carry": "any",
+    "excludeTrivial": [
+      "minusZero",
+      "minusSelf"
+    ]
+  },
+  "formats": [
+    "result",
+    "missingOperand"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — les quatre opérations sont travaillées dès le CP ; faits numériques : décompositions des nombres jusqu'à 10 (« 7, c'est 4 et 3 », donc 7 − 4 = 3). Période choisie par Educator, pour proposer des soustractions dès la rentrée."
+}

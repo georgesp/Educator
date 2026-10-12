@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001611 — Rédaction des leçons du CE2 au CM2
-status: Todo
+status: Done
 size: XL
 estimate:
 startDate:
@@ -32,3 +32,5 @@ Collecte des sources par Claude (eduscol, Réseau Canopé, Lumni, documents acad
 
 - [ ] Une leçon validée par compétence, sources listées.
 - [ ] Couverture complète des 5 périodes de chaque classe.
+
+> **Clos le 2026-10-12** — remplacé par les lots 4 (CE2), 5 (CM1) et 6 (CM2), un par niveau, qui portent maths, orthographe et grammaire (décision de Georges).

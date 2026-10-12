@@ -13,8 +13,6 @@
     "title",
     "instruction",
     "operation",
-    "operands",
-    "constraints",
     "formats",
     "answerModes",
     "source"
@@ -64,15 +62,20 @@
       "enum": [
         "addition",
         "subtraction",
-        "mixed"
+        "mixed",
+        "multiplication",
+        "numeration",
+        "doubleHalf",
+        "fraction",
+        "problem"
       ],
-      "description": "mixed : chaque exercice est une addition ou une soustraction."
+      "description": "mixed : chaque exercice est une addition ou une soustraction. multiplication : tables et produits. numeration : nombres (centaines, lire, écrire, comparer, ranger, encadrer, droite graduée, parité). doubleHalf : doubles et moitiés. fraction : premières fractions. problem : problèmes générés à partir des gabarits de content/problems."
     },
     "operands": {
       "type": "array",
       "minItems": 2,
       "maxItems": 2,
-      "description": "Règle de l'opérande de gauche puis de droite (pour une soustraction, la gauche est le nombre dont on enlève).",
+      "description": "Calculs seulement (addition, subtraction, mixed, multiplication) : règle de l'opérande de gauche puis de droite (pour une soustraction, la gauche est le nombre dont on enlève).",
       "items": {
         "$ref": "#/$defs/operand"
       }
@@ -87,10 +90,25 @@
       "items": {
         "enum": [
           "result",
-          "missingOperand"
+          "missingOperand",
+          "phrase",
+          "recompose",
+          "decompose",
+          "placeValue",
+          "writeNumber",
+          "readNumber",
+          "compare",
+          "order",
+          "frame",
+          "numberLinePoint",
+          "yesNo",
+          "multiChoice",
+          "fractionPicture",
+          "fractionWords",
+          "problem"
         ]
       },
-      "description": "result : 7 + 5 = ? ; missingOperand : 7 + ? = 12."
+      "description": "Formats de la famille : calculs result (7 + 5 = ?), missingOperand (7 + ? = 12 ; multiplication aussi 30 = 3 × ?), phrase (multiplication : 5 + 5 + 5 = ? × 5) ; numeration recompose, decompose, placeValue, writeNumber, readNumber, compare, order, frame, numberLinePoint, yesNo, multiChoice ; doubleHalf phrase, result ; fraction fractionPicture, fractionWords, compare, result ; problem problem."
     },
     "answerModes": {
       "type": "array",
@@ -101,12 +119,152 @@
           "keyboard",
           "choice"
         ]
-      }
+      },
+      "description": "keyboard : l'enfant produit la réponse (pavé numérique, signes, glisser-déposer…) ; choice : il la choisit parmi des propositions."
     },
     "source": {
       "type": "string",
       "minLength": 1,
       "description": "Référence du programme officiel justifiant la règle."
+    },
+    "alsoOffered": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Autres classes (et période) où la compétence est aussi proposée, en révision (SUB000113). Par défaut, les compétences de la période 5 sont déjà proposées en période 1 de la classe suivante.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "grade",
+          "period"
+        ],
+        "properties": {
+          "grade": {
+            "enum": [
+              "CP",
+              "CE1",
+              "CE2",
+              "CM1",
+              "CM2"
+            ]
+          },
+          "period": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      }
+    },
+    "numbers": {
+      "$ref": "#/$defs/operand",
+      "description": "numeration : nombres travaillés."
+    },
+    "focus": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "description": "multiplication : tables travaillées (70 % de la série) ; les autres valeurs des opérandes sont des révisions mêlées."
+    },
+    "progression": {
+      "enum": [
+        "mixed",
+        "easyFirst"
+      ],
+      "default": "mixed",
+      "description": "easyFirst : les exercices les plus faciles d'abord (× 2, × 5, × 10 ; petit facteur ; moitiés des dizaines paires)."
+    },
+    "picture": {
+      "enum": [
+        "arrayGrid"
+      ],
+      "description": "multiplication : rangées de points dessinées avec chaque calcul (3 × 5 : 3 rangées de 5)."
+    },
+    "doubles": {
+      "$ref": "#/$defs/operand",
+      "description": "doubleHalf : nombres dont on demande le double."
+    },
+    "halves": {
+      "$ref": "#/$defs/operand",
+      "description": "doubleHalf : nombres dont on demande la moitié (les nombres impairs sont ignorés)."
+    },
+    "timesTwentyFive": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 40
+      },
+      "description": "doubleHalf : multiples de 25 (3 → 3 × 25)."
+    },
+    "fractions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "denominators"
+      ],
+      "properties": {
+        "denominators": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 100
+          }
+        },
+        "unitOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Seulement les fractions 1/b."
+        }
+      },
+      "description": "fraction : dénominateurs utilisés."
+    },
+    "problems": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kinds",
+        "maxNumber"
+      ],
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "partWhole",
+              "transformation",
+              "comparison",
+              "twoSteps",
+              "product",
+              "sharing",
+              "mixed"
+            ]
+          }
+        },
+        "maxNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000,
+          "description": "Plus grand nombre des énoncés et des réponses."
+        },
+        "startMaxNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Plus grand nombre des premiers exercices de la série (60 %)."
+        }
+      },
+      "description": "problem : types de problèmes (gabarits de content/problems) et taille des nombres."
     }
   },
   "$defs": {
@@ -189,5 +347,85 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "enum": [
+              "addition",
+              "subtraction",
+              "mixed",
+              "multiplication"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "operands",
+          "constraints"
+        ],
+        "properties": {
+          "numbers": false,
+          "doubles": false,
+          "halves": false,
+          "timesTwentyFive": false,
+          "fractions": false,
+          "problems": false
+        }
+      },
+      "else": {
+        "properties": {
+          "operands": false,
+          "constraints": false,
+          "focus": false,
+          "picture": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "numeration"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "numbers"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "fraction"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "fractions"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "problem"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "problems"
+        ]
+      }
+    }
+  ]
 }

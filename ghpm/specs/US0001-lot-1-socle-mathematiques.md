@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5RnI
-rev: 2026-10-10T19:39:04Z
+rev: 2026-10-11T15:22:46Z
 url: https://github.com/georgesp/Educator/issues/1
 type: Issue
 repository: georgesp/Educator
@@ -20,7 +20,7 @@ order: 10
 Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), section 13.
 
 - **Lot** : 1 — Socle mathématiques
-- **Prérequis** : fiche « Lot 0 — Socle technique » (coque Tauri 2, host .NET 10, API locale `/api/ui`, SQLite / EF Core, intégration Piper, installeurs).
+- **Prérequis** : fiche « Lot 0 — Socle technique » (application Tauri 2 au cœur Rust, SQLite, intégration Piper, CI).
 - **Lot suivant** : fiche « Lot 2 — Orthographe, leçons et examens ».
 
 ## Objectif
@@ -41,7 +41,7 @@ Première version utilisable par un enfant de CP ou CE1 : il choisit ou crée so
 
 - Orthographe, leçons, examens, chrono, enregistrement détaillé des statistiques (lot 2).
 - Niveaux, étoiles, badges, accessoires d'avatar, difficulté adaptative, espace parent (lot 3).
-- Multiplication, division, CE2 → CM2 (lot 4).
+- Multiplication, division, CE2 → CM2 (lots 4, 5 et 6, un par niveau).
 
 ## Critères d'acceptation
 
@@ -53,8 +53,14 @@ Première version utilisable par un enfant de CP ou CE1 : il choisit ou crée so
 
 Toutes les sous-fiches sont implémentées et testées dans l'environnement Linux de Claude :
 
-- 263 tests .NET, 15 tests Vitest et 2 parcours Playwright, tous verts ;
-- build .NET Release sans avertissement ;
-- `npm run build` sans erreur.
+- version Rust (lot 1bis), avec les retours d'essai (SUB000112 à SUB000116) : 107 tests Rust, `clippy -D warnings`
+  propre, 27 tests Vitest et 2 parcours Playwright verts ;
+- `npm run build` sans erreur ;
+- parcours lancé dans la vraie application Tauri (Linux, Xvfb) : création de profil, compétences, série au clavier.
 
-Reste à faire par Georges : le parcours complet sur macOS avec la vraie voix (`npm run tauri dev`), les délais de lecture, la relecture des personnages et des échantillons d'exercices, puis Windows plus tard.
+Reste à faire par Georges : le parcours complet sur macOS avec la vraie voix (`npm run tauri dev`), les délais de lecture (SUB000109, SUB000111), la relecture des personnages et des échantillons d'exercices régénérés (SUB000112), puis Windows plus tard.
+
+## Historique
+
+Le lot 1 a d'abord été réalisé en .NET (263 tests), puis porté en Rust par le lot 1bis (`specs/lot-migration-rust.md`,
+ADR 0003). Les noms de types cités dans les sous-fiches sont ceux de la version Rust.

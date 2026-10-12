@@ -1,0 +1,23 @@
+[package]
+name = "educator-core"
+description = "Domain of Educator: skills, exercise engine, profiles, points, speech text. Pure code, no infrastructure."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
+
+# Dependency rule (ADR 0001/0003): no infrastructure crate here (no I/O, no database, no Tauri).
+# Checked by tests/architecture.rs.
+[dependencies]
+rand.workspace = true
+rand_chacha.workspace = true
+uuid.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

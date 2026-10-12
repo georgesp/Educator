@@ -12,10 +12,10 @@ import { fr } from "../i18n/fr";
 
 type Entry = { key: string; label: string; hint: string; icon: ReactNode; to?: string };
 
-/** Lot 1: only Exercises is open; the other entries are visible, locked, and say so aloud. */
+/** Exercises and Lessons are open; the other entries are visible, locked, and say so aloud. */
 const ENTRIES: Entry[] = [
   { key: "exercises", label: fr.menu.exercises, hint: fr.menu.exercisesHint, icon: <PencilIcon />, to: "/exercices" },
-  { key: "lessons", label: fr.menu.lessons, hint: fr.menu.soonHint, icon: <BookIcon /> },
+  { key: "lessons", label: fr.menu.lessons, hint: fr.menu.lessonsHint, icon: <BookIcon />, to: "/lecons" },
   { key: "exam", label: fr.menu.exam, hint: fr.menu.soonHint, icon: <FlagIcon /> },
   { key: "options", label: fr.menu.options, hint: fr.menu.soonHint, icon: <GearIcon /> },
 ];
@@ -95,6 +95,10 @@ function Menu({ profile }: { profile: Profile }) {
         <div className="profile-panel-name">
           <span className="profile-panel-title">{profile.name}</span>
           <Link to="/">{fr.menu.changeProfile}</Link>
+          <Link className="profile-edit" to={`/profil/${encodeURIComponent(profile.id)}?retour=menu`} aria-label={fr.profiles.editLabel(profile.name)}>
+            <PencilIcon size={20} />
+            {fr.profiles.edit}
+          </Link>
         </div>
         <dl className="profile-stats">
           <div className="profile-stat">

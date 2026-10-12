@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Whk
+rev: 2026-10-10T19:39:21Z
 url: https://github.com/georgesp/Educator/issues/32
 type: Issue
 repository: georgesp/Educator
@@ -24,7 +25,7 @@ En tant qu'enfant ou parent, je veux accéder à toutes les parties de l'applica
 
 - Leçons, Exercices et Examen actifs dans le menu.
 - Exercices → choix de la matière (Mathématiques / Orthographe).
-- **Options** (première version) : renommer un profil, changer sa classe, changer son personnage, supprimer un profil (confirmation explicite en deux étapes), couper les sons.
+- **Options** (première version) : supprimer un profil (confirmation explicite en deux étapes), couper les sons. Renommer un profil, changer sa classe et son personnage sont faits au lot 1 par SUB000115 (bouton « Modifier », écran `EditProfileScreen`) : les Options pourront y mener.
 
 ## Critères d'acceptation
 

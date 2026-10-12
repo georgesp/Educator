@@ -1,6 +1,7 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
+import { setVoiceEnabled } from "../audio/useSpeech";
 import { fakeApi, renderApp } from "../test/renderWithApp";
 
 describe("MenuScreen", () => {
@@ -13,16 +14,25 @@ describe("MenuScreen", () => {
   });
 
   it("opens Exercises, and says aloud that the locked entries come soon", async () => {
+    setVoiceEnabled(true);
     const api = fakeApi();
     const router = renderApp(api, "/menu");
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole("button", { name: /Leçons/ }));
+    await user.click(await screen.findByRole("button", { name: /Examen/ }));
     expect(api.speak).toHaveBeenCalledWith("Cette partie arrive bientôt.");
     expect(router.state.location.pathname).toBe("/menu");
 
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
     await waitFor(() => expect(router.state.location.pathname).toBe("/exercices"));
+  });
+
+  it("opens Lessons", async () => {
+    const router = renderApp(fakeApi(), "/menu");
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: /Leçons/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons"));
   });
 
   it("moves between the entries with the arrow keys", async () => {
