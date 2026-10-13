@@ -14,7 +14,7 @@ export function RaceTrack({ done, total, results, label }: RaceTrackProps) {
   const progress = total === 0 ? 0 : done / total;
   return (
     <div className="race-track" role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={total} aria-valuenow={done}>
-      <div className="race-markers" aria-hidden="true">
+      <div className="race-markers" aria-hidden="true" style={{ gridTemplateColumns: `repeat(${Math.max(total, 1)}, minmax(0, 1fr))` }}>
         {Array.from({ length: total }, (_, i) => (
           <span key={i} className={`race-marker ${results[i] === true ? "race-marker-right" : results[i] === false ? "race-marker-wrong" : ""}`} />
         ))}

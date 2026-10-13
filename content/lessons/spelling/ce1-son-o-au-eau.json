@@ -1,0 +1,93 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-son-o-au-eau",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-son-o-au-eau"],
+  "title": "Le son [o] : o, au, eau",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les trois façons d’écrire le son [o].",
+      "speech": "Aujourd’hui, on apprend à écrire le son o. Écoute bien : vélo, chaud, bateau. On entend le même son, mais il ne s’écrit pas toujours pareil !",
+      "animation": { "type": "titleCard", "title": "Le son [o]", "subtitle": "o, au, eau" }
+    },
+    {
+      "title": "Avec un o",
+      "text": "Le plus souvent, le son [o] s’écrit avec la lettre o : un vélo, une moto, un domino.",
+      "speech": "Le plus souvent, le son o s’écrit avec une seule lettre : la lettre o. Un vélo, une moto, un domino.",
+      "animation": { "type": "letterTiles", "word": "vélo", "tiles": ["v", "é", "l", "o"], "interactive": false }
+    },
+    {
+      "title": "Avec au",
+      "text": "Parfois, le son [o] s’écrit avec deux lettres : a et u. Il fait chaud, une épaule, un saule.",
+      "speech": "Parfois, le son o s’écrit avec deux lettres, a et u, collées ensemble. Il fait chaud. Une épaule.",
+      "animation": { "type": "letterTiles", "word": "chaud", "tiles": ["ch", "au", "d"], "interactive": false }
+    },
+    {
+      "title": "Avec eau",
+      "text": "Et parfois avec trois lettres : e, a, u. Un bateau, un gâteau, de l’eau.",
+      "speech": "Et parfois avec trois lettres : e, a et u. Un bateau, un gâteau, et le mot eau lui-même !",
+      "animation": { "type": "letterTiles", "word": "bateau", "tiles": ["b", "a", "t", "eau"], "interactive": false }
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « bateau » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot bateau : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": { "type": "letterTiles", "word": "bateau", "tiles": ["b", "a", "t", "eau"], "distractors": ["o", "au"] }
+    },
+    {
+      "title": "eau à la fin",
+      "text": "eau se trouve souvent à la fin du mot : un oiseau, un chapeau, un manteau.",
+      "speech": "Un indice : e, a, u se trouve souvent tout à la fin du mot. Un oiseau, un chapeau, un manteau.",
+      "animation": { "type": "soundSort", "groups": ["eau", "o"], "words": [{ "word": "oiseau", "group": "eau" }, { "word": "chapeau", "group": "eau" }, { "word": "moto", "group": "o" }, { "word": "robe", "group": "o" }], "interactive": false }
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot dans la boîte de sa façon d’écrire le son [o].",
+      "speech": "À toi ! Clique sur un mot, puis sur la boîte qui montre comment s’écrit le son o dans ce mot.",
+      "animation": {
+        "type": "soundSort",
+        "groups": ["o", "au", "eau"],
+        "words": [
+          { "word": "vélo", "group": "o" },
+          { "word": "auto", "group": "au" },
+          { "word": "gâteau", "group": "eau" },
+          { "word": "jaune", "group": "au" },
+          { "word": "domino", "group": "o" },
+          { "word": "château", "group": "eau" }
+        ]
+      }
+    },
+    {
+      "title": "Je regarde le mot",
+      "text": "Pour savoir comment s’écrit le son [o], je regarde bien le mot et je le mémorise.",
+      "speech": "Comment savoir ? Il n’y a pas toujours de règle : je regarde bien le mot, je le photographie dans ma tête, et je le mémorise.",
+      "animation": { "type": "letterTiles", "word": "jaune", "tiles": ["j", "au", "n", "e"], "distractors": ["o"] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [o] s’écrit :",
+      "speech": "Je retiens : le son o s’écrit o, comme dans vélo ; a u, comme dans chaud ; ou e a u, comme dans bateau.",
+      "animation": { "type": "recapCard", "text": "Le son [o] s’écrit o (un vélo), au (il fait chaud) ou eau (un bateau).", "example": "vélo · chaud · bateau" }
+    }
+  ],
+  "quiz": [
+    { "question": "Le bat… : quelle écriture ?", "spoken": "Choisis la bonne écriture du mot bateau.", "answer": "bateau", "choices": ["bato", "bateau", "batau"], "explanation": "On écrit bateau, avec e, a, u à la fin." },
+    { "question": "Il fait ch…d", "spoken": "Il fait chaud. Quelles lettres manquent dans chaud ?", "answer": "au", "choices": ["o", "au", "eau"], "explanation": "Chaud s’écrit avec a, u : c, h, a, u, d." },
+    { "question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot vélo. Un vélo.", "answer": "vélo", "explanation": "Vélo s’écrit v, é, l, o : le son o s’écrit avec un o, et n’oublie pas l’accent sur le é." },
+    { "question": "Dans « oiseau », le son [o] s’écrit…", "spoken": "Dans oiseau, comment s’écrit le son o ?", "answer": "eau", "choices": ["o", "au", "eau"], "explanation": "Oiseau finit par e, a, u, comme bateau et chapeau." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : graphies d’un même phonème, orthographe lexicale",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : o, au, eau",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

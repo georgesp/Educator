@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001401 — Enregistrement des séances et des réponses
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -38,7 +38,26 @@ En tant que parent, je veux que chaque séance de mon enfant soit enregistrée a
 
 ## Critères d'acceptation
 
-- [ ] Migration `educator-data` (nouvelle entrée de `MIGRATIONS`) et tests d'intégration (SQLite réel en fichier temporaire).
-- [ ] Séance abandonnée enregistrée avec `Abandoned = true` et les réponses déjà données.
-- [ ] Suppression d'un profil → suppression en cascade de ses séances, réponses et maîtrises.
-- [ ] Aucune donnée ne quitte l'ordinateur.
+- [x] Migration `educator-data` (nouvelle entrée de `MIGRATIONS`) et tests d'intégration (SQLite réel en fichier temporaire).
+- [x] Séance abandonnée enregistrée avec `Abandoned = true` et les réponses déjà données.
+- [x] Suppression d'un profil → suppression en cascade de ses séances, réponses et maîtrises.
+- [x] Aucune donnée ne quitte l'ordinateur.
+
+## Implémentation (2026-10-14)
+
+- Migration `0002_sessions` (`crates/educator-data/src/migrations.rs`) : tables `Session`, `Answer`, `SkillMastery`
+  et `LessonProgress` (slide où une leçon a été laissée, SUB001410), clés étrangères `ON DELETE CASCADE` vers
+  `Profile` (activées sur chaque connexion).
+- `Session` porte aussi `Subject`, `Grade`, `LessonId`, `Format`, `QuestionCount`, `TimeLimitSeconds`,
+  `CorrectCount`, `PointsEarned` ; `Answer` porte le `SkillId` de chaque question (un examen mélange les compétences).
+  `Type` : `Exercise`, `Exam`, `Timed`, `LessonQuiz`. `AnswerMode` vide pour un examen ou un défi (modes mélangés).
+- Trait `SessionStore` (`educator-core::sessions`), implémenté par `educator-data::sessions` (SQLite) ; le
+  `SeriesService` enregistre la séance à son ouverture et chaque réponse dès qu'elle est donnée (durée mesurée
+  par le front).
+- `SkillMastery` : pourcentage de bonnes réponses parmi les 20 dernières de la compétence, recalculé en fin de séance.
+- Les séries restent en mémoire pendant qu'elles se déroulent. Quitter une série, un examen, un défi ou un quiz de
+  leçon avant la fin l'enregistre comme abandonné (bonnes réponses comptées, maîtrises mises à jour) ; une séance
+  laissée ouverte (application fermée, série sortie de la mémoire) est fermée comme abandonnée au démarrage
+  suivant, et ses réponses comptent dans les maîtrises.
+- Supprimer un profil oublie aussi ses séries en cours.
+- Tests : `crates/educator-data/tests/sessions.rs` (SQLite réel, cascade, abandon), `crates/educator-core/tests/series.rs`.

@@ -42,27 +42,67 @@ pub fn generate_series(
     answer_mode: AnswerMode,
     length: usize,
 ) -> Result<Vec<Exercise>> {
-    if skill.operation.is_calculation() {
-        let picture = skill.params.picture;
-        Ok(generate_calculations(skill, seed, answer_mode, length)?
-            .iter()
-            .map(|e| {
-                let shown = match picture {
-                    Some(SkillPicture::ArrayGrid) if e.format == ExerciseFormat::Result => {
-                        Some(Picture::ArrayGrid {
-                            rows: e.calculation.left.unsigned_abs(),
-                            columns: e.calculation.right.unsigned_abs(),
-                            split: None,
-                        })
-                    }
-                    _ => None,
-                };
-                e.to_exercise(shown)
-            })
-            .collect())
-    } else {
-        family::generate(skill, seed, answer_mode, length)
+    generate_series_as(skill, seed, answer_mode, length, None)
+}
+
+/// The formats of a skill a series may use: `format` alone when given (the kind of exercise chosen
+/// by the child), otherwise every format of the skill the answer mode allows. A dictation is
+/// written, « Choisis la bonne écriture » is picked, every other format suits both modes.
+pub fn formats_for(
+    skill: &Skill,
+    answer_mode: AnswerMode,
+    format: Option<ExerciseFormat>,
+) -> Vec<ExerciseFormat> {
+    let allowed = |f: &ExerciseFormat| match f {
+        ExerciseFormat::Dictation => answer_mode == AnswerMode::Keyboard,
+        ExerciseFormat::ChooseSpelling => answer_mode == AnswerMode::Choice,
+        _ => true,
+    };
+    skill
+        .formats
+        .iter()
+        .copied()
+        .filter(|f| format.is_none_or(|wanted| wanted == *f))
+        .filter(allowed)
+        .collect()
+}
+
+/// [`generate_series`] of one kind of exercise (`format`), or of every format of the skill allowed
+/// by the answer mode.
+pub fn generate_series_as(
+    skill: &Skill,
+    seed: u64,
+    answer_mode: AnswerMode,
+    length: usize,
+    format: Option<ExerciseFormat>,
+) -> Result<Vec<Exercise>> {
+    if !skill.operation.is_calculation() {
+        return family::generate(
+            skill,
+            seed,
+            answer_mode,
+            length,
+            &formats_for(skill, answer_mode, format),
+        );
     }
+
+    let picture = skill.params.picture;
+    Ok(generate_calculations(skill, seed, answer_mode, length)?
+        .iter()
+        .map(|e| {
+            let shown = match picture {
+                Some(SkillPicture::ArrayGrid) if e.format == ExerciseFormat::Result => {
+                    Some(Picture::ArrayGrid {
+                        rows: e.calculation.left.unsigned_abs(),
+                        columns: e.calculation.right.unsigned_abs(),
+                        split: None,
+                    })
+                }
+                _ => None,
+            };
+            e.to_exercise(shown)
+        })
+        .collect())
 }
 
 /// Number of different exercises a skill can produce (commuted calculations counted once).

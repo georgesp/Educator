@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-on",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 2,
+  "skillIds": ["cp-son-on"],
+  "title": "Le son [on]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [on].",
+      "speech": "Aujourd’hui, on apprend à écrire le son on. Écoute : un ballon, un lion, un camion. Tu l’entends ?",
+      "animation": {"type": "titleCard", "title": "Le son [on]", "subtitle": "o et n, ensemble"}
+    },
+    {
+      "title": "o et n ensemble",
+      "text": "Quand on colle les lettres o et n, on entend [on] : un lion, un ballon.",
+      "speech": "Quand on colle la lettre o et la lettre n, on entend on. Un lion, un ballon.",
+      "animation": {"type": "letterTiles", "word": "lion", "tiles": ["l", "i", "on"], "interactive": false}
+    },
+    {
+      "title": "Souvent à la fin",
+      "text": "[on] se trouve très souvent à la fin du mot : un melon, un savon, un camion.",
+      "speech": "Un indice : le son on se trouve très souvent tout à la fin du mot. Un melon, un savon, un camion.",
+      "animation": {"type": "letterTiles", "word": "melon", "tiles": ["m", "e", "l", "on"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « savon » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot savon : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "savon", "tiles": ["s", "a", "v", "on"], "distractors": ["ou", "m"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écoute chaque mot : entends-tu [on] ou [ou] ? Range-le dans sa boîte.",
+      "speech": "À toi ! Écoute chaque mot : entends-tu on ou ou ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["on", "ou"], "words": [{"word": "ballon", "group": "on"}, {"word": "lion", "group": "on"}, {"word": "melon", "group": "on"}, {"word": "bonbon", "group": "on"}, {"word": "poule", "group": "ou"}, {"word": "loup", "group": "ou"}, {"word": "roue", "group": "ou"}, {"word": "jour", "group": "ou"}]}
+    },
+    {
+      "title": "Deux fois !",
+      "text": "Dans un bonbon, on entend deux fois [on] !",
+      "speech": "Écoute : bonbon. On entend deux fois le son on ! Et chaque fois, il s’écrit o, n.",
+      "animation": {"type": "letterTiles", "word": "bonbon", "tiles": ["b", "on", "b", "on"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « camion ». Dis le mot doucement : ca, mi, on.",
+      "speech": "À toi ! Écris le mot camion. Dis-le tout doucement : ca, mi, on.",
+      "animation": {"type": "letterTiles", "word": "camion", "tiles": ["c", "a", "m", "i", "on"], "distractors": ["o", "ou"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Entends-tu [on] ou seulement [o] ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Dans chaque mot, entends-tu on, ou seulement o ? Range-le dans la bonne boîte.",
+      "animation": {"type": "soundSort", "groups": ["on", "o"], "words": [{"word": "salon", "group": "on"}, {"word": "citron", "group": "on"}, {"word": "dragon", "group": "on"}, {"word": "moto", "group": "o"}, {"word": "vélo", "group": "o"}, {"word": "robe", "group": "o"}, {"word": "domino", "group": "o"}]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [on] :",
+      "speech": "Je retiens : le son on s’écrit avec deux lettres collées, o et n. Il est souvent à la fin du mot : un ballon, un camion.",
+      "animation": {"type": "recapCard", "text": "Le son [on] s’écrit o et n, collés. Il est souvent à la fin du mot.", "example": "lion · ballon · camion"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il manque deux lettres : un ball…", "spoken": "Un ballon. Quelles lettres manquent à la fin du mot ballon ?", "answer": "on", "choices": ["on", "ou", "o"], "explanation": "Ballon finit par o, n : on entend on."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot melon. Un melon bien sucré.", "answer": "melon", "explanation": "Melon s’écrit m, e, l, o, n."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un avion. Choisis la bonne écriture du mot avion.", "answer": "avion", "choices": ["avion", "avon", "avoin"], "explanation": "Avion s’écrit a, v, i, o, n : le son on s’écrit o, n."},
+    {"question": "Entends-tu [on] dans « robe » ?", "spoken": "Une robe. Entends-tu le son on dans le mot robe ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : dans robe, on entend o tout seul. Il n’y a pas de n collé au o."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : vingt-cinq à trente correspondances en milieu d’année",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — le graphème on parmi les voyelles simples et régulières",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

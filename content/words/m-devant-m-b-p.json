@@ -1,0 +1,1405 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "jambe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je saute sur une jambe.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chambre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ma chambre est bien rangée.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lampe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Allume la lampe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "champ",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les vaches sont dans le champ.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jambon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je mange un sandwich au jambon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "tambour",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je tape sur le tambour.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ambulance",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 5
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'ambulance roule vite.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "framboise",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "oi",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 5
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La framboise est rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "champion",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Tu es un champion !",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "champignon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "gn",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 6
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 8
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le champignon pousse dans les bois.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "campagne",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "gn"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous partons à la campagne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rampe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Tiens bien la rampe de l'escalier.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "trampoline",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je saute sur le trampoline.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "lampadaire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 6
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le lampadaire éclaire la rue.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "pamplemousse",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ou",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 7
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 9
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le pamplemousse est un gros fruit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "bambou",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le panda mange du bambou.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ampoule",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "am",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa change l'ampoule de la lampe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "temps",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Il fait beau temps aujourd'hui.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "emporter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais emporter mon doudou.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "emmener",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Papa va nous emmener au zoo.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "embrasser",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "s",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 5
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je vais embrasser mamie.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ensemble",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adverbe",
+      "example": "Nous jouons ensemble.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "membre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Chaque membre de l'équipe joue bien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "décembre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Noël est en décembre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "novembre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En novembre, il pleut souvent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "septembre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La rentrée est en septembre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "exemple",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Montre-moi un exemple.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "remplir",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais remplir mon verre d'eau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "emballer",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais emballer le cadeau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "tempête",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La tempête souffle sur la mer.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "température",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La température monte en été.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ombre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je me repose à l'ombre de l'arbre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nombre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Écris un nombre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pompier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le pompier éteint le feu.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "concombre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le concombre est vert.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "tomber",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Les feuilles vont tomber de l'arbre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pompe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je gonfle mon ballon avec une pompe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "colombe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La colombe est un oiseau blanc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "trompette",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Il joue de la trompette.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "comprendre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je veux comprendre la leçon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nombril",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le bébé montre son nombril.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "sombre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "La forêt est sombre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ombrelle",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 0
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'ombrelle protège du soleil.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "compote",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'aime la compote de pommes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "compter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je sais compter jusqu'à cent.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "trompe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'éléphant lève sa trompe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "timbre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je colle un timbre sur l'enveloppe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "imprimer",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais imprimer mon dessin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "impossible",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Rien n'est impossible !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "important",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 6
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 8
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "C'est un jour important.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "simple",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Cet exercice est simple.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "grimper",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "in",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Le singe aime grimper aux arbres.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "impatient",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Je suis impatient d'être en vacances.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "imperméable",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Mets ton imperméable, il pleut.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "chimpanzé",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "in",
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 2
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chimpanzé mange une banane.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "impoli",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Ce n'est pas gentil d'être impoli.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "timbale",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "im",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je bois dans une timbale.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    }
+  ]
+}

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001403 — Banque de mots et compétences d'orthographe CP–CE1
-status: Todo
+status: In progress
 size: L
 estimate:
 startDate:
@@ -28,7 +28,16 @@ En tant que parent, je veux que les mots proposés correspondent à ceux étudi�
 
 ## Critères d'acceptation
 
-- [ ] Liste des compétences par période vérifiée contre les repères annuels CP et CE1 (eduscol).
-- [ ] Mots tirés en priorité de la **liste de fréquence lexicale** d'eduscol ; source renseignée pour chaque mot.
+- [x] Liste des compétences par période vérifiée contre les repères annuels CP et CE1 (eduscol).
+- [x] Mots tirés en priorité de la **liste de fréquence lexicale** d'eduscol ; source renseignée pour chaque mot.
 - [ ] Aucun mot inadapté aux enfants (relecture manuelle).
-- [ ] Au moins 30 mots par compétence.
+- [x] Au moins 30 mots par compétence.
+
+## Implémentation (2026-10-14)
+
+- 22 compétences (12 CP, 10 CE1) réparties par période : voyelles, consonnes, ou, on, an/en, in, oi, ch, eu,
+  lettres muettes, mots outils (CP) ; [o] o/au/eau, [ɛ̃] in/ain/ein, [s] s/ss/c/ç, [e] é/er/ez, [ɛ] è/ai/ei/et,
+  m devant m/b/p, g/gu/ge, lettres muettes, pluriel en -s, mots invariables (CE1).
+- 959 mots : 441 tirés de la liste de fréquence lexicale d'eduscol, les autres du vocabulaire courant de l'enfant ;
+  source renseignée pour chaque mot.
+- Reste : **relecture manuelle par Georges** (aucun mot inadapté). Une relecture automatique n'a rien relevé.

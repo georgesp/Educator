@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-sub-within-20",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-sub-within-20"],
+  "title": "Soustractions jusqu’à 20",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, trois façons de soustraire avec des nombres jusqu’à 20.",
+      "speech": "Aujourd’hui, tu vas apprendre trois façons de faire une soustraction avec des nombres jusqu’à 20.",
+      "animation": { "type": "titleCard", "title": "Soustractions jusqu’à 20", "subtitle": "Casser, reculer, chercher l’écart" }
+    },
+    {
+      "title": "Assez d’unités",
+      "text": "15 − 3 : on enlève 3 cubes, la barre reste. Il reste 12.",
+      "speech": "15, c’est une barre et 5 cubes. Pour enlever 3, j’enlève 3 cubes : la barre ne bouge pas. Il reste 12.",
+      "animation": { "type": "tensUnits", "value": 15, "remove": 3 }
+    },
+    {
+      "title": "Casser une dizaine",
+      "text": "13 − 5 : il n’y a que 3 cubes. On casse la barre en 10 cubes, puis on en enlève 5. Il reste 8.",
+      "speech": "13 − 5. Il n’y a que 3 cubes : pas assez pour en enlever 5 ! Alors on casse la barre en 10 cubes. On a 13 cubes, on en enlève 5. Il en reste 8.",
+      "animation": { "type": "tensUnits", "value": 13, "remove": 5 }
+    },
+    {
+      "title": "Reculer jusqu’à 10",
+      "text": "13 − 5 = 13 − 3 − 2 : on recule jusqu’au drapeau du 10, puis encore de 2.",
+      "speech": "Autre façon : 5, c’est 3 et 2. De 13, je recule de 3 : j’arrive au drapeau du 10. Puis je recule encore de 2 : 8.",
+      "animation": { "type": "numberLine", "from": 0, "to": 20, "step": 1, "start": 13, "jumps": [-3, -2], "flags": [10] }
+    },
+    {
+      "title": "À toi !",
+      "text": "14 − 6 : recule jusqu’au drapeau du 10, puis encore. Clique où arrive la voiture.",
+      "speech": "À toi ! Calcule 14 − 6 en passant par le drapeau du 10. Recule d’abord de 4, puis de 2. Clique où arrive la voiture à chaque fois.",
+      "animation": { "type": "numberLine", "from": 0, "to": 20, "step": 1, "start": 14, "jumps": [-4, -2], "interactive": true, "flags": [10] }
+    },
+    {
+      "title": "L’écart",
+      "text": "17 − 15 : de 15 à 17, il y a 2 bonds. Donc 17 − 15 = 2.",
+      "speech": "Pour 17 − 15, reculer de 15, c’est long ! Je cherche l’écart : de 15 à 17, il y a 2 bonds. Donc 17 − 15 = 2.",
+      "animation": { "type": "numberLine", "from": 10, "to": 20, "step": 1, "start": 15, "jumps": [1, 1] }
+    },
+    {
+      "title": "La famille",
+      "text": "8 + 7 = 15, donc 15 − 7 = 8 et 15 − 8 = 7.",
+      "speech": "Si je connais 8 + 7 = 15, je connais aussi 15 − 7 = 8 et 15 − 8 = 7 : c’est la même famille.",
+      "animation": { "type": "equation", "left": 8, "operation": "add", "right": 7, "family": true }
+    },
+    {
+      "title": "Petit problème",
+      "text": "12 casques sur l’étagère, 5 tombent. Combien en reste-t-il sur l’étagère ? 12 − 5 = 7.",
+      "speech": "Un petit problème : il y a 12 casques sur l’étagère. 5 casques tombent. Combien en reste-t-il sur l’étagère ? Le tout, c’est 12. Une partie, 5. Je cherche l’autre partie : 12 − 5 = 7.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [5, 7], "unknown": "part2", "solve": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "16 − … = 9 : quel nombre va dans la case ?",
+      "speech": "À toi ! 16 moins combien font 9 ? Cherche l’écart entre 9 et 16, puis choisis le nombre de la case.",
+      "animation": { "type": "equation", "left": 16, "operation": "subtract", "right": 7, "missing": "right", "interactive": true, "choices": [6, 7, 8] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour enlever :",
+      "speech": "Je retiens : pour enlever, je peux reculer jusqu’à 10, casser une dizaine, ou chercher l’écart.",
+      "animation": { "type": "recapCard", "text": "Pour enlever, je peux reculer jusqu’à 10, casser une dizaine ou chercher l’écart.", "example": "13 − 5 = 13 − 3 − 2 = 8" }
+    }
+  ],
+  "quiz": [
+    { "question": "18 − 5 = ?", "spoken": "Combien font 18 − 5 ?", "answer": 13, "explanation": "J’enlève 5 cubes aux 8 : il reste 3 cubes et la barre. 13." },
+    { "question": "12 − 4 = ?", "spoken": "Combien font 12 − 4 ? Choisis la bonne réponse.", "answer": 8, "choices": [7, 8, 9], "explanation": "Je recule de 2 jusqu’à 10, puis encore de 2 : 8." },
+    { "question": "20 − … = 13", "spoken": "20 moins combien font 13 ?", "answer": 7, "explanation": "De 13 à 20, il y a 7 bonds : 20 − 7 = 13." },
+    { "question": "11 − 9 = ?", "spoken": "Combien font 11 − 9 ?", "answer": 2, "explanation": "De 9 à 11, il y a 2 bonds : l’écart est 2." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : soustraire jusqu'à 20 (casser une dizaine, passer par 10, calculer un écart), lien avec l'addition",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

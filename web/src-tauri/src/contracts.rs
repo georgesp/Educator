@@ -7,9 +7,16 @@
 use educator_core::characters::{self, CharacterInfo};
 use educator_core::exercises::{self, Answer, Exercise, SeriesSummary, TableLine};
 use educator_core::lessons::{self, Lesson};
+use educator_core::mascot;
 use educator_core::profiles::Profile;
+use educator_core::sessions;
 use educator_core::skills;
+use educator_core::spelling::{LetterKind, SpellingCorrection, SpokenWord};
 use serde::{Deserialize, Serialize};
+
+mod figures;
+
+pub use figures::*;
 
 // ── Enums ────────────────────────────────────────────────────────────────────────────────────
 
@@ -68,6 +75,86 @@ impl From<AnswerMode> for skills::AnswerMode {
         match mode {
             AnswerMode::Keyboard => skills::AnswerMode::Keyboard,
             AnswerMode::Choice => skills::AnswerMode::Choice,
+        }
+    }
+}
+
+/// School subject (lot 2: mathematics and spelling).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum Subject {
+    Math,
+    Spelling,
+}
+
+impl From<skills::Subject> for Subject {
+    fn from(subject: skills::Subject) -> Self {
+        match subject {
+            skills::Subject::Math => Subject::Math,
+            skills::Subject::Spelling => Subject::Spelling,
+        }
+    }
+}
+
+impl From<Subject> for skills::Subject {
+    fn from(subject: Subject) -> Self {
+        match subject {
+            Subject::Math => skills::Subject::Math,
+            Subject::Spelling => skills::Subject::Spelling,
+        }
+    }
+}
+
+/// Kind of spelling exercise chosen by the child (SUB001406 to SUB001408).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum SpellingFormat {
+    /// « Dictée » : the word is read, the child writes it.
+    Dictation,
+    /// « Mots à trous » : the letters hidden in the word, typed or picked.
+    MissingLetters,
+    /// « Choisis la bonne écriture » : one spelling out of three.
+    ChooseSpelling,
+}
+
+impl SpellingFormat {
+    pub fn from_format(format: skills::ExerciseFormat) -> Option<Self> {
+        match format {
+            skills::ExerciseFormat::Dictation => Some(SpellingFormat::Dictation),
+            skills::ExerciseFormat::MissingLetters => Some(SpellingFormat::MissingLetters),
+            skills::ExerciseFormat::ChooseSpelling => Some(SpellingFormat::ChooseSpelling),
+            _ => None,
+        }
+    }
+}
+
+impl From<SpellingFormat> for skills::ExerciseFormat {
+    fn from(format: SpellingFormat) -> Self {
+        match format {
+            SpellingFormat::Dictation => skills::ExerciseFormat::Dictation,
+            SpellingFormat::MissingLetters => skills::ExerciseFormat::MissingLetters,
+            SpellingFormat::ChooseSpelling => skills::ExerciseFormat::ChooseSpelling,
+        }
+    }
+}
+
+/// What a session was (SUB001401).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum SessionType {
+    Exercise,
+    Exam,
+    Timed,
+    LessonQuiz,
+}
+
+impl From<sessions::SessionType> for SessionType {
+    fn from(session_type: sessions::SessionType) -> Self {
+        match session_type {
+            sessions::SessionType::Exercise => SessionType::Exercise,
+            sessions::SessionType::Exam => SessionType::Exam,
+            sessions::SessionType::Timed => SessionType::Timed,
+            sessions::SessionType::LessonQuiz => SessionType::LessonQuiz,
         }
     }
 }
@@ -139,6 +226,7 @@ pub struct SpeechStatusResponse {
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(test, derive(ts_rs::TS))]
 pub struct SkillsResponse {
+    pub subject: Subject,
     /// Grade asked for.
     pub grade: Grade,
     /// Grade of the returned skills: the asked one, or CE1 when the asked grade has no skill yet.
@@ -163,6 +251,10 @@ pub struct SkillResponse {
     pub revision_from: Option<Grade>,
     pub answer_modes: Vec<AnswerMode>,
     pub family: SkillFamily,
+    /// Spelling: the kinds of exercise offered (dictation, missing letters, the right spelling).
+    pub spelling_formats: Vec<SpellingFormat>,
+    /// Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
+    pub mastery: Option<u8>,
 }
 
 /// Family of a skill: the front shows « Mes tables » next to the multiplications.
@@ -175,6 +267,7 @@ pub enum SkillFamily {
     DoubleHalf,
     Fraction,
     Problem,
+    Spelling,
 }
 
 impl From<skills::SkillOperation> for SkillFamily {
@@ -187,12 +280,17 @@ impl From<skills::SkillOperation> for SkillFamily {
             O::DoubleHalf => SkillFamily::DoubleHalf,
             O::Fraction => SkillFamily::Fraction,
             O::Problem => SkillFamily::Problem,
+            O::Spelling => SkillFamily::Spelling,
         }
     }
 }
 
 impl SkillResponse {
-    pub fn offered(offered: &skills::OfferedSkill<'_>, current_period: u8) -> Self {
+    pub fn offered(
+        offered: &skills::OfferedSkill<'_>,
+        current_period: u8,
+        mastery: Option<u8>,
+    ) -> Self {
         let skill = offered.skill;
         Self {
             id: skill.id.clone(),
@@ -203,6 +301,12 @@ impl SkillResponse {
             revision_from: offered.revision_from.map(Into::into),
             answer_modes: skill.answer_modes.iter().map(|m| (*m).into()).collect(),
             family: skill.operation.into(),
+            spelling_formats: skill
+                .formats
+                .iter()
+                .filter_map(|f| SpellingFormat::from_format(*f))
+                .collect(),
+            mastery,
         }
     }
 }
@@ -301,23 +405,49 @@ pub struct StartSeriesRequest {
     pub profile_id: String,
     pub skill_id: String,
     pub answer_mode: AnswerMode,
+    /// Spelling: the kind of exercise chosen; every kind allowed by the answer mode when absent.
+    #[serde(default)]
+    #[cfg_attr(test, ts(optional))]
+    pub format: Option<SpellingFormat>,
     /// Fixed seed to replay a series (tests, debugging); random when absent.
     #[serde(default)]
     #[cfg_attr(test, ts(optional))]
     pub seed: Option<u32>,
 }
 
-/// A new series. The expected answers are not sent.
+/// A new series (exercises of a skill, an exam, a timed challenge). The expected answers are not sent.
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(test, derive(ts_rs::TS))]
 pub struct SeriesResponse {
     pub series_id: String,
+    pub session_type: SessionType,
+    pub subject: Subject,
     pub seed: u32,
-    pub skill_id: String,
+    /// The skill of a series of exercises; null for an exam or a timed challenge.
+    pub skill_id: Option<String>,
+    /// The skill's instruction; empty for an exam, a timed challenge or a quiz (the front has its own).
     pub instruction: String,
     pub answer_mode: AnswerMode,
+    /// Duration of a timed challenge, in seconds.
+    pub time_limit_seconds: Option<u32>,
     pub exercises: Vec<ExerciseResponse>,
+}
+
+impl From<&exercises::Series> for SeriesResponse {
+    fn from(series: &exercises::Series) -> Self {
+        Self {
+            series_id: series.id.to_string(),
+            session_type: series.session_type.into(),
+            subject: series.subject.into(),
+            seed: series.seed,
+            skill_id: series.skill_id.clone(),
+            instruction: series.instruction.clone(),
+            answer_mode: series.answer_mode.into(),
+            time_limit_seconds: series.time_limit_seconds,
+            exercises: series.exercises.iter().map(Into::into).collect(),
+        }
+    }
 }
 
 /// One exercise: an optional question, the statement (with the answer slots), an optional picture
@@ -337,8 +467,39 @@ pub struct ExerciseResponse {
     pub choices: Option<Vec<ChoiceResponse>>,
     /// Written form with `?` for the answer, e.g. `7 + ? = 12` (accessibility).
     pub prompt: String,
-    /// French text to read aloud (send it to `speak`).
+    /// French text to read aloud (send it to `speak`). For a spelling exercise, play the word
+    /// with `speak_series_word` instead.
     pub spoken_prompt: String,
+    /// Spelling: the word is read (`speak_series_word`) and, for the missing letters, the letters
+    /// around the blank. The word itself is not sent.
+    pub word: Option<WordPromptResponse>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct WordPromptResponse {
+    /// Letters before the blank (missing letters), otherwise null.
+    pub before: Option<String>,
+    /// Letters after the blank (missing letters), otherwise null.
+    pub after: Option<String>,
+    /// Missing letters: how many letters the blank hides (shown as dashes), otherwise null.
+    pub missing: Option<u32>,
+    /// The word can also be heard in a short sentence.
+    pub has_example: bool,
+}
+
+impl From<&SpokenWord> for WordPromptResponse {
+    fn from(word: &SpokenWord) -> Self {
+        Self {
+            before: word.blank.as_ref().map(|(b, _)| b.clone()),
+            after: word.blank.as_ref().map(|(_, a)| a.clone()),
+            missing: word
+                .missing_count()
+                .map(|n| u32::try_from(n).unwrap_or(u32::MAX)),
+            has_example: word.example.is_some(),
+        }
+    }
 }
 
 impl From<&Exercise> for ExerciseResponse {
@@ -359,7 +520,12 @@ impl From<&Exercise> for ExerciseResponse {
                     .collect()
             }),
             prompt: exercise.prompt(),
-            spoken_prompt: exercise.spoken.clone(),
+            // The word to write is never sent: it is played by `speak_series_word`.
+            spoken_prompt: match &exercise.word {
+                Some(word) if word.word == exercise.spoken => String::new(),
+                _ => exercise.spoken.clone(),
+            },
+            word: exercise.word.as_ref().map(Into::into),
         }
     }
 }
@@ -554,6 +720,9 @@ pub enum InputResponse {
     Pick,
     /// Click a graduation of the number line of the picture.
     NumberLine,
+    /// Letters typed (keyboard or on-screen keyboard with the accented letters), in the blank of the
+    /// word for the missing letters.
+    Spelling { max_length: u32 },
 }
 
 impl From<&exercises::Input> for InputResponse {
@@ -575,6 +744,9 @@ impl From<&exercises::Input> for InputResponse {
             },
             I::Pick => InputResponse::Pick,
             I::NumberLine => InputResponse::NumberLine,
+            I::Spelling { max_length } => InputResponse::Spelling {
+                max_length: u32::try_from(*max_length).unwrap_or(u32::MAX),
+            },
         }
     }
 }
@@ -656,7 +828,7 @@ impl From<&Answer> for AnswerPayload {
             Answer::Words(_) => AnswerPayload::Text {
                 value: answer.label(),
             },
-            Answer::Text(value) => AnswerPayload::Text { value },
+            Answer::Text(value) | Answer::Spelling(value) => AnswerPayload::Text { value },
         }
     }
 }
@@ -694,8 +866,63 @@ pub struct SeriesAnswerResponse {
     pub explanation: String,
     /// Picture shown with the correction (decomposition, bar model).
     pub help: Option<PictureResponse>,
+    /// Spelling: the child's word letter by letter, to highlight the mistakes (SUB001405).
+    pub correction: Option<SpellingCorrectionResponse>,
     /// Set when this answer ended the series: points awarded.
     pub summary: Option<SeriesSummaryResponse>,
+}
+
+/// A written word compared with the expected one.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct SpellingCorrectionResponse {
+    pub correct: bool,
+    pub letters: Vec<LetterResponse>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum LetterKindName {
+    /// The right letter.
+    Right,
+    /// `given` written instead of `expected`.
+    Wrong,
+    /// `expected` forgotten.
+    Missing,
+    /// `given` too many.
+    Extra,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct LetterResponse {
+    pub kind: LetterKindName,
+    pub given: Option<String>,
+    pub expected: Option<String>,
+}
+
+impl From<&SpellingCorrection> for SpellingCorrectionResponse {
+    fn from(correction: &SpellingCorrection) -> Self {
+        Self {
+            correct: correction.correct,
+            letters: correction
+                .letters
+                .iter()
+                .map(|l| LetterResponse {
+                    kind: match l.kind {
+                        LetterKind::Right => LetterKindName::Right,
+                        LetterKind::Wrong => LetterKindName::Wrong,
+                        LetterKind::Missing => LetterKindName::Missing,
+                        LetterKind::Extra => LetterKindName::Extra,
+                    },
+                    given: l.given.map(String::from),
+                    expected: l.expected.map(String::from),
+                })
+                .collect(),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -707,16 +934,178 @@ pub struct SeriesSummaryResponse {
     pub points_earned: i32,
     /// New total of the profile.
     pub profile_points: i32,
+    /// Results by skill, in the order of the series (an exam mixes several skills).
+    pub skills: Vec<SkillResultResponse>,
+    /// What the mascot says at the end (SUB001417): a party, happy or encouraging.
+    pub mascot_situation: MascotSituation,
+    /// Timed challenge (SUB001415): the best score before this one at the same duration.
+    pub previous_best: Option<u32>,
+    /// Timed challenge: a new personal record, to celebrate.
+    pub new_record: bool,
+    /// Lesson quiz (SUB001411): fewer than half right answers, « Revoir la leçon » comes first.
+    pub review_lesson: bool,
 }
 
-impl From<SeriesSummary> for SeriesSummaryResponse {
-    fn from(summary: SeriesSummary) -> Self {
+/// The results of a series on one skill.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct SkillResultResponse {
+    pub skill_id: String,
+    pub title: String,
+    pub correct_count: u32,
+    pub question_count: u32,
+    /// Lesson of the skill (« Revoir la leçon »), when there is one.
+    pub lesson_id: Option<String>,
+    /// A strong point of an exam (at least two thirds right); otherwise a notion to work on again.
+    pub strong: bool,
+}
+
+// ── Mascot (SUB001417) ──────────────────────────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum MascotExpression {
+    Happy,
+    Thinking,
+    Encouraging,
+    Party,
+}
+
+impl From<mascot::Expression> for MascotExpression {
+    fn from(expression: mascot::Expression) -> Self {
+        match expression {
+            mascot::Expression::Happy => MascotExpression::Happy,
+            mascot::Expression::Thinking => MascotExpression::Thinking,
+            mascot::Expression::Encouraging => MascotExpression::Encouraging,
+            mascot::Expression::Party => MascotExpression::Party,
+        }
+    }
+}
+
+/// When the mascot speaks.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum MascotSituation {
+    LessonStart,
+    SeriesPerfect,
+    SeriesWell,
+    SeriesEncourage,
+    ExamEnd,
+    TimedEnd,
+    LevelUp,
+}
+
+impl From<mascot::Situation> for MascotSituation {
+    fn from(situation: mascot::Situation) -> Self {
+        use mascot::Situation as S;
+        match situation {
+            S::LessonStart => MascotSituation::LessonStart,
+            S::SeriesPerfect => MascotSituation::SeriesPerfect,
+            S::SeriesWell => MascotSituation::SeriesWell,
+            S::SeriesEncourage => MascotSituation::SeriesEncourage,
+            S::ExamEnd => MascotSituation::ExamEnd,
+            S::TimedEnd => MascotSituation::TimedEnd,
+            S::LevelUp => MascotSituation::LevelUp,
+        }
+    }
+}
+
+impl From<MascotSituation> for mascot::Situation {
+    fn from(situation: MascotSituation) -> Self {
+        use mascot::Situation as S;
+        match situation {
+            MascotSituation::LessonStart => S::LessonStart,
+            MascotSituation::SeriesPerfect => S::SeriesPerfect,
+            MascotSituation::SeriesWell => S::SeriesWell,
+            MascotSituation::SeriesEncourage => S::SeriesEncourage,
+            MascotSituation::ExamEnd => S::ExamEnd,
+            MascotSituation::TimedEnd => S::TimedEnd,
+            MascotSituation::LevelUp => S::LevelUp,
+        }
+    }
+}
+
+/// The mascot: her name and the SVG of each expression.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct MascotResponse {
+    pub name: String,
+    pub pictures: Vec<MascotPictureResponse>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct MascotPictureResponse {
+    pub expression: MascotExpression,
+    pub svg: String,
+}
+
+/// A phrase of the mascot, shown in a bubble and read aloud, with her expression.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct MascotPhraseResponse {
+    pub text: String,
+    pub expression: MascotExpression,
+}
+
+/// What the timed challenge offers to a profile (SUB001415).
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct TimedChallengeResponse {
+    pub subject: Subject,
+    /// Skills mastered enough (60 % or more) to enter the challenge; none: no challenge yet.
+    pub skill_count: u32,
+    /// The durations offered, in seconds, and the best score of each.
+    pub durations: Vec<TimedDurationResponse>,
+    pub default_seconds: u32,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct TimedDurationResponse {
+    pub seconds: u32,
+    /// Best number of right answers, when the profile already played this duration.
+    pub best: Option<u32>,
+}
+
+impl SeriesSummaryResponse {
+    /// `skill`: title and lesson of a skill id.
+    pub fn new(summary: &SeriesSummary, skill: impl Fn(&str) -> (String, Option<String>)) -> Self {
         let count = |n: usize| u32::try_from(n).unwrap_or(u32::MAX);
         Self {
             correct_count: count(summary.correct_count),
             exercise_count: count(summary.exercise_count),
             points_earned: summary.points_earned,
             profile_points: summary.profile_points,
+            previous_best: summary.previous_best,
+            new_record: summary.new_record,
+            review_lesson: summary.review_lesson,
+            mascot_situation: mascot::Situation::after_series(
+                summary.correct_count,
+                summary.exercise_count,
+            )
+            .into(),
+            skills: summary
+                .by_skill()
+                .into_iter()
+                .map(|r| {
+                    let (title, lesson_id) = skill(&r.skill_id);
+                    SkillResultResponse {
+                        title,
+                        lesson_id,
+                        strong: r.is_strong(),
+                        correct_count: count(r.correct_count),
+                        question_count: count(r.question_count),
+                        skill_id: r.skill_id,
+                    }
+                })
+                .collect(),
         }
     }
 }
@@ -754,13 +1143,14 @@ impl From<&TableLine> for TableLineResponse {
     }
 }
 
-// ── Lessons (SUB001409, SUB001410, SUB001411, SUB000133) ────────────────────────────────────
+// ── Lessons (SUB001409, SUB001410, SUB001411, SUB000117) ────────────────────────────────────
 
 /// The lessons offered to a grade, sorted by period.
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[cfg_attr(test, derive(ts_rs::TS))]
 pub struct LessonsResponse {
+    pub subject: Subject,
     /// Grade asked for.
     pub grade: Grade,
     /// Grade of the returned lessons: the asked one, or CE1 when the asked grade has no lesson yet.
@@ -801,11 +1191,15 @@ impl LessonSummaryResponse {
 pub struct LessonResponse {
     pub id: String,
     pub title: String,
+    pub subject: Subject,
     pub grade: Grade,
     /// Skills practised after the lesson (« Je m'entraîne »), the first one being the main one.
     pub skill_ids: Vec<String>,
     pub slides: Vec<SlideResponse>,
+    /// The questions of the quiz (answered through `start_lesson_quiz` and `answer_series`).
     pub quiz: Vec<QuizQuestionResponse>,
+    /// The slide where the profile left the lesson, when it did not finish it (SUB001410).
+    pub resume_slide: Option<u32>,
 }
 
 impl From<&Lesson> for LessonResponse {
@@ -813,7 +1207,9 @@ impl From<&Lesson> for LessonResponse {
         Self {
             id: lesson.id.clone(),
             title: lesson.title.clone(),
+            subject: lesson.subject.into(),
             grade: lesson.grade.into(),
+            resume_slide: None,
             skill_ids: lesson.skill_ids.clone(),
             slides: lesson.slides.iter().map(Into::into).collect(),
             quiz: lesson
@@ -898,15 +1294,90 @@ pub enum AnimationResponse {
         interactive: bool,
         /// The value of a graduation shows under the pointer (interactive line).
         hover_values: bool,
+        /// Graduations marked with a checkered flag.
+        flags: Vec<i32>,
     },
-    /// `value` as hundred squares, ten bars and unit cubes; `missing` dotted cubes up to the next ten.
+    /// `value` as hundred plates, ten bars and unit cubes; `missing` dotted cubes up to the next
+    /// ten. `steps`: the states shown one after the other (a number joins, is taken away, shared).
     TensUnits {
         value: u32,
         hundreds: u32,
         tens: u32,
         units: u32,
         missing: u32,
+        steps: Vec<BlockStepResponse>,
+        /// The number added or removed, or the number of parts of a share.
+        change: Option<u32>,
+        /// The sum, the difference, or one part of the share.
+        result: u32,
+        parts: u32,
+        interactive: bool,
+        task: Option<BlockTask>,
+        /// Interactive: the blocks the child starts with, and the blocks to reach.
+        interactive_start: BlocksResponse,
+        target: BlocksResponse,
     },
+    /// A written operation, one layout per technique drawn (two side by side: cassage, compensation).
+    ColumnOperation {
+        operator: LessonOperator,
+        operands: Vec<u32>,
+        result: u32,
+        layouts: Vec<WrittenOperationResponse>,
+        /// Columns the animation computes, from the units (0: the numbers are only set in columns).
+        computed_columns: u32,
+        /// The child writes the digit of each column of the result, from the units.
+        interactive: bool,
+    },
+    /// `left operator right = result`, maybe with a hidden term, then the rest of its family.
+    Equation {
+        left: u32,
+        operator: LessonOperator,
+        right: u32,
+        result: u32,
+        missing: Option<EquationTerm>,
+        /// The value in the box.
+        missing_value: Option<u32>,
+        /// The equality first, then the other equalities of its family.
+        equalities: Vec<EqualityResponse>,
+        /// The child picks the missing term among `choices`.
+        interactive: bool,
+        choices: Vec<u32>,
+    },
+    CompareNumbers(CompareNumbersResponse),
+    SequencePattern(SequencePatternResponse),
+    ArrayGrid(ArrayGridResponse),
+    TimesTable(TimesTableResponse),
+    PlaceValueTable(PlaceValueTableResponse),
+    GroupObjects(GroupObjectsResponse),
+    TenFrame(TenFrameResponse),
+    FractionBar(FractionBarResponse),
+    BarModel(BarModelResponse),
+    /// Tiles to put in order to make `word`: `tiles` in the right order, then the `distractors`;
+    /// `order`: the tiles as shown, mixed up (indexes, tiles first then distractors).
+    LetterTiles {
+        word: String,
+        tiles: Vec<String>,
+        distractors: Vec<String>,
+        order: Vec<u32>,
+        interactive: bool,
+    },
+    /// Words to put in the box of their grapheme.
+    SoundSort {
+        groups: Vec<String>,
+        words: Vec<SortedWordResponse>,
+        interactive: bool,
+    },
+}
+
+/// A word of a `soundSort`: its box, and the letters of the grapheme to color.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct SortedWordResponse {
+    pub word: String,
+    pub group: u32,
+    pub start: u32,
+    pub length: u32,
 }
 
 impl From<&lessons::Animation> for AnimationResponse {
@@ -926,6 +1397,7 @@ impl From<&lessons::Animation> for AnimationResponse {
                 mode: match mode {
                     lessons::ChainMode::Show => ChainMode::Show,
                     lessons::ChainMode::Match => ChainMode::Match,
+                    lessons::ChainMode::Pick => ChainMode::Pick,
                 },
             },
             A::NumberLine {
@@ -936,6 +1408,7 @@ impl From<&lessons::Animation> for AnimationResponse {
                 jumps,
                 interactive,
                 hover_values,
+                flags,
             } => AnimationResponse::NumberLine {
                 from: *from,
                 to: *to,
@@ -944,23 +1417,212 @@ impl From<&lessons::Animation> for AnimationResponse {
                 jumps: jumps_of(*start, jumps),
                 interactive: *interactive,
                 hover_values: *hover_values,
+                flags: flags.clone(),
             },
-            A::TensUnits {
-                value,
-                complete_ten,
-            } => AnimationResponse::TensUnits {
-                value: *value,
-                hundreds: value / 100,
-                tens: value / 10 % 10,
-                units: value % 10,
-                missing: if *complete_ten && value % 10 != 0 {
-                    10 - value % 10
-                } else {
-                    0
-                },
+            A::TensUnits(blocks) => tens_units_response(blocks),
+            A::ColumnOperation(operation) => {
+                let layouts: Vec<WrittenOperationResponse> = operation
+                    .methods()
+                    .into_iter()
+                    .map(|method| WrittenOperationResponse {
+                        method: method.map(Into::into),
+                        columns: lessons::written_columns(
+                            operation.operator,
+                            &operation.operands,
+                            method,
+                        )
+                        .iter()
+                        .map(Into::into)
+                        .collect(),
+                    })
+                    .collect();
+                let width = layouts.first().map_or(0, |l| l.columns.len());
+                AnimationResponse::ColumnOperation {
+                    operator: operation.operator.into(),
+                    operands: operation.operands.clone(),
+                    result: operation.result(),
+                    computed_columns: operation.computed_columns.unwrap_or(width) as u32,
+                    layouts,
+                    interactive: operation.interactive,
+                }
+            }
+            A::Equation(equation) => AnimationResponse::Equation {
+                left: equation.left,
+                operator: equation.operator.into(),
+                right: equation.right,
+                result: equation.result(),
+                missing: equation.missing.map(|term| match term {
+                    lessons::EquationTerm::Left => EquationTerm::Left,
+                    lessons::EquationTerm::Right => EquationTerm::Right,
+                    lessons::EquationTerm::Result => EquationTerm::Result,
+                }),
+                missing_value: equation.missing_value(),
+                equalities: equation
+                    .equalities()
+                    .into_iter()
+                    .map(|e| EqualityResponse {
+                        left: e.left,
+                        operator: e.operator.into(),
+                        right: e.right,
+                        result: e.result,
+                    })
+                    .collect(),
+                interactive: equation.interactive,
+                choices: equation.choices.clone(),
+            },
+            A::CompareNumbers(c) => AnimationResponse::CompareNumbers(c.into()),
+            A::SequencePattern(s) => AnimationResponse::SequencePattern(s.into()),
+            A::ArrayGrid(g) => AnimationResponse::ArrayGrid(g.into()),
+            A::TimesTable(t) => AnimationResponse::TimesTable(t.into()),
+            A::PlaceValueTable(t) => AnimationResponse::PlaceValueTable(t.into()),
+            A::GroupObjects(g) => AnimationResponse::GroupObjects(g.into()),
+            A::TenFrame(f) => AnimationResponse::TenFrame(f.into()),
+            A::FractionBar(f) => AnimationResponse::FractionBar(f.into()),
+            A::BarModel(m) => AnimationResponse::BarModel(m.into()),
+            A::LetterTiles(t) => AnimationResponse::LetterTiles {
+                word: t.word.clone(),
+                tiles: t.tiles.clone(),
+                distractors: t.distractors.clone(),
+                order: t
+                    .shuffled()
+                    .into_iter()
+                    .map(|i| u32::try_from(i).unwrap_or(0))
+                    .collect(),
+                interactive: t.interactive,
+            },
+            A::SoundSort(sort) => AnimationResponse::SoundSort {
+                groups: sort.groups.clone(),
+                words: sort
+                    .words
+                    .iter()
+                    .map(|w| SortedWordResponse {
+                        word: w.word.clone(),
+                        group: u32::try_from(w.group).unwrap_or(0),
+                        start: u32::try_from(w.start).unwrap_or(0),
+                        length: u32::try_from(w.length).unwrap_or(0),
+                    })
+                    .collect(),
+                interactive: sort.interactive,
             },
         }
     }
+}
+
+/// The operation of a written operation, of an equality or of a table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum LessonOperator {
+    Add,
+    Subtract,
+    Multiply,
+}
+
+impl From<lessons::Operator> for LessonOperator {
+    fn from(operator: lessons::Operator) -> Self {
+        match operator {
+            lessons::Operator::Add => LessonOperator::Add,
+            lessons::Operator::Subtract => LessonOperator::Subtract,
+            lessons::Operator::Multiply => LessonOperator::Multiply,
+        }
+    }
+}
+
+/// The two techniques of the written subtraction.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum SubtractionMethod {
+    Cassage,
+    Compensation,
+}
+
+impl From<lessons::SubtractionMethod> for SubtractionMethod {
+    fn from(method: lessons::SubtractionMethod) -> Self {
+        match method {
+            lessons::SubtractionMethod::Cassage => SubtractionMethod::Cassage,
+            lessons::SubtractionMethod::Compensation => SubtractionMethod::Compensation,
+        }
+    }
+}
+
+/// A written operation drawn with one technique (`method` null for an addition).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct WrittenOperationResponse {
+    pub method: Option<SubtractionMethod>,
+    /// From the units to the left.
+    pub columns: Vec<WrittenColumnResponse>,
+}
+
+/// A column of a written operation, computed by the core.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct WrittenColumnResponse {
+    /// The digit of each number, from top to bottom (null: the number has no digit here).
+    pub digits: Vec<Option<u8>>,
+    /// Addition: carry above the column. Compensation: 1 ten added to the bottom number here.
+    pub carry: u8,
+    /// Cassage: the top digit crossed out and rewritten, with the column computed at that moment.
+    pub rewrites: Vec<RewriteResponse>,
+    /// Compensation: 10 units added to the top digit.
+    pub plus_ten: bool,
+    /// The numbers the column adds (carry first), or the top value and the value removed.
+    pub terms: Vec<u32>,
+    pub value: u32,
+    /// The digit written in the result.
+    pub digit: u8,
+    /// False for a zero on the left of the result, not written.
+    pub written: bool,
+}
+
+impl From<&lessons::WrittenColumn> for WrittenColumnResponse {
+    fn from(column: &lessons::WrittenColumn) -> Self {
+        Self {
+            digits: column.digits.clone(),
+            carry: column.carry,
+            rewrites: column
+                .rewrites
+                .iter()
+                .map(|r| RewriteResponse {
+                    at_column: r.at_column as u32,
+                    value: r.value,
+                })
+                .collect(),
+            plus_ten: column.plus_ten,
+            terms: column.terms.clone(),
+            value: column.value,
+            digit: column.digit,
+            written: column.written,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct RewriteResponse {
+    pub at_column: u32,
+    pub value: u8,
+}
+
+/// The term of an equality shown as a box.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum EquationTerm {
+    Left,
+    Right,
+    Result,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct EqualityResponse {
+    pub left: u32,
+    pub operator: LessonOperator,
+    pub right: u32,
+    pub result: u32,
 }
 
 fn jumps_of(start: i32, deltas: &[i32]) -> Vec<JumpResponse> {
@@ -975,11 +1637,13 @@ fn jumps_of(start: i32, deltas: &[i32]) -> Vec<JumpResponse> {
 }
 
 /// `Show`: the chains appear step by step. `Match`: the child links each calculation to its chain.
+/// `Pick`: the child clicks the only right chain (the crossed ones are classic mistakes).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[cfg_attr(test, derive(ts_rs::TS))]
 pub enum ChainMode {
     Show,
     Match,
+    Pick,
 }
 
 /// A chain of arrows: `start`, then each step with the value reached.
@@ -1027,17 +1691,6 @@ pub struct QuizQuestionResponse {
     /// Read aloud (send it to `speak`).
     pub spoken: String,
     pub choices: Option<Vec<ChoiceResponse>>,
-}
-
-#[derive(Debug, Clone, Serialize)]
-#[serde(rename_all = "camelCase")]
-#[cfg_attr(test, derive(ts_rs::TS))]
-pub struct QuizAnswerResponse {
-    pub correct: bool,
-    pub expected: AnswerPayload,
-    pub expected_label: String,
-    /// Shown and read after the answer, right or wrong.
-    pub explanation: String,
 }
 
 // ── Errors ───────────────────────────────────────────────────────────────────────────────────

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001416 — Activation du menu et gestion des profils
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -29,5 +29,13 @@ En tant qu'enfant ou parent, je veux accéder à toutes les parties de l'applica
 
 ## Critères d'acceptation
 
-- [ ] Suppression d'un profil impossible par un clic accidentel.
-- [ ] Changement de classe pris en compte immédiatement dans les compétences proposées.
+- [x] Suppression d'un profil impossible par un clic accidentel.
+- [x] Changement de classe pris en compte immédiatement dans les compétences proposées.
+
+## Implémentation (2026-10-14)
+
+- Leçons, Exercices, Examen et Options actifs ; Exercices et Leçons → choix Mathématiques / Orthographe.
+- Options (`OptionsScreen`) : couper les sons, masquer la mascotte, modifier le profil (`EditProfileScreen`),
+  supprimer un profil (bouton, puis confirmation où il faut retaper le nom).
+- Les réglages « couper les sons » et « masquer la mascotte » sont gardés sur l'ordinateur (stockage du webview,
+  comme le bouton son du lot 1) ; ils passeront dans la base avec les Options du lot 3 (SUB001512).

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYL8
-rev: 2026-10-11T18:49:06Z
+rev: 2026-10-13T18:57:37Z
 url: https://github.com/georgesp/Educator/issues/99
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000131 — Leçon CE1 — Résoudre des problèmes
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -75,12 +75,12 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/ce1-resoudre-des-problemes.json`, validée par `lesson.schema.json`, `skillIds` = `ce1-problems-additive`, `ce1-problems-two-steps`, `ce1-problems-multiplicative`.
+- [x] Leçon `content/lessons/math/ce1-resoudre-des-problemes.json`, validée par `lesson.schema.json`, `skillIds` = `ce1-problems-additive`, `ce1-problems-two-steps`, `ce1-problems-multiplicative`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
-- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
-- [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
-- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [x] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [x] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [x] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
+- [x] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
 - [ ] Relue et validée par Georges.
 
 ## Dépendances

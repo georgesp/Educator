@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-m-devant-m-b-p",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-m-devant-m-b-p"],
+  "title": "m devant m, b, p",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend une règle : la lettre m devant m, b et p.",
+      "speech": "Aujourd’hui, on apprend une règle très utile : quand le n se transforme en m !",
+      "animation": {"type": "titleCard", "title": "m devant m, b, p", "subtitle": "am, em, om, im"}
+    },
+    {
+      "title": "Une règle à connaître",
+      "text": "Devant les lettres m, b et p, le n se change en m : une lampe, une jambe.",
+      "speech": "Voici la règle : juste devant les lettres m, b et p, on n’écrit pas n, on écrit m. Une lampe, une jambe.",
+      "animation": {"type": "letterTiles", "word": "lampe", "tiles": ["l", "am", "p", "e"], "interactive": false}
+    },
+    {
+      "title": "am et em",
+      "text": "C’est vrai pour le son [an] : une chambre, le temps, décembre.",
+      "speech": "C’est vrai pour le son an : une chambre, le temps, le mois de décembre. On écrit a, m ou e, m.",
+      "animation": {"type": "letterTiles", "word": "chambre", "tiles": ["ch", "am", "b", "r", "e"], "interactive": false}
+    },
+    {
+      "title": "om",
+      "text": "C’est vrai pour le son [on] : une ombre, un pompier, une trompette.",
+      "speech": "C’est vrai aussi pour le son on : une ombre, un pompier, une trompette. On écrit o, m.",
+      "animation": {"type": "letterTiles", "word": "pompier", "tiles": ["p", "om", "p", "i", "er"], "interactive": false}
+    },
+    {
+      "title": "im",
+      "text": "Et pour le son [in] : un timbre, simple, impossible.",
+      "speech": "Et pour le son in : un timbre, simple, impossible. On écrit i, m.",
+      "animation": {"type": "letterTiles", "word": "timbre", "tiles": ["t", "im", "b", "r", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Regarde la lettre qui suit : m, b ou p ? Alors c’est am ou om. Sinon, an ou on.",
+      "speech": "À toi ! Regarde la lettre qui vient après : si c’est m, b ou p, on écrit a, m ou o, m. Sinon, a, n ou o, n. Range chaque mot.",
+      "animation": {"type": "soundSort", "groups": ["an", "am", "on", "om"], "words": [{"word": "tante", "group": "an"}, {"word": "panda", "group": "an"}, {"word": "lampe", "group": "am"}, {"word": "jambe", "group": "am"}, {"word": "monde", "group": "on"}, {"word": "oncle", "group": "on"}, {"word": "ombre", "group": "om"}, {"word": "pompe", "group": "om"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « tambour ». Quelle lettre vient après le son [an] ?",
+      "speech": "À toi ! Écris le mot tambour. Quelle lettre vient juste après le son an ? Alors, n ou m ?",
+      "animation": {"type": "letterTiles", "word": "tambour", "tiles": ["t", "am", "b", "ou", "r"], "distractors": ["an", "n"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « compote ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot compote. Quelle lettre vient juste après le son on ?",
+      "animation": {"type": "letterTiles", "word": "compote", "tiles": ["c", "om", "p", "o", "t", "e"], "distractors": ["on", "n"]}
+    },
+    {
+      "title": "Une exception",
+      "text": "Attention, un mot n’obéit pas à la règle : un bonbon ! On garde le n devant le b.",
+      "speech": "Attention, un mot n’obéit pas à la règle : un bonbon ! On garde le n devant le b. C’est une exception, je la retiens.",
+      "animation": {"type": "letterTiles", "word": "bonbon", "tiles": ["b", "on", "b", "on"], "interactive": false}
+    },
+    {
+      "title": "Je retiens",
+      "text": "m devant m, b, p :",
+      "speech": "Je retiens : devant m, b et p, j’écris m au lieu de n. Une lampe, une ombre, un timbre. Sauf dans bonbon !",
+      "animation": {"type": "recapCard", "text": "Devant m, b, p, j’écris m au lieu de n : am, em, om, im. Exception : un bonbon.", "example": "lampe · temps · ombre · timbre"}
+    }
+  ],
+  "quiz": [
+    {"question": "Une ja…be : quelle écriture ?", "spoken": "Une jambe. Comment s’écrit le son an dans le mot jambe ?", "answer": "am", "choices": ["an", "am", "en"], "explanation": "Jambe : le son an est devant un b, donc on écrit a, m."},
+    {"question": "Un p…pier : quelle écriture ?", "spoken": "Un pompier. Comment s’écrit le son on au début de pompier ?", "answer": "om", "choices": ["on", "om", "an"], "explanation": "Pompier : le son on est devant un p, donc on écrit o, m."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot simple. Cet exercice est simple !", "answer": "simple", "explanation": "Simple : le son in est devant un p, donc on écrit i, m."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Le mois de novembre. Choisis la bonne écriture du mot novembre.", "answer": "novembre", "choices": ["novembre", "novenbre", "novanbre"], "explanation": "Novembre : le son an est devant un b, donc on écrit e, m."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un bonbon. Choisis la bonne écriture du mot bonbon.", "answer": "bonbon", "choices": ["bonbon", "bombon", "bonbom"], "explanation": "Bonbon est une exception : on garde le n devant le b."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP-CE1 : décoder les mots comportant un m devant m, b, p",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : an, am, en, em, in, im",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

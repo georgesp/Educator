@@ -27,7 +27,17 @@ function series(answerMode: "Keyboard" | "Choice") {
         ? [i + 2, i + 3, i + 12, i + 1].sort((a, b) => a - b).map((value) => ({ label: String(value), answer: { kind: "number", value } }))
         : null,
   }));
-  return { seriesId: `series-${answerMode}`, seed: 42, skillId: "cp-add-sum-10", instruction: "Calcule.", answerMode, exercises };
+  return {
+    seriesId: `series-${answerMode}`,
+    sessionType: "Exercise",
+    subject: "Math",
+    seed: 42,
+    skillId: "cp-add-sum-10",
+    instruction: "Calcule.",
+    answerMode,
+    timeLimitSeconds: null,
+    exercises: exercises.map((e) => ({ ...e, word: null })),
+  };
 }
 
 /**
@@ -65,10 +75,24 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
       case "get_skills":
         expect(args.grade).toBe("CP");
         return {
+          subject: "Math",
           grade: "CP",
           skillsGrade: "CP",
           currentPeriod: 1,
-          skills: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation" }],
+          skills: [
+            {
+              id: "cp-add-sum-10",
+              title: "Additions jusqu'à 10",
+              instruction: "Calcule.",
+              period: 1,
+              isCurrentPeriod: true,
+              revisionFrom: null,
+              answerModes: ["Keyboard", "Choice"],
+              family: "Calculation",
+              spellingFormats: [],
+              mastery: null,
+            },
+          ],
         };
       case "start_series": {
         const { answerMode } = args.request as { answerMode: "Keyboard" | "Choice" };
@@ -92,9 +116,22 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
           expectedLabel: String(expected),
           explanation: `${index + 1} + 1 = ${expected}`,
           help: null,
-          summary: done ? { correctCount: count, exerciseCount: 10, pointsEarned: earned, profilePoints: (profiles[0] as { points: number }).points } : null,
+          correction: null,
+          summary: done
+            ? {
+                correctCount: count,
+                exerciseCount: 10,
+                pointsEarned: earned,
+                profilePoints: (profiles[0] as { points: number }).points,
+                skills: [],
+                mascotSituation: count === 10 ? "SeriesPerfect" : "SeriesWell",
+              }
+            : null,
         };
       }
+      case "get_mascot":
+      case "get_mascot_phrase":
+        return null;
       case "speak":
         return Array.from({ length: 44 }, () => 0);
       default:
@@ -127,6 +164,8 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
 }
 
 test("a CP child creates a profile, then does a whole series with the keyboard, then with the QCM", async ({ page }) => {
+  // Twenty exercises, each right one waiting for the next by itself.
+  test.setTimeout(90_000);
   await mockApi(page);
   await page.goto("/");
 
@@ -137,6 +176,7 @@ test("a CP child creates a profile, then does a whole series with the keyboard, 
 
   await expect(page.getByRole("heading", { name: "En piste, Léa !" })).toBeVisible();
   await page.getByRole("button", { name: /Exercices/ }).click();
+  await page.getByRole("button", { name: /Mathématiques/ }).click();
   await expect(page.getByText("C'est ce que tu travailles en ce moment")).toBeVisible();
   await page.getByRole("button", { name: /Additions jusqu'à 10/ }).click();
   await page.getByRole("button", { name: /J'écris la réponse/ }).click();
@@ -163,6 +203,7 @@ test("a CP child creates a profile, then does a whole series with the keyboard, 
   await page.locator(".summary").getByRole("button", { name: "Menu" }).click();
   await expect(page.getByLabel("110 points")).toBeVisible();
   await page.getByRole("button", { name: /Exercices/ }).click();
+  await page.getByRole("button", { name: /Mathématiques/ }).click();
   await page.getByRole("button", { name: /Additions jusqu'à 10/ }).click();
   await page.getByRole("button", { name: /Je choisis la réponse/ }).click();
   for (let i = 0; i < 10; i++) {

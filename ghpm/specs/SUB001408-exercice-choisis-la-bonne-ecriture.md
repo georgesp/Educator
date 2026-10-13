@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001408 — Exercice « Choisis la bonne écriture »
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -28,5 +28,13 @@ En tant qu'enfant, je veux reconnaître le mot bien écrit parmi plusieurs afin 
 
 ## Critères d'acceptation
 
-- [ ] Les propositions fausses ne sont jamais des mots réels de la banque.
-- [ ] Tests du générateur.
+- [x] Les propositions fausses ne sont jamais des mots réels de la banque.
+- [x] Tests du générateur.
+
+## Implémentation (2026-10-14)
+
+- Format `chooseSpelling` : le mot est lu ; 3 écritures, une seule juste.
+- Écritures fausses : une graphie remplacée par une graphie concurrente du même son ; à défaut (son écrit d'une
+  seule façon), par une confusion fréquente, puis par une consonne doublée ou dédoublée (décision de Georges du
+  2026-10-14 : on garde les confusions fréquentes). Jamais un mot réel de la
+  banque (test sur toute la banque : `spelling_proposals_are_never_real_words_and_compete_on_the_same_sound`).

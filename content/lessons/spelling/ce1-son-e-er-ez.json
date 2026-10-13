@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-son-e-er-ez",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-son-e-er-ez"],
+  "title": "Le son [é] : é, er, ez",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les trois façons d’écrire le son [é].",
+      "speech": "Aujourd’hui, on apprend à écrire le son é. Écoute : l’école, un panier, le nez. On entend le même son, mais il ne s’écrit pas toujours pareil !",
+      "animation": {"type": "titleCard", "title": "Le son [é]", "subtitle": "é, er, ez"}
+    },
+    {
+      "title": "Avec é",
+      "text": "Le plus souvent, [é] s’écrit é, avec un accent aigu : l’école, une idée, une fusée.",
+      "speech": "Le plus souvent, le son é s’écrit avec la lettre é, qui porte un accent aigu. L’école, une idée, une fusée.",
+      "animation": {"type": "letterTiles", "word": "école", "tiles": ["é", "c", "o", "l", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec er",
+      "text": "À la fin d’un mot, [é] s’écrit souvent er : un panier, un cahier, un rocher.",
+      "speech": "À la fin d’un mot, le son é s’écrit souvent e, r. Un panier, un cahier, un rocher. Le r ne s’entend pas !",
+      "animation": {"type": "letterTiles", "word": "panier", "tiles": ["p", "a", "n", "i", "er"], "interactive": false}
+    },
+    {
+      "title": "Avec ez",
+      "text": "Plus rarement, il s’écrit ez : le nez, chez moi. Et avec vous : vous chantez !",
+      "speech": "Plus rarement, il s’écrit e, z. Le nez, chez moi. Et quand on dit vous : vous chantez, vous jouez !",
+      "animation": {"type": "letterTiles", "word": "nez", "tiles": ["n", "ez"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot dans la boîte de sa façon d’écrire le son [é].",
+      "speech": "À toi ! Clique sur un mot, puis sur la boîte qui montre comment s’écrit le son é dans ce mot.",
+      "animation": {"type": "soundSort", "groups": ["é", "er", "ez"], "words": [{"word": "école", "group": "é"}, {"word": "fusée", "group": "é"}, {"word": "cinéma", "group": "é"}, {"word": "cahier", "group": "er"}, {"word": "rocher", "group": "er"}, {"word": "papier", "group": "er"}, {"word": "nez", "group": "ez"}, {"word": "chez", "group": "ez"}, {"word": "avez", "group": "ez"}]}
+    },
+    {
+      "title": "Métiers et arbres",
+      "text": "Beaucoup de métiers et d’arbres finissent par -er : un boulanger, un fermier, un pommier.",
+      "speech": "Un indice : beaucoup de noms de métiers et d’arbres finissent par e, r. Un boulanger, un fermier, un pommier, un cerisier.",
+      "animation": {"type": "letterTiles", "word": "fermier", "tiles": ["f", "e", "r", "m", "i", "er"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « escalier ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot escalier : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "escalier", "tiles": ["e", "s", "c", "a", "l", "i", "er"], "distractors": ["é", "ez"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « fusée ». N’oublie pas le e muet à la fin !",
+      "speech": "À toi ! Écris le mot fusée. Attention : après le é, il y a un e qu’on n’entend pas !",
+      "animation": {"type": "letterTiles", "word": "fusée", "tiles": ["f", "u", "s", "é", "e"], "distractors": ["er", "ez"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [é] s’écrit :",
+      "speech": "Je retiens : le son é s’écrit é, comme dans école ; e, r à la fin de beaucoup de mots, comme dans panier ; ou e, z, comme dans nez.",
+      "animation": {"type": "recapCard", "text": "Le son [é] s’écrit é (l’école), er à la fin de beaucoup de mots (un panier) ou ez (le nez, vous chantez).", "example": "école · panier · nez"}
+    }
+  ],
+  "quiz": [
+    {"question": "Un cahi… : quelle fin ?", "spoken": "Un cahier. Comment s’écrit le son é à la fin de cahier ?", "answer": "er", "choices": ["é", "er", "ez"], "explanation": "Cahier finit par e, r, comme panier."},
+    {"question": "Le n… : quelle fin ?", "spoken": "Le nez. Comment s’écrit le son é à la fin de nez ?", "answer": "ez", "choices": ["é", "er", "ez"], "explanation": "Nez s’écrit n, e, z."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot école. Je vais à l’école.", "answer": "école", "explanation": "École commence par é, avec un accent aigu."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un pommier. Choisis la bonne écriture du mot pommier.", "answer": "pommier", "choices": ["pommier", "pommié", "pommiez"], "explanation": "Pommier est un nom d’arbre : il finit par e, r."},
+    {"question": "Vous … bien ! (chanter)", "spoken": "Vous chantez bien ! Choisis la bonne écriture de chantez.", "answer": "chantez", "choices": ["chantez", "chanté", "chanter"], "explanation": "Avec vous, le verbe finit par e, z : vous chantez."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : tenir compte des accents ; mémoriser les correspondances des sons proches",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : é, er, ez",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

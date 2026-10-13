@@ -267,6 +267,7 @@ impl CalculationExercise {
                 c.duplicate_key().2
             ),
             calculation: Some(self.clone()),
+            word: None,
         }
     }
 }

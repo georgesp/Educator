@@ -7,13 +7,20 @@ import { useMove, useSteps } from "../useSteps";
 type CalcChainProps = {
   chains: Chain[];
   mode: ChainMode;
-  /** Called once every calculation is linked to its chain (mode Match). */
+  /** Called once every calculation is linked to its chain (mode Match), or the right chain is picked (mode Pick). */
   onComplete?(): void;
 };
 
 /** `calcChain`: mental calculation as chains of arrows (46 → + 20 → 66 → − 1 → 65). */
 export function CalcChain({ chains, mode, onComplete }: CalcChainProps) {
-  return mode === "Match" ? <ChainMatch chains={chains} onComplete={onComplete} /> : <ChainShow chains={chains} />;
+  switch (mode) {
+    case "Match":
+      return <ChainMatch chains={chains} onComplete={onComplete} />;
+    case "Pick":
+      return <ChainPick chains={chains} onComplete={onComplete} />;
+    case "Show":
+      return <ChainShow chains={chains} />;
+  }
 }
 
 const stepsText = (chain: Chain) => chain.steps.map((s) => signed(s.delta)).join(", ");
@@ -122,7 +129,9 @@ function ChainMatch({ chains, onComplete }: { chains: Chain[]; onComplete?(): vo
                 setHint(false);
               }}
             >
-              {linked.includes(i) ? `${chain.start} + ${chain.total} = ${chain.result}` : `${chain.start} + ${chain.total}`}
+              {/* The number added, in racing red: it is what the chain must add in all. */}
+              {chain.start} <span className="match-added">+ {chain.total}</span>
+              {linked.includes(i) ? ` = ${chain.result}` : null}
             </button>
           ))}
         </div>
@@ -142,7 +151,79 @@ function ChainMatch({ chains, onComplete }: { chains: Chain[]; onComplete?(): vo
         </div>
       </div>
       <p className={done ? "lesson-hint lesson-hint-done" : "lesson-hint"} role="status">
-        {done ? fr.lessons.matchDone : hint ? fr.lessons.matchHint : fr.lessons.matchPick}
+        {done
+          ? fr.lessons.matchDone
+          : hint
+            ? fr.lessons.matchHint
+            : selected !== null
+              ? fr.lessons.matchWhich(chains[selected].total)
+              : fr.lessons.matchPick}
+      </p>
+    </div>
+  );
+}
+
+/** The values of a chain, from its start: 42 → + 10 → 52 → − 1 → 51. */
+function ChainValues({ chain }: { chain: Chain }) {
+  return (
+    <>
+      <span className="chain-value">{chain.start}</span>
+      {chain.steps.map((step, i) => (
+        <Fragment key={i}>
+          <span className="chain-arrow">
+            <span className="chain-step">{signed(step.delta)}</span>
+            <span className="chain-arrow-line" aria-hidden="true" />
+          </span>
+          <span className="chain-value">{step.value}</span>
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+/**
+ * The child clicks the only right chain; the others are classic mistakes (crossed). A wrong chain is
+ * crossed out gently, with a hint; the right one turns to the « result » color.
+ */
+function ChainPick({ chains, onComplete }: { chains: Chain[]; onComplete?(): void }) {
+  const [wrong, setWrong] = useState<number[]>([]);
+  const [found, setFound] = useState<number | null>(null);
+  const right = chains.findIndex((c) => !c.crossed);
+
+  const pick = (index: number) => {
+    if (found !== null || wrong.includes(index)) {
+      return;
+    }
+
+    if (index === right) {
+      setFound(index);
+      onComplete?.();
+    } else {
+      setWrong([...wrong, index]);
+    }
+  };
+
+  const chain = chains[right];
+  return (
+    <div className="lesson-chains" role="group" aria-label={fr.lessons.pickAsk}>
+      {chains.map((c, i) => {
+        const crossed = wrong.includes(i) || (found !== null && i !== found);
+        return (
+          <button
+            key={i}
+            type="button"
+            className={`lesson-chain lesson-chain-pick${crossed ? " lesson-chain-crossed" : ""}${found === i ? " lesson-chain-right" : ""}`}
+            disabled={found !== null || wrong.includes(i)}
+            aria-label={fr.lessons.pickChain(c.start, stepsText(c))}
+            onClick={() => pick(i)}
+          >
+            <ChainValues chain={c} />
+            {crossed && <span className="chain-wrong">{fr.lessons.wrongWay}</span>}
+          </button>
+        );
+      })}
+      <p className={found !== null ? "lesson-hint lesson-hint-done" : "lesson-hint"} role="status">
+        {found !== null ? fr.lessons.pickDone(chain.start, chain.total, chain.result) : wrong.length > 0 ? fr.lessons.pickHint : fr.lessons.pickAsk}
       </p>
     </div>
   );

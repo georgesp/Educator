@@ -1,10 +1,26 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { setVoiceEnabled } from "../audio/useSpeech";
-import { fakeApi, renderApp, shortLesson } from "../test/renderWithApp";
+import { fr } from "../i18n/fr";
+import { fakeApi, quizSeries, renderApp, shortLesson, summaryOf } from "../test/renderWithApp";
 
 const next = () => screen.getByRole("button", { name: /Suivant/ });
+
+/** The slides of the short lesson, done by the child, up to « Je retiens ». */
+async function goThroughTheSlides(user: ReturnType<typeof userEvent.setup>) {
+    await user.click(await screen.findByRole("button", { name: /Suivant/ }));
+    await user.click(await screen.findByRole("button", { name: "Graduation 77" }));
+    await user.click(screen.getByRole("button", { name: "Graduation 76" }));
+    await user.click(next());
+    const calculations = await screen.findByRole("group", { name: "Les calculs" });
+    const chains = screen.getByRole("group", { name: "Les chemins" });
+    await user.click(within(calculations).getByRole("button", { name: "24 + 9" }));
+    await user.click(within(chains).getByRole("button", { name: "+ 10 puis − 1" }));
+    await user.click(within(calculations).getByRole("button", { name: "24 + 19" }));
+    await user.click(within(chains).getByRole("button", { name: "+ 20 puis − 1" }));
+    await user.click(next());
+}
 
 describe("LessonsScreen", () => {
   it("lists the lessons of the grade and opens one", async () => {
@@ -12,16 +28,17 @@ describe("LessonsScreen", () => {
     const router = renderApp(api, "/lecons");
     const user = userEvent.setup();
 
+    await user.click(await screen.findByRole("button", { name: /Mathématiques/ }));
     expect(await screen.findByRole("heading", { name: "Leçons de maths" })).toBeInTheDocument();
     await user.click(await screen.findByRole("button", { name: /Ajouter 9, 19 ou 29/ }));
-    expect(api.listLessons).toHaveBeenCalledWith("CP");
+    expect(api.listLessons).toHaveBeenCalledWith("CP", "Math");
     expect(screen.queryByText(/En attendant, voici celles du CE1/)).not.toBeInTheDocument();
-    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons/ce1-add-9-19-29"));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons/maths/ce1-add-9-19-29"));
   });
 
   it("says when the lessons come from CE1, or when there is none yet", async () => {
-    const lessons = { grade: "CM1" as const, lessonsGrade: "CE1" as const, currentPeriod: 2, lessons: [] };
-    renderApp(fakeApi({ listLessons: () => Promise.resolve(lessons) }), "/lecons");
+    const lessons = { subject: "Math" as const, grade: "CM1" as const, lessonsGrade: "CE1" as const, currentPeriod: 2, lessons: [] };
+    renderApp(fakeApi({ listLessons: () => Promise.resolve(lessons) }), "/lecons/maths");
 
     expect(await screen.findByText(/En attendant, voici celles du CE1/)).toBeInTheDocument();
     expect(screen.getByText("Les leçons arrivent bientôt.")).toBeInTheDocument();
@@ -30,7 +47,7 @@ describe("LessonsScreen", () => {
 
 describe("LessonScreen", () => {
   it("shows one slide at a time with Previous and Next", async () => {
-    renderApp(fakeApi(), "/lecons/ce1-add-9-19-29");
+    renderApp(fakeApi(), "/lecons/maths/ce1-add-9-19-29");
     const user = userEvent.setup();
 
     expect(await screen.findByRole("heading", { name: "Leçon" })).toBeInTheDocument();
@@ -44,7 +61,7 @@ describe("LessonScreen", () => {
   });
 
   it("waits for the child on the number line and guides after a mistake", async () => {
-    renderApp(fakeApi(), "/lecons/ce1-add-9-19-29");
+    renderApp(fakeApi(), "/lecons/maths/ce1-add-9-19-29");
     const user = userEvent.setup();
     await user.click(await screen.findByRole("button", { name: /Suivant/ }));
 
@@ -65,7 +82,7 @@ describe("LessonScreen", () => {
   });
 
   it("links each calculation to its chain", async () => {
-    renderApp(fakeApi(), "/lecons/ce1-add-9-19-29");
+    renderApp(fakeApi(), "/lecons/maths/ce1-add-9-19-29");
     const user = userEvent.setup();
     await user.click(await screen.findByRole("button", { name: /Suivant/ }));
     await user.click(await screen.findByRole("button", { name: "Graduation 77" }));
@@ -77,6 +94,7 @@ describe("LessonScreen", () => {
     expect(next()).toBeDisabled();
 
     await user.click(within(calculations).getByRole("button", { name: "24 + 9" }));
+    expect(screen.getByRole("status")).toHaveTextContent("Quel chemin fait + 9 en tout ?");
     await user.click(within(chains).getByRole("button", { name: "+ 20 puis − 1" }));
     expect(screen.getByRole("status")).toHaveTextContent("Presque !");
 
@@ -91,20 +109,10 @@ describe("LessonScreen", () => {
   it("ends with the quiz checked by the core, then « Je m'entraîne »", async () => {
     setVoiceEnabled(true);
     const api = fakeApi();
-    const router = renderApp(api, "/lecons/ce1-add-9-19-29");
+    const router = renderApp(api, "/lecons/maths/ce1-add-9-19-29");
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole("button", { name: /Suivant/ }));
-    await user.click(await screen.findByRole("button", { name: "Graduation 77" }));
-    await user.click(screen.getByRole("button", { name: "Graduation 76" }));
-    await user.click(next());
-    const calculations = await screen.findByRole("group", { name: "Les calculs" });
-    const chains = screen.getByRole("group", { name: "Les chemins" });
-    await user.click(within(calculations).getByRole("button", { name: "24 + 9" }));
-    await user.click(within(chains).getByRole("button", { name: "+ 10 puis − 1" }));
-    await user.click(within(calculations).getByRole("button", { name: "24 + 19" }));
-    await user.click(within(chains).getByRole("button", { name: "+ 20 puis − 1" }));
-    await user.click(next());
+    await goThroughTheSlides(user);
 
     expect(await screen.findByRole("heading", { name: "Je retiens" })).toBeInTheDocument();
     expect(api.speak).toHaveBeenCalledWith("Je retiens.");
@@ -114,7 +122,8 @@ describe("LessonScreen", () => {
     expect(await screen.findByText("28 + 9 = ?")).toBeInTheDocument();
     await user.type(screen.getByLabelText("Ta réponse"), "39{Enter}");
     expect(await screen.findByText("Pas tout à fait. Regarde :")).toBeInTheDocument();
-    expect(api.answerLessonQuiz).toHaveBeenCalledWith("ce1-add-9-19-29", 0, { kind: "number", value: 39 });
+    expect(api.startLessonQuiz).toHaveBeenCalledWith("p-lea", "ce1-add-9-19-29");
+    expect(api.answerSeries).toHaveBeenCalledWith("quiz", 0, { kind: "number", value: 39 }, expect.any(Number));
     expect(api.speak).toHaveBeenCalledWith("28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37.");
     await user.click(screen.getByRole("button", { name: "Suivant" }));
 
@@ -125,16 +134,106 @@ describe("LessonScreen", () => {
 
     expect(await screen.findByRole("heading", { name: "Leçon terminée !" })).toBeInTheDocument();
     expect(screen.getByText("1 bonne réponse sur 2")).toBeInTheDocument();
+    expect(screen.getByText("+30 points")).toBeInTheDocument();
+    // Progress kept on every slide, forgotten once the lesson is finished.
+    expect(api.saveLessonProgress).toHaveBeenCalledWith("p-lea", "ce1-add-9-19-29", 3);
+    expect(api.saveLessonProgress).toHaveBeenLastCalledWith("p-lea", "ce1-add-9-19-29", null);
     await user.click(screen.getByRole("button", { name: /Je m'entraîne/ }));
-    await waitFor(() => expect(router.state.location.pathname).toBe(`/exercices/${shortLesson.skillIds[0]}`));
+    await waitFor(() => expect(router.state.location.pathname).toBe(`/exercices/maths/${shortLesson.skillIds[0]}`));
+    // The quiz ended with its last answer: nothing to abandon.
+    expect(api.abandonSeries).not.toHaveBeenCalled();
+  });
+
+  it("a quiz left before its last answer is recorded as abandoned", async () => {
+    const api = fakeApi();
+    renderApp(api, "/lecons/maths/ce1-add-9-19-29");
+    const user = userEvent.setup();
+
+    await goThroughTheSlides(user);
+    await user.click(await screen.findByRole("button", { name: "Au quiz !" }));
+    await user.type(await screen.findByLabelText("Ta réponse"), "37{Enter}");
+    await screen.findByRole("button", { name: "Suivant" });
+    await user.click(screen.getByRole("button", { name: fr.lessons.quit }));
+
+    await waitFor(() => expect(api.abandonSeries).toHaveBeenCalledWith("quiz"));
+  });
+
+  it("offers to practise each skill of a lesson that has several", async () => {
+    const api = fakeApi({
+      getLesson: () => Promise.resolve({ ...shortLesson, skillIds: ["cp-add-sum-10", "cp-add-tables"], quiz: shortLesson.quiz.slice(0, 1) }),
+      startLessonQuiz: vi.fn().mockResolvedValue({ ...quizSeries, exercises: quizSeries.exercises.slice(0, 1) }),
+      answerSeries: vi.fn().mockResolvedValue({
+        correct: true,
+        expected: { kind: "number", value: 37 },
+        expectedLabel: "37",
+        explanation: "Bravo.",
+        help: null,
+        correction: null,
+        summary: summaryOf(1, 1, 50, 170, "ce1-add-9-19-29"),
+      }),
+    });
+    const router = renderApp(api, "/lecons/maths/ce1-add-9-19-29");
+    const user = userEvent.setup();
+
+    // Through the slides (the interactive ones done), then the one-question quiz.
+    await goThroughTheSlides(user);
+    await user.click(await screen.findByRole("button", { name: "Au quiz !" }));
+    await user.type(await screen.findByLabelText("Ta réponse"), "37{Enter}");
+    await user.click(await screen.findByRole("button", { name: "Suivant" }));
+
+    expect(await screen.findByRole("button", { name: /Je m'entraîne : Additions jusqu'à 10/ })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /Je m'entraîne : Tables d'addition/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/exercices/maths/cp-add-tables"));
   });
 
   it("an unknown lesson offers to go back", async () => {
     const api = fakeApi({ getLesson: () => Promise.reject(new Error("404")) });
-    const router = renderApp(api, "/lecons/nothing");
+    const router = renderApp(api, "/lecons/maths/nothing");
     const user = userEvent.setup();
 
     await user.click(await screen.findByRole("button", { name: "Retour" }));
-    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons"));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/lecons/maths"));
+  });
+});
+
+describe("LessonScreen — lot 2", () => {
+  it("offers to resume a lesson left in the middle", async () => {
+    const api = fakeApi({ getLesson: vi.fn().mockResolvedValue({ ...shortLesson, resumeSlide: 3 }) });
+    renderApp(api, "/lecons/maths/ce1-add-9-19-29");
+    const user = userEvent.setup();
+
+    expect(await screen.findByRole("heading", { name: "Tu avais commencé cette leçon" })).toBeInTheDocument();
+    expect(api.getLesson).toHaveBeenCalledWith("ce1-add-9-19-29", "p-lea");
+    await user.click(screen.getByRole("button", { name: /Je reprends/ }));
+    expect(await screen.findByRole("heading", { name: "Je retiens" })).toBeInTheDocument();
+  });
+
+  it("below half of right answers, « Revoir la leçon » comes first", async () => {
+    const api = fakeApi({
+      getLesson: vi.fn().mockResolvedValue({ ...shortLesson, resumeSlide: 3 }),
+      answerSeries: vi.fn(async (_s: string, index: number) => ({
+        correct: false,
+        expected: { kind: "number" as const, value: 1 },
+        expectedLabel: "1",
+        explanation: "Explication.",
+        help: null,
+        correction: null,
+        summary: index === 1 ? summaryOf(0, 2, 20, 140, "ce1-add-9-19-29") : null,
+      })),
+    });
+    renderApp(api, "/lecons/maths/ce1-add-9-19-29");
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: /Je reprends/ }));
+    await user.click(await screen.findByRole("button", { name: "Au quiz !" }));
+    await user.type(await screen.findByLabelText("Ta réponse"), "1{Enter}");
+    await user.click(await screen.findByRole("button", { name: "Suivant" }));
+    await user.click(await screen.findByRole("button", { name: "64" }));
+    await user.click(await screen.findByRole("button", { name: "Suivant" }));
+
+    expect(await screen.findByText(/Tu peux revoir la leçon/)).toBeInTheDocument();
+    const actions = screen.getAllByRole("button", { name: /Revoir la leçon|Je m'entraîne/ });
+    expect(actions[0]).toHaveAccessibleName(/Revoir la leçon/);
+    expect(actions[0]).toHaveClass("big-button-primary");
   });
 });

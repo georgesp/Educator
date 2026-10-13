@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-son-in-ain-ein",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-son-in-ain-ein"],
+  "title": "Le son [in] : in, ain, ein",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les trois façons d’écrire le son [in].",
+      "speech": "Aujourd’hui, on apprend à écrire le son in. Écoute : un lapin, la main, plein. On entend le même son, mais il ne s’écrit pas toujours pareil !",
+      "animation": {"type": "titleCard", "title": "Le son [in]", "subtitle": "in, ain, ein"}
+    },
+    {
+      "title": "Avec in",
+      "text": "Le plus souvent, [in] s’écrit in : un lapin, un jardin, le matin.",
+      "speech": "Le plus souvent, le son in s’écrit avec les lettres i et n. Un lapin, un jardin, le matin.",
+      "animation": {"type": "letterTiles", "word": "jardin", "tiles": ["j", "a", "r", "d", "in"], "interactive": false}
+    },
+    {
+      "title": "Avec ain",
+      "text": "Il s’écrit aussi ain : la main, du pain, un train.",
+      "speech": "Il s’écrit aussi avec trois lettres : a, i, n. La main, du pain, un train.",
+      "animation": {"type": "letterTiles", "word": "train", "tiles": ["t", "r", "ain"], "interactive": false}
+    },
+    {
+      "title": "Avec ein",
+      "text": "Plus rarement, il s’écrit ein : plein, la peinture, un frein.",
+      "speech": "Plus rarement, il s’écrit avec e, i, n. Plein, la peinture, un frein.",
+      "animation": {"type": "letterTiles", "word": "peinture", "tiles": ["p", "ein", "t", "u", "r", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot dans la boîte de sa façon d’écrire le son [in].",
+      "speech": "À toi ! Clique sur un mot, puis sur la boîte qui montre comment s’écrit le son in dans ce mot.",
+      "animation": {"type": "soundSort", "groups": ["in", "ain", "ein"], "words": [{"word": "sapin", "group": "in"}, {"word": "moulin", "group": "in"}, {"word": "singe", "group": "in"}, {"word": "main", "group": "ain"}, {"word": "bain", "group": "ain"}, {"word": "copain", "group": "ain"}, {"word": "plein", "group": "ein"}, {"word": "frein", "group": "ein"}, {"word": "ceinture", "group": "ein"}]}
+    },
+    {
+      "title": "Une astuce",
+      "text": "Pour certains mots, je pense au féminin : prochain → prochaine, plein → pleine. J’entends [è] !",
+      "speech": "Une astuce : pour certains mots, je dis le mot au féminin. Prochain, prochaine : j’entends a, i. Plein, pleine : j’entends e, i. Ça m’aide !",
+      "animation": {"type": "letterTiles", "word": "prochain", "tiles": ["p", "r", "o", "ch", "ain"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « copain ». Ici, l’astuce ne marche pas : je mémorise ain !",
+      "speech": "À toi ! Écris le mot copain. Ici, l’astuce ne marche pas : je dois mémoriser que copain s’écrit avec a, i, n.",
+      "animation": {"type": "letterTiles", "word": "copain", "tiles": ["c", "o", "p", "ain"], "distractors": ["in", "ein"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « ceinture ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot ceinture : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "ceinture", "tiles": ["c", "ein", "t", "u", "r", "e"], "distractors": ["in", "ain"]}
+    },
+    {
+      "title": "Je regarde le mot",
+      "text": "Le plus souvent, pas d’astuce : je regarde bien le mot et je le mémorise. Demain.",
+      "speech": "Le plus souvent, il n’y a pas d’astuce : je regarde bien le mot et je le mémorise. À toi : écris demain !",
+      "animation": {"type": "letterTiles", "word": "demain", "tiles": ["d", "e", "m", "ain"], "distractors": ["in", "ein"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [in] s’écrit :",
+      "speech": "Je retiens : le son in s’écrit i, n, comme dans lapin ; a, i, n, comme dans main ; ou e, i, n, comme dans plein.",
+      "animation": {"type": "recapCard", "text": "Le son [in] s’écrit in (un lapin), ain (la main) ou ein (plein). Le féminin peut m’aider : pleine.", "example": "lapin · main · plein"}
+    }
+  ],
+  "quiz": [
+    {"question": "Du p… : quelle écriture ?", "spoken": "Du pain. Comment s’écrit le son in dans le mot pain ?", "answer": "ain", "choices": ["in", "ain", "ein"], "explanation": "Pain s’écrit p, a, i, n, comme main et bain."},
+    {"question": "Un lap… : quelle écriture ?", "spoken": "Un lapin. Comment s’écrit le son in dans le mot lapin ?", "answer": "in", "choices": ["in", "ain", "ein"], "explanation": "Lapin s’écrit avec i, n, l’écriture la plus fréquente."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot main. Je lève la main.", "answer": "main", "explanation": "Main s’écrit m, a, i, n."},
+    {"question": "Le verre est … : quel mot ?", "spoken": "Le verre est plein. Choisis la bonne écriture du mot plein.", "answer": "plein", "choices": ["plein", "plain", "plin"], "explanation": "Plein, pleine : on entend e, i au féminin, donc plein s’écrit avec e, i, n."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "La peinture. Choisis la bonne écriture du mot peinture.", "answer": "peinture", "choices": ["peinture", "pinture", "painture"], "explanation": "Peinture s’écrit avec e, i, n, comme peindre et peintre."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : décoder et mémoriser toutes les correspondances, même les plus complexes",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : ain, ein",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

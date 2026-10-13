@@ -41,6 +41,24 @@ export const FlagIcon = (p: IconProps) => (
     <path d="M5 4h13l-2.5 4L18 12H5" />
   </Icon>
 );
+export const TimerIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 13V9" />
+    <path d="M10 2h4" />
+    <path d="M19 6l1.5-1.5" />
+  </Icon>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 7h16" />
+    <path d="M10 11v6M14 11v6" />
+    <path d="M6 7l1 13h10l1-13" />
+    <path d="M9 7V4h6v3" />
+  </Icon>
+);
+
 export const GearIcon = (p: IconProps) => (
   <Icon {...p}>
     <circle cx="12" cy="12" r="3.5" />
@@ -78,10 +96,11 @@ export const DiceIcon = (p: IconProps) => (
     <path d="M4 20v-5h5" />
   </Icon>
 );
+/** « Effacer »: a rounded key pointing left, with a cross (the last letter goes away). */
 export const EraseIcon = (p: IconProps) => (
   <Icon {...p}>
-    <path d="M21 5H9l-6 7 6 7h12z" />
-    <path d="M13 9l6 6M19 9l-6 6" />
+    <path d="M9.6 5H18.5A2.5 2.5 0 0 1 21 7.5v9a2.5 2.5 0 0 1-2.5 2.5H9.6a2 2 0 0 1-1.55-.74L3 12l5.05-6.26A2 2 0 0 1 9.6 5z" />
+    <path d="M12.5 9.5l5 5M17.5 9.5l-5 5" strokeWidth={2.6} />
   </Icon>
 );
 export const ArrowIcon = (p: IconProps) => (

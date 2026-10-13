@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "lesson.schema.json",
   "title": "Leçon Educator",
-  "description": "Une leçon courte et animée (SUB001409) : des slides (texte affiché, texte lu, animation de la bibliothèque SUB000117), puis un quiz, puis les exercices des compétences liées. Le chargeur Rust (educator-content::lessons) ajoute les règles qu'un schéma ne sait pas dire : compétences existantes, bonds qui tombent sur une graduation, textes lus assez courts une fois les nombres écrits en lettres, titre en premier et « Je retiens » en dernier.",
+  "description": "Une leçon courte et animée (SUB001409) : des slides (texte affiché, texte lu, animation de la bibliothèque SUB000117), puis un quiz, puis les exercices des compétences liées. Le chargeur Rust (educator-content::lessons) ajoute les règles qu'un schéma ne sait pas dire : compétences existantes, bonds et drapeaux qui tombent sur une graduation, cohérence des paramètres de chaque animation, une seule bonne proposition dans un QCM, textes lus assez courts une fois les nombres écrits en lettres, titre en premier et « Je retiens » en dernier.",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "subject", "grade", "period", "skillIds", "title", "durationMinutes", "slides", "quiz", "sources"],
@@ -13,7 +13,7 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
       "description": "Identifiant stable, identique au nom du fichier (sans .json)."
     },
-    "subject": { "enum": ["math"] },
+    "subject": { "enum": ["math", "spelling"], "description": "math : mathématiques ; spelling : orthographe (au moins une animation letterTiles ou soundSort)." },
     "grade": { "enum": ["CP", "CE1", "CE2", "CM1", "CM2"] },
     "period": { "type": "integer", "minimum": 1, "maximum": 5, "description": "Période où la leçon est proposée." },
     "skillIds": {
@@ -67,7 +67,28 @@
       "type": "object",
       "required": ["type"],
       "properties": {
-        "type": { "enum": ["titleCard", "recapCard", "calcChain", "numberLine", "tensUnits"] }
+        "type": {
+          "enum": [
+            "titleCard",
+            "recapCard",
+            "calcChain",
+            "numberLine",
+            "tensUnits",
+            "columnOperation",
+            "equation",
+            "compareNumbers",
+            "sequencePattern",
+            "arrayGrid",
+            "timesTable",
+            "placeValueTable",
+            "groupObjects",
+            "tenFrame",
+            "fractionBar",
+            "barModel",
+            "letterTiles",
+            "soundSort"
+          ]
+        }
       },
       "oneOf": [
         {
@@ -89,10 +110,10 @@
           "additionalProperties": false
         },
         {
-          "description": "Calcul en chaîne de flèches (46 → + 20 → 66 → − 1 → 65). Mode « show » : les chaînes apparaissent pas à pas ; « match » : l'enfant relie chaque calcul (départ + total) à sa chaîne.",
+          "description": "Calcul en chaîne de flèches (46 → + 20 → 66 → − 1 → 65). Mode « show » : les chaînes apparaissent pas à pas ; « match » : l'enfant relie chaque calcul (départ + total) à sa chaîne ; « pick » : l'enfant clique sur le seul bon chemin (les autres, barrés, sont des erreurs classiques, montrés barrés après son choix).",
           "properties": {
             "type": { "const": "calcChain" },
-            "mode": { "enum": ["show", "match"] },
+            "mode": { "enum": ["show", "match", "pick"] },
             "chains": {
               "type": "array",
               "minItems": 1,
@@ -113,7 +134,7 @@
           "additionalProperties": false
         },
         {
-          "description": "Piste graduée de « from » à « to » (au plus 41 graduations) ; la voiture part de « start » et fait les bonds « jumps ». Interactive : l'enfant clique où la voiture arrive après chaque bond.",
+          "description": "Piste graduée de « from » à « to » (au plus 41 graduations) ; la voiture part de « start » et fait les bonds « jumps ». Interactive : l'enfant clique où la voiture arrive après chaque bond. « flags » : graduations marquées d'un drapeau à damier (bornes d'un encadrement, dizaine à atteindre).",
           "properties": {
             "type": { "const": "numberLine" },
             "from": { "type": "integer", "minimum": 0 },
@@ -122,6 +143,13 @@
             "start": { "type": "integer", "minimum": 0 },
             "jumps": { "type": "array", "maxItems": 4, "items": { "type": "integer", "not": { "const": 0 } } },
             "interactive": { "type": "boolean" },
+            "flags": {
+              "type": "array",
+              "maxItems": 3,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0 },
+              "description": "Graduations marquées d'un drapeau (chacune sur la piste)."
+            },
             "hoverValues": {
               "type": "boolean",
               "description": "Piste interactive : la valeur d'une graduation s'affiche quand la souris la survole (vrai par défaut). À mettre à false quand repérer un nombre sur la piste est justement ce que la leçon apprend."
@@ -131,13 +159,256 @@
           "additionalProperties": false
         },
         {
-          "description": "Barres de dix et cubes ; « completeTen » montre en pointillés les cubes qui manquent pour la dizaine suivante.",
+          "description": "Plaques de cent, barres de dix et cubes de « value ». « completeTen » montre en pointillés les cubes qui manquent pour la dizaine suivante. Au plus un changement : « add » (un nombre arrive, 10 cubes s'échangent contre une barre), « remove » (on enlève, une barre se casse en 10 cubes si besoin), « share » (partage en 2 à 4 parts égales). Interactive : l'enfant fabrique « value » (sans changement), ou ajoute, enlève, partage les blocs jusqu'au résultat.",
           "properties": {
             "type": { "const": "tensUnits" },
             "value": { "type": "integer", "minimum": 1, "maximum": 999 },
-            "completeTen": { "type": "boolean" }
+            "completeTen": { "type": "boolean" },
+            "add": { "type": "integer", "minimum": 1, "maximum": 998 },
+            "remove": { "type": "integer", "minimum": 1, "maximum": 999 },
+            "share": { "type": "integer", "minimum": 2, "maximum": 4 },
+            "interactive": { "type": "boolean" }
           },
           "required": ["value"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Opération posée en colonnes (au plus 9 999), calculée colonne par colonne à partir des unités : addition de 2 ou 3 nombres (retenues en rouge) ; soustraction de 2 nombres, le plus grand en haut, avec la technique « cassage » (on casse une dizaine ou une centaine), « compensation » (10 unités en haut, 1 dizaine en bas) ou « both » (les deux côte à côte). « computedColumns » : colonnes déjà calculées sur la slide (0 : seulement posée). Interactive : l'enfant écrit les chiffres du résultat, des unités vers la gauche (avec « both », les deux techniques avancent ensemble).",
+          "properties": {
+            "type": { "const": "columnOperation" },
+            "operation": { "enum": ["add", "subtract"] },
+            "operands": { "type": "array", "minItems": 2, "maxItems": 3, "items": { "type": "integer", "minimum": 1, "maximum": 9999 } },
+            "method": { "enum": ["cassage", "compensation", "both"] },
+            "computedColumns": { "type": "integer", "minimum": 0, "maximum": 4 },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["operation", "operands"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Égalité « left operation right = résultat ». « missing » cache un terme dans une case ; « family » fait apparaître ensuite les autres égalités de la famille (7 + 8 = 15, 8 + 7 = 15, 15 − 7 = 8, 15 − 8 = 7 ; pour une multiplication, seulement l'échange des facteurs : 8 × 5 = 5 × 8). Interactive : l'enfant choisit le terme caché parmi « choices ».",
+          "properties": {
+            "type": { "const": "equation" },
+            "left": { "type": "integer", "minimum": 0 },
+            "operation": { "enum": ["add", "subtract", "multiply"] },
+            "right": { "type": "integer", "minimum": 0 },
+            "missing": { "enum": ["left", "right", "result"] },
+            "family": { "type": "boolean" },
+            "interactive": { "type": "boolean" },
+            "choices": { "type": "array", "minItems": 3, "maxItems": 4, "uniqueItems": true, "items": { "type": "integer", "minimum": 0 } }
+          },
+          "required": ["left", "operation", "right"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Deux nombres face à face, comparés rang par rang depuis la gauche ; le signe <, > ou = apparaît. Interactive : l'enfant choisit le signe.",
+          "properties": {
+            "type": { "const": "compareNumbers" },
+            "a": { "type": "integer", "minimum": 0, "maximum": 9999 },
+            "b": { "type": "integer", "minimum": 0, "maximum": 9999 },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["a", "b"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Suite de nombres : « start », « step » (négatif : à rebours) et « count » (3 à 10), avec des cases cachées « hidden » (positions depuis 0) ; ou « values » (3 à 6 nombres différents, pas déjà rangés) à ranger dans l'ordre croissant (décroissant avec « descending ») sur la grille de départ. Interactive (ranger seulement) : l'enfant clique les voitures dans l'ordre.",
+          "properties": {
+            "type": { "const": "sequencePattern" },
+            "start": { "type": "integer", "minimum": 0 },
+            "step": { "type": "integer", "not": { "const": 0 } },
+            "count": { "type": "integer", "minimum": 3, "maximum": 10 },
+            "hidden": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 0, "maximum": 9 } },
+            "values": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 6,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+            },
+            "descending": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "oneOf": [{ "required": ["values"] }, { "required": ["start", "step", "count"] }],
+          "additionalProperties": false
+        },
+        {
+          "description": "Grille de départ : « rows » rangées de « cols » voitures (200 au plus). « showSum » : les rangées s'ajoutent une à une (5 + 5 + 5) ; « split » : la grille est coupée après ce nombre de rangées (13 × 7 = 10 × 7 + 3 × 7) ; « rotate » : la grille tourne (3 × 5 = 5 × 3) ; « removed » : des voitures quittent la grille. Interactive : l'enfant place les rangées une à une, ou clique où couper (avec « split »).",
+          "properties": {
+            "type": { "const": "arrayGrid" },
+            "rows": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "cols": { "type": "integer", "minimum": 1, "maximum": 10 },
+            "split": { "type": "integer", "minimum": 1, "maximum": 19 },
+            "rotate": { "type": "boolean" },
+            "showSum": { "type": "boolean" },
+            "removed": { "type": "integer", "minimum": 0, "maximum": 200 },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["rows", "cols"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Table d'addition ou de multiplication de 1 à « size » (5 à 10), dont les cases s'allument groupe par groupe : une ligne (« row », la table de 2), les doubles (« doubles »), ou les cases d'un résultat (« result », table d'addition : les amis de 10).",
+          "properties": {
+            "type": { "const": "timesTable" },
+            "operation": { "enum": ["add", "multiply"] },
+            "size": { "type": "integer", "minimum": 5, "maximum": 10 },
+            "highlights": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 3,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind"],
+                "properties": {
+                  "kind": { "enum": ["row", "doubles", "result"] },
+                  "value": { "type": "integer", "minimum": 1, "maximum": 20 }
+                }
+              }
+            }
+          },
+          "required": ["operation", "size", "highlights"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Tableau de numération (au moins centaines, dizaines, unités ; milliers au-delà de 999). « focus » : le rang montré en rouge course (le 0 qui garde la place) ; « countOf » : nombre de dizaines ou de centaines (347 : 34 dizaines) ; « decomposition » : 347 = 300 + 40 + 7 ; « words » : le nombre en lettres, orthographe traditionnelle et rectifiée de 1990. Interactive : l'enfant écrit le nombre lu par la voix, chiffre par chiffre depuis la gauche.",
+          "properties": {
+            "type": { "const": "placeValueTable" },
+            "value": { "type": "integer", "minimum": 1, "maximum": 9999 },
+            "focus": { "enum": ["units", "tens", "hundreds", "thousands"] },
+            "countOf": { "enum": ["tens", "hundreds", "thousands"] },
+            "decomposition": { "type": "boolean" },
+            "words": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["value"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Objets de course (« object » : car, helmet, tire, flag, cone ; voitures par défaut). Modes : « join » (« counts » : 2 groupes, 20 objets au plus ; « commute » : ils échangent leur place), « remove » (« total », « removed »), « groupBy » (« counts » : 1 ou 2 collections, groupes de « size » ; interactif : 1 collection de 11 à 39 objets en paquets de 10), « share » (« total » partagé en « parts » parts égales), « sortParity » (« numbers » à garer au garage pair ou impair). Interactive (join, remove, groupBy, sortParity) : l'enfant déplace les objets ou fait les paquets, puis choisit le résultat, ou gare chaque nombre.",
+          "properties": {
+            "type": { "const": "groupObjects" },
+            "mode": { "enum": ["join", "remove", "groupBy", "share", "sortParity"] },
+            "object": { "enum": ["car", "helmet", "tire", "flag", "cone"] },
+            "counts": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 2,
+              "items": { "type": "integer", "minimum": 1, "maximum": 39 }
+            },
+            "total": { "type": "integer", "minimum": 1, "maximum": 30 },
+            "removed": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "size": { "type": "integer", "minimum": 2, "maximum": 10 },
+            "parts": { "type": "integer", "minimum": 2, "maximum": 6 },
+            "numbers": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 6,
+              "uniqueItems": true,
+              "items": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+            },
+            "commute": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["mode"],
+          "additionalProperties": false
+        },
+        {
+          "description": "« Garage de 10 places » (2 rangées de 5), un ou deux garages (« frames »). « filled » voitures garées, « added » qui arrivent (autre couleur) ou « removed » qui partent ; « friends » : les amis de 10 (1 et 9… 5 et 5), seuls sur la slide. Interactive : l'enfant gare les voitures qui arrivent ou fait partir celles qui partent.",
+          "properties": {
+            "type": { "const": "tenFrame" },
+            "filled": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "added": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "removed": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "frames": { "type": "integer", "minimum": 1, "maximum": 2 },
+            "friends": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "Bandes-unités partagées en parts égales (« bars » : 1 à 6, chacune « denominator » de 1 à 12 parts et 0 à 2 groupes de parts coloriées « numerators »), empilées pour comparer ; deux bandes : le signe entre leurs fractions. « unequal » : une bande coupée en parts inégales, barrée ; « notation » : la fraction écrite avec numérateur et dénominateur. Interactive : l'enfant colorie les parts de l'unique bande.",
+          "properties": {
+            "type": { "const": "fractionBar" },
+            "bars": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 6,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["denominator"],
+                "properties": {
+                  "denominator": { "type": "integer", "minimum": 1, "maximum": 12 },
+                  "numerators": { "type": "array", "maxItems": 2, "items": { "type": "integer", "minimum": 1, "maximum": 12 } }
+                }
+              }
+            },
+            "unequal": { "type": "boolean" },
+            "notation": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["bars"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Schéma en barres d'un problème. « kind » : « parts » (un tout fait de 2 ou 3 « parts » ; « unknown » : whole, part1, part2, part3), « compare » (« small » et « difference » ; « unknown » : big, small, difference), « groups » (« groups » parts égales de « size » ; « unknown » : whole, size). « labels » : noms écrits sur les barres (3 au plus) ; « solve » : le calcul qui trouve le « ? » apparaît. Interactive : l'enfant place les nombres connus sur le schéma.",
+          "properties": {
+            "type": { "const": "barModel" },
+            "kind": { "enum": ["parts", "compare", "groups"] },
+            "parts": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 3,
+              "items": { "type": "integer", "minimum": 1, "maximum": 1000 }
+            },
+            "small": { "type": "integer", "minimum": 1, "maximum": 1000 },
+            "difference": { "type": "integer", "minimum": 1, "maximum": 1000 },
+            "groups": { "type": "integer", "minimum": 2, "maximum": 10 },
+            "size": { "type": "integer", "minimum": 1, "maximum": 1000 },
+            "unknown": { "enum": ["whole", "part1", "part2", "part3", "big", "small", "difference", "size"] },
+            "labels": { "type": "array", "maxItems": 2, "items": { "type": "string", "minLength": 1, "maxLength": 20 } },
+            "solve": { "type": "boolean" },
+            "interactive": { "type": "boolean" }
+          },
+          "required": ["kind", "unknown"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Orthographe : les lettres ou graphies d'un mot, mélangées, avec des intrus ; l'enfant clique dessus dans l'ordre pour écrire le mot (interactive par défaut). Sans « tiles », chaque lettre est une tuile.",
+          "properties": {
+            "type": { "const": "letterTiles" },
+            "word": { "type": "string", "minLength": 1, "maxLength": 20, "pattern": "^\\S+( \\S+)*$" },
+            "tiles": { "type": "array", "minItems": 2, "maxItems": 10, "items": { "type": "string", "minLength": 1 }, "description": "Les tuiles dans l'ordre (« b », « a », « t », « eau ») ; elles forment le mot." },
+            "distractors": { "type": "array", "maxItems": 4, "uniqueItems": true, "items": { "type": "string", "minLength": 1 }, "description": "Tuiles intruses (« o », « au »)." },
+            "interactive": { "type": "boolean", "default": true }
+          },
+          "required": ["word"],
+          "additionalProperties": false
+        },
+        {
+          "description": "Orthographe : des mots à ranger dans la boîte de la graphie qui écrit leur son (« o », « au », « eau ») ; l'enfant clique sur un mot puis sur sa boîte (interactive par défaut). La graphie est colorée dans le mot.",
+          "properties": {
+            "type": { "const": "soundSort" },
+            "groups": { "type": "array", "minItems": 2, "maxItems": 4, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "words": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 9,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["word", "group"],
+                "properties": {
+                  "word": { "type": "string", "minLength": 1, "maxLength": 20, "pattern": "^\\S+( \\S+)*$" },
+                  "group": { "type": "string", "minLength": 1, "description": "Une des graphies de « groups », présente dans le mot." }
+                }
+              }
+            },
+            "interactive": { "type": "boolean", "default": true }
+          },
+          "required": ["groups", "words"],
           "additionalProperties": false
         }
       ]
@@ -149,14 +420,29 @@
       "properties": {
         "question": { "type": "string", "minLength": 1, "maxLength": 80, "description": "Question affichée (« 46 + 19 = ? »)." },
         "spoken": { "type": "string", "minLength": 1, "description": "Question lue (« Combien font 46 + 19 ? »)." },
-        "answer": { "type": "integer", "minimum": 0 },
+        "answer": {
+          "description": "Un nombre (0 à 1 000 000), un signe (« < », « > », « = »), « oui » / « non », ou une fraction « a/b » (toute fraction égale est acceptée). Dans une leçon d'orthographe : un mot ou des lettres, sans tolérance sur les accents.",
+          "anyOf": [
+            { "type": "integer", "minimum": 0, "maximum": 1000000 },
+            { "enum": ["<", ">", "=", "oui", "non"] },
+            { "type": "string", "pattern": "^[0-9]{1,3}/[0-9]{1,3}$" },
+            { "type": "string", "minLength": 1, "maxLength": 30, "pattern": "^\\S+( \\S+)*$" }
+          ]
+        },
         "choices": {
           "type": "array",
-          "minItems": 3,
+          "minItems": 2,
           "maxItems": 4,
           "uniqueItems": true,
-          "items": { "type": "integer", "minimum": 0 },
-          "description": "Propositions d'un QCM (la réponse en fait partie) ; sans propositions, l'enfant écrit la réponse."
+          "items": {
+            "anyOf": [
+              { "type": "integer", "minimum": 0, "maximum": 1000000 },
+              { "enum": ["<", ">", "=", "oui", "non"] },
+              { "type": "string", "pattern": "^[0-9]{1,3}/[0-9]{1,3}$" },
+              { "type": "string", "minLength": 1, "maxLength": 30, "pattern": "^\\S+( \\S+)*$" }
+            ]
+          },
+          "description": "Propositions d'un QCM, du même type que la réponse, qui en fait partie (3 ou 4 ; « oui » et « non » pour une question oui / non) ; sans propositions, l'enfant écrit un nombre (ou un mot en orthographe)."
         },
         "explanation": { "type": "string", "minLength": 1, "description": "Explication courte, affichée et lue après la réponse." }
       }

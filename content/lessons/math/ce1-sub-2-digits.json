@@ -1,0 +1,122 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-sub-2-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "skillIds": ["ce1-sub-2-digits"],
+  "title": "Soustractions de nombres plus petits que 100",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, on soustrait des nombres à deux chiffres : en ligne, puis en colonnes.",
+      "speech": "Aujourd'hui, tu vas apprendre à soustraire des nombres à deux chiffres. D'abord en ligne, puis en colonnes, avec deux techniques.",
+      "animation": { "type": "titleCard", "title": "Soustractions de nombres plus petits que 100", "subtitle": "En ligne, puis en colonnes" }
+    },
+    {
+      "title": "En ligne",
+      "text": "74 − 28 : j'enlève d'abord 20, puis 8. 74 − 28 = 46.",
+      "speech": "74 − 28. Je coupe 28 en 20 et 8. J'enlève 20 : j'arrive à 54. Puis j'enlève 8 : j'arrive à 46.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 74, "steps": [-20, -8] }] }
+    },
+    {
+      "title": "L'écart",
+      "text": "74 − 68 : de 68 à 74, il y a 6. 74 − 68 = 6.",
+      "speech": "74 − 68 : les deux nombres sont proches. Je cherche l'écart : la voiture va de 68 à 74, elle avance de 6. Donc 74 − 68 = 6.",
+      "animation": { "type": "numberLine", "from": 60, "to": 80, "start": 68, "jumps": [6] }
+    },
+    {
+      "title": "Sans retenue",
+      "text": "68 − 25 : 8 − 5 = 3 unités, 6 − 2 = 4 dizaines. Pas de retenue : 43.",
+      "speech": "Je pose d'abord 68 − 25, unités sous unités. 8 − 5 = 3. Puis les dizaines : 6 − 2 = 4. Chaque chiffre du haut est assez grand : pas de retenue, le résultat est 43.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [68, 25], "method": "cassage" }
+    },
+    {
+      "title": "Poser",
+      "text": "J'écris 28 sous 74, unités sous unités. 4 − 8 : je ne peux pas !",
+      "speech": "Maintenant, je pose 74 − 28 : 28 sous 74, les unités sous les unités. Je commence par les unités : 4 − 8. Je ne peux pas enlever 8 à 4 !",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [74, 28], "method": "cassage", "computedColumns": 0 }
+    },
+    {
+      "title": "Technique 1 : le cassage",
+      "text": "Je casse une dizaine : 7 dizaines deviennent 6, et 4 unités deviennent 14. 14 − 8 = 6, puis 6 − 2 = 4.",
+      "speech": "Première technique, le cassage. Je casse une dizaine de 74 : il reste 6 dizaines, et j'ai 14 unités. 14 − 8 = 6. Puis 6 − 2 = 4. Le résultat est 46.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [74, 28], "method": "cassage" }
+    },
+    {
+      "title": "Technique 2 : la compensation",
+      "text": "J'ajoute 10 unités en haut : 14 − 8 = 6. Et 1 dizaine en bas : 7 − 3 = 4.",
+      "speech": "Deuxième technique, la compensation. J'ajoute 10 unités en haut : 14 − 8 = 6. J'ajoute aussi 1 dizaine en bas : 7 − 3 = 4. L'écart ne change pas : 46.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [74, 28], "method": "compensation" }
+    },
+    {
+      "title": "Même résultat",
+      "text": "Les deux techniques donnent 46. J'utilise celle de ma classe.",
+      "speech": "Les deux techniques côte à côte donnent le même résultat : 46. Tu peux utiliser celle que ta maîtresse ou ton maître t'a apprise.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [74, 28], "method": "both" }
+    },
+    {
+      "title": "À toi !",
+      "text": "Calcule 63 − 27, chiffre par chiffre, en commençant par les unités.",
+      "speech": "À toi ! Calcule 63 − 27. Commence par les unités : 3 − 7, tu ne peux pas. Suis la technique de ta classe, à gauche le cassage, à droite la compensation.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [63, 27], "method": "both", "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "L'addition vérifie la soustraction : 46 + 28 = ? Si je trouve 74, 74 − 28 = 46 est juste.",
+      "speech": "Pour vérifier 74 − 28 = 46, je fais une addition : 46 + 28. Si je retrouve 74, c'est juste ! Choisis le résultat.",
+      "animation": { "type": "equation", "left": 46, "operation": "add", "right": 28, "missing": "result", "family": true, "interactive": true, "choices": [64, 74, 84] }
+    },
+    {
+      "title": "Choisir",
+      "text": "91 − 88 : l'écart est petit, je compte en avançant. Sinon, je pose la soustraction.",
+      "speech": "Quand les nombres sont proches, je compte l'écart en avançant : de 88 à 90, 2, puis de 90 à 91, 1. 91 − 88 = 3. Sinon, je pose la soustraction.",
+      "animation": { "type": "numberLine", "from": 85, "to": 95, "start": 88, "jumps": [2, 1] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "La règle des pilotes de la soustraction posée :",
+      "speech": "Je retiens : je commence par les unités. Si je ne peux pas enlever, je casse une dizaine, ou j'ajoute 10 en haut et 1 dizaine en bas. Les deux marchent !",
+      "animation": { "type": "recapCard", "text": "En colonnes, je commence par les unités. Si je ne peux pas enlever, je casse une dizaine, ou j'ajoute 10 en haut et 1 dizaine en bas.", "example": "74 − 28 = 46" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "58 − 23 = ?",
+      "spoken": "Combien font 58 − 23 ?",
+      "answer": 35,
+      "explanation": "8 − 3 = 5 et 5 − 2 = 3. 58 − 23 = 35."
+    },
+    {
+      "question": "74 − 28 = ?",
+      "spoken": "Combien font 74 − 28 ? Choisis la bonne réponse.",
+      "answer": 46,
+      "choices": [46, 54, 56],
+      "explanation": "4 − 8, je ne peux pas : 14 − 8 = 6. Puis 6 − 2 = 4. 74 − 28 = 46."
+    },
+    {
+      "question": "91 − 37 = ?",
+      "spoken": "Combien font 91 − 37 ? Choisis, puis vérifie avec une addition.",
+      "answer": 54,
+      "choices": [54, 64, 66],
+      "explanation": "Je vérifie avec l'addition : 54 + 37 = 91. Donc 91 − 37 = 54."
+    },
+    {
+      "question": "80 − 45 = ?",
+      "spoken": "Combien font 80 − 45 ?",
+      "answer": 35,
+      "explanation": "0 − 5, je ne peux pas : 10 − 5 = 5. Puis 7 − 4 = 3. 80 − 45 = 35."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul : soustraire des nombres inférieurs à 100, en ligne et en colonnes",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

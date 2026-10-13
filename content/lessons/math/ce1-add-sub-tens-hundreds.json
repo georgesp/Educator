@@ -1,0 +1,115 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-add-sub-tens-hundreds",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 4,
+  "skillIds": ["ce1-add-sub-tens-hundreds"],
+  "title": "Ajouter ou enlever des dizaines et des centaines",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, on ajoute et on enlève des dizaines et des centaines entières, de tête.",
+      "speech": "Aujourd'hui, tu vas apprendre à ajouter et à enlever des dizaines et des centaines entières, dans ta tête.",
+      "animation": { "type": "titleCard", "title": "Ajouter ou enlever des dizaines et des centaines", "subtitle": "Des paquets de 10 et de 100" }
+    },
+    {
+      "title": "Une centaine",
+      "text": "10 barres de dix s'assemblent en une plaque : 1 centaine = 10 dizaines = 100.",
+      "speech": "Regarde : quand j'assemble 10 barres de dix, j'obtiens une grande plaque. 1 centaine, c'est 10 dizaines, c'est 100 unités.",
+      "animation": { "type": "tensUnits", "value": 100 }
+    },
+    {
+      "title": "+ 60",
+      "text": "234 + 60 : 3 dizaines + 6 dizaines = 9 dizaines. 234 + 60 = 294.",
+      "speech": "234 + 60. J'ajoute des dizaines aux dizaines : 3 dizaines + 6 dizaines = 9 dizaines. Les centaines et les unités ne bougent pas : 294.",
+      "animation": { "type": "tensUnits", "value": 294 }
+    },
+    {
+      "title": "Changer de centaine",
+      "text": "746 + 80 : 4 + 8 = 12 dizaines, c'est 1 centaine et 2 dizaines. 746 + 80 = 826.",
+      "speech": "746 + 80. 4 dizaines + 8 dizaines = 12 dizaines. Avec 10 dizaines, je fais une centaine de plus ! Il reste 2 dizaines. 746 + 80 = 826.",
+      "animation": { "type": "tensUnits", "value": 826 }
+    },
+    {
+      "title": "+ 300",
+      "text": "425 + 300 : seul le chiffre des centaines change. 425 + 300 = 725.",
+      "speech": "425 + 300 : j'ajoute 3 centaines, une à une : 525, 625, 725. Seul le chiffre des centaines a changé.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 425, "steps": [100, 100, 100] }] }
+    },
+    {
+      "title": "Enlever",
+      "text": "650 − 70 : je recule de 50 jusqu'à 600, puis encore de 20. 650 − 70 = 580.",
+      "speech": "650 − 70. Il n'y a que 5 dizaines : je dois casser une centaine. Sur ma chaîne, je recule de 50 jusqu'à 600, puis encore de 20. J'arrive à 580.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 650, "steps": [-50, -20] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Combien font 358 + 50 ? Choisis le bon nombre pour la case.",
+      "speech": "À toi ! Combien font 358 + 50 ? J'ajoute 5 dizaines aux 5 dizaines de 358. Choisis le bon nombre.",
+      "animation": { "type": "equation", "left": 358, "operation": "add", "right": 50, "missing": "result", "interactive": true, "choices": [398, 408, 858] }
+    },
+    {
+      "title": "Aller jusqu'à 100",
+      "text": "65 + 5 = 70, puis 70 + 30 = 100. Donc 65 + 35 = 100.",
+      "speech": "Pour aller de 65 à 100, je complète d'abord à la dizaine : 65 + 5 = 70. Puis de 70 à 100, il manque 3 dizaines : 70 + 30 = 100. En tout, 65 + 35 = 100.",
+      "animation": { "type": "numberLine", "from": 60, "to": 100, "start": 65, "jumps": [5, 30] }
+    },
+    {
+      "title": "Bonds de 100",
+      "text": "La voiture saute de 100 en 100 : 400, 500, 600, 700, 800.",
+      "speech": "Sur la grande piste, chaque graduation vaut 100. La voiture part de 400 et saute de 100 en 100 : 500, 600, 700, 800.",
+      "animation": { "type": "numberLine", "from": 0, "to": 1000, "step": 100, "start": 400, "jumps": [100, 100, 100, 100] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Combien font 912 − 400 ? Choisis le bon nombre pour la case.",
+      "speech": "À toi ! Combien font 912 − 400 ? J'enlève 4 centaines. Choisis le bon nombre.",
+      "animation": { "type": "equation", "left": 912, "operation": "subtract", "right": 400, "missing": "result", "interactive": true, "choices": [502, 512, 872] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "La règle des paquets de 10 et de 100 :",
+      "speech": "Je retiens : j'ajoute les dizaines aux dizaines, les centaines aux centaines. Et 10 dizaines font 1 centaine.",
+      "animation": { "type": "recapCard", "text": "J'ajoute les dizaines aux dizaines, les centaines aux centaines. 10 dizaines font 1 centaine.", "example": "746 + 80 = 826" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "234 + 60 = ?",
+      "spoken": "Combien font 234 + 60 ?",
+      "answer": 294,
+      "explanation": "3 dizaines + 6 dizaines = 9 dizaines. 234 + 60 = 294."
+    },
+    {
+      "question": "746 + 80 = ?",
+      "spoken": "Combien font 746 + 80 ? Choisis la bonne réponse.",
+      "answer": 826,
+      "choices": [726, 826, 836],
+      "explanation": "4 + 8 = 12 dizaines : 1 centaine et 2 dizaines. 746 + 80 = 826."
+    },
+    {
+      "question": "650 − 70 = ?",
+      "spoken": "Combien font 650 − 70 ?",
+      "answer": 580,
+      "explanation": "650 − 50 = 600, puis 600 − 20 = 580."
+    },
+    {
+      "question": "425 + … = 725",
+      "spoken": "425 plus combien font 725 ?",
+      "answer": 300,
+      "explanation": "De 425 à 725, seul le chiffre des centaines change : 4 devient 7. J'ajoute 300."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul mental : ajouter ou soustraire des dizaines ou des centaines entières",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

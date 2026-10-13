@@ -1,0 +1,109 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-sub-small",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 3,
+  "skillIds": ["ce1-sub-small"],
+  "title": "Enlever un petit nombre",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, on enlève un petit nombre, même quand il faut changer de dizaine.",
+      "speech": "Aujourd'hui, tu vas apprendre à enlever un petit nombre, même quand il n'y a pas assez d'unités.",
+      "animation": { "type": "titleCard", "title": "Enlever un petit nombre", "subtitle": "Passer par la dizaine" }
+    },
+    {
+      "title": "Assez d'unités",
+      "text": "528 − 5 : j'ai 8 unités, j'en enlève 5. Seules les unités changent : 523.",
+      "speech": "528 − 5. J'ai 8 unités, j'en enlève 5 : il en reste 3. Les centaines et les dizaines ne bougent pas : 523.",
+      "animation": { "type": "tensUnits", "value": 523 }
+    },
+    {
+      "title": "Pas assez",
+      "text": "523 − 7 : je n'ai que 3 unités. Je recule d'abord de 3, jusqu'à 520.",
+      "speech": "523 − 7. Je n'ai que 3 unités, je ne peux pas en enlever 7 d'un coup. Alors je recule d'abord de 3 : j'arrive pile sur la dizaine, 520.",
+      "animation": { "type": "numberLine", "from": 510, "to": 525, "start": 523, "jumps": [-3] }
+    },
+    {
+      "title": "Couper 7",
+      "text": "7, c'est 3 et 4 : 523 − 3 = 520, puis 520 − 4 = 516.",
+      "speech": "Je coupe 7 en 3 et 4. J'enlève 3 : 520. Puis j'enlève les 4 qui restent : 516. Donc 523 − 7 = 516.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 523, "steps": [-3, -4] }] }
+    },
+    {
+      "title": "Avec le matériel",
+      "text": "Je casse une barre de 520 en 10 cubes, j'enlève les 4 qui restent : 516.",
+      "speech": "Avec le matériel : à 520, je n'ai plus de cube. Je casse une barre de dix en 10 cubes, et j'en enlève 4. Il reste 516.",
+      "animation": { "type": "tensUnits", "value": 516 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Combien font 342 − 6 ? Choisis le bon nombre pour la case.",
+      "speech": "À toi ! Combien font 342 − 6 ? Pense à reculer d'abord jusqu'à 340. Choisis le bon nombre.",
+      "animation": { "type": "equation", "left": 342, "operation": "subtract", "right": 6, "missing": "result", "interactive": true, "choices": [336, 338, 346] }
+    },
+    {
+      "title": "À toi !",
+      "text": "81 − 5 : clique là où la voiture arrive après − 1, puis après − 4.",
+      "speech": "À toi ! Calcule 81 − 5 sur la piste. La voiture recule de 1 jusqu'à la dizaine, puis de 4. Clique là où elle arrive à chaque fois.",
+      "animation": { "type": "numberLine", "from": 70, "to": 85, "start": 81, "jumps": [-1, -4], "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "Je vérifie avec l'addition : 516 + 7 = 523. Donc 523 − 7 = 516.",
+      "speech": "Pour vérifier, je fais une addition : 516 + 7 = 523. C'est juste ! Regarde toute la famille de 516, 7 et 523.",
+      "animation": { "type": "equation", "left": 516, "operation": "add", "right": 7, "family": true }
+    },
+    {
+      "title": "Course éclair",
+      "text": "67 − 4, 45 − 7, 92 − 6 : avec ou sans passer par la dizaine.",
+      "speech": "Course éclair ! 67 − 4 = 63, assez d'unités. 45 − 7 : je recule de 5 jusqu'à 40, puis de 2 : 38. 92 − 6 : 90, puis 86.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 67, "steps": [-4] }, { "start": 45, "steps": [-5, -2] }, { "start": 92, "steps": [-2, -4] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "La règle pour enlever un petit nombre :",
+      "speech": "Je retiens : si je n'ai pas assez d'unités, je recule d'abord jusqu'à la dizaine, puis j'enlève le reste.",
+      "animation": { "type": "recapCard", "text": "Si je n'ai pas assez d'unités, je recule d'abord jusqu'à la dizaine, puis j'enlève le reste.", "example": "523 − 7 = 523 − 3 − 4 = 516" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "67 − 4 = ?",
+      "spoken": "Combien font 67 − 4 ?",
+      "answer": 63,
+      "explanation": "J'ai 7 unités, j'en enlève 4 : il en reste 3. 67 − 4 = 63."
+    },
+    {
+      "question": "523 − 7 = ?",
+      "spoken": "Combien font 523 − 7 ? Choisis la bonne réponse.",
+      "answer": 516,
+      "choices": [516, 526, 514],
+      "explanation": "523 − 3 = 520, puis 520 − 4 = 516."
+    },
+    {
+      "question": "342 − 6 = ?",
+      "spoken": "Combien font 342 − 6 ?",
+      "answer": 336,
+      "explanation": "342 − 2 = 340, puis 340 − 4 = 336."
+    },
+    {
+      "question": "81 − … = 76",
+      "spoken": "81 moins combien font 76 ?",
+      "answer": 5,
+      "explanation": "De 81 à 80, je recule de 1. De 80 à 76, je recule de 4. 1 + 4 = 5."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul mental : soustraire un nombre à un chiffre, avec ou sans changement de dizaine",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

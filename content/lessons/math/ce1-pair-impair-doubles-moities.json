@@ -1,0 +1,94 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-pair-impair-doubles-moities",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-parity", "ce1-double-half-facts", "ce1-half-even"],
+  "title": "Pair, impair, doubles et moitiés",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : les nombres pairs et impairs, les doubles et les moitiés.",
+      "speech": "Aujourd’hui, tu vas apprendre à reconnaître les nombres pairs et impairs, puis à calculer des doubles et des moitiés.",
+      "animation": { "type": "titleCard", "title": "Pair, impair, doubles et moitiés", "subtitle": "Ranger par deux, partager en deux" }
+    },
+    {
+      "title": "Par deux",
+      "text": "On range les voitures par paires. Si aucune ne reste toute seule, le nombre est pair.",
+      "speech": "On range les voitures par deux. Avec 8 voitures, on fait 4 paires, et aucune ne reste seule : 8 est pair. Avec 7 voitures, une voiture reste toute seule : 7 est impair.",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "counts": [8, 7], "size": 2 }
+    },
+    {
+      "title": "Le chiffre des unités",
+      "text": "Un nombre pair finit par 0, 2, 4, 6 ou 8. 768 est pair, 773 est impair.",
+      "speech": "Les nombres pairs vont de 2 en 2 : 0, 2, 4, 6, 8. Pour savoir si un grand nombre est pair, je regarde seulement son chiffre des unités. 768 finit par 8 : il est pair. 773 finit par 3 : il est impair.",
+      "animation": { "type": "numberLine", "from": 0, "to": 10, "step": 1, "start": 0, "jumps": [2, 2, 2, 2] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Gare chaque nombre dans le bon garage : pair ou impair.",
+      "speech": "À toi ! Clique sur un nombre, puis sur son garage : pair ou impair. Regarde bien le chiffre des unités.",
+      "animation": { "type": "groupObjects", "mode": "sortParity", "numbers": [768, 773, 40, 15, 92, 101], "interactive": true }
+    },
+    {
+      "title": "Le double",
+      "text": "Le double de 35, c’est 35 + 35 = 70.",
+      "speech": "Le double d’un nombre, c’est ce nombre ajouté à lui-même. Le double de 35, c’est 35 + 35. On a 6 barres et 10 cubes ; on échange les 10 cubes contre une barre : 70.",
+      "animation": { "type": "tensUnits", "value": 35, "add": 35 }
+    },
+    {
+      "title": "La moitié",
+      "text": "La moitié, c’est partager en deux parts égales. La moitié de 300 est 150.",
+      "speech": "La moitié, c’est le contraire du double : on partage en deux parts égales. Pour partager 300, on casse une plaque en 10 barres. Chaque part a 1 plaque et 5 barres : 150.",
+      "animation": { "type": "tensUnits", "value": 300, "share": 2 }
+    },
+    {
+      "title": "Décomposer",
+      "text": "Moitié de 46 = moitié de 40 + moitié de 6 = 20 + 3 = 23.",
+      "speech": "Pour la moitié de 46, je coupe 46 en 40 et 6. La moitié de 40, c’est 20. La moitié de 6, c’est 3. Donc la moitié de 46, c’est 20 + 3 = 23.",
+      "animation": { "type": "tensUnits", "value": 46, "share": 2 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Partage 84 en deux parts égales : clique sur les barres et les cubes pour les distribuer.",
+      "speech": "À toi ! Partage 84 entre deux pilotes, en deux parts égales. Clique sur les barres et les cubes pour les distribuer.",
+      "animation": { "type": "tensUnits", "value": 84, "share": 2, "interactive": true }
+    },
+    {
+      "title": "25, 50, 75, 100",
+      "text": "25, 50, 75, 100 : quatre fois 25 font 100. La moitié de 100 est 50, la moitié de 50 est 25.",
+      "speech": "Retiens ces nombres : 25, 50, 75, 100. Quatre fois 25 font 100. La moitié de 100, c’est 50, et la moitié de 50, c’est 25.",
+      "animation": { "type": "numberLine", "from": 0, "to": 100, "step": 25, "start": 0, "jumps": [25, 25, 25, 25] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pair, impair, moitié :",
+      "speech": "Je retiens : un nombre est pair s’il finit par 0, 2, 4, 6 ou 8. Pour la moitié de 46, je prends la moitié de 40, 20, et la moitié de 6, 3 : 23.",
+      "animation": { "type": "recapCard", "text": "Un nombre est pair s’il finit par 0, 2, 4, 6 ou 8. Moitié de 46 : moitié de 40 (20) + moitié de 6 (3) = 23.", "example": "46 = 23 + 23" }
+    }
+  ],
+  "quiz": [
+    { "question": "573 est-il pair ?", "spoken": "Le nombre 573 est-il pair ?", "answer": "non", "choices": ["oui", "non"], "explanation": "573 finit par 3 : il est impair." },
+    {
+      "question": "Double de 45 ?",
+      "spoken": "Quel est le double de 45 ? Choisis la bonne réponse.",
+      "answer": 90,
+      "choices": [80, 90, 95],
+      "explanation": "45 + 45 : 40 + 40 = 80 et 5 + 5 = 10, donc 90."
+    },
+    { "question": "Moitié de 68 ?", "spoken": "Quelle est la moitié de 68 ?", "answer": 34, "explanation": "La moitié de 60 est 30, la moitié de 8 est 4 : 30 + 4 = 34." },
+    { "question": "Combien de fois 25 dans 75 ?", "spoken": "Combien de fois 25 faut-il pour faire 75 ?", "answer": 3, "explanation": "25, 50, 75 : trois fois 25 font 75." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, nombres et calcul : nombres pairs et impairs, doubles et moitiés",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

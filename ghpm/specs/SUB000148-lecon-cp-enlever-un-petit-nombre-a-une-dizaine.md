@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYpc
-rev: 2026-10-12T19:40:24Z
+rev: 2026-10-13T18:57:53Z
 url: https://github.com/georgesp/Educator/issues/116
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000148 — Leçon CP — Enlever un petit nombre à une dizaine
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -75,12 +75,12 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/cp-sub-from-tens.json`, validée par `lesson.schema.json`, `skillIds` = `cp-sub-from-tens`.
+- [x] Leçon `content/lessons/math/cp-sub-from-tens.json`, validée par `lesson.schema.json`, `skillIds` = `cp-sub-from-tens`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
-- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
-- [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
-- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [x] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [x] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [x] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
+- [x] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
 - [ ] Relue et validée par Georges.
 
 ## Dépendances

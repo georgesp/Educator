@@ -39,6 +39,7 @@ fn draw_function(operation: SkillOperation) -> Option<DrawFn> {
         SkillOperation::DoubleHalf => Some(double_half::draw),
         SkillOperation::Fraction => Some(fractions::draw),
         SkillOperation::Problem => Some(problems::draw),
+        SkillOperation::Spelling => Some(crate::spelling::draw),
         _ => None,
     }
 }
@@ -53,11 +54,19 @@ pub fn generate(
     seed: u64,
     answer_mode: AnswerMode,
     length: usize,
+    formats: &[ExerciseFormat],
 ) -> Result<Vec<Exercise>> {
     let draw = draw_function(skill.operation)
         .ok_or_else(|| Error::InvalidSkill(format!("Skill {} is not a family skill.", skill.id)))?;
+    if formats.is_empty() {
+        return Err(Error::InvalidSkill(format!(
+            "Skill {} has no format for the answer mode {answer_mode:?}.",
+            skill.id
+        )));
+    }
+
     let mut random = SeededRng::seed_from_u64(seed);
-    let formats = plan_formats(&skill.formats, length, &mut random);
+    let formats = plan_formats(formats, length, &mut random);
     let mut keys: HashSet<String> = HashSet::new();
     let mut draws: Vec<Draw> = Vec::with_capacity(length);
     for (index, &format) in formats.iter().enumerate() {
@@ -106,8 +115,11 @@ pub fn distinct_count(skill: &Skill) -> usize {
     let mut random = SeededRng::seed_from_u64(0x5EED);
     let mut keys = HashSet::new();
     for i in 0..DRAWS {
-        let format = skill.formats[i % skill.formats.len()];
         let mode = skill.answer_modes[i % skill.answer_modes.len()];
+        let formats = super::formats_for(skill, mode, None);
+        let Some(&format) = formats.get(i / skill.answer_modes.len() % formats.len().max(1)) else {
+            continue;
+        };
         let position = Position {
             index: i % 10,
             length: 10,

@@ -1,0 +1,100 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-multiplication-et-tables",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-mul-meaning", "ce1-mul-tables-2-5-10", "ce1-mul-tables-3-4", "ce1-mul-tables-6-9"],
+  "title": "Le signe × et les tables de multiplication",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, un nouveau signe : le signe ×. Il sert à compter vite des rangées de voitures.",
+      "speech": "Aujourd’hui, tu vas découvrir un nouveau signe, le signe fois. Il sert à compter très vite des rangées toutes pareilles.",
+      "animation": { "type": "titleCard", "title": "Le signe × et les tables", "subtitle": "Des rangées de voitures" }
+    },
+    {
+      "title": "Des rangées",
+      "text": "Sur la grille de départ : 3 rangées de 5 voitures. Combien de voitures ?",
+      "speech": "Regarde la grille de départ. Il y a 3 rangées. Dans chaque rangée, il y a 5 voitures. Combien y a-t-il de voitures en tout ?",
+      "animation": { "type": "arrayGrid", "rows": 3, "cols": 5 }
+    },
+    {
+      "title": "Addition répétée",
+      "text": "5 + 5 + 5 = 15. On l’écrit aussi 3 × 5 = 15, et on lit « 3 fois 5 » : c’est une multiplication.",
+      "speech": "Je compte rangée par rangée : 5 + 5 + 5 = 15. On a ajouté 3 fois le nombre 5. On peut l’écrire plus vite : 3 × 5 = 15. On lit : 3 fois 5. C’est une multiplication.",
+      "animation": { "type": "arrayGrid", "rows": 3, "cols": 5, "showSum": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "3 + 3 + 3 + 3 = 12. Combien de fois 3 ? Choisis le nombre de la case.",
+      "speech": "À toi ! 3 + 3 + 3 + 3 = 12. Combien de fois as-tu ajouté 3 ? Choisis le nombre qui va dans la case.",
+      "animation": { "type": "equation", "left": 4, "operation": "multiply", "right": 3, "missing": "left", "interactive": true, "choices": [3, 4, 12] }
+    },
+    {
+      "title": "Tourner la grille",
+      "text": "On tourne la grille : 5 rangées de 3. Toujours 15 voitures ! 3 × 5 = 5 × 3.",
+      "speech": "Maintenant, on tourne la grille. Il y a 5 rangées de 3 voitures. Ce sont les mêmes voitures : toujours 15. Donc 3 × 5 = 5 × 3. On peut changer l’ordre !",
+      "animation": { "type": "arrayGrid", "rows": 3, "cols": 5, "rotate": true }
+    },
+    {
+      "title": "Table de 2",
+      "text": "La table de 2, ce sont les doubles : 2 × 6 = 6 + 6 = 12.",
+      "speech": "Voici la table de 2. Multiplier par 2, c’est prendre le double. 2 × 6, c’est 6 + 6 : 12. Tu connais déjà les doubles, donc tu connais la table de 2 !",
+      "animation": { "type": "timesTable", "operation": "multiply", "size": 10, "highlights": [{ "kind": "row", "value": 2 }] }
+    },
+    {
+      "title": "Tables de 5 et de 10",
+      "text": "× 10 : les résultats finissent par 0. × 5 : ils finissent par 0 ou par 5.",
+      "speech": "Dans la table de 5, les résultats finissent par 0 ou par 5. Dans la table de 10, ils finissent toujours par 0 : 10, 20, 30, jusqu’à 100.",
+      "animation": { "type": "timesTable", "operation": "multiply", "size": 10, "highlights": [{ "kind": "row", "value": 5 }, { "kind": "row", "value": 10 }] }
+    },
+    {
+      "title": "De 5 en 5",
+      "text": "On compte de 5 en 5 : 5, 10, 15… Quels nombres se cachent ?",
+      "speech": "Compter de 5 en 5, c’est réciter la table de 5. 5, 10, 15… Continue de 5 en 5 : deux nombres se cachent.",
+      "animation": { "type": "sequencePattern", "start": 5, "step": 5, "count": 8, "hidden": [3, 6] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Construis 4 × 3 : place 4 rangées de 3 voitures.",
+      "speech": "À toi ! Construis 4 × 3 sur la grille de départ : il faut 4 rangées de 3 voitures. Clique pour ajouter une rangée.",
+      "animation": { "type": "arrayGrid", "rows": 4, "cols": 3, "interactive": true }
+    },
+    {
+      "title": "Le facteur caché",
+      "text": "… × 5 = 40 : combien de rangées de 5 pour faire 40 ? 8 rangées : 8 × 5 = 40.",
+      "speech": "Un nombre se cache : quelque chose fois 5 égale 40. Combien faut-il de rangées de 5 pour avoir 40 voitures ? Je compte de 5 en 5 jusqu’à 40 : il en faut 8.",
+      "animation": { "type": "equation", "left": 8, "operation": "multiply", "right": 5, "missing": "left", "family": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le signe × :",
+      "speech": "Je retiens : 3 × 5, c’est 3 fois 5, c’est 5 + 5 + 5 = 15. Et on peut changer l’ordre : 3 × 5 = 5 × 3.",
+      "animation": { "type": "recapCard", "text": "3 × 5, c’est 3 fois 5 : 5 + 5 + 5 = 15. On peut changer l’ordre : 3 × 5 = 5 × 3.", "example": "3 × 5 = 5 × 3 = 15" }
+    }
+  ],
+  "quiz": [
+    { "question": "2 + 2 + 2 + 2 + 2 = … × 2", "spoken": "2 + 2 + 2 + 2 + 2, c’est combien de fois 2 ?", "answer": 5, "explanation": "J’ai ajouté 5 fois le nombre 2 : 2 + 2 + 2 + 2 + 2 = 5 × 2." },
+    { "question": "2 × 7 = ?", "spoken": "Combien font 2 × 7 ? Choisis la bonne réponse.", "answer": 14, "choices": [9, 14, 27], "explanation": "2 × 7, c’est le double de 7 : 7 + 7 = 14." },
+    { "question": "… × 10 = 60", "spoken": "Combien de fois 10 font 60 ?", "answer": 6, "explanation": "10, 20, 30, 40, 50, 60 : 6 fois 10, donc 6 × 10 = 60." },
+    {
+      "question": "3 × 4 et 4 × 3 : même résultat ?",
+      "spoken": "3 × 4 et 4 × 3 donnent-ils le même résultat ?",
+      "answer": "oui",
+      "choices": ["oui", "non"],
+      "explanation": "Oui ! 3 rangées de 4 ou 4 rangées de 3, c’est la même grille tournée : 12 voitures."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul : sens de la multiplication (addition itérée), signe ×, commutativité, tables de 2, 5 et 10",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

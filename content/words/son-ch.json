@@ -1,0 +1,1078 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "chat",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chat ronronne sur le canapé.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chien",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chien remue la queue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cheval",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le cheval galope dans le pré.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chose",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai quelque chose à te dire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chemin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ce chemin mène à la plage.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chemise",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa met une chemise blanche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chaise",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "è",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Assieds-toi sur la chaise.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chaud",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le chocolat est chaud.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chapeau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le chapeau du clown est rigolo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "château",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le roi habite dans un château.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chocolat",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'adore le chocolat chaud.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chanter",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Nous aimons chanter en classe.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chercher",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 4
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je dois chercher mon ballon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chouette",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La chouette vole la nuit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chaton",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le chaton boit du lait.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "vache",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La vache donne du lait.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "ruche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les abeilles vivent dans la ruche.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "niche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chien dort dans sa niche.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai un mouchoir dans ma poche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "roche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je m'assois sur une roche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cloche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La cloche de l'école sonne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "biche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La biche court dans la forêt.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "marcher",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'aime marcher dans la neige.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chameau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chameau a deux bosses.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chaussure",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je lace ma chaussure.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chaussette",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai une chaussette rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dimanche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 3
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Dimanche, nous allons au parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "branche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'oiseau est sur la branche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "planche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La planche flotte sur l'eau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "blanche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "La neige est blanche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « blanc »"
+    },
+    {
+      "word": "pêche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La pêche est un fruit très doux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "flèche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Suis la flèche pour trouver le trésor.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bûche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La bûche brûle dans la cheminée.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chiffre",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Écris le chiffre sept.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chef",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le chef prépare un bon repas.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chaîne",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon vélo a une chaîne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "échelle",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa monte sur l'échelle.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "machine",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La machine lave le linge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cheminée",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le feu brûle dans la cheminée.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chenille",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La chenille deviendra un papillon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chant",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chant des oiseaux est joli.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cacher",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je vais me cacher derrière l'arbre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    }
+  ]
+}

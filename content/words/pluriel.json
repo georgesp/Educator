@@ -1,0 +1,1045 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "des chats",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 8
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Il y a des chats dans le jardin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les chiens",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les chiens courent dans le parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des lapins",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Je vois des lapins dans le pré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les fleurs",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Les fleurs sentent bon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des livres",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "J'ai des livres dans mon sac.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les amis",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Les amis jouent ensemble.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des pommes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Maman achète des pommes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les ballons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les ballons sont rouges.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des enfants",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Des enfants chantent dans la cour.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les poules",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les poules picorent du grain.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des vaches",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Il y a des vaches dans le champ.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les moutons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les moutons ont de la laine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des maisons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Je dessine des maisons.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les voitures",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Les voitures roulent doucement.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des arbres",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Des arbres poussent dans le parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les étoiles",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les étoiles brillent la nuit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des crayons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "J'ai des crayons de couleur.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les cahiers",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les cahiers sont bien rangés.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des billes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Je joue avec des billes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les robes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 8
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les robes de ma poupée sont jolies.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des fraises",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Nous mangeons des fraises.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les cerises",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les cerises sont bien mûres.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des tables",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "La classe a des tables neuves.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les chaises",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les chaises sont autour de la table.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des fenêtres",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "La maison a des fenêtres bleues.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les portes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Les portes de l'école sont ouvertes.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des jouets",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Je range des jouets dans la caisse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les papillons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 12
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les papillons volent au jardin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des poissons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Des poissons nagent dans la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les nuages",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les nuages cachent le soleil.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des montagnes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 12
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Nous voyons des montagnes.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les filles",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Les filles font la course.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des garçons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Des garçons jouent au foot.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les élèves",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les élèves écoutent la maîtresse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des cousins",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "J'ai des cousins très gentils.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les dents",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 8
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Je me brosse les dents.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les mains",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 8
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Je me lave les mains.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des carottes",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Le lapin mange des carottes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les tomates",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les tomates sont rouges.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des bonbons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Je partage des bonbons avec mon ami.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les fourmis",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les fourmis travaillent beaucoup.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les vélos",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "pluriel",
+          "position": 8
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les vélos sont dans le garage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des bateaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Des bateaux voguent sur la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les gâteaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les gâteaux sont délicieux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des cadeaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "J'ai reçu des cadeaux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les oiseaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les oiseaux chantent le matin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "des chapeaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les clowns portent des chapeaux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "les châteaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les châteaux sont très anciens.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des jeux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Nous jouons à des jeux de société.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les cheveux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 1,
+      "category": "groupe-nominal",
+      "example": "Maman brosse les cheveux de ma sœur.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — nom mis au pluriel"
+    },
+    {
+      "word": "les drapeaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 11
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Les drapeaux flottent au vent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    },
+    {
+      "word": "des agneaux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "pluriel"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "pluriel",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "groupe-nominal",
+      "example": "Nous voyons des agneaux à la ferme.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1), mis au pluriel"
+    }
+  ]
+}

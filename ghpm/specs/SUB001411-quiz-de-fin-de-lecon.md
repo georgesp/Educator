@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001411 — Quiz de fin de leçon
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -29,5 +29,13 @@ En tant qu'enfant, je veux un petit quiz à la fin de la leçon afin de vérifie
 
 ## Critères d'acceptation
 
-- [ ] Quiz enregistré dans les statistiques.
-- [ ] Bouton « Revoir la leçon » en cas de résultat < 50 %.
+- [x] Quiz enregistré dans les statistiques.
+- [x] Bouton « Revoir la leçon » en cas de résultat < 50 %.
+
+## Implémentation (2026-10-14)
+
+- Le quiz est une séance `lesson-quiz` (commande `start_lesson_quiz`), avec les composants des exercices ;
+  explication affichée et lue après chaque réponse ; points selon le barème.
+- Sous 50 % de bonnes réponses, le récapitulatif met « Revoir la leçon » en premier (décidé côté Rust :
+  `reviewLesson` dans le récapitulatif).
+- Orthographe : le mot à écrire est lu, jamais affiché.

@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-consonnes-l-r-m-s-t-p",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-consonnes-l-r-m-s-t-p"],
+  "title": "Les consonnes l, r, m, s, t, p",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend six consonnes : l, r, m, s, t et p.",
+      "speech": "Aujourd’hui, on apprend six consonnes : l, r, m, s, t et p. Avec une voyelle, elles fabriquent des syllabes !",
+      "animation": {"type": "titleCard", "title": "Les consonnes", "subtitle": "l, r, m, s, t, p"}
+    },
+    {
+      "title": "Des lettres qui glissent",
+      "text": "l, r, m, s : je peux faire durer leur son. lll, rrr, mmm, sss. Un sol, un mur.",
+      "speech": "Les lettres l, r, m et s glissent : on peut faire durer leur son. Essaie : lll, mmm, sss. Écoute : un sol.",
+      "animation": {"type": "letterTiles", "word": "sol", "tiles": ["s", "o", "l"], "interactive": false}
+    },
+    {
+      "title": "Des lettres qui claquent",
+      "text": "t et p claquent : on ne peut pas les faire durer. Une tomate, une pile.",
+      "speech": "Les lettres t et p claquent, très vite : on ne peut pas les faire durer. Écoute : tomate. Le t claque deux fois !",
+      "animation": {"type": "letterTiles", "word": "tomate", "tiles": ["t", "o", "m", "a", "t", "e"], "interactive": false}
+    },
+    {
+      "title": "Consonne + voyelle",
+      "text": "Une consonne et une voyelle font une syllabe : s et a font sa. Sa-la-mi : salami !",
+      "speech": "Une consonne collée à une voyelle, ça fait une syllabe. La lettre s avec la lettre a, ça fait sa. Sa, la, mi : salami !",
+      "animation": {"type": "letterTiles", "word": "salami", "tiles": ["sa", "la", "mi"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « pirate » avec les syllabes : pi, ra, te. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot pirate en cliquant sur les syllabes dans l’ordre : pi, ra, te. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "pirate", "tiles": ["pi", "ra", "te"], "distractors": ["pa", "ri"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écoute chaque mot. Quelle consonne entends-tu : l, r, m ou s ? Range-le dans sa boîte.",
+      "speech": "À toi ! Clique sur un mot, puis sur la boîte de la consonne que tu entends : l, r, m ou s.",
+      "animation": {"type": "soundSort", "groups": ["l", "r", "m", "s"], "words": [{"word": "lit", "group": "l"}, {"word": "pile", "group": "l"}, {"word": "rat", "group": "r"}, {"word": "rue", "group": "r"}, {"word": "ami", "group": "m"}, {"word": "moto", "group": "m"}, {"word": "sofa", "group": "s"}, {"word": "piste", "group": "s"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « pilote ». Écoute bien : p ou b ? t ou d ?",
+      "speech": "À toi ! Écris le mot pilote. Écoute bien les lettres qui claquent : est-ce un p ou un b ? Un t ou un d ?",
+      "animation": {"type": "letterTiles", "word": "pilote", "tiles": ["p", "i", "l", "o", "t", "e"], "distractors": ["b", "d"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les consonnes :",
+      "speech": "Je retiens : l, r, m et s glissent, t et p claquent. Une consonne et une voyelle font une syllabe : s et a font sa.",
+      "animation": {"type": "recapCard", "text": "l, r, m, s glissent ; t et p claquent. Une consonne et une voyelle font une syllabe : s + a = sa.", "example": "sol · tomate · pirate"}
+    }
+  ],
+  "quiz": [
+    {"question": "…ue : quelle lettre au début ?", "spoken": "Une rue. Quelle consonne entends-tu au début du mot rue ?", "answer": "r", "choices": ["r", "l", "m"], "explanation": "Rue commence par la lettre r : rrr, rue."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot moto. Une moto rouge.", "answer": "moto", "explanation": "Moto s’écrit m, o, t, o : deux syllabes, mo et to."},
+    {"question": "Quelle syllabe au début de « pirate » ?", "spoken": "Quelle syllabe entends-tu au début du mot pirate ?", "answer": "pi", "choices": ["pi", "pa", "ri"], "explanation": "Pirate commence par pi : la lettre p avec la lettre i."},
+    {"question": "To…ate : quelle lettre manque ?", "spoken": "Une tomate. Quelle consonne manque au milieu du mot tomate ?", "answer": "m", "choices": ["m", "n", "l"], "explanation": "Tomate s’écrit t, o, m, a, t, e : to, ma, te."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : douze à quinze correspondances régulières et faciles à prononcer en fin de période 1",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — consonnes dont le son peut durer d’abord, puis consonnes qui claquent ; combinatoire consonne + voyelle",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

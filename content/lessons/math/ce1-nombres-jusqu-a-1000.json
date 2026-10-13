@@ -1,0 +1,104 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-nombres-jusqu-a-1000",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-num-hundreds", "ce1-num-read-write"],
+  "title": "Les nombres jusqu’à 1 000",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on découvre la centaine pour lire et écrire les nombres jusqu’à 1 000.",
+      "speech": "Aujourd’hui, tu vas découvrir la centaine. Avec elle, tu pourras lire et écrire tous les nombres jusqu’à 1000.",
+      "animation": { "type": "titleCard", "title": "Les nombres jusqu’à 1 000", "subtitle": "Centaines, dizaines et unités" }
+    },
+    {
+      "title": "Rappel",
+      "text": "10 cubes s’assemblent en 1 barre : 10 unités = 1 dizaine.",
+      "speech": "Rappelle-toi : quand on a 10 cubes, on les assemble en une barre. 10 unités, c’est 1 dizaine.",
+      "animation": { "type": "tensUnits", "value": 9, "add": 1 }
+    },
+    {
+      "title": "La centaine",
+      "text": "10 barres s’assemblent en 1 plaque : 10 dizaines = 1 centaine = 100.",
+      "speech": "Et quand on a 10 barres ? On les assemble en une plaque. 10 dizaines, c’est 1 centaine. Une centaine, c’est 100.",
+      "animation": { "type": "tensUnits", "value": 90, "add": 10 }
+    },
+    {
+      "title": "Lire 347",
+      "text": "3 plaques, 4 barres, 7 cubes : 3 centaines, 4 dizaines, 7 unités. Trois cent quarante-sept.",
+      "speech": "Regarde : 3 plaques, 4 barres et 7 cubes. C’est 3 centaines, 4 dizaines et 7 unités. On lit : 347.",
+      "animation": { "type": "tensUnits", "value": 347 }
+    },
+    {
+      "title": "Le zéro",
+      "text": "608 : 6 centaines, 0 dizaine, 8 unités. Le 0 garde la place des dizaines.",
+      "speech": "Dans 608, il y a 6 centaines et 8 unités, mais aucune dizaine. On écrit quand même un 0 : il garde la place des dizaines. Sans lui, on lirait 68 !",
+      "animation": { "type": "placeValueTable", "value": 608, "focus": "tens", "decomposition": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "Fabrique 253 avec les plaques, les barres et les cubes.",
+      "speech": "À toi ! Fabrique le nombre 253. Combien de plaques, de barres et de cubes faut-il ? Clique sur les boutons.",
+      "animation": { "type": "tensUnits", "value": 253, "interactive": true }
+    },
+    {
+      "title": "Chiffre ou nombre ?",
+      "text": "Dans 347, le chiffre des dizaines est 4. Mais le nombre de dizaines est 34.",
+      "speech": "Attention ! Dans 347, le chiffre des dizaines est 4. Mais si on compte toutes les dizaines, celles cachées dans les centaines aussi, on en trouve 34.",
+      "animation": { "type": "placeValueTable", "value": 347, "focus": "tens", "countOf": "tens" }
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris en chiffres le nombre cinq cent douze. Commence par les centaines.",
+      "speech": "À toi ! Écoute bien : 512. Écris ce nombre en chiffres dans le tableau, en commençant par les centaines.",
+      "animation": { "type": "placeValueTable", "value": 512, "interactive": true }
+    },
+    {
+      "title": "Écrire en lettres",
+      "text": "Trait d’union entre dizaines et unités : quarante-sept, mais « vingt et un ». Deux cents, mais deux cent huit. Depuis 1990, on peut mettre des traits d’union partout.",
+      "speech": "On met un trait d’union entre les dizaines et les unités : quarante-sept. Mais vingt et un s’écrit avec le mot et. Cent prend un s seulement à la fin : deux cents, mais deux cent huit. Depuis 1990, on peut mettre des traits d’union partout.",
+      "animation": { "type": "placeValueTable", "value": 247, "words": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les centaines :",
+      "speech": "Je retiens : 10 dizaines font 1 centaine. Dans 347, le 3 compte les centaines, le 4 les dizaines et le 7 les unités.",
+      "animation": { "type": "recapCard", "text": "10 dizaines = 1 centaine. Dans 347, le 3 compte les centaines, le 4 les dizaines, le 7 les unités.", "example": "347 = 300 + 40 + 7" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "5 centaines, 2 dizaines, 9 unités = ?",
+      "spoken": "Quel nombre font 5 centaines, 2 dizaines et 9 unités ?",
+      "answer": 529,
+      "explanation": "5 centaines, c’est 500 ; 2 dizaines, 20 ; 9 unités, 9. 500 + 20 + 9 = 529."
+    },
+    {
+      "question": "Écris en chiffres : six cent huit",
+      "spoken": "Écris en chiffres le nombre six cent huit. Choisis la bonne écriture.",
+      "answer": 608,
+      "choices": [68, 608, 6008],
+      "explanation": "6 centaines, 0 dizaine, 8 unités : 608. Le 0 garde la place des dizaines."
+    },
+    {
+      "question": "Combien de dizaines dans 468 ?",
+      "spoken": "Combien y a-t-il de dizaines en tout dans 468 ?",
+      "answer": 46,
+      "explanation": "4 centaines font 40 dizaines, plus les 6 dizaines : 46 dizaines."
+    },
+    { "question": "500 + 6 = ?", "spoken": "Combien font 500 + 6 ?", "answer": 506, "explanation": "5 centaines, 0 dizaine, 6 unités : 506." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, nombres : centaines, dizaines et unités, lire et écrire les nombres jusqu'à 1 000 en chiffres et en lettres",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

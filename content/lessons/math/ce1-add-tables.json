@@ -1,0 +1,109 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-add-tables",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-add-tables"],
+  "title": "Tables d'addition",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, des astuces de pilote pour retrouver vite les résultats des tables d'addition.",
+      "speech": "Aujourd'hui, tu vas apprendre des astuces de pilote pour retrouver très vite tous les résultats des tables d'addition.",
+      "animation": { "type": "titleCard", "title": "Tables d'addition", "subtitle": "Doubles, amis de 10 et passage par 10" }
+    },
+    {
+      "title": "Les doubles",
+      "text": "Les doubles : 6 + 6 = 12, 7 + 7 = 14, 8 + 8 = 16, 9 + 9 = 18.",
+      "speech": "Rappelle-toi les doubles. 6 + 6 = 12. 7 + 7 = 14. 8 + 8 = 16. 9 + 9 = 18. Les doubles, il faut les connaître par cœur !",
+      "animation": { "type": "calcChain", "chains": [{ "start": 6, "steps": [6] }, { "start": 7, "steps": [7] }, { "start": 8, "steps": [8] }, { "start": 9, "steps": [9] }] }
+    },
+    {
+      "title": "Presque-doubles",
+      "text": "6 + 7, c'est le double de 6, plus 1 : 6 + 6 + 1 = 13.",
+      "speech": "6 + 7, c'est presque un double. Je calcule le double de 6 : 12. Puis j'ajoute 1 : 13. Donc 6 + 7 = 13.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 6, "steps": [6, 1] }] }
+    },
+    {
+      "title": "Amis de 10",
+      "text": "Les amis de 10 : 1 et 9, 2 et 8, 3 et 7, 4 et 6, 5 et 5.",
+      "speech": "Les amis de 10 sont les paires qui font 10 : 1 et 9, 2 et 8, 3 et 7, 4 et 6, et 5 et 5.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 1, "steps": [9] }, { "start": 2, "steps": [8] }, { "start": 3, "steps": [7] }, { "start": 4, "steps": [6] }] }
+    },
+    {
+      "title": "Passer par 10",
+      "text": "8 + 6 : j'avance de 2 pour arriver à 10, puis de 4. 8 + 6 = 14.",
+      "speech": "8 + 6. Je coupe 6 en 2 et 4. La voiture avance de 2 : elle arrive à 10. Puis elle avance de 4 : 14. Donc 8 + 6 = 14.",
+      "animation": { "type": "numberLine", "from": 0, "to": 20, "start": 8, "jumps": [2, 4] }
+    },
+    {
+      "title": "L'astuce du 9",
+      "text": "9 + 7 = 7 + 9 : j'ajoute 10, puis j'enlève 1. 9 + 7 = 16.",
+      "speech": "9 + 7, c'est pareil que 7 + 9. Pour ajouter 9, j'ajoute 10 : 17. Puis j'enlève 1 : 16.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 7, "steps": [10, -1] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Relie chaque calcul à son astuce : clique sur un calcul, puis sur son chemin.",
+      "speech": "À toi ! Pour chaque calcul, trouve l'astuce : passer par 10, l'astuce du 9, ou le presque-double. Clique sur un calcul, puis sur son chemin.",
+      "animation": { "type": "calcChain", "mode": "match", "chains": [{ "start": 7, "steps": [3, 5] }, { "start": 7, "steps": [10, -1] }, { "start": 7, "steps": [7, -1] }] }
+    },
+    {
+      "title": "Dans les deux sens",
+      "text": "7 + … = 15 : quel nombre va dans la case ? Puis regarde la famille 7, 8, 15.",
+      "speech": "Les tables marchent dans les deux sens. 7 plus combien font 15 ? Choisis le nombre de la case. Ensuite, regarde toute la famille de 7, 8 et 15.",
+      "animation": { "type": "equation", "left": 7, "operation": "add", "right": 8, "missing": "right", "family": true, "interactive": true, "choices": [7, 8, 9] }
+    },
+    {
+      "title": "Course éclair",
+      "text": "9 + 6 : clique là où la voiture arrive après + 1, puis après + 5.",
+      "speech": "Course éclair ! Calcule 9 + 6 en passant par 10. Clique là où la voiture arrive quand elle avance de 1, puis de 5.",
+      "animation": { "type": "numberLine", "from": 0, "to": 20, "start": 9, "jumps": [1, 5], "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Mes astuces pour les tables d'addition :",
+      "speech": "Je retiens : avec les doubles, les amis de 10 et le passage par 10, je retrouve n'importe quel résultat de la table.",
+      "animation": { "type": "recapCard", "text": "Doubles, amis de 10, passage par 10 : je retrouve n'importe quel résultat de la table.", "example": "8 + 6 = 8 + 2 + 4 = 14" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "7 + 8 = ?",
+      "spoken": "Combien font 7 + 8 ?",
+      "answer": 15,
+      "explanation": "7 + 3 = 10, puis 10 + 5 = 15. Ou le double de 7, plus 1 : 14 + 1 = 15."
+    },
+    {
+      "question": "9 + 6 = ?",
+      "spoken": "Combien font 9 + 6 ? Choisis la bonne réponse.",
+      "answer": 15,
+      "choices": [14, 15, 16],
+      "explanation": "6 + 10 = 16, puis j'enlève 1 : 9 + 6 = 15."
+    },
+    {
+      "question": "8 + … = 13",
+      "spoken": "8 plus combien font 13 ?",
+      "answer": 5,
+      "explanation": "De 8 à 10, il y a 2. De 10 à 13, il y a 3. 2 + 3 = 5 : 8 + 5 = 13."
+    },
+    {
+      "question": "13 = 6 + …",
+      "spoken": "13 égale 6 plus combien ?",
+      "answer": 7,
+      "explanation": "6 + 7, c'est le double de 6, plus 1 : 12 + 1 = 13."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul mental : mémoriser les tables d'addition (doubles, compléments à 10, passage de la dizaine)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

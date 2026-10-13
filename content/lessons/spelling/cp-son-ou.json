@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-ou",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 2,
+  "skillIds": ["cp-son-ou"],
+  "title": "Le son [ou]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [ou].",
+      "speech": "Aujourd’hui, on apprend à écrire le son ou. Écoute : une poule, une roue, un loup. Tu l’entends ?",
+      "animation": {"type": "titleCard", "title": "Le son [ou]", "subtitle": "o et u, ensemble"}
+    },
+    {
+      "title": "o et u ensemble",
+      "text": "Quand on colle les lettres o et u, on entend [ou] : une poule, une roue.",
+      "speech": "Quand on colle les lettres o et u, elles ne chantent plus o, ni u : elles chantent ou ! Une poule, une roue.",
+      "animation": {"type": "letterTiles", "word": "poule", "tiles": ["p", "ou", "l", "e"], "interactive": false}
+    },
+    {
+      "title": "Au début, au milieu, à la fin",
+      "text": "[ou] peut être au début (ouvrir), au milieu (une soupe) ou à la fin (un hibou).",
+      "speech": "Le son ou peut se cacher au début du mot, comme dans ouvrir, au milieu, comme dans soupe, ou à la fin, comme dans hibou.",
+      "animation": {"type": "letterTiles", "word": "hibou", "tiles": ["h", "i", "b", "ou"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « soupe » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot soupe : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "soupe", "tiles": ["s", "ou", "p", "e"], "distractors": ["u", "a"]}
+    },
+    {
+      "title": "ou n’est pas u",
+      "text": "Attention : [ou] et [u] ne chantent pas pareil ! Une roue, une rue.",
+      "speech": "Attention ! Écoute bien : une roue, une rue. Dans roue, j’entends ou. Dans rue, j’entends u. Ce ne sont pas les mêmes sons !",
+      "animation": {"type": "soundSort", "groups": ["ou", "u"], "words": [{"word": "roue", "group": "ou"}, {"word": "rue", "group": "u"}, {"word": "cou", "group": "ou"}, {"word": "tutu", "group": "u"}], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot dans la boîte du son que tu entends : ou, u ou o.",
+      "speech": "À toi ! Écoute chaque mot. Entends-tu ou, u, ou o ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["ou", "u", "o"], "words": [{"word": "poule", "group": "ou"}, {"word": "loup", "group": "ou"}, {"word": "jour", "group": "ou"}, {"word": "mur", "group": "u"}, {"word": "jupe", "group": "u"}, {"word": "lune", "group": "u"}, {"word": "moto", "group": "o"}, {"word": "vélo", "group": "o"}, {"word": "sol", "group": "o"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « toupie ». Dis le mot doucement : tou, pie.",
+      "speech": "À toi ! Écris le mot toupie. Dis-le tout doucement : tou, pie.",
+      "animation": {"type": "letterTiles", "word": "toupie", "tiles": ["t", "ou", "p", "i", "e"], "distractors": ["u", "é"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « fourmi ». Où se cache le son [ou] ?",
+      "speech": "À toi ! Écris le mot fourmi. Où se cache le son ou ?",
+      "animation": {"type": "letterTiles", "word": "fourmi", "tiles": ["f", "ou", "r", "m", "i"], "distractors": ["u", "n"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [ou] :",
+      "speech": "Je retiens : le son ou s’écrit avec deux lettres collées, o et u. Une poule, une roue, un hibou.",
+      "animation": {"type": "recapCard", "text": "Le son [ou] s’écrit avec deux lettres collées : o et u.", "example": "poule · roue · hibou"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il manque deux lettres : p…le", "spoken": "Une poule. Quelles lettres manquent dans le mot poule ?", "answer": "ou", "choices": ["ou", "u", "o"], "explanation": "Poule s’écrit p, o, u, l, e : le son ou s’écrit o, u."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot roue. La roue du vélo.", "answer": "roue", "explanation": "Roue s’écrit r, o, u, e. N’oublie pas le e à la fin !"},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Le jour. Choisis la bonne écriture du mot jour.", "answer": "jour", "choices": ["jour", "jur", "jor"], "explanation": "Jour s’écrit j, o, u, r : on entend ou."},
+    {"question": "Entends-tu [ou] dans « rue » ?", "spoken": "Écoute : une rue. Entends-tu le son ou dans le mot rue ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : dans rue, on entend u. Dans roue, on entend ou."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : correspondances du début d’année ; écrire des mots sous la dictée",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — le graphème ou dans l’exemple de progression du début d’année",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

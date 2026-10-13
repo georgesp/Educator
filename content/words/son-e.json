@@ -1,0 +1,1123 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "école",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je vais à l'école à pied.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "élève",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'élève écoute la maîtresse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "étage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'habite au premier étage.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "écrire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'apprends à écrire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "écouter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Il faut bien écouter la consigne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "réveil",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le réveil sonne le matin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "cinéma",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous allons au cinéma.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "médecin",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 4
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le médecin me soigne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "préféré",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 2
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 4
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "C'est mon jeu préféré.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « préférer »"
+    },
+    {
+      "word": "vérité",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Il faut dire la vérité.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "idée",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai une bonne idée !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "journée",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quelle belle journée !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "année",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Bonne année à tous !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fusée",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "z",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 2
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La fusée part dans l'espace.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "allée",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je marche dans l'allée du parc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "téléphone",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        },
+        {
+          "text": "ph",
+          "sound": "f",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le téléphone sonne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "boulanger",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "an",
+        "j",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 4
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 6
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le boulanger fait du bon pain.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "panier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mets les pommes dans le panier.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "cahier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'écris dans mon cahier.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "escalier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je monte l'escalier.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rocher",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le crabe se cache sous le rocher.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tablier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mets un tablier pour peindre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "goûter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le goûter est prêt !",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "pommier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pommier est plein de pommes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "cerisier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "z",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le cerisier a des fleurs roses.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "fermier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le fermier nourrit ses poules.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "épicier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'épicier vend des fruits.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "plombier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le plombier répare le robinet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "chevalier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chevalier monte sur son cheval.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "soulier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Mon soulier est tout neuf.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "papier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je dessine sur une feuille de papier.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "premier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Je suis le premier de la file.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "dernier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "C'est le dernier biscuit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "léger",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Mon sac est léger.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "oreiller",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je pose ma tête sur l'oreiller.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "sorcier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le sorcier fait un tour de magie.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "nez",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le clown a un nez rouge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "allez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Allez, on rentre à la maison !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « aller »"
+    },
+    {
+      "word": "regardez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Regardez le bel arc-en-ciel !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « regarder »"
+    },
+    {
+      "word": "écoutez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Écoutez bien l'histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « écouter »"
+    },
+    {
+      "word": "chantez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Chantez avec moi !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « chanter »"
+    },
+    {
+      "word": "venez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Venez jouer avec nous !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « venir »"
+    },
+    {
+      "word": "dansez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Dansez sur la musique !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « danser »"
+    },
+    {
+      "word": "levez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Levez la main pour parler.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « lever »"
+    },
+    {
+      "word": "jouez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Jouez gentiment ensemble.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « jouer »"
+    },
+    {
+      "word": "avez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Vous avez de beaux dessins.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « avoir »"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-add-sub-3-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "skillIds": ["ce1-add-3-digits", "ce1-sub-3-digits"],
+  "title": "Additions et soustractions jusqu'à 1 000",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, on pose des additions et des soustractions avec des nombres à trois chiffres.",
+      "speech": "Aujourd'hui, tu vas poser des additions et des soustractions avec des centaines. C'est comme avant, avec une colonne de plus !",
+      "animation": { "type": "titleCard", "title": "Additions et soustractions jusqu'à 1 000", "subtitle": "Poser avec des centaines" }
+    },
+    {
+      "title": "Bien aligner",
+      "text": "245 + 437 : chaque chiffre dans sa colonne. Centaines, dizaines, unités.",
+      "speech": "Pour poser 245 + 437, j'écris les deux nombres l'un sous l'autre : les unités sous les unités, les dizaines sous les dizaines, les centaines sous les centaines.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [245, 437], "computedColumns": 0 }
+    },
+    {
+      "title": "Addition",
+      "text": "5 + 7 = 12 : j'écris 2, je retiens 1. 1 + 4 + 3 = 8. 2 + 4 = 6. 245 + 437 = 682.",
+      "speech": "Les unités : 5 + 7 = 12, j'écris 2 et je retiens 1. Les dizaines : 1 + 4 + 3 = 8. Les centaines : 2 + 4 = 6. Le résultat est 682.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [245, 437] }
+    },
+    {
+      "title": "Deux retenues",
+      "text": "378 + 456 : une retenue aux dizaines, puis une aux centaines. 378 + 456 = 834.",
+      "speech": "378 + 456. Les unités : 8 + 6 = 14, je retiens 1. Les dizaines : 1 + 7 + 5 = 13, je retiens encore 1. Les centaines : 1 + 3 + 4 = 8.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [378, 456] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Calcule 263 + 519 : clique sur chaque chiffre du résultat, en commençant par les unités.",
+      "speech": "À toi ! Calcule 263 + 519 en colonnes. Commence par les unités, et n'oublie pas les retenues.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [263, 519], "interactive": true }
+    },
+    {
+      "title": "Soustraction",
+      "text": "652 − 318 : 2 − 8, c'est impossible. Les deux techniques calculent 12 − 8 = 4. 652 − 318 = 334.",
+      "speech": "652 − 318. Les unités : 2 − 8, impossible ! Avec le cassage, je casse une dizaine du haut. Avec la compensation, j'ajoute 10 en haut et 1 dizaine en bas. Dans les deux cas, 12 − 8 = 4.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [652, 318], "method": "both" }
+    },
+    {
+      "title": "Le zéro au milieu",
+      "text": "503 − 128 : pas de dizaine à casser, je casse une centaine. Ou je compense deux fois. 503 − 128 = 375.",
+      "speech": "503 − 128. Il n'y a pas de dizaine en haut. Avec le cassage, je casse une centaine : 10 dizaines. Avec la compensation, je compense deux fois. On trouve 375.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [503, 128], "method": "both" }
+    },
+    {
+      "title": "À toi !",
+      "text": "Calcule 741 − 365, chiffre par chiffre, en commençant par les unités.",
+      "speech": "À toi ! Calcule 741 − 365. Commence par les unités. Les deux techniques sont côte à côte : suis celle de ta classe, les petits chiffres rouges t'aident.",
+      "animation": { "type": "columnOperation", "operation": "subtract", "operands": [741, 365], "method": "both", "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "Je vérifie avec l'addition : 334 + 318 = 652. Ordre de grandeur : 650 − 300 = 350, proche de 334.",
+      "speech": "Pour vérifier une soustraction, je fais une addition : 334 + 318 = 652. C'est juste ! Et l'ordre de grandeur : 650 − 300 = 350, c'est proche de 334.",
+      "animation": { "type": "equation", "left": 652, "operation": "subtract", "right": 318, "family": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "La règle des pilotes des opérations posées :",
+      "speech": "Je retiens : j'aligne unités, dizaines et centaines. Je commence par les unités, et je n'oublie pas les retenues.",
+      "animation": { "type": "recapCard", "text": "J'aligne unités, dizaines, centaines. Je commence par les unités et je n'oublie pas les retenues.", "example": "245 + 437 = 682" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "245 + 437 = ?",
+      "spoken": "Combien font 245 + 437 ?",
+      "answer": 682,
+      "explanation": "5 + 7 = 12, je retiens 1. 1 + 4 + 3 = 8. 2 + 4 = 6. 245 + 437 = 682."
+    },
+    {
+      "question": "652 − 318 = ?",
+      "spoken": "Combien font 652 − 318 ? Choisis la bonne réponse.",
+      "answer": 334,
+      "choices": [334, 344, 346],
+      "explanation": "12 − 8 = 4, puis 4 − 1 = 3 aux dizaines, et 6 − 3 = 3 aux centaines. 652 − 318 = 334."
+    },
+    {
+      "question": "Combien de retenues dans 378 + 456 ?",
+      "spoken": "Combien de retenues y a-t-il dans l'addition 378 + 456 ?",
+      "answer": 2,
+      "choices": [0, 1, 2],
+      "explanation": "8 + 6 = 14 : une retenue. 1 + 7 + 5 = 13 : une deuxième retenue. Il y en a 2."
+    },
+    {
+      "question": "500 − 125 = ?",
+      "spoken": "Combien font 500 − 125 ?",
+      "answer": 375,
+      "explanation": "Je vérifie avec l'addition : 375 + 125 = 500. 500 − 125 = 375."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul : additions et soustractions posées de nombres inférieurs à 1 000",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

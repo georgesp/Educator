@@ -215,5 +215,6 @@ fn build(
         help: None,
         key,
         calculation: None,
+        word: None,
     })
 }

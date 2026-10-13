@@ -1,0 +1,110 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-sub-9",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-sub-9"],
+  "title": "Enlever 9",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, une astuce de pilote pour enlever 9 très vite, de tête.",
+      "speech": "Aujourd'hui, tu vas apprendre une astuce de pilote pour enlever 9 très vite, dans ta tête.",
+      "animation": { "type": "titleCard", "title": "Enlever 9", "subtitle": "Enlever 10, puis rendre 1" }
+    },
+    {
+      "title": "9, presque 10",
+      "text": "9 cubes : il en manque 1 pour faire une dizaine. 9, c'est 10 − 1.",
+      "speech": "Regarde ces 9 cubes. Il en manque un seul pour faire une barre de dix. 9, c'est presque 10 : 9 = 10 − 1.",
+      "animation": { "type": "tensUnits", "value": 9, "completeTen": true }
+    },
+    {
+      "title": "L'astuce",
+      "text": "52 − 9 : j'enlève 10, j'arrive à 42. Puis j'ajoute 1 : 43.",
+      "speech": "Pour calculer 52 − 9, j'enlève 10, c'est facile : 42. Puis j'ajoute 1 : 43. Donc 52 − 9 = 43.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 52, "steps": [-10, 1] }] }
+    },
+    {
+      "title": "Sur la piste",
+      "text": "Un grand bond en arrière de 10, puis un petit pas en avant de 1.",
+      "speech": "Sur la piste, la voiture fait un grand bond en arrière de 10 : elle arrive à 42. Puis un petit pas en avant de 1 : 43.",
+      "animation": { "type": "numberLine", "from": 40, "to": 55, "start": 52, "jumps": [-10, 1] }
+    },
+    {
+      "title": "Pourquoi + 1 ?",
+      "text": "J'ai enlevé 10 cubes au lieu de 9 : 1 cube de trop. Je le remets : 42 + 1 = 43.",
+      "speech": "Pourquoi j'ajoute 1 ? Je devais enlever 9 cubes, mais j'ai enlevé une barre de 10. J'en ai enlevé un de trop ! Je le remets : 43.",
+      "animation": { "type": "tensUnits", "value": 43 }
+    },
+    {
+      "title": "À toi !",
+      "text": "64 − 9 : clique là où la voiture arrive après − 10, puis après + 1.",
+      "speech": "À toi ! Calcule 64 − 9 avec la voiture. Clique là où elle arrive quand elle recule de 10, puis quand elle avance de 1.",
+      "animation": { "type": "numberLine", "from": 50, "to": 70, "start": 64, "jumps": [-10, 1], "interactive": true }
+    },
+    {
+      "title": "Attention !",
+      "text": "Après avoir enlevé 10, on ajoute 1. On n'en enlève pas !",
+      "speech": "Attention au piège ! Après avoir enlevé 10, j'ajoute 1. Si j'enlève encore 1, je trouve 41, et c'est faux. 52 − 9 = 43.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 52, "steps": [-10, 1] }, { "start": 52, "steps": [-10, -1], "crossed": true }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "30 − … = 21 : quel nombre va dans la case ?",
+      "speech": "À toi ! 30 moins combien font 21 ? Choisis le nombre qui va dans la case.",
+      "animation": { "type": "equation", "left": 30, "operation": "subtract", "right": 9, "missing": "right", "interactive": true, "choices": [8, 9, 11] }
+    },
+    {
+      "title": "Course éclair",
+      "text": "45 − 9, 71 − 9, 100 − 9 : toujours − 10, puis + 1.",
+      "speech": "Course éclair ! 45 − 9 = 36. 71 − 9 = 62. Et même 100 − 9 = 91. À chaque fois, j'enlève 10, puis j'ajoute 1.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 45, "steps": [-10, 1] }, { "start": 71, "steps": [-10, 1] }, { "start": 100, "steps": [-10, 1] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "L'astuce à garder dans ta tête :",
+      "speech": "Je retiens : pour enlever 9, j'enlève 10, puis j'ajoute 1.",
+      "animation": { "type": "recapCard", "text": "Pour enlever 9, j'enlève 10, puis j'ajoute 1.", "example": "52 − 9 = 52 − 10 + 1 = 43" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "45 − 9 = ?",
+      "spoken": "Combien font 45 − 9 ?",
+      "answer": 36,
+      "explanation": "45 − 10 = 35, puis j'ajoute 1 : 45 − 9 = 36."
+    },
+    {
+      "question": "71 − 9 = ?",
+      "spoken": "Combien font 71 − 9 ? Choisis la bonne réponse.",
+      "answer": 62,
+      "choices": [60, 62, 61],
+      "explanation": "71 − 10 = 61, puis j'ajoute 1 : 62. Si je trouve 60, j'ai enlevé 1 au lieu de l'ajouter."
+    },
+    {
+      "question": "… − 9 = 30",
+      "spoken": "Quel nombre, moins 9, donne 30 ?",
+      "answer": 39,
+      "explanation": "Je vérifie : 39 − 10 = 29, puis j'ajoute 1 : 30. C'est 39."
+    },
+    {
+      "question": "Pour enlever 9 : j'enlève 10, puis j'ajoute …",
+      "spoken": "Pour enlever 9, j'enlève 10, puis j'ajoute combien ?",
+      "answer": 1,
+      "choices": [1, 9, 10],
+      "explanation": "9 = 10 − 1 : j'ai enlevé 1 de trop, je l'ajoute."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul mental : soustraire 9",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

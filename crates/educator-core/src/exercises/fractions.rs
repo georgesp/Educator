@@ -63,6 +63,7 @@ fn bare(
         help: None,
         key,
         calculation: None,
+        word: None,
     }
 }
 

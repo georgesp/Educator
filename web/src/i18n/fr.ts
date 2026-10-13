@@ -1,4 +1,4 @@
-import type { Grade } from "../api/client";
+import type { Grade, LessonOperator, LetterKind, RaceObjectName, RankName, SpellingFormat, Subject, TableHighlightKind } from "../api/client";
 
 /** A step of a calculation as written in the lessons: « + 20 », « − 1 » (typographic minus). */
 export const signed = (delta: number): string => (delta < 0 ? `− ${-delta}` : `+ ${delta}`);
@@ -20,9 +20,20 @@ export const fr = {
     listen: "Écouter",
     soundOn: "Couper les sons",
     soundOff: "Remettre les sons",
+    /** Icon of the spelling (« Aa »), next to the pencil of maths. */
+    spellingIcon: "Aa",
     back: "Retour",
   },
   grades: { CP: "CP", CE1: "CE1", CE2: "CE2", CM1: "CM1", CM2: "CM2" } satisfies Record<Grade, string>,
+  subjects: {
+    names: { Math: "Mathématiques", Spelling: "Orthographe" } satisfies Record<Subject, string>,
+    hints: { Math: "Nombres et calcul", Spelling: "Les sons et les mots" } satisfies Record<Subject, string>,
+    choose: "Quelle matière ?",
+    exercisesTitle: "Exercices",
+    exercisesSpoken: "Choisis la matière : les mathématiques, ou l'orthographe.",
+    lessonsTitle: "Leçons",
+    lessonsSpoken: "Choisis la matière de ta leçon.",
+  },
   profiles: {
     title: "Qui joue ?",
     spoken: "Qui joue ? Clique sur ton personnage, ou crée un nouveau profil.",
@@ -50,9 +61,11 @@ export const fr = {
     exercises: "Exercices",
     exam: "Examen",
     options: "Options",
-    exercisesHint: "Nombres et calcul",
+    exercisesHint: "Maths et orthographe",
     lessonsHint: "Je comprends, puis je m'entraîne",
     soonHint: "Au stand, bientôt",
+    examHint: "Le bilan et le défi chrono",
+    optionsHint: "Profils et sons",
     soonSpoken: "Cette partie arrive bientôt.",
     changeProfile: "Changer de pilote",
     grade: "Classe",
@@ -62,6 +75,8 @@ export const fr = {
   },
   skills: {
     title: "Exercices de maths",
+    titles: { Math: "Exercices de maths", Spelling: "Exercices d'orthographe" } satisfies Record<Subject, string>,
+    mastery: (score: number) => `Réussi à ${score} %`,
     tables: "Mes tables",
     spoken: "Choisis ce que tu veux t'entraîner à faire.",
     current: "C'est ce que tu travailles en ce moment",
@@ -74,6 +89,42 @@ export const fr = {
     chooseModeSpoken: "Comment veux-tu répondre ? Tu peux écrire la réponse, ou la choisir.",
     keyboard: "J'écris la réponse",
     choice: "Je choisis la réponse",
+    chooseKind: "Quel exercice veux-tu faire ?",
+    chooseKindSpoken: "Quel exercice veux-tu faire ? La dictée, les mots à trous, ou la bonne écriture.",
+    kinds: {
+      Dictation: "La dictée",
+      MissingLetters: "Les mots à trous",
+      ChooseSpelling: "La bonne écriture",
+    } satisfies Record<SpellingFormat, string>,
+    kindHints: {
+      Dictation: "J'écoute le mot et je l'écris",
+      MissingLetters: "J'écris les lettres qui manquent",
+      MissingLettersChoice: "Je choisis les lettres qui manquent",
+      ChooseSpelling: "Je choisis le mot bien écrit",
+    },
+  },
+  spelling: {
+    keyboard: "Clavier des lettres",
+    accents: "Les lettres avec un accent",
+    letter: (letter: string) => (letter === "'" ? "Apostrophe" : letter === "-" ? "Trait d'union" : `Lettre ${letter}`),
+    space: "Espace",
+    wordLabel: "Écris le mot",
+    missingLabel: "Les lettres qui manquent",
+    missingCount: (count: number) => (count > 1 ? `Les ${count} lettres qui manquent` : "La lettre qui manque"),
+    listenWord: "Réécouter le mot",
+    listenExample: "Le mot dans une phrase",
+    nothing: "rien",
+    yourWord: "Tu as écrit :",
+    yourWordAria: (word: string) => `Tu as écrit ${word}`,
+    rightWord: "Le mot s'écrit :",
+    letterMark: (kind: LetterKind, given: string | null, expected: string | null) =>
+      kind === "Right"
+        ? "Bonne lettre"
+        : kind === "Wrong"
+          ? `Il fallait « ${expected ?? ""} » au lieu de « ${given ?? ""} »`
+          : kind === "Missing"
+            ? `Il manque « ${expected ?? ""} »`
+            : `La lettre « ${given ?? ""} » est en trop`,
   },
   series: {
     progress: (current: number, total: number) => `Tour ${current} sur ${total}`,
@@ -126,6 +177,7 @@ export const fr = {
   },
   lessons: {
     title: "Leçons de maths",
+    titles: { Math: "Leçons de maths", Spelling: "Leçons d'orthographe" } satisfies Record<Subject, string>,
     spoken: "Choisis une leçon. Je t'explique, puis c'est à toi de jouer.",
     current: "Les leçons de ce moment",
     others: "Les autres leçons de ta classe",
@@ -146,6 +198,7 @@ export const fr = {
     finishedSpoken: (correct: number, total: number) =>
       `Leçon terminée ! Tu as ${correct} bonne${correct > 1 ? "s" : ""} réponse${correct > 1 ? "s" : ""} sur ${total}. Maintenant, entraîne-toi !`,
     practice: "Je m'entraîne",
+    practiceSkill: (skill: string) => `Je m'entraîne : ${skill}`,
     again: "Revoir la leçon",
     recap: "Je retiens",
     line: (from: number, to: number) => `Piste graduée de ${from} à ${to}`,
@@ -159,11 +212,274 @@ export const fr = {
     matchCalculations: "Les calculs",
     matchChains: "Les chemins",
     matchPick: "Clique sur un calcul, puis sur son chemin.",
+    matchWhich: (total: number) => `Quel chemin fait + ${total} en tout ?`,
     matchHint: "Presque ! Regarde de combien chaque chemin avance en tout.",
     matchDone: "Bravo, tout est relié !",
     blocks: (hundreds: number, tens: number, units: number) =>
       `${hundreds > 0 ? `${hundreds} plaque${hundreds > 1 ? "s" : ""} de cent, ` : ""}${tens} barre${tens > 1 ? "s" : ""} de dix et ${units} cube${units > 1 ? "s" : ""}`,
     missing: (n: number) => (n === 1 ? "Il manque 1 cube pour faire une dizaine." : `Il manque ${n} cubes pour faire une dizaine.`),
+    /** Written operations (columnOperation): u, d, c, m above the columns, from the units. */
+    sign: { Add: "+", Subtract: "−", Multiply: "×" } as Record<LessonOperator, string>,
+    columnLetters: ["u", "d", "c", "m"],
+    columnNames: ["unités", "dizaines", "centaines", "milliers"],
+    operation: (operands: number[], operator: string, result: number) => `${operands.join(` ${operator} `)} = ${result}`,
+    written: (operation: string) => `Opération posée : ${operation}`,
+    methods: { Cassage: "Le cassage", Compensation: "La compensation" } as Record<string, string>,
+    columnCalc: (terms: number[], operator: string, value: number) => `${terms.join(` ${operator} `)} = ${value}`,
+    columnAsk: (column: string) => `Quel chiffre écris-tu dans la colonne des ${column} ?`,
+    columnHint: (calc: string, digit: number, carry: number) =>
+      carry > 0 ? `Presque ! ${calc} : j'écris ${digit} et je retiens ${carry}.` : `Presque ! ${calc} : j'écris ${digit}.`,
+    withMethod: { Cassage: "avec le cassage", Compensation: "avec la compensation" } as Record<string, string>,
+    /** Two techniques side by side: « Presque ! Avec le cassage, 5 − 2 = 3 ; avec la compensation, 6 − 3 = 3. J'écris 3. » */
+    columnHintMethods: (calcs: string[], digit: number) => {
+      const text = calcs.join(" ; ");
+      return `Presque ! ${text.charAt(0).toUpperCase()}${text.slice(1)}. J'écris ${digit}.`;
+    },
+    columnDone: (operation: string) => `Bravo ! ${operation}`,
+    digit: (d: number) => `Chiffre ${d}`,
+    digits: "Les chiffres",
+    /** Equalities (equation). */
+    box: "Case à trouver",
+    equationAsk: "Quel nombre va dans la case ? Clique sur la bonne réponse.",
+    equationHint: (operator: LessonOperator, missing: "Left" | "Right" | "Result", left: number, right: number, result: number) =>
+      missing === "Result"
+        ? `Presque ! Calcule ${left} ${operator === "Add" ? "+" : operator === "Multiply" ? "×" : "−"} ${right}.`
+        : operator === "Multiply"
+          ? missing === "Left"
+            ? `Presque ! Combien de fois ${right} font ${result} ?`
+            : `Presque ! ${left} fois combien font ${result} ?`
+          : operator === "Add"
+          ? missing === "Right"
+            ? `Presque ! Combien faut-il ajouter à ${left} pour arriver à ${result} ?`
+            : `Presque ! Quel nombre, avec ${right} de plus, fait ${result} ?`
+          : missing === "Right"
+            ? `Presque ! Combien faut-il enlever à ${left} pour arriver à ${result} ?`
+            : `Presque ! Pense à ${result} + ${right}.`,
+    equationDone: (equality: string) => `Bravo ! ${equality}`,
+    family: "La famille de nombres",
+    /** Chains to pick (calcChain, mode Pick). */
+    pickAsk: "Clique sur le bon chemin.",
+    pickChain: (start: number, steps: string) => `Partir de ${start}, puis ${steps}`,
+    pickHint: "Presque ! Regarde bien où mène chaque chemin.",
+    pickDone: (start: number, total: number, result: number) => `Bravo ! ${start} ${total < 0 ? "−" : "+"} ${Math.abs(total)} = ${result}`,
+    /** Number line: a checkered flag on a graduation. */
+    flag: (value: number) => `Drapeau sur ${value}`,
+    /** Base ten blocks (tensUnits): steps and manipulation. */
+    blockStep: {
+      Start: "",
+      Join: "Les blocs arrivent.",
+      ExchangeUnits: "10 cubes deviennent 1 barre.",
+      ExchangeTens: "10 barres deviennent 1 plaque.",
+      BreakTen: "Je casse une barre : 10 cubes.",
+      BreakHundred: "Je casse une plaque : 10 barres.",
+      TakeAway: "J'enlève les blocs.",
+      Share: "Chaque part reçoit autant.",
+    } as Record<string, string>,
+    blocksPlus: { hundreds: "+ plaque", tens: "+ barre", units: "+ cube" },
+    blocksMinus: { hundreds: "− plaque", tens: "− barre", units: "− cube" },
+    exchangeUnits: "Échanger 10 cubes contre 1 barre",
+    exchangeTens: "Échanger 10 barres contre 1 plaque",
+    exchangeUnitsHint: "Tu as 10 cubes ou plus : échange 10 cubes contre une barre !",
+    exchangeTensHint: "Tu as 10 barres ou plus : échange 10 barres contre une plaque !",
+    breakTen: "Casser une barre en 10 cubes",
+    breakHundred: "Casser une plaque en 10 barres",
+    noCube: "Il n'y a plus assez de cubes : casse une barre.",
+    noBar: "Il n'y a plus assez de barres : casse une plaque.",
+    blocksValue: (value: number) => `Tu as ${value}.`,
+    blocksBuildAsk: (value: number) => `Fabrique ${value} avec les plaques, les barres et les cubes.`,
+    blocksAddAsk: (start: number, added: number) => `Ajoute ${added} à ${start} : ajoute des barres et des cubes.`,
+    blocksRemoveAsk: (start: number, removed: number) => `Enlève ${removed} à ${start} : enlève des barres et des cubes.`,
+    blocksTooFew: (target: number) => `Presque ! Si tu enlèves ce bloc, il restera moins que ${target}. Enlève plutôt des cubes, ou casse une barre.`,
+    blocksTooMuch: (target: number) => `Presque ! Tu as dépassé ${target} : enlève des blocs.`,
+    blocksDone: (value: number) => `Bravo ! Tu as fabriqué ${value}.`,
+    blocksLeft: (value: number) => `Bravo ! Il reste ${value}.`,
+    shareGive: { hundreds: "Donner une plaque", tens: "Donner une barre", units: "Donner un cube" },
+    shareBreakTen: "Casser la barre en 10 cubes",
+    shareBreakHundred: "Casser la plaque en 10 barres",
+    shareAsk: (parts: number) => `Partage les blocs en ${parts} parts égales : clique pour donner chaque bloc.`,
+    shareTen: "Cette barre ne se partage pas : clique dessus pour la casser en 10 cubes.",
+    shareHundred: "Cette plaque ne se partage pas : clique dessus pour la casser en 10 barres.",
+    sharePart: (index: number) => `Part ${index}`,
+    shareLeft: "Les blocs à partager",
+    shareDone: (result: number) => `Bravo ! Chaque part a ${result}.`,
+    /** Numeration (compareNumbers, placeValueTable). */
+    rankLetters: { Thousands: "m", Hundreds: "c", Tens: "d", Units: "u" } as Record<RankName, string>,
+    rankNames: { Thousands: "milliers", Hundreds: "centaines", Tens: "dizaines", Units: "unités" } as Record<RankName, string>,
+    compare: (a: number, sign: string, b: number) => `${a} ${sign} ${b}`,
+    compareAsk: "Quel signe mets-tu entre les deux nombres ?",
+    compareHint: (rank: string) => `Presque ! Regarde d'abord les ${rank}.`,
+    compareDone: (comparison: string) => `Bravo ! ${comparison}`,
+    compareRank: (rank: string) => `Ce sont les ${rank} qui décident`,
+    compareSame: "Tous les chiffres sont pareils",
+    placeTable: (value: number) => `Tableau de numération : ${value}`,
+    countOf: (rank: string, count: number) => `Nombre de ${rank} : ${count}`,
+    spellingSame: "En lettres :",
+    spellingTraditional: "En lettres :",
+    spellingRectified: "Depuis 1990, on peut aussi écrire :",
+    placeColumnAsk: (rank: string) => `Quel chiffre dans la colonne des ${rank} ?`,
+    placeHint: "Presque ! Réécoute le nombre, puis regarde la colonne.",
+    placeDone: (value: number) => `Bravo ! Tu as écrit ${value}.`,
+    /** Sequences (sequencePattern). */
+    sequence: (numbers: string) => `Suite de nombres : ${numbers}`,
+    orderGrid: "La grille de départ",
+    orderAsk: (descending: boolean) =>
+      descending ? "Clique sur les voitures, du plus grand nombre au plus petit." : "Clique sur les voitures, du plus petit nombre au plus grand.",
+    orderHint: (descending: boolean) =>
+      descending ? "Presque ! Cherche le plus grand nombre qui reste." : "Presque ! Cherche le plus petit nombre qui reste.",
+    orderDone: "Bravo, la grille de départ est rangée !",
+    /** Multiplication (arrayGrid, timesTable). */
+    grid: (rows: number, cols: number) => `${rows} rangée${rows > 1 ? "s" : ""} de ${cols} voiture${cols > 1 ? "s" : ""}`,
+    gridProduct: (rows: number, cols: number, product: number) => `${rows} × ${cols} = ${product}`,
+    gridSum: (numbers: number[], total: number) => `${numbers.join(" + ")} = ${total}`,
+    gridLeaving: (removed: number, remaining: number) =>
+      `${removed} voiture${removed > 1 ? "s" : ""} quitte${removed > 1 ? "nt" : ""} la grille : il en reste ${remaining}.`,
+    gridAddRow: "Ajouter une rangée",
+    gridRemoveRow: "Enlever une rangée",
+    gridBuildAsk: (rows: number, cols: number) => `Place ${rows} rangées de ${cols} voitures.`,
+    gridRows: (placed: number) => `Tu en as ${placed}`,
+    gridBuildDone: (rows: number, cols: number, total: number) => `Bravo ! ${rows} × ${cols} = ${total}`,
+    gridCut: (after: number) => `Couper après ${after} rangée${after > 1 ? "s" : ""}`,
+    gridSplitAsk: (after: number) => `Clique entre deux rangées pour couper la grille après ${after} rangées.`,
+    gridSplitHint: (after: number) => `Presque ! Compte ${after} rangées depuis le haut.`,
+    gridSplitDone: (sum: string) => `Bravo ! ${sum}`,
+    table: (operator: LessonOperator, size: number) =>
+      `Table ${operator === "Multiply" ? "de multiplication" : "d'addition"} de 1 à ${size}`,
+    tableHighlight: (kind: TableHighlightKind, value: number | null) =>
+      kind === "Row" ? `La table de ${value}` : kind === "Doubles" ? "Les doubles" : value === 10 ? "Les amis de 10" : `Les cases qui font ${value}`,
+    /** Racing objects (groupObjects): singular and plural names. */
+    objects: {
+      Car: ["voiture", "voitures"],
+      Helmet: ["casque", "casques"],
+      Tire: ["pneu", "pneus"],
+      Flag: ["drapeau", "drapeaux"],
+      Cone: ["cône", "cônes"],
+    } as Record<RaceObjectName, readonly [string, string]>,
+    objectCount: (count: number, names: readonly [string, string]) => `${count} ${count > 1 ? names[1] : names[0]}`,
+    totalAsk: "Combien y en a-t-il en tout ?",
+    restAsk: "Combien en reste-t-il ?",
+    countHint: "Presque ! Compte encore une fois, doucement.",
+    joinAsk: (names: readonly [string, string]) => `Clique sur chaque ${names[0]} pour l'amener sur la ligne de départ.`,
+    joinDone: (a: number, b: number, result: number) => `Bravo ! ${a} + ${b} = ${result}`,
+    removeAsk: (count: number, names: readonly [string, string]) => `Fais partir ${count} ${count > 1 ? names[1] : names[0]} : clique dessus.`,
+    removeDone: (total: number, removed: number, result: number) => `Bravo ! ${total} − ${removed} = ${result}`,
+    pairs: (count: number, groups: number, rest: number) =>
+      rest === 0
+        ? `${count} : ${groups} paire${groups > 1 ? "s" : ""}, personne n'est tout seul. ${count} est pair.`
+        : `${count} : ${groups} paire${groups > 1 ? "s" : ""} et 1 tout seul. ${count} est impair.`,
+    groups: (count: number, groups: number, size: number, rest: number) =>
+      `${count} : ${groups} groupe${groups > 1 ? "s" : ""} de ${size}${rest > 0 ? `, et ${rest} en plus` : ""}.`,
+    tensAsk: (size: number, filling: number) =>
+      filling === 0 ? `Clique sur les objets pour faire un paquet de ${size}.` : `Encore ${size - filling} pour finir le paquet de ${size} !`,
+    tensMade: (groups: number) => `${groups} paquet${groups > 1 ? "s" : ""} de 10`,
+    tensFilling: (filling: number, size: number) => `Paquet en cours : ${filling} sur ${size}`,
+    tensGrouped: (groups: number, rest: number) =>
+      `${groups} paquet${groups > 1 ? "s" : ""} de 10${rest > 0 ? ` et ${rest} tout seul${rest > 1 ? "s" : ""}` : ""}.`,
+    tensDone: (groups: number, rest: number, result: number) =>
+      `Bravo ! ${groups} dizaine${groups > 1 ? "s" : ""} et ${rest} unité${rest > 1 ? "s" : ""} : ${result}.`,
+    share: (total: number, parts: number, result: number) => `${total} partagé en ${parts} parts égales : ${result} dans chaque part.`,
+    garageEven: "Pair",
+    garageOdd: "Impair",
+    sortAsk: "Clique sur un nombre, puis sur son garage.",
+    sortPick: (n: number) => `Dans quel garage va ${n} ?`,
+    sortHint: (n: number) => `Presque ! Regarde le chiffre des unités de ${n}.`,
+    sortDone: "Bravo, tous les nombres sont garés !",
+    /** The « garage de 10 places » (tenFrame). */
+    frame: (cars: number) => `Garage de 10 places : ${cars} voiture${cars > 1 ? "s" : ""}`,
+    frameSlot: (index: number) => `Place ${index}`,
+    frameSum: (a: number, b: number, result: number) => `${a} + ${b} = ${result}`,
+    friendPair: (a: number, b: number) => `${a} + ${b} = 10`,
+    frameAddAsk: (left: number) => `Gare encore ${left} voiture${left > 1 ? "s" : ""} : clique sur une place libre.`,
+    frameAddDone: (filled: number, added: number, total: number) => `Bravo ! ${filled} + ${added} = ${total}`,
+    frameRemoveAsk: (left: number) => `Fais partir ${left} voiture${left > 1 ? "s" : ""} : clique dessus.`,
+    frameRemoveDone: (filled: number, removed: number, total: number) => `Bravo ! ${filled} − ${removed} = ${total}`,
+    /** Fractions (fractionBar). */
+    numerator: "numérateur",
+    denominator: "dénominateur",
+    fractionAria: (label: string, words: string) => `Bande partagée en parts égales, ${label} colorié : ${words}`,
+    fractionPart: (index: number) => `Part ${index}`,
+    fractionAsk: (count: number) => `Colorie ${count} part${count > 1 ? "s" : ""} : clique dessus.`,
+    fractionHint: "Presque ! Tu as colorié trop de parts : clique sur une part pour l'effacer.",
+    fractionDone: (words: string) => `Bravo ! Tu as colorié ${words}.`,
+    unequal: (parts: number) =>
+      `Les parts ne sont pas égales : ce ne sont pas des ${parts === 2 ? "demis" : parts === 3 ? "tiers" : "quarts"}.`,
+    fractionSum: (terms: string[], result: string) => `${terms.join(" + ")} = ${result}`,
+    /** Bar models of the problems (barModel). */
+    barAria: "Schéma en barres",
+    barUnknown: "?",
+    barSlot: (role: "whole" | "part" | "small" | "difference", index: number) =>
+      role === "whole" ? "Place du nombre en tout" : role === "small" ? "Place de la petite quantité" : role === "difference" ? "Place de l'écart" : `Place de la partie ${index}`,
+    barWhole: "en tout",
+    barDifference: "de plus",
+    barNumbers: "Les nombres de l'histoire",
+    barAsk: "Clique sur un nombre, puis sur sa place dans le schéma.",
+    barHint: "Presque ! Relis l'histoire : où va ce nombre ?",
+    barDone: "Bravo ! Le schéma est prêt : le « ? » est ce qu'on cherche.",
+    /** Spelling: letters to put in order (letterTiles) and words to sort (soundSort). */
+    tilesWord: (word: string) => (word ? `Le mot : ${word}` : "Le mot à écrire"),
+    tilesPool: "Les morceaux du mot",
+    tile: (text: string) => `Morceau ${text}`,
+    tilesAsk: "Glisse les morceaux sur le mot, ou clique dessus, dans l'ordre pour écrire le mot.",
+    tilesHint: "Presque ! Ce morceau n'est pas le bon. Écoute bien le mot.",
+    tilesDone: (word: string) => `Bravo ! Tu as écrit « ${word} ».`,
+    sortWords: "Les mots à ranger",
+    sortBox: (group: string) => `La boîte ${group}`,
+    sortSoundAsk: "Clique sur un mot, puis sur sa boîte.",
+    sortSoundWhich: (word: string) => `Dans quelle boîte va « ${word} » ?`,
+    sortSoundHint: (word: string) => `Presque ! Regarde bien comment s'écrit « ${word} ».`,
+    sortSoundDone: "Bravo, tous les mots sont rangés !",
+    resumeTitle: "Tu avais commencé cette leçon",
+    resumeAsk: "Veux-tu reprendre là où tu en étais ?",
+    resume: "Je reprends",
+    restart: "Je recommence",
+    review: "Tu peux revoir la leçon pour mieux comprendre, puis refaire le quiz.",
+  },
+  options: {
+    title: "Options",
+    sounds: "Les sons",
+    mute: "Couper les sons et la voix",
+    hideMascot: "Cacher la mascotte",
+    profiles: "Les profils",
+    delete: "Supprimer",
+    deleteLabel: (name: string) => `Supprimer le profil de ${name}`,
+    deleteQuestion: (name: string) => `Supprimer le profil de ${name} ?`,
+    deleteWarning: "Ses points et ses résultats seront effacés pour toujours. Demande à un adulte avant de continuer.",
+    keep: "Non, je garde le profil",
+    continue: "Continuer",
+    typeName: (name: string) => `Pour confirmer, écris le prénom « ${name} » :`,
+    deleteForever: "Supprimer pour toujours",
+  },
+  exam: {
+    title: "Examen",
+    instruction: "Examen : montre tout ce que tu sais faire !",
+    timedInstruction: "Défi chrono : le plus de bonnes réponses possible !",
+    spoken: "Choisis : le bilan, pour voir ce que tu sais faire, ou le défi chrono, pour aller vite !",
+    review: "Le bilan",
+    reviewHint: "15 questions, sans chrono",
+    timed: "Défi chrono",
+    timedHint: "Le plus de bonnes réponses possible",
+    examOf: { Math: "Bilan de maths", Spelling: "Bilan d'orthographe" } as Record<Subject, string>,
+    timedOf: { Math: "Défi chrono de maths", Spelling: "Défi chrono d'orthographe" } as Record<Subject, string>,
+    finished: "Bilan terminé !",
+    strong: "Tes points forts",
+    rework: "À retravailler",
+    noStrong: "Continue à t'entraîner : tes points forts arrivent !",
+    noRework: "Rien à retravailler : bravo !",
+    skillScore: (correct: number, total: number) => `${correct} sur ${total}`,
+    lesson: "Revoir la leçon",
+    practice: "M'entraîner",
+    finishedSpoken: (correct: number, total: number) => `Bilan terminé ! Tu as ${correct} bonnes réponses sur ${total}. Regarde tes points forts, et ce que tu peux retravailler.`,
+    timedTitle: "Défi chrono",
+    timerLabel: (seconds: number) => `Temps du défi : ${Math.round(seconds / 60)} minute${seconds >= 120 ? "s" : ""}`,
+    rightSoFar: (count: number) => `${count} bonne${count > 1 ? "s" : ""} réponse${count > 1 ? "s" : ""}`,
+    chooseDuration: "Combien de temps ?",
+    chooseDurationSpoken: "Choisis la durée du défi. Une mauvaise réponse ne fait rien perdre : on passe à la suivante !",
+    duration: (seconds: number) => `${seconds / 60} minute${seconds >= 120 ? "s" : ""}`,
+    best: (best: number | null) => (best === null ? "Pas encore de record" : `Ton record : ${best}`),
+    notYet: "Le défi chrono s'ouvre quand tu as bien réussi des exercices de cette matière. Entraîne-toi d'abord, puis reviens !",
+    timedFinished: "Temps écoulé !",
+    timedScore: (count: number) => `${count} bonne${count > 1 ? "s" : ""} réponse${count > 1 ? "s" : ""}`,
+    newRecord: "Nouveau record !",
+    timedSpoken: (count: number) => `Temps écoulé ! Tu as trouvé ${count} bonne${count > 1 ? "s" : ""} réponse${count > 1 ? "s" : ""}.`,
   },
   tables: {
     title: "Mes tables",

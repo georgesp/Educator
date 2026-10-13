@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-consonnes-n-d-b-v-f-j",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 2,
+  "skillIds": ["cp-consonnes-n-d-b-v-f-j"],
+  "title": "Les consonnes n, d, b, v, f, j",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend six nouvelles consonnes : n, d, b, v, f et j.",
+      "speech": "Aujourd’hui, on apprend six nouvelles consonnes : n, d, b, v, f et j. Ouvre bien tes oreilles !",
+      "animation": {"type": "titleCard", "title": "Les consonnes", "subtitle": "n, d, b, v, f, j"}
+    },
+    {
+      "title": "n et d",
+      "text": "n chante dans le nez : nnn, une lune. d claque : un dé, une dame.",
+      "speech": "La lettre n chante dans le nez : nnn, une lune. La lettre d claque : un dé, une dame.",
+      "animation": {"type": "letterTiles", "word": "lune", "tiles": ["l", "u", "n", "e"], "interactive": false}
+    },
+    {
+      "title": "b ou d ?",
+      "text": "b et d se ressemblent ! b a son ventre à droite, d a son ventre à gauche.",
+      "speech": "Attention, les lettres b et d se ressemblent beaucoup ! Le b a son ventre à droite. Le d a son ventre à gauche. Range chaque mot dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["b", "d"], "words": [{"word": "robe", "group": "b"}, {"word": "bol", "group": "b"}, {"word": "table", "group": "b"}, {"word": "cabane", "group": "b"}, {"word": "dame", "group": "d"}, {"word": "judo", "group": "d"}, {"word": "vide", "group": "d"}, {"word": "salade", "group": "d"}]}
+    },
+    {
+      "title": "f et v",
+      "text": "f souffle sans bruit : fff. v vibre : vvv. Pose ta main sur ta gorge pour sentir la différence !",
+      "speech": "La lettre f souffle sans bruit : fff. La lettre v vibre : vvv. Pose ta main sur ta gorge : avec le v, ça chatouille !",
+      "animation": {"type": "letterTiles", "word": "fumée", "tiles": ["f", "u", "m", "é", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "f ou v ? Écoute chaque mot et range-le dans la bonne boîte.",
+      "speech": "À toi ! Écoute chaque mot : entends-tu le f qui souffle ou le v qui vibre ? Range-le dans la bonne boîte.",
+      "animation": {"type": "soundSort", "groups": ["f", "v"], "words": [{"word": "fée", "group": "f"}, {"word": "café", "group": "f"}, {"word": "farine", "group": "f"}, {"word": "file", "group": "f"}, {"word": "vélo", "group": "v"}, {"word": "olive", "group": "v"}, {"word": "cave", "group": "v"}, {"word": "valise", "group": "v"}]}
+    },
+    {
+      "title": "La lettre j",
+      "text": "La lettre j : un judo, une jupe, un pyjama.",
+      "speech": "Voici la lettre j. Écoute : un judo, une jupe, un pyjama. Elle vibre, elle aussi !",
+      "animation": {"type": "letterTiles", "word": "jupe", "tiles": ["j", "u", "p", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « valise ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot valise : clique sur les lettres dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "valise", "tiles": ["v", "a", "l", "i", "s", "e"], "distractors": ["f", "b"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « farine ». Dis le mot doucement : fa, ri, ne.",
+      "speech": "À toi ! Écris le mot farine. Dis-le tout doucement : fa, ri, ne.",
+      "animation": {"type": "letterTiles", "word": "farine", "tiles": ["f", "a", "r", "i", "n", "e"], "distractors": ["v", "m"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les consonnes :",
+      "speech": "Je retiens : n chante dans le nez. b a le ventre à droite, d a le ventre à gauche. f souffle, v vibre.",
+      "animation": {"type": "recapCard", "text": "n chante dans le nez. b a le ventre à droite, d à gauche. f souffle sans bruit, v vibre.", "example": "lune · robe · dame · fée · vélo"}
+    }
+  ],
+  "quiz": [
+    {"question": "…ébé : b ou d ?", "spoken": "Un bébé. Quelle lettre entends-tu au début du mot bébé ?", "answer": "b", "choices": ["b", "d", "p"], "explanation": "Bébé commence par la lettre b, celle qui a son ventre à droite."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot jupe. Une jupe rouge.", "answer": "jupe", "explanation": "Jupe s’écrit j, u, p, e."},
+    {"question": "Un …élo : f ou v ?", "spoken": "Un vélo. Quelle lettre entends-tu au début du mot vélo ?", "answer": "v", "choices": ["f", "v", "b"], "explanation": "Vélo commence par la lettre v, celle qui vibre."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Une lune. Choisis la bonne écriture du mot lune.", "answer": "lune", "choices": ["lune", "lume", "lude"], "explanation": "Lune s’écrit avec un n, la lettre qui chante dans le nez."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : vingt-cinq à trente correspondances en milieu d’année ; dictée de mots dès la période 2",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — correspondances simples d’abord ; distinguer les lettres en miroir b et d, les sons proches f et v",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

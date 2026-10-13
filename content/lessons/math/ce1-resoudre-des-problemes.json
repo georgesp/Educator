@@ -1,0 +1,109 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-resoudre-des-problemes",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-problems-additive", "ce1-problems-two-steps", "ce1-problems-multiplicative"],
+  "title": "Résoudre des problèmes",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à résoudre un problème comme un vrai pilote : avec un schéma.",
+      "speech": "Aujourd’hui, tu vas apprendre à résoudre un problème. Pour bien comprendre l’histoire, on va dessiner un schéma en barres.",
+      "animation": { "type": "titleCard", "title": "Résoudre des problèmes", "subtitle": "Lire, schématiser, calculer, répondre" }
+    },
+    {
+      "title": "Une histoire",
+      "text": "« Tom a 35 billes. Léa en a 12 de plus. Combien Léa a-t-elle de billes ? »",
+      "speech": "Écoute l’histoire : Tom a 35 billes. Léa en a 12 de plus que lui. Combien Léa a-t-elle de billes ? On dessine une barre pour Tom, et une barre pour Léa.",
+      "animation": { "type": "barModel", "kind": "compare", "small": 35, "difference": 12, "unknown": "big", "labels": ["Tom", "Léa"] }
+    },
+    {
+      "title": "Comparer",
+      "text": "La barre de Léa dépasse celle de Tom de 12. Je calcule 35 + 12 = 47.",
+      "speech": "La barre de Léa est aussi longue que celle de Tom, plus 12. Pour trouver le point d’interrogation, j’ajoute : 35 + 12 = 47. Léa a 47 billes.",
+      "animation": { "type": "barModel", "kind": "compare", "small": 35, "difference": 12, "unknown": "big", "labels": ["Tom", "Léa"], "solve": true }
+    },
+    {
+      "title": "Le tout et les parties",
+      "text": "28 voitures rouges et 15 bleues : combien en tout ? Je cherche le tout, j’ajoute.",
+      "speech": "Quand je cherche le tout, j’ajoute les parties. 28 voitures rouges et 15 bleues : 28 + 15 = 43 en tout. Quand je cherche une partie, je soustrais.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [28, 15], "unknown": "whole", "solve": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "« Il y a 42 voitures. 24 sont rouges, les autres bleues. » Place les nombres sur le schéma.",
+      "speech": "À toi ! Dans le garage, il y a 42 voitures. 24 sont rouges, les autres sont bleues. Combien y a-t-il de voitures bleues ? Place les nombres de l’histoire sur le schéma.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [24, 18], "unknown": "part2", "solve": true, "interactive": true }
+    },
+    {
+      "title": "L’écart",
+      "text": "Léa a 47 billes, Tom en a 35. Combien Léa en a-t-elle de plus ? 47 − 35 = 12.",
+      "speech": "Autre question : Léa a 47 billes et Tom 35. Combien Léa en a-t-elle de plus ? Je cherche l’écart entre les deux barres : 47 − 35 = 12. Léa a 12 billes de plus, Tom en a 12 de moins.",
+      "animation": { "type": "barModel", "kind": "compare", "small": 35, "difference": 12, "unknown": "difference", "labels": ["Tom", "Léa"], "solve": true }
+    },
+    {
+      "title": "Des paquets égaux",
+      "text": "4 boîtes de 6 pneus : 6 + 6 + 6 + 6 = 24 pneus.",
+      "speech": "Une nouvelle histoire : 4 boîtes de 6 pneus. Combien de pneus en tout ? J’ajoute 6, quatre fois : 6 + 6 + 6 + 6 = 24. Il y a 24 pneus.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 6, "steps": [6, 6, 6] }] }
+    },
+    {
+      "title": "Deux étapes",
+      "text": "25 voitures. 8 arrivent, puis 6 partent. D’abord 25 + 8 = 33, puis on enlève 6.",
+      "speech": "Parfois, il faut deux calculs. Il y a 25 voitures sur la piste. 8 voitures arrivent, puis 6 partent. D’abord, j’ajoute celles qui arrivent : 25 + 8 = 33. Ensuite, j’enlève les 6 qui partent.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 25, "steps": [8, -6] }] }
+    },
+    {
+      "title": "Répondre",
+      "text": "33 − 6 = ? Choisis le résultat, puis réponds par une phrase : « Il reste … voitures. »",
+      "speech": "À toi ! Calcule 33 − 6 et choisis le bon nombre. Puis réponds par une phrase qui commence par : il reste. Vérifie : il doit en rester moins que 33, puisque des voitures sont parties.",
+      "animation": { "type": "equation", "left": 33, "operation": "subtract", "right": 6, "missing": "result", "interactive": true, "choices": [27, 28, 39] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour résoudre un problème :",
+      "speech": "Je retiens : je lis l’histoire, je fais un schéma, je choisis l’opération, je calcule, je réponds par une phrase et je vérifie.",
+      "animation": { "type": "recapCard", "text": "Je lis l’histoire, je fais un schéma, je choisis l’opération, je calcule, je réponds par une phrase et je vérifie.", "example": "35 + 12 = 47" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Tom a 26 billes, Léa 15 de plus. Léa ?",
+      "spoken": "Tom a 26 billes. Léa en a 15 de plus. Combien Léa a-t-elle de billes ?",
+      "answer": 41,
+      "explanation": "Léa en a autant que Tom, plus 15 : 26 + 15 = 41 billes."
+    },
+    {
+      "question": "35 voitures, 12 rouges, les autres bleues : bleues ?",
+      "spoken": "Il y a 35 voitures. 12 sont rouges, les autres sont bleues. Combien y a-t-il de voitures bleues ? Choisis la bonne réponse.",
+      "answer": 23,
+      "choices": [23, 33, 47],
+      "explanation": "Je cherche une partie : 35 − 12 = 23 voitures bleues."
+    },
+    {
+      "question": "30 voitures, 7 arrivent, 9 partent : reste ?",
+      "spoken": "Il y a 30 voitures. 7 arrivent, puis 9 partent. Combien en reste-t-il ?",
+      "answer": 28,
+      "explanation": "D’abord 30 + 7 = 37 voitures. Puis 37 − 9 = 28 voitures."
+    },
+    {
+      "question": "Paul 48 billes, Zoé 35 : combien de plus ?",
+      "spoken": "Paul a 48 billes, Zoé en a 35. Combien Paul en a-t-il de plus que Zoé ?",
+      "answer": 13,
+      "explanation": "On cherche l’écart : 48 − 35 = 13. Ou bien 35 + 13 = 48."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, résolution de problèmes : problèmes additifs, multiplicatifs et en deux étapes, schématisation en barres",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

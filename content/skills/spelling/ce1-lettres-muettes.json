@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-lettres-muettes",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Les lettres muettes en fin de mot",
+  "instruction": "Écoute bien le mot, puis écris-le. Attention aux lettres qu'on n'entend pas !",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "muet"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — anticiper la lettre finale muette grâce à un mot de la même famille (blanc / blanche, chant / chanter) ; lire sans vocaliser les lettres muettes. Période choisie par Educator."
+}

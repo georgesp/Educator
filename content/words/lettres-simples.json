@@ -1,0 +1,3682 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "ami",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "a",
+        "m",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 0
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 1
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon ami joue avec moi.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "papa",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "p",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa lit une histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lama",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "l",
+        "a",
+        "m"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le lama vit dans la montagne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "lire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "l",
+        "i",
+        "r"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'aime lire des livres.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "r",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Les clowns nous font rire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rue",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "r",
+        "u"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La rue est calme ce matin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mur",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "m",
+        "u",
+        "r"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le chat saute sur le mur.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mule",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "m",
+        "u",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La mule porte un gros sac.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pile",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "p",
+        "i",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Range les livres en pile.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pilote",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "i",
+        "l",
+        "o",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pilote conduit l'avion.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pirate",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "p",
+        "i",
+        "r",
+        "a",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pirate cherche un trésor.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "purée",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "u",
+        "r",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'aime la purée de carottes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "puma",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "p",
+        "u",
+        "m",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le puma court très vite.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "rame",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "r",
+        "a",
+        "m"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Il tire sur la rame du bateau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tomate",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "t",
+        "o",
+        "m",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La tomate est rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tulipe",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "t",
+        "u",
+        "l",
+        "i",
+        "p"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        },
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La tulipe pousse au jardin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "moto",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "o",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La moto roule sur la route.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mot",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Écris un mot sur ton cahier.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "l",
+        "i",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le soir, je vais au lit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tapis",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "t",
+        "a",
+        "p",
+        "i",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chat dort sur le tapis.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sirop",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "i",
+        "r",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le sirop de fraise est sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pot",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pot de confiture est plein.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "rat",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "r",
+        "a",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le petit rat mange du fromage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "sol",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le ballon roule sur le sol.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pomme",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "o",
+        "m"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "mm",
+          "sound": "m",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je croque une pomme.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "été",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En été, il fait chaud.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "épi",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "p",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 1
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'épi de blé est doré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pétale",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "é",
+        "t",
+        "a",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La fleur perd un pétale.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "salami",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "a",
+        "l",
+        "m",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 4
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Papa coupe du salami.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tirelire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "t",
+        "i",
+        "r",
+        "e",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 3
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 4
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 5
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mets une pièce dans ma tirelire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "petit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "e",
+        "t",
+        "i",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le petit chat dort.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rose",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "r",
+        "o",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La rose sent bon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mimosa",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "i",
+        "o",
+        "z",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le mimosa est jaune.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "loto",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "l",
+        "o",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Nous jouons au loto.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tutu",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "t",
+        "u"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La danseuse porte un tutu.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pas",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "a",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Fais un petit pas en avant.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "otarie",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "t",
+        "a",
+        "r",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 1
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 2
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 3
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'otarie joue avec un ballon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "salut",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "a",
+        "l",
+        "u",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je dis salut à mon voisin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sale",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "s",
+        "a",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le chien est tout sale après la promenade.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "musée",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "u",
+        "z",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 2
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous visitons le musée.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "étui",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "t",
+        "u",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 1
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Range tes crayons dans l'étui.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "matelas",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "a",
+        "t",
+        "e",
+        "l",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 3
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 4
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 5
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je saute sur le matelas.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "repas",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "r",
+        "e",
+        "p",
+        "a",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le repas est prêt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poli",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "o",
+        "l",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le garçon est très poli.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pelote",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "e",
+        "l",
+        "o",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le chaton joue avec une pelote de laine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tarte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "t",
+        "a",
+        "r"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Maman fait une tarte aux pommes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "piste",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "i",
+        "s",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La piste de ski est toute blanche.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "lilas",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "l",
+        "i",
+        "a",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le lilas sent très bon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pré",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "r",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 1
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La vache mange l'herbe du pré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "métro",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "é",
+        "t",
+        "r",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 3
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous prenons le métro.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "marmotte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m",
+        "a",
+        "r",
+        "o",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 3
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        },
+        {
+          "text": "tt",
+          "sound": "t",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La marmotte dort tout l'hiver.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "partir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "a",
+        "r",
+        "t",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 4
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Nous allons partir en vacances.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sortir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o",
+        "r",
+        "t",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 4
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je vais sortir jouer dehors.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "stylo",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "t",
+        "i",
+        "l",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 1
+        },
+        {
+          "text": "y",
+          "sound": "i",
+          "position": 2
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 3
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'écris avec un stylo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tortue",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "t",
+        "o",
+        "r",
+        "u"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La tortue avance lentement.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "patte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "a",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "tt",
+          "sound": "t",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chien me donne la patte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "riz",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "r",
+        "i",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 1
+        },
+        {
+          "text": "z",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mange du riz.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "artiste",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "a",
+        "r",
+        "t",
+        "i",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 0
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'artiste peint un tableau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poste",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "p",
+        "o",
+        "s",
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La lettre part à la poste.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "retard",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "r",
+        "e",
+        "t",
+        "a",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 3
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 4
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous sommes en retard.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pelure",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "p",
+        "e",
+        "l",
+        "u",
+        "r"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "p",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 3
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La pelure de la pomme est rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "relire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "r",
+        "e",
+        "l",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais relire mon histoire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mari",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "m",
+        "a",
+        "r",
+        "i"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        },
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le mari de ma tante est mon oncle.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lune",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La lune brille la nuit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nid",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'oiseau construit son nid.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dame",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La dame porte un chapeau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "dire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Il faut dire merci.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "radis",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le radis est rose et blanc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "salade",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La salade est verte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "samedi",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Samedi, je vais à la piscine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "malade",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Mon frère est malade, il reste au lit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "robe",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ma sœur a une jolie robe.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bébé",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        },
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le bébé dort dans son lit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bulle",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La bulle de savon s'envole.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "table",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La table est mise pour le dîner.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bol",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je bois mon lait dans un bol.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "balle",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La balle rebondit très haut.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cabane",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 2
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous construisons une cabane.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "vélo",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je fais du vélo dans la cour.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "lavabo",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v",
+        "b"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 2
+        },
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je me lave les mains au lavabo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "vide",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v",
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Mon verre est vide.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cave",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les pommes sont rangées à la cave.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "olive",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'olive est verte ou noire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fée",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La fée a une baguette magique.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fumée",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La fumée sort de la cheminée.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "file",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les enfants se mettent en file.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fil",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le fil de laine est rouge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "forme",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le cercle est une forme.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "juste",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Ta réponse est juste.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "café",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Maman boit un café.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "sofa",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le chat dort sur le sofa.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "girafe",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "f"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La girafe a un très long cou.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "judo",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j",
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon frère fait du judo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "jupe",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La jupe de ma sœur est bleue.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "joli",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Quel joli dessin !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pyjama",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je mets mon pyjama.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "canard",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 2
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le canard nage sur la mare.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "nuit",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La nuit, je dors bien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "banane",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 2
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le singe mange une banane.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "note",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Joue une note de musique.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "domino",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je pose un domino sur la table.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "duvet",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le duvet est tout chaud.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "madame",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Bonjour, madame !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "valise",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je range mes habits dans ma valise.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dîner",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le dîner est prêt.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "énorme",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "L'éléphant est énorme.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "avril",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En avril, les fleurs poussent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "minute",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Attends une minute !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "balade",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b",
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous faisons une balade en forêt.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dé",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Lance le dé !",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "ravi",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Je suis ravi de te voir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "navire",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n",
+        "v"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 0
+        },
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le navire traverse la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cabine",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "b",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "b",
+          "sound": "b",
+          "position": 2
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je me change dans la cabine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "farine",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "f",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Il faut de la farine pour faire un gâteau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "vidéo",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "v",
+        "d"
+      ],
+      "graphemes": [
+        {
+          "text": "v",
+          "sound": "v",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "d",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous regardons une vidéo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "numéro",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quel est ton numéro ?",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    }
+  ]
+}

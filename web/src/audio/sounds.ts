@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 /**
  * Short feedback sounds, synthesized with the Web Audio API: no audio file to ship, no licence to track.
  * Gentle for a mistake (two soft notes), never a buzzer. Can be muted (stored in localStorage until the
@@ -44,12 +46,27 @@ export function isMuted(): boolean {
   }
 }
 
+const listeners = new Set<() => void>();
+
 export function setMuted(muted: boolean): void {
   try {
     localStorage.setItem(MUTED_KEY, muted ? "1" : "0");
   } catch {
     // Storage unavailable: the setting only lasts for this session.
   }
+  listeners.forEach((listener) => listener());
+}
+
+/** Whether the sounds are muted, updated wherever the setting is changed (header button, Options). */
+export function useMuted(): boolean {
+  return useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+    isMuted,
+    isMuted,
+  );
 }
 
 export function playSound(name: SoundName): void {

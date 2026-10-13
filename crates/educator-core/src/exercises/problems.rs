@@ -392,5 +392,6 @@ fn build(
         help,
         key: format!("{}:{key_values:?}", template.id),
         calculation: None,
+        word: None,
     })
 }

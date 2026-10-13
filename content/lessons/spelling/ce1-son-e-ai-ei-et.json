@@ -1,0 +1,95 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-son-e-ai-ei-et",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-son-e-ai-ei-et"],
+  "title": "Le son [è] : è, ê, ai, ei, et",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les cinq façons d’écrire le son [è].",
+      "speech": "Aujourd’hui, on apprend à écrire le son è. Écoute : ma mère, la tête, du lait, la neige, un poulet. Le même son, et cinq écritures !",
+      "animation": {"type": "titleCard", "title": "Le son [è]", "subtitle": "è, ê, ai, ei, et"}
+    },
+    {
+      "title": "Avec è",
+      "text": "[è] s’écrit souvent è, avec un accent grave : ma mère, mon frère, une flèche.",
+      "speech": "Le son è s’écrit souvent avec la lettre è, qui porte un accent grave. Ma mère, mon frère, une flèche.",
+      "animation": {"type": "letterTiles", "word": "mère", "tiles": ["m", "è", "r", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec ê",
+      "text": "Parfois, il s’écrit ê, avec un accent circonflexe, comme un petit chapeau : la tête, une fête.",
+      "speech": "Parfois, il s’écrit ê, avec un accent circonflexe. On dirait un petit chapeau ! La tête, une fête.",
+      "animation": {"type": "letterTiles", "word": "tête", "tiles": ["t", "ê", "t", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec ai",
+      "text": "Il s’écrit aussi a et i : du lait, une fraise, un balai.",
+      "speech": "Il s’écrit aussi avec les lettres a et i, collées. Du lait, une fraise, un balai.",
+      "animation": {"type": "letterTiles", "word": "fraise", "tiles": ["f", "r", "ai", "s", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec ei",
+      "text": "Plus rarement, il s’écrit e et i : la neige, une reine, une baleine.",
+      "speech": "Plus rarement, il s’écrit avec les lettres e et i. La neige, une reine, une baleine.",
+      "animation": {"type": "letterTiles", "word": "neige", "tiles": ["n", "ei", "g", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec et à la fin",
+      "text": "À la fin d’un mot, on trouve souvent et : un poulet, un jouet, un volet.",
+      "speech": "À la fin d’un mot, le son è s’écrit souvent e, t. Un poulet, un jouet, un volet. Le t ne s’entend pas !",
+      "animation": {"type": "letterTiles", "word": "poulet", "tiles": ["p", "ou", "l", "et"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "è, ê ou ai ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Regarde bien chaque mot : è avec l’accent grave, ê avec le chapeau, ou a, i ? Range-le dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["è", "ê", "ai"], "words": [{"word": "père", "group": "è"}, {"word": "chèvre", "group": "è"}, {"word": "zèbre", "group": "è"}, {"word": "fête", "group": "ê"}, {"word": "forêt", "group": "ê"}, {"word": "crêpe", "group": "ê"}, {"word": "lait", "group": "ai"}, {"word": "balai", "group": "ai"}, {"word": "semaine", "group": "ai"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "ai, ei ou et ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Cette fois, a, i, e, i, ou e, t ? Range chaque mot dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["ai", "ei", "et"], "words": [{"word": "craie", "group": "ai"}, {"word": "aile", "group": "ai"}, {"word": "reine", "group": "ei"}, {"word": "baleine", "group": "ei"}, {"word": "seize", "group": "ei"}, {"word": "carnet", "group": "et"}, {"word": "robinet", "group": "et"}, {"word": "volet", "group": "et"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « forêt ». Mets le chapeau sur le e ! Le t ne s’entend pas.",
+      "speech": "À toi ! Écris le mot forêt. N’oublie pas le petit chapeau sur le e, et le t muet à la fin !",
+      "animation": {"type": "letterTiles", "word": "forêt", "tiles": ["f", "o", "r", "ê", "t"], "distractors": ["è", "ai"]}
+    },
+    {
+      "title": "Je regarde le mot",
+      "text": "Il y a beaucoup d’écritures : je regarde bien chaque mot et je le mémorise.",
+      "speech": "Comment savoir ? Il n’y a pas toujours de règle : je regarde bien le mot, je le photographie dans ma tête, et je le mémorise. À toi : écris chèvre !",
+      "animation": {"type": "letterTiles", "word": "chèvre", "tiles": ["ch", "è", "v", "r", "e"], "distractors": ["ê", "ai"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [è] s’écrit :",
+      "speech": "Je retiens : le son è s’écrit è, comme dans mère ; ê, comme dans tête ; a, i, comme dans lait ; e, i, comme dans neige ; ou e, t à la fin, comme dans poulet.",
+      "animation": {"type": "recapCard", "text": "Le son [è] s’écrit è (ma mère), ê (la tête), ai (du lait), ei (la neige) ou et à la fin (un poulet).", "example": "mère · tête · lait · neige · poulet"}
+    }
+  ],
+  "quiz": [
+    {"question": "Une f…te : quelle écriture ?", "spoken": "Une fête. Comment s’écrit le son è dans le mot fête ?", "answer": "ê", "choices": ["è", "ê", "ai"], "explanation": "Fête s’écrit avec un ê, le e qui porte un chapeau."},
+    {"question": "Un poul… : quelle fin ?", "spoken": "Un poulet. Comment s’écrit le son è à la fin de poulet ?", "answer": "et", "choices": ["et", "ai", "è"], "explanation": "Poulet finit par e, t, comme jouet et volet."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot lait. Je bois un verre de lait.", "answer": "lait", "explanation": "Lait s’écrit l, a, i, t : le t ne s’entend pas."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "La neige. Choisis la bonne écriture du mot neige.", "answer": "neige", "choices": ["neige", "naige", "nège"], "explanation": "Neige s’écrit avec e, i."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Mon frère. Choisis la bonne écriture du mot frère.", "answer": "frère", "choices": ["frère", "frêre", "fraire"], "explanation": "Frère s’écrit avec un è, accent grave."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : tenir compte des accents ; mémoriser les correspondances des sons proches",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : ai, ei, et, è, ê",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

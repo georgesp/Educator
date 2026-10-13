@@ -1,4 +1,5 @@
 use crate::numbers::{fraction_words, is_correct_spelling, normalize_words, spell, Spelling};
+use crate::spelling::is_right_spelling;
 use std::fmt;
 
 /// A fraction `numerator / denominator` with natural numbers (SUB000123). Never stored as a float:
@@ -95,6 +96,9 @@ pub enum Answer {
     Words(i32),
     /// A text to pick, compared after normalisation (fraction words).
     Text(String),
+    /// A word or letters to write (spelling, SUB001405): no tolerance on accents, capitals
+    /// tolerated. The child's answer is a [`Answer::Text`].
+    Spelling(String),
 }
 
 impl Answer {
@@ -110,6 +114,7 @@ impl Answer {
             (Answer::Words(n), Answer::Text(text)) => is_correct_spelling(text, *n),
             (Answer::Words(a), Answer::Words(b)) => a == b,
             (Answer::Text(a), Answer::Text(b)) => normalize_words(a) == normalize_words(b),
+            (Answer::Spelling(a), Answer::Text(b) | Answer::Spelling(b)) => is_right_spelling(a, b),
             _ => false,
         }
     }
@@ -125,7 +130,7 @@ impl Answer {
             Answer::YesNo(false) => "non".to_owned(),
             Answer::Sequence(values) | Answer::Set(values) => join_numbers(values),
             Answer::Words(n) => spell(*n, Spelling::Traditional),
-            Answer::Text(text) => text.clone(),
+            Answer::Text(text) | Answer::Spelling(text) => text.clone(),
         }
     }
 
@@ -133,6 +138,7 @@ impl Answer {
     pub fn as_given(&self) -> Answer {
         match self {
             Answer::Words(n) => Answer::Text(spell(*n, Spelling::Traditional)),
+            Answer::Spelling(text) => Answer::Text(text.clone()),
             other => other.clone(),
         }
     }

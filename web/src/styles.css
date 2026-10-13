@@ -1600,3 +1600,480 @@ body {
   grid-auto-flow: column;
   grid-template-rows: repeat(6, auto);
 }
+
+/* ── Spelling (lot 2, SUB001405 to SUB001408) ───────────────────────────────────────────── */
+
+.word-listen {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spelling-answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* The word being written: big letters, the blank of the missing letters in the middle. */
+.spelling-word {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  min-height: 1.4em;
+}
+
+.spelling-around {
+  white-space: pre;
+}
+
+.spelling-input {
+  width: 9em;
+  max-width: 100%;
+  height: 1.4em;
+  font: inherit;
+  font-size: 0.8em;
+  text-align: center;
+  letter-spacing: 0.06em;
+  border: 4px solid var(--primary);
+  border-radius: 12px;
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.spelling-input-blank {
+  width: auto;
+  min-width: 2.2em;
+  letter-spacing: 0.15em;
+}
+
+.spelling-input-blank::placeholder {
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.spelling-hole {
+  letter-spacing: 0.15em;
+}
+
+.spelling-input:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
+.spelling-hole,
+.spelling-given {
+  min-width: 1.6em;
+  padding: 0 10px;
+  text-align: center;
+  border: 4px dashed var(--primary);
+  border-radius: 12px;
+}
+
+.spelling-given {
+  border-style: solid;
+}
+
+.letter-keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.letter-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.letter-key {
+  min-width: 52px;
+  height: 52px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 2px solid var(--surface);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.letter-key:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.letter-key:disabled {
+  color: var(--disabled);
+  cursor: default;
+}
+
+.letter-key:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 2px;
+}
+
+/* The accented letters stand apart: another color, so that they are easy to find. */
+.letter-row-accents {
+  padding-top: 6px;
+  border-top: 3px dashed var(--surface);
+}
+
+.letter-key-accent {
+  color: var(--primary-strong);
+  border-color: var(--primary);
+}
+
+.letter-key-wide {
+  min-width: 160px;
+  font-size: 18px;
+}
+
+/* « Effacer »: a dark key, apart from the letters (keyboard and number pad). */
+.letter-key-erase,
+.pad-erase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--bg);
+  background: var(--text);
+  border-color: var(--text);
+}
+
+.letter-key-erase {
+  min-width: 140px;
+  font-size: 18px;
+}
+
+.letter-key-erase:disabled,
+.pad-erase:disabled {
+  color: var(--bg);
+  opacity: 0.3;
+}
+
+.letter-key-submit {
+  min-width: 140px;
+  font-size: 18px;
+  color: var(--primary-text);
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.letter-key-submit:disabled {
+  color: var(--disabled);
+  background: var(--surface-strong);
+  border-color: var(--surface);
+}
+
+/* The child's word, letter by letter. */
+.word-correction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.word-correction-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.word-letters {
+  margin: 0;
+  display: flex;
+  gap: 4px;
+  font-size: 44px;
+  font-weight: 800;
+}
+
+.word-letter {
+  position: relative;
+  min-width: 0.7em;
+  padding: 0 2px;
+  text-align: center;
+  border-bottom: 5px solid transparent;
+}
+
+.word-letter-right {
+  color: var(--correct);
+}
+
+.word-letter-wrong {
+  color: var(--incorrect);
+  border-bottom-color: var(--incorrect);
+}
+
+.word-letter-missing {
+  color: var(--incorrect);
+  opacity: 0.55;
+  border: 3px dashed var(--incorrect);
+  border-radius: 6px;
+}
+
+.word-letter-extra {
+  color: var(--incorrect);
+  text-decoration: line-through;
+  text-decoration-thickness: 4px;
+}
+
+/* The right letter above a wrong one. */
+.word-letter-fix {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.75em;
+  font-size: 0.5em;
+  color: var(--correct);
+}
+
+.word-right {
+  margin: 8px 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.word-right-text {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--correct);
+}
+
+@media (max-width: 760px) {
+  .spelling-word {
+    font-size: 40px;
+  }
+
+  .letter-key {
+    min-width: 40px;
+    height: 44px;
+    font-size: 20px;
+  }
+}
+
+/* ── Exam and timed challenge (SUB001414, SUB001415) ────────────────────────────────────── */
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.timer-bar {
+  flex: 1;
+  height: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: 6px;
+}
+
+.timer-fill {
+  height: 100%;
+  background: var(--muted);
+  transform-origin: left center;
+}
+
+.timer-score {
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.exam-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: min(900px, 100%);
+}
+
+.exam-results h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.exam-skill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  margin: 0 0 8px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.exam-skill-title {
+  font-weight: 700;
+}
+
+.exam-skill-score {
+  color: var(--muted);
+}
+
+.exam-skill-links {
+  display: flex;
+  gap: 8px;
+}
+
+.exam-choice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.timed-durations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.new-record {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.plain-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ── Options (SUB001416) ─────────────────────────────────────────────────────────────────── */
+
+.options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(900px, 100%);
+}
+
+.option-switch {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.option-switch input {
+  width: 28px;
+  height: 28px;
+  accent-color: var(--primary);
+}
+
+.options-profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.options-profile-name {
+  flex: 1;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.options-profile .button {
+  min-height: 48px;
+  padding: 8px 28px;
+  font-size: 18px;
+}
+
+.button-danger {
+  color: var(--primary-text);
+  background: var(--incorrect);
+}
+
+.button-danger:disabled {
+  color: var(--disabled);
+  background: var(--surface-strong);
+  cursor: default;
+}
+
+.options-delete {
+  flex-direction: column;
+  align-items: stretch;
+  width: min(900px, 100%);
+}
+
+.options-delete-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.options-delete-confirm label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.name-input {
+  max-width: 420px;
+  min-height: 52px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 24px;
+  border: 3px solid var(--border);
+  border-radius: 10px;
+}
+
+/* ── Mascot (SUB001417) ──────────────────────────────────────────────────────────────────── */
+
+.mascot {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 640px;
+}
+
+.mascot-picture {
+  flex: none;
+}
+
+.mascot-bubble {
+  position: relative;
+  padding: 14px 18px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 18px;
+}
+
+/* The tip of the bubble, towards the owl. */
+.mascot-bubble::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  background: var(--surface);
+  border-left: 3px solid var(--border);
+  border-bottom: 3px solid var(--border);
+  transform: translateY(-50%) rotate(45deg);
+}

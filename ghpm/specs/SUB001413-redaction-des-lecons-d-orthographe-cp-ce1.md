@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001413 — Rédaction des leçons d'orthographe CP–CE1
-status: Todo
+status: In progress
 size: L
 estimate:
 startDate:
@@ -32,4 +32,11 @@ Même méthode que pour les leçons de mathématiques : collecte des sources par
 ## Critères d'acceptation
 
 - [ ] Une leçon validée par compétence, sources listées.
-- [ ] Chaque leçon utilise au moins une animation `letterTiles` ou `soundSort`.
+- [x] Chaque leçon utilise au moins une animation `letterTiles` ou `soundSort`.
+
+## Implémentation (2026-10-14)
+
+- 22 leçons `content/lessons/spelling/*.json`, une par compétence d'orthographe CP–CE1, organisées par sons et
+  graphies, rédaction originale à partir d'eduscol, Canopé et Lumni (sources listées dans chaque fichier).
+- Chaque leçon utilise `letterTiles` ou `soundSort` (test `every_spelling_skill_has_its_lesson_with_a_spelling_animation`).
+- Reste : relecture et validation par Georges.

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYF0
-rev: 2026-10-11T18:48:48Z
+rev: 2026-10-13T18:57:31Z
 url: https://github.com/georgesp/Educator/issues/96
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000128 — Leçon CE1 — Les nombres jusqu'à 1 000
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -75,12 +75,12 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/ce1-nombres-jusqu-a-1000.json`, validée par `lesson.schema.json`, `skillIds` = `ce1-num-hundreds`, `ce1-num-read-write`.
+- [x] Leçon `content/lessons/math/ce1-nombres-jusqu-a-1000.json`, validée par `lesson.schema.json`, `skillIds` = `ce1-num-hundreds`, `ce1-num-read-write`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
-- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
-- [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
-- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [x] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [x] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [x] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
+- [x] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
 - [ ] Relue et validée par Georges.
 
 ## Dépendances

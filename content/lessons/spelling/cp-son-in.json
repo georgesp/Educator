@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-in",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-son-in"],
+  "title": "Le son [in]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [in].",
+      "speech": "Aujourd’hui, on apprend à écrire le son in. Écoute : un lapin, un sapin, le matin. Tu l’entends ?",
+      "animation": {"type": "titleCard", "title": "Le son [in]", "subtitle": "i et n, ensemble"}
+    },
+    {
+      "title": "i et n ensemble",
+      "text": "Quand on colle les lettres i et n, on entend [in] : un lapin, un sapin.",
+      "speech": "Quand on colle la lettre i et la lettre n, on entend in. Un lapin, un sapin.",
+      "animation": {"type": "letterTiles", "word": "lapin", "tiles": ["l", "a", "p", "in"], "interactive": false}
+    },
+    {
+      "title": "Souvent à la fin",
+      "text": "[in] se trouve souvent à la fin du mot : un jardin, le matin, un marin.",
+      "speech": "Un indice : le son in se trouve souvent à la fin du mot. Un jardin, le matin, un marin.",
+      "animation": {"type": "letterTiles", "word": "jardin", "tiles": ["j", "a", "r", "d", "in"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « sapin » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot sapin : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "sapin", "tiles": ["s", "a", "p", "in"], "distractors": ["an", "on"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "in, an ou on ? Écoute chaque mot et range-le dans sa boîte.",
+      "speech": "À toi ! Écoute chaque mot. Entends-tu in, an, ou on ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["in", "an", "on"], "words": [{"word": "lapin", "group": "in"}, {"word": "matin", "group": "in"}, {"word": "singe", "group": "in"}, {"word": "maman", "group": "an"}, {"word": "panda", "group": "an"}, {"word": "tante", "group": "an"}, {"word": "ballon", "group": "on"}, {"word": "melon", "group": "on"}, {"word": "lion", "group": "on"}]}
+    },
+    {
+      "title": "Attention à la voyelle",
+      "text": "Si une voyelle suit le n, on n’entend plus [in] : un lapin, mais de la farine.",
+      "speech": "Attention ! Si une voyelle vient juste après le n, on n’entend plus in. Écoute : de la farine. On entend ri, puis ne.",
+      "animation": {"type": "letterTiles", "word": "farine", "tiles": ["f", "a", "r", "i", "n", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « moulin ». Dis le mot doucement : mou, lin.",
+      "speech": "À toi ! Écris le mot moulin. Dis-le tout doucement : mou, lin.",
+      "animation": {"type": "letterTiles", "word": "moulin", "tiles": ["m", "ou", "l", "in"], "distractors": ["an", "u"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « lutin ». Où se cache le son [in] ?",
+      "speech": "À toi ! Écris le mot lutin. Où se cache le son in ?",
+      "animation": {"type": "letterTiles", "word": "lutin", "tiles": ["l", "u", "t", "in"], "distractors": ["an", "on"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [in] :",
+      "speech": "Je retiens : le son in s’écrit avec deux lettres collées, i et n. Il est souvent à la fin du mot : un lapin, un jardin.",
+      "animation": {"type": "recapCard", "text": "Le son [in] s’écrit i et n, collés. Il est souvent à la fin du mot.", "example": "lapin · sapin · jardin"}
+    }
+  ],
+  "quiz": [
+    {"question": "Un lap… : quelles lettres manquent ?", "spoken": "Un lapin. Quelles lettres manquent à la fin du mot lapin ?", "answer": "in", "choices": ["in", "an", "on"], "explanation": "Lapin finit par i, n : on entend in."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot sapin. Le sapin de Noël.", "answer": "sapin", "explanation": "Sapin s’écrit s, a, p, i, n."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un jardin. Choisis la bonne écriture du mot jardin.", "answer": "jardin", "choices": ["jardin", "jardan", "jarden"], "explanation": "Jardin finit par i, n."},
+    {"question": "Entends-tu [in] dans « farine » ?", "spoken": "De la farine. Entends-tu le son in dans le mot farine ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : dans farine, une voyelle suit le n. On entend ri, puis ne."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : mémoriser l’orthographe lexicale ; graphie in",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — graphèmes complexes : voyelle nasale in",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

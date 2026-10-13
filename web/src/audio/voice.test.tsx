@@ -19,10 +19,10 @@ describe("voice switch", () => {
     await user.click(await screen.findByRole("button", { name: "Jouer avec le profil de Léa" }));
     await screen.findByRole("heading", { name: "En piste, Léa !" });
     await user.hover(screen.getByRole("button", { name: /Examen/ }));
-    await user.click(screen.getByRole("button", { name: /Examen/ }));
     expect(screen.queryByRole("button", { name: /Écouter/ })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
+    await user.click(await screen.findByRole("button", { name: /Mathématiques/ }));
     await screen.findByRole("heading", { name: "Exercices de maths" });
     expect(screen.queryByRole("button", { name: /Écouter/ })).not.toBeInTheDocument();
     await user.click(await screen.findByRole("button", { name: /Additions jusqu'à 10/ }));

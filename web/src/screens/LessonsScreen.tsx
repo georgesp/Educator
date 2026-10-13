@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
-import type { Grade, LessonSummary, Profile } from "../api/client";
+import { useNavigate, useParams } from "react-router";
+import type { Grade, LessonSummary, Profile, Subject } from "../api/client";
 import { useApi } from "../app/BackendContext";
+import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { BookIcon } from "../components/icons";
@@ -9,35 +10,36 @@ import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 import "../components/lesson/lesson.css";
 
-export const lessonsQueryKey = (grade: Grade) => ["lessons", grade] as const;
+export const lessonsQueryKey = (grade: Grade, subject: Subject) => ["lessons", grade, subject] as const;
 
-/** Lessons offered to a grade (the core falls back to CE1 for the grades without lessons yet). */
-export function useLessons(grade: Grade) {
+/** Lessons of a subject offered to a grade (the core falls back to CE1 for the grades without lessons yet). */
+export function useLessons(grade: Grade, subject: Subject) {
   const api = useApi();
-  return useQuery({ queryKey: lessonsQueryKey(grade), queryFn: () => api.listLessons(grade) });
+  return useQuery({ queryKey: lessonsQueryKey(grade, subject), queryFn: () => api.listLessons(grade, subject) });
 }
 
-/** Lessons → Mathematics (SUB001410): the lessons of the profile's grade, the current period first. */
+/** Lessons → Mathematics or Spelling (SUB001410): the lessons of the profile's grade, the current period first. */
 export function LessonsScreen() {
   return <RequireProfile>{(profile) => <LessonList profile={profile} />}</RequireProfile>;
 }
 
 function LessonList({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
-  const lessons = useLessons(profile.grade);
+  const subject = subjectOfSlug(useParams().subject);
+  const lessons = useLessons(profile.grade, subject);
   const data = lessons.data;
   const usesFallback = data !== undefined && data.lessonsGrade !== data.grade;
   const current = data?.lessons.filter((l) => l.isCurrentPeriod) ?? [];
   const others = data?.lessons.filter((l) => !l.isCurrentPeriod) ?? [];
-  const open = (lesson: LessonSummary) => void navigate(`/lecons/${encodeURIComponent(lesson.id)}`);
+  const open = (lesson: LessonSummary) => void navigate(`/lecons/${SUBJECT_SLUGS[subject]}/${encodeURIComponent(lesson.id)}`);
 
   return (
     <main className="screen">
       <header className="screen-header">
-        <button type="button" className="back-button" onClick={() => void navigate("/menu")}>
-          ← {fr.series.menu}
+        <button type="button" className="back-button" onClick={() => void navigate("/lecons")}>
+          ← {fr.common.back}
         </button>
-        <h1 className="title">{fr.lessons.title}</h1>
+        <h1 className="title">{fr.lessons.titles[subject]}</h1>
         <SpeakButton text={usesFallback ? `${fr.lessons.fallback} ${fr.lessons.spoken}` : fr.lessons.spoken} autoPlay />
       </header>
 

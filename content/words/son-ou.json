@@ -1,0 +1,1208 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "loup",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le loup se promène dans la forêt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poule",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La poule pond un œuf.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "roue",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La roue du vélo tourne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La girafe a un long cou.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "genou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Plie bien le genou pour sauter.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bijou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Maman range son bijou dans une boîte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "hibou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le hibou ouvre ses grands yeux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le lapin mange un chou.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "joue",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai une joue toute rose.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jouet",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ce jouet est tout neuf.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "jour",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le jour se lève.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tour",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La tour est très haute.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "four",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "f",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le gâteau cuit dans le four.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "sourire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Elle a un grand sourire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "souris",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La souris mange du fromage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "soupe",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La soupe est bien chaude.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poupée",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ma poupée a une robe rose.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mouton",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le mouton a de la laine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mouche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La mouche vole partout.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bouche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ouvre grand la bouche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "boule",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La boule de neige est froide.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "route",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La route est longue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bouton",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Appuie sur le bouton.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "coude",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Pose ton coude sur la table.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "douche",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je prends une douche.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "doux",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le chaton est tout doux.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rouge",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "La fraise est rouge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "courir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'aime courir dans le parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jouer",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "ou",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Viens jouer avec moi !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "trou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le lapin sort de son trou.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "moustache",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papi a une grande moustache.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "loupe",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je regarde la fourmi avec une loupe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "toupie",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La toupie tourne très vite.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fourmi",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "f",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "f",
+          "sound": "f",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La fourmi est toute petite.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "coucou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le coucou chante dans le bois.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "journal",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "ou",
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa lit le journal.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bonjour",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je dis bonjour à la maîtresse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cour",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les enfants jouent dans la cour.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mousse",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La mousse pousse sur l'arbre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "nouveau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "J'ai un nouveau cartable.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "goutte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Une goutte de pluie tombe.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tournesol",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le tournesol est une grande fleur jaune.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "nounours",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je dors avec mon nounours.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "ouvrir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Peux-tu ouvrir la porte ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poussin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le poussin est tout jaune.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cousin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "z",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon cousin vient jouer chez moi.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bougie",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La bougie du gâteau brille.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "foulard",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mets ton foulard, il fait froid.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    }
+  ]
+}

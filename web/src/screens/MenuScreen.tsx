@@ -12,12 +12,12 @@ import { fr } from "../i18n/fr";
 
 type Entry = { key: string; label: string; hint: string; icon: ReactNode; to?: string };
 
-/** Exercises and Lessons are open; the other entries are visible, locked, and say so aloud. */
+/** Every entry is open since lot 2 (SUB001416); an entry without `to` stays visible, locked, and says so aloud. */
 const ENTRIES: Entry[] = [
-  { key: "exercises", label: fr.menu.exercises, hint: fr.menu.exercisesHint, icon: <PencilIcon />, to: "/exercices" },
   { key: "lessons", label: fr.menu.lessons, hint: fr.menu.lessonsHint, icon: <BookIcon />, to: "/lecons" },
-  { key: "exam", label: fr.menu.exam, hint: fr.menu.soonHint, icon: <FlagIcon /> },
-  { key: "options", label: fr.menu.options, hint: fr.menu.soonHint, icon: <GearIcon /> },
+  { key: "exercises", label: fr.menu.exercises, hint: fr.menu.exercisesHint, icon: <PencilIcon />, to: "/exercices" },
+  { key: "exam", label: fr.menu.exam, hint: fr.menu.examHint, icon: <FlagIcon />, to: "/examen" },
+  { key: "options", label: fr.menu.options, hint: fr.menu.optionsHint, icon: <GearIcon />, to: "/options" },
 ];
 
 const HOVER_READ_DELAY_MS = 600;

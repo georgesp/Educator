@@ -1,0 +1,987 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "bonbon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je mange un bonbon à la fraise.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "ballon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le ballon est rond.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "avion",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "L'avion vole haut dans le ciel.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "camion",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le camion est rempli de sable.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "maison",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "z",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La maison a un toit rouge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "savon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Lave-toi les mains avec du savon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cochon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le cochon est tout rose.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "crayon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je dessine avec un crayon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "lion",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le lion a une belle crinière.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pont",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pont passe au-dessus de la rivière.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rond",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le cercle est rond.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "oncle",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon oncle habite à la campagne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "onze",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "J'ai onze billes dans mon sac.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "monde",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Il y a beaucoup de monde au parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "montagne",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "gn"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La montagne est couverte de neige.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "melon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le melon est bien sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "citron",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le citron est jaune.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "garçon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ç",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le garçon joue au ballon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "leçon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ç",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'apprends ma leçon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dragon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le dragon de l'histoire est gentil.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "violon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Elle joue du violon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pantalon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon pantalon est bleu.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "salon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous lisons un livre au salon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "menton",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai de la confiture sur le menton.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "son",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'entends le son de la cloche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "front",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Maman me fait un bisou sur le front.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "blond",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 2
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le petit garçon est blond.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "monter",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je vais monter l'escalier.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "répondre",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je lève le doigt pour répondre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fond",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le trésor est au fond de la mer.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chanson",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Nous chantons une chanson.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "conte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papi me lit un conte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "ongle",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 0
+        },
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon ongle est tout petit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "long",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le serpent est très long.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Ce gâteau est très bon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "cornichon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 5
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le cornichon est vert.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bouchon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mets le bouchon sur la bouteille.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "papillon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le papillon vole de fleur en fleur.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "biberon",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le bébé boit son biberon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "balcon",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les fleurs sont sur le balcon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    }
+  ]
+}

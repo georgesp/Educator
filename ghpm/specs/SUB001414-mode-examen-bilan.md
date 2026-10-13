@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001414 — Mode examen (bilan)
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -32,5 +32,14 @@ En tant qu'enfant, je veux passer un petit examen afin de voir ce que je sais fa
 
 ## Critères d'acceptation
 
-- [ ] Algorithme de composition de l'examen testé (répartition des compétences, pas de doublon).
-- [ ] Examen enregistré (session `exam`).
+- [x] Algorithme de composition de l'examen testé (répartition des compétences, pas de doublon).
+- [x] Examen enregistré (session `exam`).
+
+## Implémentation (2026-10-14)
+
+- Menu Examen → matière ; 15 questions des compétences de la classe jusqu'à la période en cours (`exam.rs`) :
+  poids 3 pour la période en cours, 2 pour la précédente, 1 avant ; au plus 3 questions par compétence ;
+  modes de réponse mélangés ; jamais deux fois la même question.
+- Bilan : score, points forts et notions à retravailler par compétence, avec liens vers la leçon et les exercices ;
+  feu d'artifice (`Fireworks`) en cas de sans-faute ; maîtrises mises à jour.
+- Tests : `exam.rs`, `content_validation.rs` (800 examens composés), `ExamScreen.test.tsx`, Playwright.

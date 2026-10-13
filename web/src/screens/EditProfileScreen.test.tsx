@@ -89,6 +89,7 @@ describe("EditProfileScreen", () => {
 
     expect(await screen.findByRole("heading", { name: "En piste, Léa !" })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
-    await waitFor(() => expect(api.getSkills).toHaveBeenLastCalledWith("CE1"));
+    await user.click(await screen.findByRole("button", { name: /Mathématiques/ }));
+    await waitFor(() => expect(api.getSkills).toHaveBeenLastCalledWith("CE1", "Math", "p-lea"));
   });
 });

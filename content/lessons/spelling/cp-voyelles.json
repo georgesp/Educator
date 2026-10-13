@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-voyelles",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-voyelles"],
+  "title": "Les voyelles a, e, i, o, u, é",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les voyelles : a, e, i, o, u et é.",
+      "speech": "Aujourd’hui, on apprend les voyelles. Ce sont des lettres qui chantent : on peut les dire très longtemps. Aaa, iii, ooo !",
+      "animation": {"type": "titleCard", "title": "Les voyelles", "subtitle": "a, e, i, o, u, é"}
+    },
+    {
+      "title": "Des lettres qui chantent",
+      "text": "a, e, i, o, u, é sont des voyelles. Dans un ami, j’entends a puis i.",
+      "speech": "Les lettres a, e, i, o, u et é s’appellent des voyelles. Écoute le mot ami : j’entends a, puis i. Les deux sont des voyelles !",
+      "animation": {"type": "letterTiles", "word": "ami", "tiles": ["a", "m", "i"], "interactive": false}
+    },
+    {
+      "title": "o et u",
+      "text": "Dans moto, j’entends deux fois o. Dans un mur, j’entends u.",
+      "speech": "Écoute bien : moto. J’entends deux fois la voyelle o. Et dans mur, j’entends la voyelle u.",
+      "animation": {"type": "letterTiles", "word": "moto", "tiles": ["m", "o", "t", "o"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écoute chaque mot. Quelle voyelle entends-tu : a, i, o ou u ? Range-le dans sa boîte.",
+      "speech": "À toi ! Clique sur un mot, puis sur la boîte de la voyelle que tu entends : a, i, o ou u.",
+      "animation": {"type": "soundSort", "groups": ["a", "i", "o", "u"], "words": [{"word": "rat", "group": "a"}, {"word": "lama", "group": "a"}, {"word": "lit", "group": "i"}, {"word": "pile", "group": "i"}, {"word": "pot", "group": "o"}, {"word": "sol", "group": "o"}, {"word": "mur", "group": "u"}, {"word": "rue", "group": "u"}]}
+    },
+    {
+      "title": "é avec un accent",
+      "text": "La lettre é porte un petit accent qui monte. On l’entend dans l’été, un bébé.",
+      "speech": "Voici la lettre é. Elle porte un petit trait qui monte : c’est un accent. Écoute : l’été, un bébé. J’entends é !",
+      "animation": {"type": "letterTiles", "word": "été", "tiles": ["é", "t", "é"], "interactive": false}
+    },
+    {
+      "title": "e ou é ?",
+      "text": "Sans accent, e se lit comme dans petit. Avec l’accent, é se lit comme dans bébé.",
+      "speech": "Attention ! Sans accent, la lettre e se lit comme dans petit. Avec l’accent, on entend é, comme dans bébé. L’accent change le son !",
+      "animation": {"type": "soundSort", "groups": ["e", "é"], "words": [{"word": "petit", "group": "e"}, {"word": "repas", "group": "e"}, {"word": "bébé", "group": "é"}, {"word": "pré", "group": "é"}], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « vélo » : clique sur les lettres dans l’ordre. N’oublie pas l’accent !",
+      "speech": "À toi ! Écris le mot vélo : clique sur les lettres dans le bon ordre. Attention à l’accent, et aux intrus !",
+      "animation": {"type": "letterTiles", "word": "vélo", "tiles": ["v", "é", "l", "o"], "distractors": ["e", "u"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « tulipe ». Dis le mot doucement pour entendre chaque voyelle.",
+      "speech": "À toi ! Écris le mot tulipe. Dis-le tout doucement : tu, li, pe. Tu entends chaque voyelle ?",
+      "animation": {"type": "letterTiles", "word": "tulipe", "tiles": ["t", "u", "l", "i", "p", "e"], "distractors": ["o", "a"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les voyelles :",
+      "speech": "Je retiens : les voyelles sont a, e, i, o, u et é. On peut les chanter. L’accent sur le é change le son.",
+      "animation": {"type": "recapCard", "text": "Les voyelles sont a, e, i, o, u et é. Sans accent, e se lit comme dans petit ; avec l’accent, é se lit comme dans bébé.", "example": "ami · moto · mur · bébé"}
+    }
+  ],
+  "quiz": [
+    {"question": "Un m…r : quelle voyelle manque ?", "spoken": "Un mur. Quelle voyelle manque dans le mot mur ?", "answer": "u", "choices": ["u", "o", "i"], "explanation": "Mur s’écrit m, u, r. On entend u au milieu."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot ami. Mon ami joue avec moi.", "answer": "ami", "explanation": "Ami s’écrit a, m, i : on entend a, puis i."},
+    {"question": "Quelle est la bonne écriture ?", "spoken": "Un bébé. Choisis la bonne écriture du mot bébé.", "answer": "bébé", "choices": ["bebe", "bébé", "bébe"], "explanation": "Bébé s’écrit avec deux é, chacun avec son accent."},
+    {"question": "Dans « lit », quelle voyelle entends-tu ?", "spoken": "Un lit. Quelle voyelle entends-tu dans le mot lit ?", "answer": "i", "choices": ["a", "i", "o"], "explanation": "Dans lit, on entend la voyelle i."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : encoder des syllabes puis des mots selon la progression des correspondances graphèmes-phonèmes",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — progression : les voyelles d’abord, puis les consonnes",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

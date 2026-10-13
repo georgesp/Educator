@@ -3,10 +3,14 @@
 //! exist, values that stay on the number line, texts short enough for the voice, a title first and a
 //! « Je retiens » last. An invalid file is skipped and reported: the child never sees a broken lesson.
 
+mod figures;
+
 use crate::{ContentProblem, Loaded};
-use educator_core::exercises::Answer;
+use educator_core::exercises::{Answer, Comparison, Fraction};
 use educator_core::lessons::{
-    landings, Animation, Chain, ChainMode, Lesson, LessonCatalog, LessonSource, QuizQuestion, Slide,
+    grapheme_position, landings, written_columns, Animation, Chain, ChainMode, ColumnOperation,
+    Equation, EquationTerm, Lesson, LessonCatalog, LessonSource, LetterTiles, Operator,
+    QuizQuestion, Slide, SortedWord, SoundSort, SubtractionMethod,
 };
 use educator_core::skills::{SkillCatalog, Subject, FIRST_PERIOD, LAST_PERIOD};
 use educator_core::{speech, Grade};
@@ -29,6 +33,8 @@ pub const MAX_SPOKEN_LENGTH: usize = 300;
 pub const MAX_GRADUATIONS: i32 = 41;
 /// Largest number shown in a lesson of the primary school.
 pub const MAX_NUMBER: i32 = 1_000_000;
+/// Largest number of a written operation (four columns at most).
+pub const MAX_WRITTEN_NUMBER: i64 = 9_999;
 
 /// [`LessonCatalog`] over the lessons loaded at start-up.
 #[derive(Debug, Clone, Default)]
@@ -165,12 +171,65 @@ enum AnimationFile {
         interactive: bool,
         #[serde(default = "yes")]
         hover_values: bool,
-    },
-    TensUnits {
-        value: i64,
         #[serde(default)]
-        complete_ten: bool,
+        flags: Vec<i32>,
     },
+    TensUnits(figures::TensUnitsFile),
+    ColumnOperation {
+        operation: String,
+        operands: Vec<i64>,
+        #[serde(default)]
+        method: Option<String>,
+        #[serde(default)]
+        computed_columns: Option<i64>,
+        #[serde(default)]
+        interactive: bool,
+    },
+    Equation {
+        left: i64,
+        operation: String,
+        right: i64,
+        #[serde(default)]
+        missing: Option<String>,
+        #[serde(default)]
+        family: bool,
+        #[serde(default)]
+        interactive: bool,
+        #[serde(default)]
+        choices: Vec<i64>,
+    },
+    CompareNumbers(figures::CompareNumbersFile),
+    SequencePattern(figures::SequencePatternFile),
+    ArrayGrid(figures::ArrayGridFile),
+    TimesTable(figures::TimesTableFile),
+    PlaceValueTable(figures::PlaceValueTableFile),
+    GroupObjects(figures::GroupObjectsFile),
+    TenFrame(figures::TenFrameFile),
+    FractionBar(figures::FractionBarFile),
+    BarModel(figures::BarModelFile),
+    LetterTiles {
+        word: String,
+        /// The tiles in order; the letters of the word when absent.
+        #[serde(default)]
+        tiles: Option<Vec<String>>,
+        #[serde(default)]
+        distractors: Vec<String>,
+        #[serde(default = "yes")]
+        interactive: bool,
+    },
+    SoundSort {
+        groups: Vec<String>,
+        words: Vec<SortedWordFile>,
+        #[serde(default = "yes")]
+        interactive: bool,
+    },
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct SortedWordFile {
+    word: String,
+    group: String,
 }
 
 fn one() -> i32 {
@@ -195,10 +254,55 @@ struct ChainFile {
 struct QuizFile {
     question: String,
     spoken: String,
-    answer: i32,
+    answer: QuizValueFile,
     #[serde(default)]
-    choices: Vec<i32>,
+    choices: Vec<QuizValueFile>,
     explanation: String,
+}
+
+/// A quiz answer as written in the file: a number, or a text for the other kinds of answers
+/// (« < », « oui », « 3/4 »).
+#[derive(Deserialize, Clone)]
+#[serde(untagged)]
+enum QuizValueFile {
+    Number(i64),
+    Text(String),
+}
+
+/// The answer a quiz value stands for: a number from 0 to 1 000 000, a sign (`<`, `>`, `=`),
+/// `oui` / `non`, or a fraction `a/b` (any equal fraction is then accepted).
+fn quiz_answer(value: &QuizValueFile) -> Option<Answer> {
+    match value {
+        QuizValueFile::Number(n) => (0..=i64::from(MAX_NUMBER))
+            .contains(n)
+            .then_some(Answer::Number(*n as i32)),
+        QuizValueFile::Text(text) => match text.as_str() {
+            "<" => Some(Answer::Comparison(Comparison::Less)),
+            ">" => Some(Answer::Comparison(Comparison::Greater)),
+            "=" => Some(Answer::Comparison(Comparison::Equal)),
+            "oui" => Some(Answer::YesNo(true)),
+            "non" => Some(Answer::YesNo(false)),
+            _ => {
+                let (numerator, denominator) = text.split_once('/')?;
+                let numerator: u32 = numerator.parse().ok()?;
+                let denominator: u32 = denominator.parse().ok()?;
+                (denominator >= 1 && numerator <= 100 && denominator <= 100)
+                    .then(|| Answer::Fraction(Fraction::new(numerator, denominator)))
+            }
+        },
+    }
+}
+
+/// Same kind of answer (two numbers, two fractions…).
+fn same_kind(a: &Answer, b: &Answer) -> bool {
+    std::mem::discriminant(a) == std::mem::discriminant(b)
+}
+
+fn quiz_label(value: &QuizValueFile) -> String {
+    match value {
+        QuizValueFile::Number(n) => n.to_string(),
+        QuizValueFile::Text(text) => text.clone(),
+    }
 }
 
 #[derive(Deserialize)]
@@ -208,7 +312,17 @@ struct SourceFile {
     url: String,
 }
 
-const SUBJECTS: &[(&str, Subject)] = &[("math", Subject::Math)];
+const SUBJECTS: &[(&str, Subject)] = &[("math", Subject::Math), ("spelling", Subject::Spelling)];
+
+/// A quiz answer of a spelling lesson: a word or letters to write or pick (no tolerance on accents).
+fn spelling_answer(value: &QuizValueFile) -> Option<Answer> {
+    match value {
+        QuizValueFile::Text(text) if !text.trim().is_empty() && text.trim() == text => {
+            Some(Answer::Spelling(text.clone()))
+        }
+        _ => None,
+    }
+}
 
 /// Parses and validates one lesson; `expected_id` is the file name. Returns every error found.
 pub fn parse_lesson(
@@ -354,34 +468,97 @@ pub fn parse_lesson(
             &format!("quiz {n}: explanation"),
             &question.explanation,
         );
+        // A spelling lesson asks for words; « oui » and « non » keep their meaning.
+        let read = |value: &QuizValueFile| {
+            if subject == Some(Subject::Spelling)
+                && !matches!(value, QuizValueFile::Text(t) if t == "oui" || t == "non")
+            {
+                spelling_answer(value)
+            } else {
+                quiz_answer(value)
+            }
+        };
+        let answer = read(&question.answer);
         check(
-            (0..=MAX_NUMBER).contains(&question.answer),
-            format!("quiz {n}: answer {} out of range.", question.answer),
+            answer.is_some(),
+            format!(
+                "quiz {n}: answer '{}' must be a number from 0 to 1 000 000, <, >, =, oui, non or a fraction a/b (a word in a spelling lesson).",
+                quiz_label(&question.answer)
+            ),
         );
-        if !question.choices.is_empty() {
-            let distinct: HashSet<i32> = question.choices.iter().copied().collect();
+        let choices: Vec<Option<Answer>> = question.choices.iter().map(read).collect();
+        if !choices.is_empty() {
+            let labels: HashSet<String> = question.choices.iter().map(quiz_label).collect();
+            let yes_no = matches!(answer, Some(Answer::YesNo(_)));
             check(
-                (3..=4).contains(&question.choices.len())
-                    && distinct.len() == question.choices.len(),
-                format!("quiz {n}: 3 or 4 different choices."),
+                labels.len() == choices.len()
+                    && if yes_no {
+                        choices.len() == 2
+                    } else {
+                        (3..=4).contains(&choices.len())
+                    },
+                format!(
+                    "quiz {n}: 3 or 4 different choices (oui and non for a yes / no question)."
+                ),
             );
             check(
-                question.choices.contains(&question.answer),
-                format!("quiz {n}: the answer must be among the choices."),
+                choices.iter().all(Option::is_some),
+                format!("quiz {n}: every choice must be a valid answer."),
             );
+            if let Some(answer) = &answer {
+                check(
+                    choices
+                        .iter()
+                        .flatten()
+                        .all(|choice| same_kind(choice, answer)),
+                    format!("quiz {n}: the choices must be of the same kind as the answer."),
+                );
+                check(
+                    question
+                        .choices
+                        .iter()
+                        .any(|c| quiz_label(c) == quiz_label(&question.answer)),
+                    format!("quiz {n}: the answer must be among the choices."),
+                );
+                // Only one choice may be right (2/4 is also right when 1/2 is expected).
+                check(
+                    choices
+                        .iter()
+                        .flatten()
+                        .filter(|choice| answer.accepts(choice))
+                        .count()
+                        == 1,
+                    format!("quiz {n}: exactly one choice must be right."),
+                );
+            }
+        } else {
             check(
-                question
-                    .choices
-                    .iter()
-                    .all(|c| (0..=MAX_NUMBER).contains(c)),
-                format!("quiz {n}: choices out of range."),
+                matches!(
+                    answer,
+                    None | Some(Answer::Number(_)) | Some(Answer::Spelling(_))
+                ),
+                format!(
+                    "quiz {n}: only a number or a word can be typed; give choices for the other answers."
+                ),
             );
+            // A word to write is heard, never shown: the child would only copy it.
+            if let Some(Answer::Spelling(word)) = &answer {
+                check(
+                    !question
+                        .question
+                        .to_lowercase()
+                        .contains(&word.to_lowercase()),
+                    format!(
+                        "quiz {n}: the word to write ('{word}') must not be shown in the question, only spoken."
+                    ),
+                );
+            }
         }
         quiz.push(QuizQuestion {
             question: question.question,
             spoken: question.spoken,
-            answer: Answer::Number(question.answer),
-            choices: question.choices.into_iter().map(Answer::Number).collect(),
+            answer: answer.unwrap_or(Answer::Number(0)),
+            choices: choices.into_iter().flatten().collect(),
             explanation: question.explanation,
         });
     }
@@ -464,6 +641,7 @@ fn animation(file: AnimationFile) -> Result<Animation, String> {
             let mode = match mode.as_deref() {
                 None | Some("show") => ChainMode::Show,
                 Some("match") => ChainMode::Match,
+                Some("pick") => ChainMode::Pick,
                 Some(other) => return Err(format!("calcChain: unknown mode '{other}'.")),
             };
             ensure((1..=4).contains(&chains.len()), "calcChain: 1 to 4 chains.")?;
@@ -498,6 +676,16 @@ fn animation(file: AnimationFile) -> Result<Animation, String> {
                     "calcChain match: each chain adds a different positive number.",
                 )?;
             }
+            if mode == ChainMode::Pick {
+                ensure(
+                    chains.len() >= 2 && chains.iter().filter(|c| !c.crossed).count() == 1,
+                    "calcChain pick: 2 to 4 chains, only one of them right (the others crossed).",
+                )?;
+                ensure(
+                    chains.iter().all(|c| c.start == chains[0].start),
+                    "calcChain pick: every chain starts from the same number.",
+                )?;
+            }
             Ok(Animation::CalcChain { chains, mode })
         }
         AnimationFile::NumberLine {
@@ -508,6 +696,7 @@ fn animation(file: AnimationFile) -> Result<Animation, String> {
             jumps,
             interactive,
             hover_values,
+            flags,
         } => {
             ensure(
                 in_range(i64::from(from)) && in_range(i64::from(to)) && from < to,
@@ -535,6 +724,13 @@ fn animation(file: AnimationFile) -> Result<Animation, String> {
                 !interactive || !jumps.is_empty(),
                 "numberLine: an interactive line needs jumps.",
             )?;
+            let distinct: HashSet<i32> = flags.iter().copied().collect();
+            ensure(
+                flags.len() <= 3
+                    && distinct.len() == flags.len()
+                    && flags.iter().all(|f| on_line(*f)),
+                "numberLine: at most 3 different flags, each on a graduation.",
+            )?;
             Ok(Animation::NumberLine {
                 from,
                 to,
@@ -543,26 +739,294 @@ fn animation(file: AnimationFile) -> Result<Animation, String> {
                 jumps,
                 interactive,
                 hover_values,
+                flags,
             })
         }
-        AnimationFile::TensUnits {
-            value,
-            complete_ten,
+        AnimationFile::TensUnits(file) => figures::tens_units(file),
+        AnimationFile::ColumnOperation {
+            operation,
+            operands,
+            method,
+            computed_columns,
+            interactive,
+        } => column_operation(
+            &operation,
+            &operands,
+            method.as_deref(),
+            computed_columns,
+            interactive,
+        ),
+        AnimationFile::Equation {
+            left,
+            operation,
+            right,
+            missing,
+            family,
+            interactive,
+            choices,
         } => {
+            let operator = operator(&operation, "equation")?;
             ensure(
-                (1..=999).contains(&value),
-                "tensUnits: value from 1 to 999.",
+                in_range(left) && in_range(right),
+                "equation: numbers between 0 and 1 000 000.",
             )?;
+            let (left, right) = (left as u32, right as u32);
             ensure(
-                !complete_ten || value % 10 != 0,
-                "tensUnits: completeTen needs a value that is not a whole ten.",
+                operator
+                    .apply(left, right)
+                    .is_some_and(|r| in_range(i64::from(r))),
+                "equation: the result must be between 0 and 1 000 000.",
             )?;
-            Ok(Animation::TensUnits {
-                value: u32::try_from(value).unwrap_or(1),
-                complete_ten,
-            })
+            let missing = match missing.as_deref() {
+                None => None,
+                Some("left") => Some(EquationTerm::Left),
+                Some("right") => Some(EquationTerm::Right),
+                Some("result") => Some(EquationTerm::Result),
+                Some(other) => return Err(format!("equation: unknown missing term '{other}'.")),
+            };
+            let equation = Equation {
+                left,
+                operator,
+                right,
+                missing,
+                family,
+                interactive,
+                choices: choices
+                    .iter()
+                    .map(|c| u32::try_from(*c).unwrap_or(u32::MAX))
+                    .collect(),
+            };
+            if interactive {
+                let distinct: HashSet<u32> = equation.choices.iter().copied().collect();
+                ensure(
+                    equation.missing.is_some(),
+                    "equation: an interactive equation needs a missing term.",
+                )?;
+                ensure(
+                    (3..=4).contains(&equation.choices.len())
+                        && distinct.len() == equation.choices.len()
+                        && choices.iter().all(|c| in_range(*c)),
+                    "equation: 3 or 4 different choices between 0 and 1 000 000.",
+                )?;
+                ensure(
+                    equation
+                        .missing_value()
+                        .is_some_and(|v| equation.choices.contains(&v)),
+                    "equation: the missing term must be among the choices.",
+                )?;
+            } else {
+                ensure(
+                    choices.is_empty(),
+                    "equation: choices only for an interactive equation.",
+                )?;
+            }
+            Ok(Animation::Equation(equation))
         }
+        AnimationFile::CompareNumbers(file) => figures::compare_numbers(file),
+        AnimationFile::SequencePattern(file) => figures::sequence_pattern(file),
+        AnimationFile::ArrayGrid(file) => figures::array_grid(file),
+        AnimationFile::TimesTable(file) => figures::times_table(file),
+        AnimationFile::PlaceValueTable(file) => figures::place_value_table(file),
+        AnimationFile::GroupObjects(file) => figures::group_objects(file),
+        AnimationFile::TenFrame(file) => figures::ten_frame(file),
+        AnimationFile::FractionBar(file) => figures::fraction_bar(file),
+        AnimationFile::BarModel(file) => figures::bar_model(file),
+        AnimationFile::LetterTiles {
+            word,
+            tiles,
+            distractors,
+            interactive,
+        } => letter_tiles(word, tiles, distractors, interactive),
+        AnimationFile::SoundSort {
+            groups,
+            words,
+            interactive,
+        } => sound_sort(groups, words, interactive),
     }
+}
+
+/// The operation of an equality: addition, subtraction or multiplication.
+/// A word of a spelling animation: lower case, NFC, 1 to 20 letters.
+fn is_word(word: &str) -> bool {
+    let count = word.chars().count();
+    (1..=20).contains(&count)
+        && word == word.trim()
+        && word == educator_core::spelling::nfc(word)
+        && word == word.to_lowercase()
+}
+
+fn letter_tiles(
+    word: String,
+    tiles: Option<Vec<String>>,
+    distractors: Vec<String>,
+    interactive: bool,
+) -> Result<Animation, String> {
+    ensure(
+        is_word(&word),
+        "letterTiles: a word of 1 to 20 lower-case letters.",
+    )?;
+    let tiles = tiles.unwrap_or_else(|| word.chars().map(String::from).collect());
+    ensure(
+        (2..=10).contains(&tiles.len()) && tiles.iter().all(|t| !t.is_empty()),
+        "letterTiles: 2 to 10 tiles, none empty.",
+    )?;
+    ensure(
+        tiles.concat() == word,
+        "letterTiles: the tiles, in order, must make the word.",
+    )?;
+    ensure(
+        distractors.len() <= 4
+            && distractors
+                .iter()
+                .all(|d| !d.is_empty() && !tiles.contains(d))
+            && distractors.iter().collect::<HashSet<_>>().len() == distractors.len(),
+        "letterTiles: at most 4 different distractors, none equal to a tile.",
+    )?;
+    Ok(Animation::LetterTiles(LetterTiles {
+        word,
+        tiles,
+        distractors,
+        interactive,
+    }))
+}
+
+fn sound_sort(
+    groups: Vec<String>,
+    words: Vec<SortedWordFile>,
+    interactive: bool,
+) -> Result<Animation, String> {
+    ensure(
+        (2..=4).contains(&groups.len())
+            && groups.iter().all(|g| !g.is_empty())
+            && groups.iter().collect::<HashSet<_>>().len() == groups.len(),
+        "soundSort: 2 to 4 different groups.",
+    )?;
+    ensure(
+        (4..=9).contains(&words.len()),
+        "soundSort: 4 to 9 words to sort.",
+    )?;
+    let mut sorted = Vec::new();
+    for file in words {
+        ensure(
+            is_word(&file.word),
+            "soundSort: words of 1 to 20 lower-case letters.",
+        )?;
+        let group = groups
+            .iter()
+            .position(|g| *g == file.group)
+            .ok_or_else(|| format!("soundSort: '{}' is not a group.", file.group))?;
+        let start = grapheme_position(&file.word, &file.group)
+            .ok_or_else(|| format!("soundSort: '{}' is not in '{}'.", file.group, file.word))?;
+        sorted.push(SortedWord {
+            length: file.group.chars().count(),
+            word: file.word,
+            group,
+            start,
+        });
+    }
+    ensure(
+        (0..groups.len()).all(|g| sorted.iter().any(|w| w.group == g)),
+        "soundSort: every group gets at least one word.",
+    )?;
+    ensure(
+        sorted.iter().map(|w| &w.word).collect::<HashSet<_>>().len() == sorted.len(),
+        "soundSort: a word only once.",
+    )?;
+    Ok(Animation::SoundSort(SoundSort {
+        groups,
+        words: sorted,
+        interactive,
+    }))
+}
+
+fn operator(name: &str, animation: &str) -> Result<Operator, String> {
+    match name {
+        "add" => Ok(Operator::Add),
+        "subtract" => Ok(Operator::Subtract),
+        "multiply" => Ok(Operator::Multiply),
+        other => Err(format!(
+            "{animation}: unknown operation '{other}' (add, subtract or multiply)."
+        )),
+    }
+}
+
+fn column_operation(
+    operation: &str,
+    operands: &[i64],
+    method: Option<&str>,
+    computed_columns: Option<i64>,
+    interactive: bool,
+) -> Result<Animation, String> {
+    let operator = operator(operation, "columnOperation")?;
+    ensure(
+        operator != Operator::Multiply,
+        "columnOperation: add or subtract (the written multiplication comes in CE2).",
+    )?;
+    ensure(
+        operands
+            .iter()
+            .all(|n| (1..=MAX_WRITTEN_NUMBER).contains(n)),
+        "columnOperation: numbers between 1 and 9 999.",
+    )?;
+    let numbers: Vec<u32> = operands.iter().map(|n| *n as u32).collect();
+    let (method, both_methods) = match operator {
+        Operator::Add => {
+            ensure(
+                (2..=3).contains(&numbers.len()),
+                "columnOperation: an addition of 2 or 3 numbers.",
+            )?;
+            ensure(
+                i64::from(numbers.iter().sum::<u32>()) <= MAX_WRITTEN_NUMBER,
+                "columnOperation: a sum up to 9 999.",
+            )?;
+            ensure(
+                method.is_none(),
+                "columnOperation: a method only for a subtraction.",
+            )?;
+            (None, false)
+        }
+        Operator::Subtract | Operator::Multiply => {
+            ensure(
+                numbers.len() == 2 && numbers[0] >= numbers[1],
+                "columnOperation: a subtraction of 2 numbers, the larger on top.",
+            )?;
+            match method {
+                Some("cassage") => (Some(SubtractionMethod::Cassage), false),
+                Some("compensation") => (Some(SubtractionMethod::Compensation), false),
+                Some("both") => (None, true),
+                Some(other) => {
+                    return Err(format!("columnOperation: unknown method '{other}'."));
+                }
+                None => {
+                    return Err(
+                        "columnOperation: a subtraction needs a method (cassage, compensation or both)."
+                            .to_owned(),
+                    );
+                }
+            }
+        }
+    };
+    let columns = written_columns(
+        operator,
+        &numbers,
+        method.or(Some(SubtractionMethod::Cassage)),
+    );
+    ensure(
+        computed_columns.is_none_or(|c| (0..=columns.len() as i64).contains(&c)),
+        "columnOperation: computedColumns between 0 and the number of columns.",
+    )?;
+    ensure(
+        !interactive || computed_columns.is_none(),
+        "columnOperation: an interactive operation is computed by the child (no computedColumns).",
+    )?;
+    Ok(Animation::ColumnOperation(ColumnOperation {
+        operator,
+        operands: numbers,
+        method,
+        both_methods,
+        computed_columns: computed_columns.map(|c| c as usize),
+        interactive,
+    }))
 }
 
 fn ensure(ok: bool, message: &str) -> Result<(), String> {

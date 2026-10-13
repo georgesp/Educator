@@ -1,0 +1,116 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-add-2-digits",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 1,
+  "skillIds": ["ce1-add-2-digits"],
+  "title": "Additions de nombres plus petits que 100",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd'hui, on additionne deux nombres à deux chiffres : de tête, puis en colonnes.",
+      "speech": "Aujourd'hui, tu vas apprendre à additionner deux nombres à deux chiffres. D'abord dans ta tête, puis en posant l'addition en colonnes, comme un vrai pilote du calcul.",
+      "animation": { "type": "titleCard", "title": "Additions de nombres plus petits que 100", "subtitle": "De tête, puis en colonnes" }
+    },
+    {
+      "title": "Décomposer",
+      "text": "56 + 27 : j'ajoute d'abord les 2 dizaines, puis les 7 unités. 56 + 27 = 83.",
+      "speech": "Pour calculer 56 + 27, je coupe 27 en 20 et 7. J'ajoute 20 à 56 : j'arrive à 76. Puis j'ajoute 7 : j'arrive à 83.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 56, "steps": [20, 7] }] }
+    },
+    {
+      "title": "Barres et cubes",
+      "text": "6 + 7 = 13 unités. 10 cubes font une barre : 13, c'est 1 dizaine et 3 unités.",
+      "speech": "Les unités : 6 + 7 = 13 cubes. Avec 10 cubes, je fabrique une barre de dix. Il me reste 3 cubes. 13 unités, c'est 1 dizaine et 3 unités.",
+      "animation": { "type": "tensUnits", "value": 13 }
+    },
+    {
+      "title": "Sans retenue",
+      "text": "34 + 25 : 4 + 5 = 9 unités, 3 + 2 = 5 dizaines. Pas de retenue : 59.",
+      "speech": "Je pose d'abord 34 + 25. Je commence par les unités : 4 + 5 = 9, je l'écris en bas. Puis les dizaines : 3 + 2 = 5. Pas de retenue, c'est fini : 59.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [34, 25] }
+    },
+    {
+      "title": "Poser",
+      "text": "J'écris 27 sous 56 : les unités sous les unités, les dizaines sous les dizaines.",
+      "speech": "Maintenant, je pose l'addition. J'écris 56, puis 27 juste en dessous : les unités sous les unités, les dizaines sous les dizaines. Je trace le trait.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [56, 27], "computedColumns": 0 }
+    },
+    {
+      "title": "Les unités",
+      "text": "Je commence par les unités : 6 + 7 = 13. J'écris 3 et je retiens 1 en haut des dizaines.",
+      "speech": "Je commence toujours par les unités. 6 + 7 = 13. J'écris 3 dans la colonne des unités. La dizaine, je la retiens : j'écris un petit 1 en rouge en haut de la colonne des dizaines.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [56, 27], "computedColumns": 1 }
+    },
+    {
+      "title": "Les dizaines",
+      "text": "Puis les dizaines, sans oublier la retenue : 1 + 5 + 2 = 8. 56 + 27 = 83.",
+      "speech": "Ensuite, les dizaines. Je n'oublie pas la retenue : 1 + 5 + 2 = 8. J'écris 8. 56 + 27 = 83, comme tout à l'heure de tête !",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [56, 27] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Calcule 34 + 48 : clique sur le chiffre à écrire, en commençant par les unités.",
+      "speech": "À toi ! Calcule 34 + 48 en colonnes. Commence par les unités : clique sur le chiffre que tu écris. N'oublie pas la retenue.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [34, 48], "interactive": true }
+    },
+    {
+      "title": "Ordre de grandeur",
+      "text": "56 + 27, c'est environ 60 + 30 = 90. 83 est proche de 90 : mon résultat est vraisemblable.",
+      "speech": "Pour vérifier, j'arrondis : 56, c'est presque 60, et 27, presque 30. 60 + 30 = 90. Mon résultat, 83, est proche de 90 : il est vraisemblable.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 60, "steps": [30] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "28 + 8 + 56 : le 8 tout seul va sous les unités. Calcule, en commençant par les unités.",
+      "speech": "À toi ! On additionne trois nombres : 28, 8 et 56. Attention, le 8 n'a pas de dizaine : il se place sous les unités. Commence par les unités, et pense à la retenue.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [28, 8, 56], "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "La règle des pilotes de l'addition posée :",
+      "speech": "Je retiens : en colonnes, j'aligne les unités sous les unités. Je commence par les unités. Si elles dépassent 9, j'écris la retenue en haut des dizaines.",
+      "animation": { "type": "recapCard", "text": "En colonnes, j'aligne les unités. Je commence par les unités ; si elles dépassent 9, j'écris la retenue au-dessus des dizaines.", "example": "56 + 27 = 83" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "45 + 37 = ?",
+      "spoken": "Combien font 45 + 37 ?",
+      "answer": 82,
+      "explanation": "Les unités : 5 + 7 = 12, j'écris 2 et je retiens 1. Les dizaines : 1 + 4 + 3 = 8. 45 + 37 = 82."
+    },
+    {
+      "question": "29 + 46 = ?",
+      "spoken": "Combien font 29 + 46 ? Choisis la bonne réponse.",
+      "answer": 75,
+      "choices": [65, 75, 615],
+      "explanation": "9 + 6 = 15 : j'écris 5 et je retiens 1. 1 + 2 + 4 = 7. 29 + 46 = 75. 615 oublie la retenue."
+    },
+    {
+      "question": "Quelle est la retenue dans 38 + 25 ?",
+      "spoken": "Dans l'addition 38 + 25, quelle est la retenue ?",
+      "answer": 1,
+      "choices": [0, 1, 3],
+      "explanation": "8 + 5 = 13 : j'écris 3 et je retiens 1 dizaine."
+    },
+    {
+      "question": "62 + 19 = ?",
+      "spoken": "Combien font 62 + 19 ?",
+      "answer": 81,
+      "explanation": "2 + 9 = 11 : j'écris 1 et je retiens 1. 1 + 6 + 1 = 8. 62 + 19 = 81."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul : additionner des nombres inférieurs à 100, en ligne et en colonnes",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

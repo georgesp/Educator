@@ -1,0 +1,1409 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "robot",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le robot sait danser.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "kilo",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'achète un kilo de pommes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "photo",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "f",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ph",
+          "sound": "f",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Nous prenons une photo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "piano",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je joue du piano.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "dos",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je porte mon cartable sur le dos.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "gros",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "L'éléphant est un gros animal.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "abricot",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 5
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'abricot est orange et sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "escargot",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 5
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 6
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'escargot avance doucement.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "haricot",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 5
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ce haricot est tout vert.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "sabot",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le cheval a un sabot.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "cacao",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je bois un bol de cacao.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "roseau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 2
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le roseau pousse au bord de l'eau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "auto",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon auto est rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "jaune",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le soleil est jaune.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sauter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "J'aime sauter dans les flaques.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "haut",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "L'arbre est très haut.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "faute",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je corrige ma faute.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "épaule",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le perroquet est sur son épaule.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "gauche",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "o",
+        "ch"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Je lève la main gauche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sauce",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'aime la sauce tomate.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "saucisse",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa fait cuire une saucisse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "automne",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En automne, les feuilles tombent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "autobus",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je prends l'autobus.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "astronaute",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 6
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'astronaute va dans l'espace.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "restaurant",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 4
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 7
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 9
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous mangeons au restaurant.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "taupe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La taupe creuse sous la terre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "faux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Est-ce vrai ou faux ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "applaudir",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous allons applaudir les danseurs.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mauve",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "adjectif",
+      "example": "La fleur est mauve.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "artichaut",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 4
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 6
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 8
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'artichaut est un légume.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "saule",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le saule pousse près de la rivière.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "pause",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "C'est l'heure de la pause.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "auteur",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'auteur a écrit ce livre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bateau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le bateau vogue sur la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "gâteau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le gâteau au chocolat est délicieux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cadeau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai reçu un joli cadeau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "seau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je remplis mon seau de sable.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "beau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Quel beau dessin !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "eau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je bois de l'eau fraîche.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "veau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le veau suit sa maman la vache.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "agneau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "gn",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 1
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'agneau est tout blanc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "rideau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ferme le rideau, s'il te plaît.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bureau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa travaille à son bureau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tableau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La maîtresse écrit au tableau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pinceau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je peins avec un pinceau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "morceau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mange un morceau de pain.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "couteau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa coupe le pain avec le couteau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "anneau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'anneau est en or.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "drapeau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le drapeau flotte au vent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "troupeau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 2
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le berger garde son troupeau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "marteau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papi tape sur le clou avec un marteau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "panneau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le panneau indique la route.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cerceau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je joue avec un cerceau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "berceau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le bébé dort dans son berceau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "corbeau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le corbeau est un oiseau noir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "plateau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je porte le plateau du goûter.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ruisseau",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "L'eau du ruisseau est claire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    }
+  ]
+}

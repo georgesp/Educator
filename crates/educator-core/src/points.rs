@@ -40,6 +40,17 @@ impl PointsRules {
             }
     }
 
+    /// Points of a timed challenge (SUB001415): the right answers, and the bonus of a finished
+    /// series when at least one question was answered; the perfect bonus needs no mistake. A wrong
+    /// answer costs nothing.
+    pub fn for_timed_challenge(&self, correct_answers: usize, answered: usize) -> i32 {
+        if answered == 0 {
+            return 0;
+        }
+
+        self.for_completed_series(correct_answers.min(answered), answered)
+    }
+
     /// Points of an abandoned series: the correct answers already given, without any bonus.
     pub fn for_abandoned_series(&self, correct_answers: usize) -> i32 {
         to_i32(correct_answers) * self.per_correct_answer

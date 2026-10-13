@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001415 — Défi chrono
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -31,5 +31,13 @@ En tant qu'enfant, je veux un défi contre la montre afin de m'amuser à aller p
 
 ## Critères d'acceptation
 
-- [ ] Session `timed` enregistrée.
-- [ ] Pas de pénalité pour une mauvaise réponse (passage à la suivante).
+- [x] Session `timed` enregistrée.
+- [x] Pas de pénalité pour une mauvaise réponse (passage à la suivante).
+
+## Implémentation (2026-10-14)
+
+- Depuis Examen : Défi chrono, durée 1, 2 ou 3 minutes (2 par défaut), compétences de maîtrise ≥ 60 % seulement.
+- Barre de temps discrète (`TimerBar`), sans son ; une mauvaise réponse passe à la suivante sans pénalité.
+- Fin du temps : `finish_series` (refusé pour une autre séance) ; seules les questions répondues comptent.
+- Meilleur score par durée affiché ; le « nouveau record » est décidé côté Rust (`previousBest`, `newRecord`).
+- La désactivation dans les Options viendra au lot 3 (SUB001512).

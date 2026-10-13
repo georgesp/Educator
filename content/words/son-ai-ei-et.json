@@ -1,0 +1,2175 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "mère",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ma mère prépare le dîner.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "père",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon père me lit une histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "frère",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon frère joue au foot.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chèvre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La chèvre mange de l'herbe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "crème",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'aime la crème au chocolat.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "zèbre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "z",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "z",
+          "sound": "z",
+          "position": 0
+        },
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le zèbre a des rayures.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "lèvre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai du chocolat sur la lèvre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "rivière",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La rivière coule vers la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "lumière",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Allume la lumière, s'il te plaît.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fève",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Qui a trouvé la fève dans la galette ?",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "collège",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 4
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon grand frère va au collège.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "manège",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais un tour de manège.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "siège",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le siège de la voiture est confortable.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "problème",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je résous un problème de calcul.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poème",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je récite un poème.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "modèle",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Copie bien le modèle.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "règle",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je trace un trait avec ma règle.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pièce",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai une pièce dans ma tirelire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nièce",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Ma nièce a trois ans.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "tête",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai un chapeau sur la tête.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fête",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "C'est la fête !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "forêt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les arbres poussent dans la forêt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fenêtre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ouvre la fenêtre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "crêpe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mange une crêpe au sucre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "guêpe",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La guêpe vole autour des fleurs.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "rêve",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai fait un joli rêve.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "être",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je veux être pilote.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "prêt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Mon cartable est prêt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "arrêt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le bus s'arrête à l'arrêt.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "chêne",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chêne est un grand arbre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "rêver",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "J'aime rêver dans mon lit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fêter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous allons fêter ton anniversaire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "arrêter",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Il faut arrêter le jeu.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lait",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le bébé boit du lait.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "aile",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'oiseau ouvre son aile.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "aider",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais aider maman.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "aigle",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 0
+        },
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'aigle vole très haut.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "aimer",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "C'est bon d'aimer ses amis.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "balai",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je range le balai.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "craie",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La maîtresse écrit avec une craie.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "fraise",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La fraise est rouge et sucrée.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "vrai",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "C'est vrai !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "laine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le mouton donne de la laine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "semaine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Il y a sept jours dans une semaine.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fontaine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'eau coule de la fontaine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "capitaine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le capitaine dirige le bateau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "marraine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ma marraine m'offre un livre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mai",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En mai, il fait beau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "paire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai une paire de bottes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "plaire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Ce cadeau va te plaire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "faire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'aime faire des gâteaux.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "air",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'ai besoin d'air frais.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "éclair",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'éclair brille dans le ciel.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "palais",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le roi vit dans un palais.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mauvais",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 4
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Ce fruit a un mauvais goût.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "épais",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Ce livre est épais.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "frais",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le pain est frais.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "maire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le maire de la ville coupe le ruban.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "neige",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La neige tombe en hiver.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "baleine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La baleine est un grand animal marin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "reine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La reine porte une couronne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "seize",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "J'ai seize billes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "treize",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Il y a treize enfants dans le car.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "beige",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Mon pull est beige.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "peigne",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "gn"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je me coiffe avec un peigne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "verveine",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Mamie boit une tisane de verveine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "enseigner",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "è",
+        "gn",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "ei",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 5
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "La maîtresse aime enseigner.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "poulet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous mangeons du poulet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "bouquet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "k",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 3
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'offre un bouquet de fleurs.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "volet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ferme le volet de ta chambre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "carnet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'écris dans mon carnet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "muguet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le muguet sent bon au printemps.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "billet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Montre ton billet au contrôleur.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sifflet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'arbitre souffle dans son sifflet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "robinet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ferme bien le robinet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "navet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le navet est un légume blanc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "bracelet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Elle porte un joli bracelet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "chalet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous dormons dans un chalet à la montagne.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gilet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mets ton gilet, il fait frais.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "filet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pêcheur lance son filet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "objet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Range cet objet à sa place.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "secret",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je te dis un secret.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "complet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le bus est complet.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "violet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le raisin est violet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mer",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La mer est bleue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vert",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le sapin est vert.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "verre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je bois dans un verre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ver",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le ver de terre vit dans le sol.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "terre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Les carottes poussent dans la terre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "merci",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je dis merci à la maîtresse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "perle",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le collier a une perle.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "sel",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ajoute un peu de sel.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ciel",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le ciel est tout bleu.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "hiver",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "En hiver, il neige.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sirène",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La sirène nage dans l'océan.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    }
+  ]
+}

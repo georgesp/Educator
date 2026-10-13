@@ -4,6 +4,12 @@ export type Grade = "CP" | "CE1" | "CE2" | "CM1" | "CM2";
 
 export type AnswerMode = "Keyboard" | "Choice";
 
+export type Subject = "Math" | "Spelling";
+
+export type SpellingFormat = "Dictation" | "MissingLetters" | "ChooseSpelling";
+
+export type SessionType = "Exercise" | "Exam" | "Timed" | "LessonQuiz";
+
 export type CharacterKind = "Animal" | "Child";
 
 export type StartupStatus = { "state": "starting" } | { "state": "ready" } | { "state": "failed", message: string, };
@@ -26,7 +32,7 @@ voice: string | null,
  */
 problem: string | null, };
 
-export type SkillsResponse = { 
+export type SkillsResponse = { subject: Subject, 
 /**
  * Grade asked for.
  */
@@ -52,9 +58,17 @@ isCurrentPeriod: boolean,
 /**
  * Grade the skill comes from when it is offered as a revision (SUB000113), otherwise `null`.
  */
-revisionFrom: Grade | null, answerModes: Array<AnswerMode>, family: SkillFamily, };
+revisionFrom: Grade | null, answerModes: Array<AnswerMode>, family: SkillFamily, 
+/**
+ * Spelling: the kinds of exercise offered (dictation, missing letters, the right spelling).
+ */
+spellingFormats: Array<SpellingFormat>, 
+/**
+ * Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
+ */
+mastery: number | null, };
 
-export type SkillFamily = "Calculation" | "Multiplication" | "Numeration" | "DoubleHalf" | "Fraction" | "Problem";
+export type SkillFamily = "Calculation" | "Multiplication" | "Numeration" | "DoubleHalf" | "Fraction" | "Problem" | "Spelling";
 
 export type CharacterResponse = { id: string, name: string, kind: CharacterKind, };
 
@@ -74,11 +88,27 @@ export type UpdateProfileRequest = { name?: string, grade?: Grade, characterId?:
 
 export type StartSeriesRequest = { profileId: string, skillId: string, answerMode: AnswerMode, 
 /**
+ * Spelling: the kind of exercise chosen; every kind allowed by the answer mode when absent.
+ */
+format?: SpellingFormat, 
+/**
  * Fixed seed to replay a series (tests, debugging); random when absent.
  */
 seed?: number, };
 
-export type SeriesResponse = { seriesId: string, seed: number, skillId: string, instruction: string, answerMode: AnswerMode, exercises: Array<ExerciseResponse>, };
+export type SeriesResponse = { seriesId: string, sessionType: SessionType, subject: Subject, seed: number, 
+/**
+ * The skill of a series of exercises; null for an exam or a timed challenge.
+ */
+skillId: string | null, 
+/**
+ * The skill's instruction; empty for an exam, a timed challenge or a quiz (the front has its own).
+ */
+instruction: string, answerMode: AnswerMode, 
+/**
+ * Duration of a timed challenge, in seconds.
+ */
+timeLimitSeconds: number | null, exercises: Array<ExerciseResponse>, };
 
 export type ExerciseResponse = { index: number, 
 /**
@@ -98,9 +128,33 @@ choices: Array<ChoiceResponse> | null,
  */
 prompt: string, 
 /**
- * French text to read aloud (send it to `speak`).
+ * French text to read aloud (send it to `speak`). For a spelling exercise, play the word
+ * with `speak_series_word` instead.
  */
-spokenPrompt: string, };
+spokenPrompt: string, 
+/**
+ * Spelling: the word is read (`speak_series_word`) and, for the missing letters, the letters
+ * around the blank. The word itself is not sent.
+ */
+word: WordPromptResponse | null, };
+
+export type WordPromptResponse = { 
+/**
+ * Letters before the blank (missing letters), otherwise null.
+ */
+before: string | null, 
+/**
+ * Letters after the blank (missing letters), otherwise null.
+ */
+after: string | null, 
+/**
+ * Missing letters: how many letters the blank hides (shown as dashes), otherwise null.
+ */
+missing: number | null, 
+/**
+ * The word can also be heard in a short sentence.
+ */
+hasExample: boolean, };
 
 export type TokenResponse = { "kind": "number", value: number, } | { "kind": "sign", value: string, } | { "kind": "text", value: string, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "slot", slot: number, };
 
@@ -108,7 +162,7 @@ export type FractionShape = "Bar" | "Disc";
 
 export type PictureResponse = { "kind": "baseTen", hundreds: number, tens: number, units: number, } | { "kind": "fractionShape", shape: FractionShape, parts: number, colored: number, } | { "kind": "numberLine", start: number, step: number, ticks: number, labeled: Array<number>, arrow: number | null, } | { "kind": "arrayGrid", rows: number, columns: number, split: number | null, } | { "kind": "barModel", bars: Array<Array<number | null>>, total: number | null, } | { "kind": "groups", groups: number, perGroup: number, };
 
-export type InputResponse = { "kind": "number", slots: number, } | { "kind": "fraction" } | { "kind": "comparison" } | { "kind": "yesNo" } | { "kind": "order", items: Array<number>, ascending: boolean, } | { "kind": "multiChoice", items: Array<number>, } | { "kind": "pick" } | { "kind": "numberLine" };
+export type InputResponse = { "kind": "number", slots: number, } | { "kind": "fraction" } | { "kind": "comparison" } | { "kind": "yesNo" } | { "kind": "order", items: Array<number>, ascending: boolean, } | { "kind": "multiChoice", items: Array<number>, } | { "kind": "pick" } | { "kind": "numberLine" } | { "kind": "spelling", maxLength: number, };
 
 export type ChoiceResponse = { label: string, answer: AnswerPayload, };
 
@@ -130,15 +184,81 @@ explanation: string,
  */
 help: PictureResponse | null, 
 /**
+ * Spelling: the child's word letter by letter, to highlight the mistakes (SUB001405).
+ */
+correction: SpellingCorrectionResponse | null, 
+/**
  * Set when this answer ended the series: points awarded.
  */
 summary: SeriesSummaryResponse | null, };
+
+export type SpellingCorrectionResponse = { correct: boolean, letters: Array<LetterResponse>, };
+
+export type LetterKindName = "Right" | "Wrong" | "Missing" | "Extra";
+
+export type LetterResponse = { kind: LetterKindName, given: string | null, expected: string | null, };
 
 export type SeriesSummaryResponse = { correctCount: number, exerciseCount: number, pointsEarned: number, 
 /**
  * New total of the profile.
  */
-profilePoints: number, };
+profilePoints: number, 
+/**
+ * Results by skill, in the order of the series (an exam mixes several skills).
+ */
+skills: Array<SkillResultResponse>, 
+/**
+ * What the mascot says at the end (SUB001417): a party, happy or encouraging.
+ */
+mascotSituation: MascotSituation, 
+/**
+ * Timed challenge (SUB001415): the best score before this one at the same duration.
+ */
+previousBest: number | null, 
+/**
+ * Timed challenge: a new personal record, to celebrate.
+ */
+newRecord: boolean, 
+/**
+ * Lesson quiz (SUB001411): fewer than half right answers, « Revoir la leçon » comes first.
+ */
+reviewLesson: boolean, };
+
+export type SkillResultResponse = { skillId: string, title: string, correctCount: number, questionCount: number, 
+/**
+ * Lesson of the skill (« Revoir la leçon »), when there is one.
+ */
+lessonId: string | null, 
+/**
+ * A strong point of an exam (at least two thirds right); otherwise a notion to work on again.
+ */
+strong: boolean, };
+
+export type TimedChallengeResponse = { subject: Subject, 
+/**
+ * Skills mastered enough (60 % or more) to enter the challenge; none: no challenge yet.
+ */
+skillCount: number, 
+/**
+ * The durations offered, in seconds, and the best score of each.
+ */
+durations: Array<TimedDurationResponse>, defaultSeconds: number, };
+
+export type MascotExpression = "Happy" | "Thinking" | "Encouraging" | "Party";
+
+export type MascotSituation = "LessonStart" | "SeriesPerfect" | "SeriesWell" | "SeriesEncourage" | "ExamEnd" | "TimedEnd" | "LevelUp";
+
+export type MascotResponse = { name: string, pictures: Array<MascotPictureResponse>, };
+
+export type MascotPictureResponse = { expression: MascotExpression, svg: string, };
+
+export type MascotPhraseResponse = { text: string, expression: MascotExpression, };
+
+export type TimedDurationResponse = { seconds: number, 
+/**
+ * Best number of right answers, when the profile already played this duration.
+ */
+best: number | null, };
 
 export type MultiplicationTableResponse = { number: number, lines: Array<TableLineResponse>, };
 
@@ -148,7 +268,7 @@ export type TableLineResponse = { left: number, right: number, result: number,
  */
 spoken: string, };
 
-export type LessonsResponse = { 
+export type LessonsResponse = { subject: Subject, 
 /**
  * Grade asked for.
  */
@@ -168,11 +288,19 @@ export type LessonSummaryResponse = { id: string, title: string, period: number,
  */
 isCurrentPeriod: boolean, durationMinutes: number, };
 
-export type LessonResponse = { id: string, title: string, grade: Grade, 
+export type LessonResponse = { id: string, title: string, subject: Subject, grade: Grade, 
 /**
  * Skills practised after the lesson (« Je m'entraîne »), the first one being the main one.
  */
-skillIds: Array<string>, slides: Array<SlideResponse>, quiz: Array<QuizQuestionResponse>, };
+skillIds: Array<string>, slides: Array<SlideResponse>, 
+/**
+ * The questions of the quiz (answered through `start_lesson_quiz` and `answer_series`).
+ */
+quiz: Array<QuizQuestionResponse>, 
+/**
+ * The slide where the profile left the lesson, when it did not finish it (SUB001410).
+ */
+resumeSlide: number | null, };
 
 export type SlideResponse = { title: string, 
 /**
@@ -196,9 +324,311 @@ interactive: boolean,
 /**
  * The value of a graduation shows under the pointer (interactive line).
  */
-hoverValues: boolean, } | { "type": "tensUnits", value: number, hundreds: number, tens: number, units: number, missing: number, };
+hoverValues: boolean, 
+/**
+ * Graduations marked with a checkered flag.
+ */
+flags: Array<number>, } | { "type": "tensUnits", value: number, hundreds: number, tens: number, units: number, missing: number, steps: Array<BlockStepResponse>, 
+/**
+ * The number added or removed, or the number of parts of a share.
+ */
+change: number | null, 
+/**
+ * The sum, the difference, or one part of the share.
+ */
+result: number, parts: number, interactive: boolean, task: BlockTask | null, 
+/**
+ * Interactive: the blocks the child starts with, and the blocks to reach.
+ */
+interactiveStart: BlocksResponse, target: BlocksResponse, } | { "type": "columnOperation", operator: LessonOperator, operands: Array<number>, result: number, layouts: Array<WrittenOperationResponse>, 
+/**
+ * Columns the animation computes, from the units (0: the numbers are only set in columns).
+ */
+computedColumns: number, 
+/**
+ * The child writes the digit of each column of the result, from the units.
+ */
+interactive: boolean, } | { "type": "equation", left: number, operator: LessonOperator, right: number, result: number, missing: EquationTerm | null, 
+/**
+ * The value in the box.
+ */
+missingValue: number | null, 
+/**
+ * The equality first, then the other equalities of its family.
+ */
+equalities: Array<EqualityResponse>, 
+/**
+ * The child picks the missing term among `choices`.
+ */
+interactive: boolean, choices: Array<number>, } | { "type": "compareNumbers" } & CompareNumbersResponse | { "type": "sequencePattern" } & SequencePatternResponse | { "type": "arrayGrid" } & ArrayGridResponse | { "type": "timesTable" } & TimesTableResponse | { "type": "placeValueTable" } & PlaceValueTableResponse | { "type": "groupObjects" } & GroupObjectsResponse | { "type": "tenFrame" } & TenFrameResponse | { "type": "fractionBar" } & FractionBarResponse | { "type": "barModel" } & BarModelResponse | { "type": "letterTiles", word: string, tiles: Array<string>, distractors: Array<string>, order: Array<number>, interactive: boolean, } | { "type": "soundSort", groups: Array<string>, words: Array<SortedWordResponse>, interactive: boolean, };
 
-export type ChainMode = "Show" | "Match";
+export type SortedWordResponse = { word: string, group: number, start: number, length: number, };
+
+export type LessonOperator = "Add" | "Subtract" | "Multiply";
+
+export type SubtractionMethod = "Cassage" | "Compensation";
+
+export type WrittenOperationResponse = { method: SubtractionMethod | null, 
+/**
+ * From the units to the left.
+ */
+columns: Array<WrittenColumnResponse>, };
+
+export type WrittenColumnResponse = { 
+/**
+ * The digit of each number, from top to bottom (null: the number has no digit here).
+ */
+digits: Array<number | null>, 
+/**
+ * Addition: carry above the column. Compensation: 1 ten added to the bottom number here.
+ */
+carry: number, 
+/**
+ * Cassage: the top digit crossed out and rewritten, with the column computed at that moment.
+ */
+rewrites: Array<RewriteResponse>, 
+/**
+ * Compensation: 10 units added to the top digit.
+ */
+plusTen: boolean, 
+/**
+ * The numbers the column adds (carry first), or the top value and the value removed.
+ */
+terms: Array<number>, value: number, 
+/**
+ * The digit written in the result.
+ */
+digit: number, 
+/**
+ * False for a zero on the left of the result, not written.
+ */
+written: boolean, };
+
+export type RewriteResponse = { atColumn: number, value: number, };
+
+export type EquationTerm = "Left" | "Right" | "Result";
+
+export type EqualityResponse = { left: number, operator: LessonOperator, right: number, result: number, };
+
+export type BlocksResponse = { hundreds: number, tens: number, units: number, value: number, };
+
+export type BlockStepName = "Start" | "Join" | "ExchangeUnits" | "ExchangeTens" | "BreakTen" | "BreakHundred" | "TakeAway" | "Share";
+
+export type BlockStepResponse = { kind: BlockStepName, blocks: BlocksResponse, highlight: BlocksResponse, };
+
+export type BlockTask = "Build" | "Add" | "Remove" | "Share";
+
+export type RankName = "Units" | "Tens" | "Hundreds" | "Thousands";
+
+export type RankDigitsResponse = { rank: RankName, a: number | null, b: number | null, };
+
+export type CompareNumbersResponse = { a: number, b: number, sign: ComparisonSign, 
+/**
+ * From the highest rank (on the left) to the units.
+ */
+ranks: Array<RankDigitsResponse>, 
+/**
+ * The first rank, from the left, where the digits differ (null: equal numbers).
+ */
+decisiveRank: RankName | null, 
+/**
+ * The child picks the sign.
+ */
+interactive: boolean, };
+
+export type RankCountResponse = { rank: RankName, count: number, };
+
+export type SpellingsResponse = { traditional: string, rectified: string, };
+
+export type PlaceValueTableResponse = { value: number, 
+/**
+ * The columns, from the left.
+ */
+ranks: Array<RankName>, 
+/**
+ * The digit in each column (null: nothing on the left of the number).
+ */
+digits: Array<number | null>, focus: RankName | null, countOf: RankCountResponse | null, 
+/**
+ * 300 + 40 + 7 (empty when not shown).
+ */
+decomposition: Array<number>, words: SpellingsResponse | null, 
+/**
+ * The child writes the number, digit by digit from the left.
+ */
+interactive: boolean, };
+
+export type SequenceMode = "Count" | "Order";
+
+export type SequencePatternResponse = { mode: SequenceMode, 
+/**
+ * Count: the sequence. Order: the numbers as given (not in order).
+ */
+items: Array<number>, 
+/**
+ * Count: the sequence. Order: the numbers in the order asked.
+ */
+ordered: Array<number>, 
+/**
+ * Count: the positions (from 0) hidden in a box, then revealed.
+ */
+hidden: Array<number>, 
+/**
+ * Count: the step (negative: backwards).
+ */
+step: number, 
+/**
+ * Order: from the largest.
+ */
+descending: boolean, 
+/**
+ * Order: the child clicks the numbers in order.
+ */
+interactive: boolean, };
+
+export type GridPartResponse = { rows: number, cols: number, product: number, };
+
+export type GridTask = "Build" | "Split";
+
+export type ArrayGridResponse = { rows: number, cols: number, total: number, 
+/**
+ * The rows after which the grid is cut.
+ */
+split: number | null, 
+/**
+ * From the top: one part, or two when cut.
+ */
+parts: Array<GridPartResponse>, 
+/**
+ * The rows added one by one (5 + 5 + 5); empty when not shown.
+ */
+repeated: Array<number>, rotate: boolean, removed: number, remaining: number, task: GridTask | null, };
+
+export type TableHighlightKind = "Row" | "Doubles" | "Result";
+
+export type TableHighlightResponse = { kind: TableHighlightKind, value: number | null, };
+
+export type TableCellResponse = { row: number, col: number, value: number, 
+/**
+ * Index of the highlight group (in `highlights`) that lights the cell.
+ */
+group: number | null, };
+
+export type TimesTableResponse = { operator: LessonOperator, size: number, 
+/**
+ * Rows from 1 to `size`.
+ */
+cells: Array<Array<TableCellResponse>>, highlights: Array<TableHighlightResponse>, };
+
+export type GroupModeName = "Join" | "Remove" | "GroupBy" | "Share" | "SortParity";
+
+export type RaceObjectName = "Car" | "Helmet" | "Tire" | "Flag" | "Cone";
+
+export type GroupingResponse = { count: number, groups: number, rest: number, };
+
+export type GroupObjectsResponse = { mode: GroupModeName, object: RaceObjectName, 
+/**
+ * Join: the two groups. GroupBy: the collections.
+ */
+counts: Array<number>, 
+/**
+ * Remove, share: the objects at the start.
+ */
+total: number, removed: number, 
+/**
+ * GroupBy: size of a group. Share: number of parts.
+ */
+size: number, 
+/**
+ * The total, what remains, one part.
+ */
+result: number, groupings: Array<GroupingResponse>, 
+/**
+ * SortParity: the numbers and whether each one is even.
+ */
+numbers: Array<number>, parities: Array<boolean>, 
+/**
+ * Join: the groups swap places.
+ */
+commute: boolean, interactive: boolean, 
+/**
+ * Interactive join or removal: proposals for the result.
+ */
+choices: Array<number>, };
+
+export type FrameSlotName = "Empty" | "Filled" | "Added" | "Removed";
+
+export type FriendPairResponse = { a: number, b: number, };
+
+export type TenFrameResponse = { frames: number, 
+/**
+ * The places, garage after garage, in reading order (2 rows of 5).
+ */
+slots: Array<FrameSlotName>, filled: number, added: number, removed: number, 
+/**
+ * The cars in the garages at the end.
+ */
+total: number, friends: Array<FriendPairResponse>, 
+/**
+ * The child parks the added cars, or makes the removed ones leave.
+ */
+interactive: boolean, };
+
+export type FractionStripResponse = { denominator: number, 
+/**
+ * Colored parts, one color per number.
+ */
+numerators: Array<number>, colored: number, 
+/**
+ * « 3/4 ».
+ */
+label: string, 
+/**
+ * « trois quarts ».
+ */
+words: string, };
+
+export type FractionBarResponse = { bars: Array<FractionStripResponse>, 
+/**
+ * Two bars: the sign between their colored fractions.
+ */
+comparison: ComparisonSign | null, unequal: boolean, notation: boolean, 
+/**
+ * The child colors the parts of the only bar.
+ */
+interactive: boolean, };
+
+export type BarKindName = "Parts" | "Compare" | "Groups";
+
+export type BarValueResponse = { part: number | null, value: number, 
+/**
+ * Shown as « ? » until solved.
+ */
+unknown: boolean, };
+
+export type BarModelResponse = { kind: BarKindName, 
+/**
+ * The whole first, then the parts.
+ */
+values: Array<BarValueResponse>, 
+/**
+ * Groups: the number of equal parts.
+ */
+groups: number, labels: Array<string>, answer: number, 
+/**
+ * The calculation that finds the « ? ».
+ */
+solution: EqualityResponse, 
+/**
+ * For « 4 × ? = 24 »: the term hidden in the solution.
+ */
+solutionMissing: EquationTerm | null, solve: boolean, 
+/**
+ * The child places the known numbers on the diagram.
+ */
+interactive: boolean, };
+
+export type ChainMode = "Show" | "Match" | "Pick";
 
 export type ChainResponse = { start: number, steps: Array<JumpResponse>, 
 /**
@@ -217,12 +647,6 @@ export type QuizQuestionResponse = { index: number, question: string,
  * Read aloud (send it to `speak`).
  */
 spoken: string, choices: Array<ChoiceResponse> | null, };
-
-export type QuizAnswerResponse = { correct: boolean, expected: AnswerPayload, expectedLabel: string, 
-/**
- * Shown and read after the answer, right or wrong.
- */
-explanation: string, };
 
 export type CommandError = { status: number, title: string, detail: string | null, 
 /**

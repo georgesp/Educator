@@ -7,7 +7,7 @@ use educator_core::exercises::{
     DEFAULT_LENGTH,
 };
 use educator_core::points::PointsRules;
-use educator_core::skills::{AnswerMode, Date, SkillCatalog, Subject};
+use educator_core::skills::{AnswerMode, Date, ExerciseFormat, SkillCatalog, Subject};
 use educator_core::Grade;
 use std::collections::{BTreeSet, HashSet};
 use std::path::{Path, PathBuf};
@@ -41,6 +41,10 @@ fn content_has_no_problem() {
 fn every_file_matches_its_json_schema() {
     let cases = [
         ("skills/math", None, "skill.schema.json"),
+        ("skills/spelling", None, "skill.schema.json"),
+        ("words", None, "words.schema.json"),
+        ("spelling", Some("sounds.json"), "sounds.schema.json"),
+        ("mascot", Some("mascot.json"), "mascot.schema.json"),
         (
             "problems",
             Some("additive.json"),
@@ -270,4 +274,209 @@ fn calculation(
 fn read_json(path: &Path) -> serde_json::Value {
     serde_json::from_str(&std::fs::read_to_string(path).unwrap())
         .unwrap_or_else(|e| panic!("{}: {e}", path.display()))
+}
+
+/// SUB001402, SUB001403: every spelling skill has at least 30 words; CP and CE1 have spelling skills.
+#[test]
+fn every_spelling_skill_has_at_least_thirty_words() {
+    let skills: Vec<_> = content()
+        .skills
+        .all()
+        .iter()
+        .filter(|s| s.subject == Subject::Spelling)
+        .collect();
+    for grade in [Grade::CP, Grade::CE1] {
+        assert!(skills.iter().any(|s| s.grade == grade), "{grade}");
+    }
+    for skill in skills {
+        let words = skill.params.words.as_ref().unwrap();
+        assert!(
+            words.words.len() >= educator_content::MIN_SKILL_WORDS,
+            "{}: {} words",
+            skill.id,
+            words.words.len()
+        );
+        assert!(words.words.iter().all(|w| !w.word.source.is_empty()));
+    }
+}
+
+/// SUB001408: the wrong spellings proposed are never real words of the bank; SUB001407: the
+/// proposals of the missing letters are graphemes of the sound or its confusions.
+#[test]
+fn spelling_proposals_are_never_real_words_and_compete_on_the_same_sound() {
+    let bank = &content().words;
+    for skill in content()
+        .skills
+        .all()
+        .iter()
+        .filter(|s| s.subject == Subject::Spelling)
+    {
+        let words = skill.params.words.as_ref().unwrap();
+        for seed in 0..200u64 {
+            for exercise in
+                generate_series(skill, seed, AnswerMode::Choice, DEFAULT_LENGTH).unwrap()
+            {
+                let word = exercise.word.as_ref().unwrap();
+                let choices = exercise.choices.as_ref().unwrap();
+                assert_eq!(3, choices.len(), "{} seed {seed}", skill.id);
+                match exercise.format {
+                    ExerciseFormat::ChooseSpelling => {
+                        for choice in choices {
+                            let text = choice.label();
+                            assert!(
+                                text == word.word || bank.find(&text).is_none(),
+                                "{}: « {text} » is a real word",
+                                skill.id
+                            );
+                        }
+                    }
+                    ExerciseFormat::MissingLetters => {
+                        let Answer::Spelling(expected) = &exercise.expected else {
+                            panic!("letters expected");
+                        };
+                        // The sounds the hidden letters write: the proposals are their other
+                        // graphemes, or their usual confusions for a sound written one way only.
+                        let sounds: Vec<_> = words
+                            .sounds
+                            .iter()
+                            .filter(|s| s.graphemes.contains(expected))
+                            .collect();
+                        assert!(!sounds.is_empty(), "{}: {expected}", skill.id);
+                        let (before, after) = word.blank.clone().unwrap();
+                        for choice in choices {
+                            let letters = choice.label();
+                            let competing = letters.is_empty()
+                                || sounds.iter().any(|s| {
+                                    s.graphemes.contains(&letters)
+                                        || s.confusions.contains(&letters)
+                                });
+                            assert!(
+                                competing,
+                                "{}: « {letters} » does not compete with « {expected} »",
+                                skill.id
+                            );
+                            let made = format!("{before}{letters}{after}");
+                            assert!(
+                                &letters == expected || bank.find(&made).is_none(),
+                                "{}: « {made} » is a real word",
+                                skill.id
+                            );
+                        }
+                    }
+                    other => panic!("{other:?} in choice mode"),
+                }
+            }
+        }
+    }
+}
+
+/// SUB001414: an exam has 15 questions of the grade's own skills up to the current period, the
+/// recent skills more often, never twice the same question.
+#[test]
+fn exams_are_composed_from_the_skills_reached_without_duplicates() {
+    use educator_core::exercises::exam::{compose_exam, exam_skills, EXAM_LENGTH};
+    let skills = &content().skills;
+    for subject in [Subject::Math, Subject::Spelling] {
+        for grade in [Grade::CP, Grade::CE1] {
+            let offered = skills.offered_to(subject, grade);
+            for period in 1..=5u8 {
+                let weighted = exam_skills(&offered, period);
+                assert!(!weighted.is_empty(), "{subject:?} {grade} P{period}");
+                assert!(weighted
+                    .iter()
+                    .all(|(s, _)| s.grade == grade && s.period <= period.max(1)));
+                let (mut recent, mut old) = (0usize, 0usize);
+                for seed in 0..40u64 {
+                    let exam = compose_exam(&weighted, seed).unwrap();
+                    assert_eq!(EXAM_LENGTH, exam.len());
+                    let keys: HashSet<String> = exam
+                        .iter()
+                        .map(|q| format!("{}|{}", q.exercise.prompt(), q.exercise.key))
+                        .collect();
+                    assert_eq!(exam.len(), keys.len(), "duplicate in {subject:?} {grade}");
+                    for (i, q) in exam.iter().enumerate() {
+                        assert_eq!(i, q.exercise.index);
+                        assert!(q.exercise.is_correct(&q.exercise.expected.as_given()));
+                        let skill = skills.find(&q.skill_id).unwrap();
+                        if skill.period == period {
+                            recent += 1;
+                        } else {
+                            old += 1;
+                        }
+                    }
+                }
+                // Per skill, the current period weighs more than the older ones.
+                let count = |p: &dyn Fn(u8) -> bool| {
+                    weighted.iter().filter(|(s, _)| p(s.period)).count().max(1)
+                };
+                if period > 2
+                    && weighted.iter().any(|(s, _)| s.period == period)
+                    && weighted.iter().any(|(s, _)| s.period + 2 <= period)
+                {
+                    let recent_per_skill = recent as f64 / count(&|p| p == period) as f64;
+                    let old_per_skill = old as f64 / count(&|p| p != period) as f64;
+                    assert!(
+                        recent_per_skill > old_per_skill,
+                        "{subject:?} {grade} P{period}"
+                    );
+                }
+            }
+        }
+    }
+}
+
+/// SUB001417: the mascot has her four expressions and phrases for every situation.
+#[test]
+fn the_mascot_has_four_expressions_and_phrases_for_every_situation() {
+    use educator_core::mascot::{Expression, Situation};
+    let mascot = content().mascot.as_ref().expect("the mascot loads");
+    assert_eq!("Plume", mascot.name);
+    for expression in Expression::ALL {
+        assert!(mascot.pictures[&expression].contains("id=\"face\""));
+    }
+    for situation in Situation::ALL {
+        assert!(mascot.phrases[&situation].len() >= 3, "{situation:?}");
+    }
+}
+
+/// SUB001402: a badly written word (here, a grapheme at the wrong place) is refused with a clear
+/// message, and never reaches the child.
+#[test]
+fn a_badly_written_word_is_refused() {
+    use educator_content::{load_words, SOUNDS_FILE, WORDS_FOLDER};
+    let dir = tempfile::tempdir().unwrap();
+    let sounds = dir.path().join(SOUNDS_FILE);
+    std::fs::create_dir_all(sounds.parent().unwrap()).unwrap();
+    std::fs::copy(content_dir().join(SOUNDS_FILE), &sounds).unwrap();
+    std::fs::create_dir_all(dir.path().join(WORDS_FOLDER)).unwrap();
+    let word = |position: u32| {
+        format!(
+            r#"{{"word": "bateau", "grades": ["CP"], "sounds": ["o"],
+                "graphemes": [{{"text": "eau", "sound": "o", "position": {position}}}],
+                "frequency": 1, "category": "nom", "source": "test"}}"#
+        )
+    };
+    let write = |position: u32| {
+        std::fs::write(
+            dir.path().join(WORDS_FOLDER).join("test.json"),
+            format!(r#"{{"words": [{}]}}"#, word(position)),
+        )
+        .unwrap();
+    };
+
+    write(3);
+    let good = load_words(dir.path());
+    assert!(good.problems.is_empty(), "{:?}", good.problems);
+    assert!(good.value.find("bateau").is_some());
+
+    write(1);
+    let bad = load_words(dir.path());
+    assert!(
+        bad.problems
+            .iter()
+            .any(|p| p.file == "words/test.json" && p.message.starts_with("'bateau'")),
+        "{:?}",
+        bad.problems
+    );
+    assert!(bad.value.find("bateau").is_none());
 }

@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-voyelles",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 1,
+  "title": "Les voyelles a, e, i, o, u, é",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "sounds": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u",
+      "é"
+    ],
+    "graphemes": [
+      "a",
+      "e",
+      "i",
+      "o",
+      "u",
+      "é"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — encoder des syllabes simples puis des mots selon la progression des CGP, environ deux CGP par semaine ; 12 à 15 CGP régulières en fin de période 1. Voyelles d'abord : guide « Pour enseigner la lecture et l'écriture au CP » (eduscol)."
+}

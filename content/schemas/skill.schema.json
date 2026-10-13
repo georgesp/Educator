@@ -28,8 +28,10 @@
     },
     "subject": {
       "enum": [
-        "math"
-      ]
+        "math",
+        "spelling"
+      ],
+      "description": "math : mathématiques ; spelling : orthographe (lot 2), avec l'opération spelling."
     },
     "grade": {
       "enum": [
@@ -67,9 +69,10 @@
         "numeration",
         "doubleHalf",
         "fraction",
-        "problem"
+        "problem",
+        "spelling"
       ],
-      "description": "mixed : chaque exercice est une addition ou une soustraction. multiplication : tables et produits. numeration : nombres (centaines, lire, écrire, comparer, ranger, encadrer, droite graduée, parité). doubleHalf : doubles et moitiés. fraction : premières fractions. problem : problèmes générés à partir des gabarits de content/problems."
+      "description": "mixed : chaque exercice est une addition ou une soustraction. multiplication : tables et produits. numeration : nombres (centaines, lire, écrire, comparer, ranger, encadrer, droite graduée, parité). doubleHalf : doubles et moitiés. fraction : premières fractions. problem : problèmes générés à partir des gabarits de content/problems. spelling : orthographe, mots tirés de la banque (content/words) selon le filtre words."
     },
     "operands": {
       "type": "array",
@@ -105,10 +108,13 @@
           "multiChoice",
           "fractionPicture",
           "fractionWords",
-          "problem"
+          "problem",
+          "dictation",
+          "missingLetters",
+          "chooseSpelling"
         ]
       },
-      "description": "Formats de la famille : calculs result (7 + 5 = ?), missingOperand (7 + ? = 12 ; multiplication aussi 30 = 3 × ?), phrase (multiplication : 5 + 5 + 5 = ? × 5) ; numeration recompose, decompose, placeValue, writeNumber, readNumber, compare, order, frame, numberLinePoint, yesNo, multiChoice ; doubleHalf phrase, result ; fraction fractionPicture, fractionWords, compare, result ; problem problem."
+      "description": "Formats de la famille : calculs result (7 + 5 = ?), missingOperand (7 + ? = 12 ; multiplication aussi 30 = 3 × ?), phrase (multiplication : 5 + 5 + 5 = ? × 5) ; numeration recompose, decompose, placeValue, writeNumber, readNumber, compare, order, frame, numberLinePoint, yesNo, multiChoice ; doubleHalf phrase, result ; fraction fractionPicture, fractionWords, compare, result ; problem problem. ; spelling dictation (le mot est lu, l'enfant l'écrit ; clavier), missingLetters (mot à trous, saisi ou choisi), chooseSpelling (la bonne écriture parmi 3 ; choix)."
     },
     "answerModes": {
       "type": "array",
@@ -265,6 +271,57 @@
         }
       },
       "description": "problem : types de problèmes (gabarits de content/problems) et taille des nombres."
+    },
+    "words": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "spelling : mots de la banque retenus (SUB001402). Un mot est retenu s'il convient à une des classes, est d'une des catégories, et a une graphie dont le son est dans sounds et le texte dans graphemes (chaque critère ignoré s'il est absent) ; ces graphies sont celles masquées dans les mots à trous. Au moins 30 mots.",
+      "properties": {
+        "grades": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CP",
+              "CE1",
+              "CE2",
+              "CM1",
+              "CM2"
+            ]
+          }
+        },
+        "sounds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Identifiants de content/spelling/sounds.json."
+        },
+        "graphemes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "categories": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "nom",
+              "verbe",
+              "adjectif",
+              "adverbe",
+              "mot-outil",
+              "groupe-nominal"
+            ]
+          }
+        }
+      }
     }
   },
   "$defs": {

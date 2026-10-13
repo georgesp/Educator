@@ -87,4 +87,7 @@ pub enum Input {
     Pick,
     /// Clicks a graduation of the number line of the picture.
     NumberLine,
+    /// Writes letters (spelling): physical keyboard or the on-screen keyboard with the accented
+    /// letters; for the missing letters, in the blank of the word ([`super::Exercise::word`]).
+    Spelling { max_length: usize },
 }

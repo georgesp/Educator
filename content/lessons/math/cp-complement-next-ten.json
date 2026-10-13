@@ -1,0 +1,94 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-complement-next-ten",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-complement-next-ten"],
+  "title": "Compléments à la dizaine",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : combien manque-t-il pour arriver à la dizaine suivante ?",
+      "speech": "Aujourd’hui, tu vas apprendre à trouver combien il manque pour arriver à la dizaine suivante.",
+      "animation": { "type": "titleCard", "title": "Compléments à la dizaine", "subtitle": "Il manque combien ?" }
+    },
+    {
+      "title": "Les amis de 10",
+      "text": "Rappel : 4 et 6, 7 et 3, 8 et 2… remplissent le garage de 10 places.",
+      "speech": "Rappelle-toi les amis de 10 : 1 et 9, 2 et 8, 3 et 7, 4 et 6, 5 et 5. Ensemble, ils remplissent le garage.",
+      "animation": { "type": "tenFrame", "friends": true }
+    },
+    {
+      "title": "74 → 80",
+      "text": "74 a 4 unités : il manque 6 cubes pour faire une nouvelle dizaine.",
+      "speech": "74, c’est 7 barres et 4 cubes. Pour faire une nouvelle barre, il manque 6 cubes, car 4 et 6 sont des amis de 10. 74 + 6 = 80.",
+      "animation": { "type": "tensUnits", "value": 74, "completeTen": true }
+    },
+    {
+      "title": "Sur la piste",
+      "text": "De 74 au drapeau du 80 : la voiture avance de 6.",
+      "speech": "Sur la piste, la voiture part de 74. Pour arriver au drapeau du 80, elle avance de 6.",
+      "animation": { "type": "numberLine", "from": 70, "to": 80, "step": 1, "start": 74, "jumps": [6], "flags": [80] }
+    },
+    {
+      "title": "L’écrire",
+      "text": "On écrit 74 + 6 = 80, ou 74 + … = 80.",
+      "speech": "On peut l’écrire avec une case : 74 plus combien font 80 ? Le nombre caché, c’est 6.",
+      "animation": { "type": "equation", "left": 74, "operation": "add", "right": 6, "missing": "right" }
+    },
+    {
+      "title": "À toi !",
+      "text": "38 → 40 : 8 voitures sont garées. Remplis le garage.",
+      "speech": "À toi ! Pour aller de 38 à 40, regarde les unités : 8. Le garage a 8 voitures. Clique sur les places vides pour le remplir.",
+      "animation": { "type": "tenFrame", "filled": 8, "added": 2, "interactive": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "53 + … = 60 : quel nombre va dans la case ?",
+      "speech": "À toi ! 53 plus combien font 60 ? Regarde les unités : 3. Quel est l’ami de 3 ? Choisis le nombre de la case.",
+      "animation": { "type": "equation", "left": 53, "operation": "add", "right": 7, "missing": "right", "interactive": true, "choices": [6, 7, 8] }
+    },
+    {
+      "title": "Rapide",
+      "text": "21 → 30, 47 → 50, 86 → 90 : quel est le complément ?",
+      "speech": "Vite ! 21 : il manque 9 pour aller à 30. 47 : il manque 3 pour aller à 50. 86 : il manque 4 pour aller à 90.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 21, "steps": [9] }, { "start": 47, "steps": [3] }, { "start": 86, "steps": [4] }] }
+    },
+    {
+      "title": "À quoi ça sert",
+      "text": "C’est la première étape pour calculer 47 + 8 : 47 + 3 = 50, puis 50 + 5 = 55.",
+      "speech": "À quoi ça sert ? Pour calculer 47 + 8, je complète d’abord jusqu’à 50 : + 3. Puis j’ajoute le reste : + 5. 55.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 47, "steps": [3, 5] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le complément à la dizaine :",
+      "speech": "Je retiens : je regarde les unités. Il manque leur ami de 10 pour arriver à la dizaine.",
+      "animation": { "type": "recapCard", "text": "Je regarde les unités : il manque leur ami de 10 pour arriver à la dizaine.", "example": "74 + 6 = 80" }
+    }
+  ],
+  "quiz": [
+    { "question": "76 + … = 80", "spoken": "76 plus combien font 80 ?", "answer": 4, "explanation": "76 a 6 unités. L’ami de 6, c’est 4 : 76 + 4 = 80." },
+    {
+      "question": "41 + … = 50",
+      "spoken": "41 plus combien font 50 ? Choisis la bonne réponse.",
+      "answer": 9,
+      "choices": [9, 10, 1],
+      "explanation": "41 a 1 unité. L’ami de 1, c’est 9 : 41 + 9 = 50."
+    },
+    { "question": "18 + … = 20", "spoken": "18 plus combien font 20 ?", "answer": 2, "explanation": "18 a 8 unités. L’ami de 8, c’est 2 : 18 + 2 = 20." },
+    { "question": "65 + … = 70", "spoken": "65 plus combien font 70 ?", "answer": 5, "explanation": "65 a 5 unités. L’ami de 5, c’est 5 : 65 + 5 = 70." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : compléments à la dizaine supérieure, appui sur les compléments à 10",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

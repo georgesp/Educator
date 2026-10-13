@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-lettres-muettes",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 4,
+  "skillIds": ["ce1-lettres-muettes"],
+  "title": "Les lettres muettes en fin de mot",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à trouver la lettre muette à la fin d’un mot.",
+      "speech": "Aujourd’hui, on apprend une astuce de détective : trouver la lettre muette cachée à la fin d’un mot !",
+      "animation": {"type": "titleCard", "title": "Les lettres muettes", "subtitle": "Un mot de la même famille m’aide"}
+    },
+    {
+      "title": "On ne l’entend pas",
+      "text": "À la fin de beaucoup de mots, une lettre ne s’entend pas : c’est une lettre muette. Un renard, un fruit.",
+      "speech": "À la fin de beaucoup de mots, il y a une lettre qu’on écrit mais qu’on n’entend pas : c’est une lettre muette. Un renard, un fruit.",
+      "animation": {"type": "letterTiles", "word": "renard", "tiles": ["r", "e", "n", "a", "r", "d"], "interactive": false}
+    },
+    {
+      "title": "Un mot de la famille",
+      "text": "Pour la trouver, je cherche un mot de la même famille : le galop → galoper. J’entends le p !",
+      "speech": "Pour trouver la lettre muette, je cherche un mot de la même famille. Le galop, galoper : dans galoper, j’entends le p !",
+      "animation": {"type": "letterTiles", "word": "galop", "tiles": ["g", "a", "l", "o", "p"], "interactive": false}
+    },
+    {
+      "title": "Avec le féminin",
+      "text": "Pour un adjectif, je dis le mot au féminin : lourd → lourde, gourmand → gourmande.",
+      "speech": "Pour un mot qui décrit, je le dis au féminin. Lourd, lourde : j’entends le d ! Gourmand, gourmande : encore un d !",
+      "animation": {"type": "letterTiles", "word": "lourd", "tiles": ["l", "ou", "r", "d"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « marchand ». Pense à « marchande » pour trouver la lettre muette !",
+      "speech": "À toi ! Écris le mot marchand. Pense à marchande : quelle lettre entends-tu à la fin ?",
+      "animation": {"type": "letterTiles", "word": "marchand", "tiles": ["m", "a", "r", "ch", "an", "d"], "distractors": ["t", "s"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot selon sa lettre muette. Pense à un mot de sa famille !",
+      "speech": "À toi ! Pour chaque mot, cherche un mot de sa famille, puis range-le selon sa lettre muette : t, d ou s.",
+      "animation": {"type": "soundSort", "groups": ["t", "d", "s"], "words": [{"word": "chat", "group": "t"}, {"word": "plat", "group": "t"}, {"word": "petit", "group": "t"}, {"word": "grand", "group": "d"}, {"word": "bord", "group": "d"}, {"word": "chaud", "group": "d"}, {"word": "gris", "group": "s"}, {"word": "gros", "group": "s"}, {"word": "repos", "group": "s"}]}
+    },
+    {
+      "title": "Pas toujours d’indice",
+      "text": "Parfois, aucun mot de la famille ne m’aide : je regarde bien le mot et je le mémorise. Un colis.",
+      "speech": "Parfois, aucun mot de la famille ne m’aide. Alors je regarde bien le mot et je le mémorise. À toi : écris colis !",
+      "animation": {"type": "letterTiles", "word": "colis", "tiles": ["c", "o", "l", "i", "s"], "distractors": ["t", "x"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « chaud ». Pense à « chaude » !",
+      "speech": "À toi ! Écris le mot chaud. Pense à chaude : quelle lettre muette faut-il écrire ?",
+      "animation": {"type": "letterTiles", "word": "chaud", "tiles": ["ch", "au", "d"], "distractors": ["t", "s", "x"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "La lettre muette :",
+      "speech": "Je retiens : pour trouver la lettre muette à la fin d’un mot, je cherche un mot de la même famille, ou je dis le mot au féminin. Sinon, je le mémorise.",
+      "animation": {"type": "recapCard", "text": "Pour trouver la lettre muette, je cherche un mot de la même famille (galop → galoper) ou le féminin (grand → grande).", "example": "galop · lourd · chaud"}
+    }
+  ],
+  "quiz": [
+    {"question": "Un chan… (chanter) : quelle lettre ?", "spoken": "Un chant. Pense à chanter. Quelle lettre muette faut-il écrire à la fin de chant ?", "answer": "t", "choices": ["t", "d", "s"], "explanation": "Chant, chanter : on entend le t dans chanter."},
+    {"question": "Il est gran… : quelle lettre muette ?", "spoken": "Il est grand. Quelle lettre muette faut-il écrire à la fin de grand ?", "answer": "d", "choices": ["t", "d", "s"], "explanation": "Grand, grande : on entend le d au féminin."},
+    {"question": "Il est gri… : quelle lettre muette ?", "spoken": "Le chat est gris. Quelle lettre muette faut-il écrire à la fin de gris ?", "answer": "s", "choices": ["t", "d", "s"], "explanation": "Gris, grise : on entend le s au féminin."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot blanc. Un mouton blanc. Pense à : une brebis blanche.", "answer": "blanc", "explanation": "Blanc s’écrit avec un c muet : blanc, blanche."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Le cheval part au galop. Choisis la bonne écriture du mot galop.", "answer": "galop", "choices": ["galop", "galo", "galot"], "explanation": "Galop, galoper : on entend le p dans galoper."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : anticiper la lettre finale muette grâce à un mot de la même famille (blanc, blanche ; chant, chanter)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    }
+  ]
+}

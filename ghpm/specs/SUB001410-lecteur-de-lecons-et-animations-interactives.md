@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001410 — Lecteur de leçons et animations interactives
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -35,6 +35,18 @@ En tant qu'enfant, je veux une leçon courte où je manipule les objets afin de 
 
 ## Critères d'acceptation
 
-- [ ] Les 5 animations fonctionnent à la souris et sont testées (Vitest).
-- [ ] Une leçon dure 3 à 5 minutes.
-- [ ] Reprise possible d'une leçon interrompue à la slide où l'enfant s'était arrêté.
+- [x] Les 5 animations fonctionnent à la souris et sont testées (Vitest).
+- [x] Une leçon dure 3 à 5 minutes.
+- [x] Reprise possible d'une leçon interrompue à la slide où l'enfant s'était arrêté.
+
+## Implémentation (2026-10-14)
+
+- Leçons → choix de la matière (`SubjectScreen`), puis leçons de la classe, période en cours mise en avant.
+- Lecteur : une slide à la fois, texte lu, Précédent / Suivant / Réécouter ; fin → quiz → exercices de la compétence.
+- Animations : `numberLine`, `groupObjects`, `tensUnits` (lot 1). `groupObjects` en mode `groupBy` est devenu
+  manipulable : l'enfant fait les paquets de 10 en cliquant sur les objets (11 à 39), puis choisit le nombre parmi
+  3 propositions (dont l'inversion dizaines / unités, 23 / 32) ; utilisé dans la leçon CP « Ajouter ou enlever des
+  dizaines ». `letterTiles` (lettres à glisser sur le mot ou à cliquer pour
+  former le mot) et `soundSort` (mots à trier par graphie) ajoutées, testées avec Vitest.
+- Reprise : la slide atteinte est enregistrée (`LessonProgress`, commande `save_lesson_progress`) ; à la
+  réouverture, « Reprendre » ou « Recommencer ».

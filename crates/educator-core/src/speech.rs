@@ -156,7 +156,21 @@ pub fn normalize(text: &str) -> String {
             digits.clear();
         }
     };
-    for c in step.chars() {
+    // A space between groups of three digits belongs to the number: « 1 000 », « 12 500 ».
+    let all: Vec<char> = step.chars().collect();
+    let thousands_space = |i: usize, digits: &str| {
+        matches!(all[i], ' ' | '\u{a0}' | '\u{202f}')
+            && !digits.is_empty()
+            && digits.len() <= 6
+            && all
+                .get(i + 1..i + 4)
+                .is_some_and(|g| g.iter().all(char::is_ascii_digit))
+            && !all.get(i + 4).is_some_and(char::is_ascii_digit)
+    };
+    for (i, &c) in all.iter().enumerate() {
+        if thousands_space(i, &digits) {
+            continue;
+        }
         if c.is_ascii_digit() {
             if digits.len() == 9 {
                 flush(&mut digits, &mut words);

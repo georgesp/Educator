@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-g-gu-ge",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 3,
+  "title": "Les lettres g, gu et ge",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "g",
+      "j"
+    ],
+    "graphemes": [
+      "g",
+      "gu",
+      "ge"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — valeurs positionnelles des lettres c, g, s ; classer les mots fréquents avec g (j ou g). Lignes « j, g » et « g, gu, gn » du guide « Pour enseigner la lecture et l'écriture au CE1 » (eduscol), progression des graphèmes complexes. Période choisie par Educator."
+}

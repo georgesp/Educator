@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { useNavigate, useParams } from "react-router";
-import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer, SeriesSummary } from "../api/client";
+import { useNavigate, useParams, useSearchParams } from "react-router";
+import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer, SeriesSummary, SpellingFormat } from "../api/client";
 import { playSound } from "../audio/sounds";
-import { stopSpeech, useSpeech } from "../audio/useSpeech";
+import { playVoice, playVoices, setVoiceEnabled, stopSpeech, useSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
 import { queryKeys } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
@@ -19,10 +19,17 @@ import { FractionText } from "../components/exercise/AnswerText";
 import { ExercisePicture } from "../components/exercise/ExercisePicture";
 import { Statement } from "../components/exercise/Statement";
 import { RequireProfile } from "../components/RequireProfile";
+import { SpellingAnswer } from "../components/spelling/SpellingAnswer";
+import { WordCorrection } from "../components/spelling/WordCorrection";
+import { TimerBar } from "../components/child/TimerBar";
+import { Mascot } from "../components/child/Mascot";
 import { fr } from "../i18n/fr";
 
 /** Pause on a right answer before the next exercise comes by itself. */
 export const AUTO_NEXT_DELAY_MS = 900;
+
+/** Timed challenge: a wrong answer shows the right one briefly, then the next question comes (no penalty). */
+export const TIMED_WRONG_DELAY_MS = 1500;
 
 const MAX_ANSWER_LENGTH = 10;
 
@@ -32,9 +39,29 @@ const toNumber = (text: string) => Math.min(Number.parseInt(text, 10), 2_147_483
 /** Same answer (a picked proposal, the expected one): same kind and same values. */
 const sameAnswer = (a: AnswerPayload, b: AnswerPayload) => JSON.stringify(a) === JSON.stringify(b);
 
-/** A series of 10 exercises (SUB000109, SUB000110, SUB000111; CE1 families SUB000118 to SUB000124). */
+const SPELLING_FORMATS: readonly SpellingFormat[] = ["Dictation", "MissingLetters", "ChooseSpelling"];
+
+/**
+ * A series of 10 exercises (SUB000109, SUB000110, SUB000111; CE1 families SUB000118 to SUB000124;
+ * spelling SUB001406 to SUB001408, the kind of exercise in `?format=`).
+ */
 export function SeriesScreen() {
-  return <RequireProfile>{(profile) => <SeriesRun profile={profile} />}</RequireProfile>;
+  return <RequireProfile>{(profile) => <SkillSeries profile={profile} />}</RequireProfile>;
+}
+
+function SkillSeries({ profile }: { profile: Profile }) {
+  const api = useApi();
+  const { skillId = "", mode = "Keyboard" } = useParams();
+  const [search] = useSearchParams();
+  const answerMode: AnswerMode = mode === "Choice" ? "Choice" : "Keyboard";
+  const format = SPELLING_FORMATS.find((f) => f === search.get("format"));
+  return (
+    <SeriesRun
+      profile={profile}
+      answerMode={answerMode}
+      start={() => (format ? api.startSeries(profile.id, skillId, answerMode, format) : api.startSeries(profile.id, skillId, answerMode))}
+    />
+  );
 }
 
 type Phase =
@@ -54,13 +81,51 @@ function typedSlots(exercise: Exercise): number {
   }
 }
 
-function SeriesRun({ profile }: { profile: Profile }) {
+type SeriesRunProps = {
+  profile: Profile;
+  answerMode: AnswerMode;
+  /** Creates the series (exercises of a skill, an exam, a timed challenge). */
+  start(): Promise<Series>;
+  /** The end of the series, instead of the usual summary (exam, timed challenge). */
+  renderSummary?(summary: SeriesSummary, again: () => void): ReactNode;
+  /** What is read at the end, instead of the usual sentence. */
+  spokenSummary?(summary: SeriesSummary): string;
+};
+
+/** The instruction above the questions: the skill's one (content), the screen's one for an exam or a
+ * timed challenge. */
+function instructionOf(series: Series): string {
+  switch (series.sessionType) {
+    case "Exam":
+      return fr.exam.instruction;
+    case "Timed":
+      return fr.exam.timedInstruction;
+    default:
+      return series.instruction;
+  }
+}
+
+/** Plays the word of a spelling exercise, alone or in its sentence. */
+function useSeriesWord() {
+  const api = useApi();
+  return (seriesId: string, index: number, example = false) => playVoice(() => api.speakSeriesWord(seriesId, index, example));
+}
+
+/** Dictates the word of a spelling exercise: the word alone, then in its sentence when it has one
+ * (« vert », « verre », « ver » sound the same: SUB001404). */
+function useDictatedWord() {
+  const api = useApi();
+  return (seriesId: string, index: number, hasExample: boolean) =>
+    playVoices([() => api.speakSeriesWord(seriesId, index, false), ...(hasExample ? [() => api.speakSeriesWord(seriesId, index, true)] : [])]);
+}
+
+export function SeriesRun({ profile, answerMode, start: create, renderSummary, spokenSummary }: SeriesRunProps) {
   const api = useApi();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const speak = useSpeech();
-  const { skillId = "", mode = "Keyboard" } = useParams();
-  const answerMode: AnswerMode = mode === "Choice" ? "Choice" : "Keyboard";
+  const playWord = useSeriesWord();
+  const dictateWord = useDictatedWord();
 
   const [attempt, setAttempt] = useState(0);
   const [series, setSeries] = useState<Series | null>(null);
@@ -73,6 +138,10 @@ function SeriesRun({ profile }: { profile: Profile }) {
   const [points, setPoints] = useState(profile.points);
   const started = useRef(-1);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // When the exercise was shown, for the time taken to answer (SUB001401).
+  const shownAt = useRef(Date.now());
+  // The voice is on for the French exercises.
+  useVoiceWhile(series?.subject === "Spelling");
 
   const resetAnswer = () => {
     setValues([]);
@@ -80,14 +149,23 @@ function SeriesRun({ profile }: { profile: Profile }) {
   };
 
   const start = useMutation({
-    mutationFn: () => api.startSeries(profile.id, skillId, answerMode),
-    onSuccess: (created) => {
+    mutationFn: () => create(),
+    onSuccess: async (created) => {
       setSeries(created);
       setIndex(0);
       resetAnswer();
       setResults(created.exercises.map(() => null));
       setPhase({ kind: "answering" });
-      void speak(`${created.instruction} ${created.exercises[0]?.spokenPrompt ?? ""}`);
+      shownAt.current = Date.now();
+      const first = created.exercises[0];
+      if (first?.word) {
+        // A French exercise: the instruction, then the word to write.
+        setVoiceEnabled(true);
+        await speak(instructionOf(created));
+        await dictateWord(created.seriesId, 0, first.word.hasExample);
+      } else {
+        void speak(`${instructionOf(created)} ${first?.spokenPrompt ?? ""}`);
+      }
     },
   });
 
@@ -106,9 +184,9 @@ function SeriesRun({ profile }: { profile: Profile }) {
     setPoints(summary.profilePoints);
     setPhase({ kind: "finished", summary });
     // Everything right: fireworks, a fanfare and « Bravo, tout est juste ! » (SUB000114).
-    const perfect = summary.correctCount === summary.exerciseCount;
+    const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
     playSound(perfect ? "celebration" : "finished");
-    const spoken = fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
+    const spoken = spokenSummary ? spokenSummary(summary) : fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
     void speak(perfect ? `${fr.series.allRight} ${spoken}` : spoken);
     void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
   };
@@ -119,29 +197,39 @@ function SeriesRun({ profile }: { profile: Profile }) {
       return;
     }
 
-    setIndex((i) => i + 1);
+    const next = index + 1;
+    setIndex(next);
     resetAnswer();
     setPhase({ kind: "answering" });
+    shownAt.current = Date.now();
+    const word = series?.exercises[next]?.word;
+    if (series && word) {
+      void dictateWord(series.seriesId, next, word.hasExample);
+    }
   };
 
   const check = useMutation({
-    mutationFn: (given: AnswerPayload) => api.answerSeries(series!.seriesId, index, given),
+    mutationFn: (given: AnswerPayload) => api.answerSeries(series!.seriesId, index, given, Math.max(0, Math.round(Date.now() - shownAt.current))),
     onSuccess: (outcome, given) => {
       setResults((current) => current.map((r, i) => (i === index ? outcome.correct : r)));
-      setPhase({ kind: "answered", outcome, given });
-      if (!outcome.correct) {
+      // The time of a challenge may run out while the answer is on its way: the end stays shown.
+      setPhase((current) => (current.kind === "finished" ? current : { kind: "answered", outcome, given }));
+      if (!outcome.correct && series?.sessionType !== "Timed") {
         void speak(outcome.explanation);
       }
     },
   });
 
-  // A right answer moves on by itself; after a mistake the child reads the correction and clicks « Suivant ».
+  const timed = series?.sessionType === "Timed";
+
+  // A right answer moves on by itself; after a mistake the child reads the correction and clicks
+  // « Suivant » — in a timed challenge, the next question comes by itself too.
   useEffect(() => {
-    if (phase.kind !== "answered" || !phase.outcome.correct) {
+    if (phase.kind !== "answered" || (!phase.outcome.correct && !timed)) {
       return;
     }
 
-    const timer = window.setTimeout(() => goNext(phase.outcome), AUTO_NEXT_DELAY_MS);
+    const timer = window.setTimeout(() => goNext(phase.outcome), phase.outcome.correct ? AUTO_NEXT_DELAY_MS : TIMED_WRONG_DELAY_MS);
     return () => window.clearTimeout(timer);
     // goNext only uses state setters: the phase alone decides.
   }, [phase]);
@@ -151,6 +239,12 @@ function SeriesRun({ profile }: { profile: Profile }) {
       inputRefs.current[active]?.focus();
     }
   }, [phase, index, active]);
+
+  // The end of a timed challenge: the time is over.
+  const finishTimed = useMutation({
+    mutationFn: () => api.finishSeries(series!.seriesId),
+    onSuccess: finish,
+  });
 
   const abandon = useMutation({
     mutationFn: () => api.abandonSeries(series!.seriesId),
@@ -166,11 +260,16 @@ function SeriesRun({ profile }: { profile: Profile }) {
     }
   };
 
+  const again = () => {
+    setSeries(null);
+    setAttempt((a) => a + 1);
+  };
+
   if (start.isError) {
     return (
       <main className="centered">
         <p className="message">{fr.app.error}</p>
-        <button type="button" className="button" onClick={() => void navigate("/exercices")}>
+        <button type="button" className="button" onClick={() => void navigate(-1)}>
           {fr.common.back}
         </button>
       </main>
@@ -285,7 +384,10 @@ function SeriesRun({ profile }: { profile: Profile }) {
     return <span className="equation-slot">?</span>;
   };
 
-  const choiceLabels = exercise.choices?.map((c) => c.label) ?? [];
+  const choiceLabels = exercise.choices?.map((c) => (c.label === "" ? fr.spelling.nothing : c.label)) ?? [];
+  const word = exercise.word;
+  const blank = word !== null && (word.before !== null || word.after !== null);
+  const given = answered?.given.kind === "text" ? answered.given.value : null;
   const pickedChoice = answered && exercise.choices ? exercise.choices.findIndex((c) => sameAnswer(c.answer, answered.given)) : null;
   const expectedChoice = answered && exercise.choices ? exercise.choices.findIndex((c) => sameAnswer(c.answer, answered.outcome.expected)) : null;
   const expected = answered?.outcome.expected ?? null;
@@ -297,11 +399,25 @@ function SeriesRun({ profile }: { profile: Profile }) {
         <button type="button" className="back-button" onClick={() => (phase.kind === "finished" ? void navigate("/menu") : setConfirmQuit(true))}>
           {phase.kind === "finished" ? `← ${fr.series.menu}` : fr.series.quit}
         </button>
-        <span className="series-title">{fr.series.progress(Math.min(index + 1, total), total)}</span>
+        <span className="series-title">{timed ? fr.exam.timedTitle : fr.series.progress(Math.min(index + 1, total), total)}</span>
         <PointsBadge points={points} />
       </header>
 
-      <RaceTrack done={answeredCount} total={total} results={results} label={fr.series.progress(Math.min(index + 1, total), total)} />
+      {timed && series.timeLimitSeconds !== null ? (
+        phase.kind !== "finished" && (
+          <TimerBar
+            seconds={series.timeLimitSeconds}
+            rightCount={results.filter((r) => r === true).length}
+            onOver={() => {
+              if (!finishTimed.isPending && !finishTimed.isSuccess) {
+                finishTimed.mutate();
+              }
+            }}
+          />
+        )
+      ) : (
+        <RaceTrack done={answeredCount} total={total} results={results} label={fr.series.progress(Math.min(index + 1, total), total)} />
+      )}
 
       {confirmQuit && phase.kind !== "finished" && (
         <div className="quit-confirm" role="alertdialog" aria-labelledby="quit-question">
@@ -318,19 +434,29 @@ function SeriesRun({ profile }: { profile: Profile }) {
       )}
 
       {phase.kind === "finished" ? (
-        <Summary
-          summary={phase.summary}
-          onAgain={() => {
-            setSeries(null);
-            setAttempt((a) => a + 1);
-          }}
-          onMenu={() => void navigate("/menu")}
-        />
+        renderSummary ? (
+          renderSummary(phase.summary, again)
+        ) : (
+          <Summary summary={phase.summary} onAgain={again} onMenu={() => void navigate("/menu")} />
+        )
       ) : (
         <section className="exercise-card" aria-live="polite">
           <div className="exercise-instruction">
-            <span>{series.instruction}</span>
-            <SpeakButton text={exercise.spokenPrompt} compact />
+            <span>{instructionOf(series)}</span>
+            {word ? (
+              <span className="word-listen">
+                <button type="button" className="button" onClick={() => void playWord(series.seriesId, index)}>
+                  {fr.spelling.listenWord}
+                </button>
+                {word.hasExample && (
+                  <button type="button" className="button" onClick={() => void playWord(series.seriesId, index, true)}>
+                    {fr.spelling.listenExample}
+                  </button>
+                )}
+              </span>
+            ) : (
+              <SpeakButton text={exercise.spokenPrompt} compact />
+            )}
           </div>
 
           {exercise.question && <p className={exercise.question.length > 60 ? "exercise-question exercise-problem" : "exercise-question"}>{exercise.question}</p>}
@@ -359,6 +485,30 @@ function SeriesRun({ profile }: { profile: Profile }) {
               />
             )}
           </form>
+
+          {exercise.input.kind === "spelling" && (
+            <SpellingAnswer
+              key={`spelling-${index}`}
+              before={word?.before ?? null}
+              after={word?.after ?? null}
+              missing={word?.missing ?? null}
+              maxLength={exercise.input.maxLength}
+              disabled={disabled}
+              onSubmit={(text) => submit({ kind: "text", value: text })}
+              given={answered ? (given ?? "") : null}
+              correct={answered ? answered.outcome.correct : null}
+            />
+          )}
+
+          {exercise.input.kind === "pick" && blank && word && (
+            <p className="spelling-word spelling-word-blank" aria-label={exercise.prompt}>
+              <span className="spelling-around">{word.before}</span>
+              <span className={answered ? `spelling-given ${answered.outcome.correct ? "slot-right" : "slot-wrong"}` : "spelling-hole"}>
+                {answered ? (given === "" ? fr.spelling.nothing : given) : "_".repeat(word.missing ?? 1)}
+              </span>
+              <span className="spelling-around">{word.after}</span>
+            </p>
+          )}
 
           {exercise.input.kind === "pick" && exercise.choices && (
             <ChoiceGrid
@@ -422,15 +572,18 @@ function SeriesRun({ profile }: { profile: Profile }) {
                 ) : (
                   <>
                     <Feedback kind="incorrect" message={fr.series.incorrect} detail={answered.outcome.explanation} />
+                    {answered.outcome.correction && <WordCorrection correction={answered.outcome.correction} />}
                     {answered.outcome.help && (
                       <figure className="answer-help">
                         <figcaption>{fr.series.help}</figcaption>
                         <ExercisePicture picture={answered.outcome.help} />
                       </figure>
                     )}
-                    <button type="button" className="button button-primary" onClick={() => goNext(answered.outcome)} autoFocus>
-                      {fr.series.next}
-                    </button>
+                    {!timed && (
+                      <button type="button" className="button button-primary" onClick={() => goNext(answered.outcome)} autoFocus>
+                        {fr.series.next}
+                      </button>
+                    )}
                   </>
                 )}
               </motion.div>
@@ -444,10 +597,11 @@ function SeriesRun({ profile }: { profile: Profile }) {
 }
 
 function Summary({ summary, onAgain, onMenu }: { summary: SeriesSummary; onAgain(): void; onMenu(): void }) {
-  const perfect = summary.correctCount === summary.exerciseCount;
+  const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
   return (
     <motion.section className="summary" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       <h1 className="title">{fr.series.finished}</h1>
+      <Mascot situation={summary.mascotSituation} />
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
       {perfect && <Fireworks label={fr.series.allRight} />}
       {perfect && <p className="summary-perfect">{fr.series.allRight}</p>}

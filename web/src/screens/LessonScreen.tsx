@@ -1,12 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import type { Lesson } from "../api/client";
+import type { Grade, Lesson, Profile, SeriesSummary } from "../api/client";
 import { playSound } from "../audio/sounds";
-import { stopSpeech, useSpeech } from "../audio/useSpeech";
+import { stopSpeech, useSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
+import { queryKeys, useSkills } from "../app/queries";
+import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
+
 import { BigButton } from "../components/child/BigButton";
+import { Mascot } from "../components/child/Mascot";
 import { RaceTrack } from "../components/child/RaceTrack";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { BookIcon, PencilIcon } from "../components/icons";
@@ -17,22 +21,27 @@ import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 import "../components/lesson/lesson.css";
 
-/** A lesson (SUB001410): one slide at a time, then the quiz (SUB001411), then « Je m'entraîne ». */
+/**
+ * A lesson (SUB001410): one slide at a time, then the quiz (SUB001411), then « Je m'entraîne ». A
+ * lesson left in the middle starts again where the child stopped.
+ */
 export function LessonScreen() {
-  return <RequireProfile>{() => <LessonLoader />}</RequireProfile>;
+  return <RequireProfile>{(profile) => <LessonLoader profile={profile} />}</RequireProfile>;
 }
 
-function LessonLoader() {
+function LessonLoader({ profile }: { profile: Profile }) {
   const api = useApi();
   const navigate = useNavigate();
-  const { lessonId = "" } = useParams();
-  const lesson = useQuery({ queryKey: ["lesson", lessonId], queryFn: () => api.getLesson(lessonId), staleTime: Infinity });
+  const params = useParams();
+  const lessonId = params.lessonId ?? "";
+  const back = `/lecons/${SUBJECT_SLUGS[subjectOfSlug(params.subject)]}`;
+  const lesson = useQuery({ queryKey: ["lesson", lessonId, profile.id], queryFn: () => api.getLesson(lessonId, profile.id), staleTime: 0, gcTime: 0 });
 
   if (lesson.isError) {
     return (
       <main className="centered">
         <p className="message">{fr.app.error}</p>
-        <button type="button" className="button" onClick={() => void navigate("/lecons")}>
+        <button type="button" className="button" onClick={() => void navigate(back)}>
           {fr.common.back}
         </button>
       </main>
@@ -47,45 +56,88 @@ function LessonLoader() {
     );
   }
 
-  return <LessonPlayer key={lesson.data.id} lesson={lesson.data} />;
+  return <LessonPlayer key={lesson.data.id} lesson={lesson.data} profile={profile} back={back} />;
 }
 
-type Phase = { kind: "slides"; index: number } | { kind: "quiz" } | { kind: "finished"; correct: number };
+type Phase =
+  | { kind: "resume"; slide: number }
+  | { kind: "slides"; index: number }
+  | { kind: "quiz" }
+  | { kind: "finished"; summary: SeriesSummary };
 
-function LessonPlayer({ lesson }: { lesson: Lesson }) {
+function LessonPlayer({ lesson, profile, back }: { lesson: Lesson; profile: Profile; back: string }) {
+  const api = useApi();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const speak = useSpeech();
   const move = useMove();
-  const [phase, setPhase] = useState<Phase>({ kind: "slides", index: 0 });
+  const grade: Grade = profile.grade;
+  const [phase, setPhase] = useState<Phase>(() =>
+    lesson.resumeSlide !== null && lesson.resumeSlide > 0 ? { kind: "resume", slide: lesson.resumeSlide } : { kind: "slides", index: 0 },
+  );
   // Interactive slides already done: going back to one does not block « Suivant » again.
   const [done, setDone] = useState<ReadonlySet<number>>(new Set());
+  // The French lessons are read aloud.
+  useVoiceWhile(lesson.subject === "Spelling");
 
   useEffect(() => () => stopSpeech(), []);
 
+  // Where the child is, kept by the core: a lesson left in the middle starts again there.
+  const slideIndex = phase.kind === "slides" ? phase.index : null;
+  useEffect(() => {
+    if (slideIndex !== null) {
+      api.saveLessonProgress(profile.id, lesson.id, slideIndex).catch(() => undefined);
+    }
+  }, [api, profile.id, lesson.id, slideIndex]);
+
   const total = lesson.slides.length;
-  const steps = phase.kind === "slides" ? phase.index : total;
+  const steps = phase.kind === "slides" ? phase.index : phase.kind === "resume" ? phase.slide : total;
   const progress = fr.lessons.progress(Math.min(steps + 1, total), total);
 
-  const finish = (correct: number) => {
-    setPhase({ kind: "finished", correct });
-    playSound(correct === lesson.quiz.length ? "celebration" : "finished");
-    void speak(fr.lessons.finishedSpoken(correct, lesson.quiz.length));
+  const finish = (summary: SeriesSummary) => {
+    setPhase({ kind: "finished", summary });
+    api.saveLessonProgress(profile.id, lesson.id, null).catch(() => undefined);
+    void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+    const perfect = summary.correctCount === summary.exerciseCount;
+    playSound(perfect ? "celebration" : "finished");
+    void speak(fr.lessons.finishedSpoken(summary.correctCount, summary.exerciseCount));
   };
 
-  // « Je m'entraîne »: the exercises of the main skill (answer mode chosen on the next screen).
-  const practice = () => void navigate(`/exercices/${encodeURIComponent(lesson.skillIds[0])}`);
+  // « Je m'entraîne »: the exercises of each skill of the lesson, the main one first (answer mode
+  // chosen on the next screen). With several skills, each button names its skill.
+  const skills = useSkills(grade, lesson.subject);
+  const practice = (skillId: string) => void navigate(`/exercices/${SUBJECT_SLUGS[lesson.subject]}/${encodeURIComponent(skillId)}`);
+  const practiceLabel = (skillId: string) => {
+    const title = skills.data?.skills.find((s) => s.id === skillId)?.title;
+    return lesson.skillIds.length > 1 && title ? fr.lessons.practiceSkill(title) : fr.lessons.practice;
+  };
 
   return (
     <main className="series-screen lesson-screen">
       <header className="series-header">
-        <button type="button" className="back-button" onClick={() => void navigate("/lecons")}>
+        <button type="button" className="back-button" onClick={() => void navigate(back)}>
           {phase.kind === "finished" ? `← ${fr.common.back}` : fr.lessons.quit}
         </button>
         <span className="series-title">{lesson.title}</span>
-        <span className="lesson-progress">{phase.kind === "slides" ? progress : phase.kind === "quiz" ? fr.lessons.quizTitle : fr.lessons.finished}</span>
+        <span className="lesson-progress">
+          {phase.kind === "slides" || phase.kind === "resume" ? progress : phase.kind === "quiz" ? fr.lessons.quizTitle : fr.lessons.finished}
+        </span>
       </header>
 
       <RaceTrack done={steps} total={total} results={lesson.slides.map(() => null)} label={progress} />
+
+      {phase.kind === "resume" && (
+        <section className="summary lesson-resume" aria-labelledby="lesson-resume">
+          <h2 id="lesson-resume" className="title">
+            {fr.lessons.resumeTitle}
+          </h2>
+          <p className="message">{fr.lessons.resumeAsk}</p>
+          <div className="lesson-summary-actions">
+            <BigButton label={fr.lessons.resume} icon={<BookIcon />} variant="primary" autoFocus onClick={() => setPhase({ kind: "slides", index: phase.slide })} />
+            <BigButton label={fr.lessons.restart} icon={<BookIcon />} onClick={() => setPhase({ kind: "slides", index: 0 })} />
+          </div>
+        </section>
+      )}
 
       {phase.kind === "slides" && (
         <SlideView
@@ -99,25 +151,19 @@ function LessonPlayer({ lesson }: { lesson: Lesson }) {
         />
       )}
 
-      {phase.kind === "quiz" && <LessonQuiz lesson={lesson} onFinished={finish} />}
+      {phase.kind === "quiz" && <LessonQuiz lesson={lesson} profileId={profile.id} onFinished={finish} />}
 
       {phase.kind === "finished" && (
-        <section className="summary lesson-summary">
-          <h2 className="title">{fr.lessons.finished}</h2>
-          <p className="summary-score">{fr.series.score(phase.correct, lesson.quiz.length)}</p>
-          {phase.correct === lesson.quiz.length && <p className="summary-perfect">{fr.series.allRight}</p>}
-          <div className="lesson-summary-actions">
-            <BigButton label={fr.lessons.practice} icon={<PencilIcon />} variant="primary" onClick={practice} autoFocus />
-            <BigButton
-              label={fr.lessons.again}
-              icon={<BookIcon />}
-              onClick={() => {
-                setDone(new Set());
-                setPhase({ kind: "slides", index: 0 });
-              }}
-            />
-          </div>
-        </section>
+        <LessonSummary
+          summary={phase.summary}
+          skillIds={lesson.skillIds}
+          practiceLabel={practiceLabel}
+          onPractice={practice}
+          onReview={() => {
+            setDone(new Set());
+            setPhase({ kind: "slides", index: 0 });
+          }}
+        />
       )}
     </main>
   );
@@ -155,6 +201,7 @@ function SlideView({ lesson, index, completed, onComplete, onPrevious, onNext, m
           </h2>
           <SpeakButton text={slide.speech} autoPlay label={fr.lessons.replay} />
         </div>
+        {index === 0 && <Mascot situation="LessonStart" title={lesson.title} size={96} />}
         <p className="lesson-slide-text">{slide.text}</p>
 
         <div className="lesson-stage">
@@ -172,5 +219,41 @@ function SlideView({ lesson, index, completed, onComplete, onPrevious, onNext, m
         </nav>
       </motion.section>
     </AnimatePresence>
+  );
+}
+
+type LessonSummaryProps = {
+  summary: SeriesSummary;
+  skillIds: string[];
+  practiceLabel(skillId: string): string;
+  onPractice(skillId: string): void;
+  onReview(): void;
+};
+
+/** The end of the lesson: the score of the quiz, the points, then « Je m'entraîne » — or, below half
+ * of right answers, « Revoir la leçon » first. */
+function LessonSummary({ summary, skillIds, practiceLabel, onPractice, onReview }: LessonSummaryProps) {
+  const review = summary.reviewLesson;
+  const reviewButton = <BigButton key="review" label={fr.lessons.again} icon={<BookIcon />} variant={review ? "primary" : "default"} autoFocus={review} onClick={onReview} />;
+  const practiceButtons = skillIds.map((skillId, i) => (
+    <BigButton
+      key={skillId}
+      label={practiceLabel(skillId)}
+      icon={<PencilIcon />}
+      variant={i === 0 && !review ? "primary" : "default"}
+      onClick={() => onPractice(skillId)}
+      autoFocus={i === 0 && !review}
+    />
+  ));
+  return (
+    <section className="summary lesson-summary">
+      <h2 className="title">{fr.lessons.finished}</h2>
+      <Mascot situation={summary.mascotSituation} />
+      <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
+      {summary.correctCount === summary.exerciseCount && <p className="summary-perfect">{fr.series.allRight}</p>}
+      <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
+      {review && <p className="notice">{fr.lessons.review}</p>}
+      <div className="lesson-summary-actions">{review ? [reviewButton, ...practiceButtons] : [...practiceButtons, reviewButton]}</div>
+    </section>
   );
 }

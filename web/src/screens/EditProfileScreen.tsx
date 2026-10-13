@@ -10,8 +10,8 @@ import { DiceIcon } from "../components/icons";
 import { fr } from "../i18n/fr";
 import { GRADES } from "./ProfilesScreen";
 
-/** Where the sheet was opened from, to go back there (`?retour=menu`, otherwise the profile choice). */
-const backPath = (from: string | null) => (from === "menu" ? "/menu" : "/");
+/** Where the sheet was opened from, to go back there (`?retour=menu`, `?retour=options`, otherwise the profile choice). */
+const backPath = (from: string | null) => (from === "menu" ? "/menu" : from === "options" ? "/options" : "/");
 
 /**
  * Profile sheet (SUB000115): change the name, the grade or the character of a profile. Points and

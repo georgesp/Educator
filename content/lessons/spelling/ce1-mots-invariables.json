@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-mots-invariables",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 5,
+  "skillIds": ["ce1-mots-invariables"],
+  "title": "Les mots invariables",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend des mots qui ne changent jamais.",
+      "speech": "Aujourd’hui, on apprend des mots un peu spéciaux : ils ne changent jamais ! Il faut bien les retenir.",
+      "animation": {"type": "titleCard", "title": "Les mots invariables", "subtitle": "Ils ne changent jamais"}
+    },
+    {
+      "title": "Des mots qui ne changent pas",
+      "text": "Certains mots ne changent jamais, ni au pluriel ni au féminin : ce sont des mots invariables. Jamais, souvent, demain…",
+      "speech": "Certains mots ne changent jamais : ni au pluriel, ni au féminin. On les appelle des mots invariables. Jamais, souvent, demain.",
+      "animation": {"type": "letterTiles", "word": "jamais", "tiles": ["j", "a", "m", "ai", "s"], "interactive": false}
+    },
+    {
+      "title": "La famille de tôt",
+      "text": "tôt, bientôt, aussitôt, plutôt finissent tous par tôt, avec un accent circonflexe et un t muet.",
+      "speech": "Je retiens les mots par familles. Tôt, bientôt, aussitôt, plutôt : ils finissent tous par tôt, avec un chapeau sur le o et un t muet.",
+      "animation": {"type": "letterTiles", "word": "bientôt", "tiles": ["bien", "tôt"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « plutôt ». Attention au chapeau !",
+      "speech": "À toi ! Écris le mot plutôt. Attention au petit chapeau sur le o !",
+      "animation": {"type": "letterTiles", "word": "plutôt", "tiles": ["p", "l", "u", "tôt"], "distractors": ["tot", "tau"]}
+    },
+    {
+      "title": "ant ou ent ?",
+      "text": "On ne peut pas l’entendre : je dois retenir si le mot finit par ant ou par ent.",
+      "speech": "À toi ! À l’oreille, ant et ent, c’est pareil. Il faut retenir comment s’écrit chaque mot. Range-les dans leur boîte.",
+      "animation": {"type": "soundSort", "groups": ["ant", "ent"], "words": [{"word": "avant", "group": "ant"}, {"word": "devant", "group": "ant"}, {"word": "pendant", "group": "ant"}, {"word": "maintenant", "group": "ant"}, {"word": "souvent", "group": "ent"}, {"word": "comment", "group": "ent"}, {"word": "lentement", "group": "ent"}]}
+    },
+    {
+      "title": "Une lettre muette",
+      "text": "Beaucoup de mots invariables ont une lettre muette à la fin : jamais, alors, partout.",
+      "speech": "À toi ! Beaucoup de mots invariables ont une lettre muette à la fin. Range chaque mot selon sa lettre muette : s ou t.",
+      "animation": {"type": "soundSort", "groups": ["s", "t"], "words": [{"word": "jamais", "group": "s"}, {"word": "puis", "group": "s"}, {"word": "alors", "group": "s"}, {"word": "vers", "group": "s"}, {"word": "tout", "group": "t"}, {"word": "partout", "group": "t"}, {"word": "bientôt", "group": "t"}]}
+    },
+    {
+      "title": "Ma méthode",
+      "text": "Je regarde le mot, je l’épelle, je le cache et je l’écris. Puis je vérifie. Longtemps !",
+      "speech": "Ma méthode : je regarde le mot, je l’épelle, je le cache, je l’écris, puis je vérifie. À toi : écris longtemps. Attention, il a trois lettres muettes !",
+      "animation": {"type": "letterTiles", "word": "longtemps", "tiles": ["l", "on", "g", "t", "em", "p", "s"], "distractors": ["an", "en"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « pourquoi ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot pourquoi. Le son ke s’écrit q, u. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "pourquoi", "tiles": ["p", "ou", "r", "qu", "oi"], "distractors": ["k", "c"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les mots invariables :",
+      "speech": "Je retiens : les mots invariables ne changent jamais. Je les apprends par cœur, par familles : tôt, bientôt, plutôt.",
+      "animation": {"type": "recapCard", "text": "Les mots invariables ne changent jamais. Je les apprends par cœur, en familles : tôt, bientôt, plutôt.", "example": "jamais · souvent · bientôt · longtemps"}
+    }
+  ],
+  "quiz": [
+    {"question": "Quel mot est bien écrit ?", "spoken": "À bientôt ! Choisis la bonne écriture du mot bientôt.", "answer": "bientôt", "choices": ["bientôt", "bientot", "biento"], "explanation": "Bientôt finit par tôt, avec un chapeau sur le o et un t muet."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot jamais. Je ne mens jamais.", "answer": "jamais", "explanation": "Jamais s’écrit j, a, m, a, i, s."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Je vais souvent au parc. Choisis la bonne écriture du mot souvent.", "answer": "souvent", "choices": ["souvent", "souvant", "souven"], "explanation": "Souvent finit par e, n, t."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Il a dormi longtemps. Choisis la bonne écriture du mot longtemps.", "answer": "longtemps", "choices": ["longtemps", "lontemps", "longtemp"], "explanation": "Longtemps a trois lettres muettes : g, p et s."},
+    {"question": "Un mot invariable change-t-il au pluriel ?", "spoken": "Un mot invariable change-t-il au pluriel ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : un mot invariable ne change jamais, ni au pluriel ni au féminin."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : mémoriser des listes de mots invariables, analogiques (tôt, aussitôt, plutôt) et thématiques",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Liste de fréquence lexicale (eduscol) — mots invariables fréquents",
+      "url": "https://eduscol.education.gouv.fr/6873/liste-de-frequence-lexicale"
+    }
+  ]
+}

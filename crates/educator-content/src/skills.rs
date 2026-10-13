@@ -3,6 +3,7 @@
 //! different exercises, formats of the family). An invalid file is skipped and reported.
 
 use crate::problems::{load_problems, template_works_at, ProblemBank, KINDS};
+use crate::words::{load_words, WordBank, CATEGORIES};
 use crate::{ContentProblem, Loaded};
 use educator_core::exercises::{distinct_count, ProblemSet};
 use educator_core::skills::{
@@ -10,6 +11,7 @@ use educator_core::skills::{
     SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture, Subject,
     TrivialCase, FIRST_PERIOD, LAST_PERIOD,
 };
+use educator_core::spelling::{WordFilter, WordSet};
 use educator_core::Grade;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
@@ -62,8 +64,13 @@ pub fn load_skills(skills_directory: &Path) -> Loaded<Vec<Skill>> {
             value: ProblemBank::default(),
             problems: Vec::new(),
         });
-    let mut loaded = load_skills_with(skills_directory, &bank.value);
+    let words = skills_directory.parent().map(load_words).unwrap_or(Loaded {
+        value: WordBank::default(),
+        problems: Vec::new(),
+    });
+    let mut loaded = load_skills_from(skills_directory, &bank.value, &words.value);
     let mut problems = bank.problems;
+    problems.extend(words.problems);
     problems.append(&mut loaded.problems);
     Loaded {
         value: loaded.value,
@@ -72,8 +79,18 @@ pub fn load_skills(skills_directory: &Path) -> Loaded<Vec<Skill>> {
 }
 
 /// Every `*.json` below `skills_directory`, in path order, the problem skills taking their
-/// templates from `bank`.
+/// templates from `bank` (no spelling words).
 pub fn load_skills_with(skills_directory: &Path, bank: &ProblemBank) -> Loaded<Vec<Skill>> {
+    load_skills_from(skills_directory, bank, &WordBank::default())
+}
+
+/// Every `*.json` below `skills_directory`, in path order, the problem skills taking their
+/// templates from `bank`, the spelling skills their words from `words`.
+pub fn load_skills_from(
+    skills_directory: &Path,
+    bank: &ProblemBank,
+    words: &WordBank,
+) -> Loaded<Vec<Skill>> {
     let mut skills: Vec<Skill> = Vec::new();
     let mut problems = Vec::new();
     if !skills_directory.is_dir() {
@@ -99,7 +116,7 @@ pub fn load_skills_with(skills_directory: &Path, bank: &ProblemBank) -> Loaded<V
         let stem = file.file_stem().map(|s| s.to_string_lossy().into_owned());
         let parsed = std::fs::read_to_string(&file)
             .map_err(|e| vec![e.to_string()])
-            .and_then(|json| parse_skill_with(&json, stem.as_deref(), bank));
+            .and_then(|json| parse_skill_in(&json, stem.as_deref(), bank, words));
         match parsed {
             Err(errors) => problems.extend(
                 errors
@@ -165,6 +182,20 @@ struct SkillFile {
     times_twenty_five: Option<Vec<i32>>,
     fractions: Option<FractionsFile>,
     problems: Option<ProblemsFile>,
+    words: Option<WordFilterFile>,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct WordFilterFile {
+    #[serde(default)]
+    grades: Vec<String>,
+    #[serde(default)]
+    sounds: Vec<String>,
+    #[serde(default)]
+    graphemes: Vec<String>,
+    #[serde(default)]
+    categories: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -221,6 +252,16 @@ pub fn parse_skill_with(
     json: &str,
     expected_id: Option<&str>,
     bank: &ProblemBank,
+) -> Result<Skill, Vec<String>> {
+    parse_skill_in(json, expected_id, bank, &WordBank::default())
+}
+
+/// [`parse_skill_with`], the spelling skills taking their words from `words`.
+pub fn parse_skill_in(
+    json: &str,
+    expected_id: Option<&str>,
+    bank: &ProblemBank,
+    words: &WordBank,
 ) -> Result<Skill, Vec<String>> {
     let file: SkillFile =
         serde_json::from_str(json).map_err(|e| vec![format!("Invalid JSON: {e}")])?;
@@ -403,8 +444,14 @@ pub fn parse_skill_with(
         }
     }
 
+    if let (Some(subject), Some(operation)) = (subject, operation) {
+        if (subject == Subject::Spelling) != (operation == SkillOperation::Spelling) {
+            errors.push("a spelling skill has the operation 'spelling', and only it.".to_owned());
+        }
+    }
+
     let params = operation
-        .map(|operation| family_params(operation, &file, &formats, bank, &mut errors))
+        .map(|operation| family_params(operation, &file, &formats, bank, words, &mut errors))
         .unwrap_or_default();
 
     if !errors.is_empty() {
@@ -460,7 +507,7 @@ pub fn parse_skill_with(
     Ok(skill)
 }
 
-const SUBJECTS: &[(&str, Subject)] = &[("math", Subject::Math)];
+const SUBJECTS: &[(&str, Subject)] = &[("math", Subject::Math), ("spelling", Subject::Spelling)];
 const GRADES: &[(&str, Grade)] = &[
     ("CP", Grade::CP),
     ("CE1", Grade::CE1),
@@ -477,26 +524,9 @@ const OPERATIONS: &[(&str, SkillOperation)] = &[
     ("doubleHalf", SkillOperation::DoubleHalf),
     ("fraction", SkillOperation::Fraction),
     ("problem", SkillOperation::Problem),
+    ("spelling", SkillOperation::Spelling),
 ];
-const FORMATS: &[(&str, ExerciseFormat)] = &[
-    ("result", ExerciseFormat::Result),
-    ("missingOperand", ExerciseFormat::MissingOperand),
-    ("phrase", ExerciseFormat::Phrase),
-    ("recompose", ExerciseFormat::Recompose),
-    ("decompose", ExerciseFormat::Decompose),
-    ("placeValue", ExerciseFormat::PlaceValue),
-    ("writeNumber", ExerciseFormat::WriteNumber),
-    ("readNumber", ExerciseFormat::ReadNumber),
-    ("compare", ExerciseFormat::Compare),
-    ("order", ExerciseFormat::Order),
-    ("frame", ExerciseFormat::Frame),
-    ("numberLinePoint", ExerciseFormat::NumberLinePoint),
-    ("yesNo", ExerciseFormat::YesNo),
-    ("multiChoice", ExerciseFormat::MultiChoice),
-    ("fractionPicture", ExerciseFormat::FractionPicture),
-    ("fractionWords", ExerciseFormat::FractionWords),
-    ("problem", ExerciseFormat::Problem),
-];
+const FORMATS: &[(&str, ExerciseFormat)] = &ExerciseFormat::NAMES;
 
 /// Formats each family can generate.
 fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
@@ -522,6 +552,7 @@ fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
         SkillOperation::DoubleHalf => &[F::Phrase, F::Result],
         SkillOperation::Fraction => &[F::FractionPicture, F::FractionWords, F::Compare, F::Result],
         SkillOperation::Problem => &[F::Problem],
+        SkillOperation::Spelling => &[F::Dictation, F::MissingLetters, F::ChooseSpelling],
     }
 }
 
@@ -534,6 +565,7 @@ fn family_params(
     file: &SkillFile,
     formats: &[ExerciseFormat],
     bank: &ProblemBank,
+    words: &WordBank,
     errors: &mut Vec<String>,
 ) -> SkillParams {
     let name = &file.operation;
@@ -578,6 +610,7 @@ fn family_params(
         "problems",
         &[SkillOperation::Problem],
     );
+    only_for(file.words.is_some(), "words", &[SkillOperation::Spelling]);
 
     let operand = |o: &OperandFile| OperandRule {
         min: o.min,
@@ -723,10 +756,69 @@ fn family_params(
                 });
             }
         },
+        SkillOperation::Spelling => match &file.words {
+            None => errors.push("words is required for spelling.".to_owned()),
+            Some(filter) => params.words = word_set(filter, formats, words, errors),
+        },
         _ => {}
     }
 
     params
+}
+
+/// Least number of words of a spelling skill (SUB001402).
+pub const MIN_SKILL_WORDS: usize = 30;
+
+/// The words of the bank selected by a spelling skill.
+fn word_set(
+    file: &WordFilterFile,
+    formats: &[ExerciseFormat],
+    bank: &WordBank,
+    errors: &mut Vec<String>,
+) -> Option<WordSet> {
+    let grades: Vec<Grade> = file
+        .grades
+        .iter()
+        .filter_map(|g| parse_enum(g, "words.grades", GRADES, errors))
+        .collect();
+    for sound in &file.sounds {
+        if !bank.sounds.iter().any(|s| &s.id == sound) {
+            errors.push(format!("words.sounds: '{sound}' is not in sounds.json."));
+        }
+    }
+    for category in &file.categories {
+        if !CATEGORIES.contains(&category.as_str()) {
+            errors.push(format!("words.categories: '{category}' is unknown."));
+        }
+    }
+    let worked = !file.sounds.is_empty() || !file.graphemes.is_empty();
+    if formats.contains(&ExerciseFormat::MissingLetters) && !worked {
+        errors.push(
+            "missingLetters needs words.sounds or words.graphemes (the letters to hide)."
+                .to_owned(),
+        );
+    }
+
+    let filter = WordFilter {
+        grades,
+        sounds: file.sounds.clone(),
+        graphemes: file.graphemes.clone(),
+        categories: file.categories.clone(),
+    };
+    let selected: Vec<_> = bank.words.iter().filter_map(|w| filter.select(w)).collect();
+    if selected.len() < MIN_SKILL_WORDS {
+        errors.push(format!(
+            "words: {} words in the bank match, at least {MIN_SKILL_WORDS} needed.",
+            selected.len()
+        ));
+        return None;
+    }
+
+    Some(WordSet {
+        words: selected,
+        sounds: bank.sounds.clone(),
+        bank: bank.sorted.clone(),
+    })
 }
 const ANSWER_MODES: &[(&str, AnswerMode)] = &[
     ("keyboard", AnswerMode::Keyboard),

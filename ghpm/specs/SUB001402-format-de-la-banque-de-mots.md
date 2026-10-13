@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001402 — Format de la banque de mots
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -43,6 +43,17 @@ Fichiers `content/words/*.json` validés par `content/schemas/word.schema.json` 
 
 ## Critères d'acceptation
 
-- [ ] Schéma documenté ; un mot invalide fait échouer le build.
-- [ ] `get_skills` pour l'orthographe (`subject: "spelling"`, `grade: "CP"`) fonctionne comme pour les maths.
-- [ ] Test : chaque compétence d'orthographe dispose d'au moins 30 mots.
+- [x] Schéma documenté ; un mot invalide fait échouer le build.
+- [x] `get_skills` pour l'orthographe (`subject: "spelling"`, `grade: "CP"`) fonctionne comme pour les maths.
+- [x] Test : chaque compétence d'orthographe dispose d'au moins 30 mots.
+
+## Implémentation (2026-10-14)
+
+- Mots regroupés par thème dans `content/words/*.json` (un tableau `words` par fichier), validés par
+  `content/schemas/words.schema.json` ; champ `example` (phrase courte) pour lever les homophones (SUB001404).
+- Sons et graphies dans `content/spelling/sounds.json` (`sounds.schema.json`) : graphies de chaque son et
+  confusions fréquentes, utilisées pour les propositions (SUB001407, SUB001408).
+- Compétences d'orthographe dans `content/skills/spelling/*.json` (`subject: "spelling"`, filtre sur la classe,
+  le son ou la graphie) ; `get_skills` les sert comme celles de maths.
+- Le chargement refuse un mot invalide (position de graphie fausse, son inconnu) : les tests échouent.
+- Test `every_spelling_skill_has_at_least_thirty_words` (`content_validation.rs`).

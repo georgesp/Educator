@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-son-e-er-ez",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 1,
+  "title": "Le son [é] : é, er, ez",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "é"
+    ],
+    "graphemes": [
+      "é",
+      "er",
+      "ez"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — « Tenir compte des accents » ; mémoriser les CGP des sons proches. Graphies er, ez : guide « Pour enseigner la lecture et l'écriture au CE1 » (eduscol), progression des graphèmes complexes. Période choisie par Educator."
+}

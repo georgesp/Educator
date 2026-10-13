@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-sub-from-tens",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "skillIds": ["cp-sub-from-tens"],
+  "title": "Enlever un petit nombre à une dizaine",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : enlever un petit nombre à 50, 30 ou 90.",
+      "speech": "Aujourd’hui, tu vas apprendre à enlever un petit nombre à une dizaine ronde, comme 50.",
+      "animation": { "type": "titleCard", "title": "Enlever à une dizaine", "subtitle": "Casser une barre" }
+    },
+    {
+      "title": "Pas de cubes",
+      "text": "50, c’est 5 barres et 0 cube. Pour enlever 6, il faut casser une barre.",
+      "speech": "50, c’est 5 barres et aucun cube. Pour enlever 6 cubes, il n’y en a pas ! Il va falloir casser une barre.",
+      "animation": { "type": "tensUnits", "value": 50 }
+    },
+    {
+      "title": "Ce qui reste",
+      "text": "On casse une barre en 10 cubes, on en enlève 6 : il reste 4 barres et 4 cubes, 44.",
+      "speech": "On casse une barre : elle devient 10 cubes. On enlève 6 cubes. Il reste 4 barres et 4 cubes : 44.",
+      "animation": { "type": "tensUnits", "value": 50, "remove": 6 }
+    },
+    {
+      "title": "L’astuce",
+      "text": "10 − 6 = 4 (amis de 10), donc 50 − 6 = 44.",
+      "speech": "L’astuce : 6 et 4 sont des amis de 10, donc 10 − 6 = 4. Pour 50 − 6, il reste 4 dizaines et 4 unités : 44.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 10, "steps": [-6] }, { "start": 50, "steps": [-6] }] }
+    },
+    {
+      "title": "Sur la piste",
+      "text": "La voiture part du drapeau du 50 et recule de 6 : 44.",
+      "speech": "Sur la piste, la voiture part du drapeau du 50 et recule de 6 : elle arrive sur 44.",
+      "animation": { "type": "numberLine", "from": 40, "to": 60, "step": 1, "start": 50, "jumps": [-6], "flags": [50] }
+    },
+    {
+      "title": "À toi !",
+      "text": "30 − 7 : casse une barre, puis enlève 7 cubes.",
+      "speech": "À toi ! Tu as 30. Enlève 7. Il n’y a pas de cube : casse d’abord une barre, puis enlève 7 cubes.",
+      "animation": { "type": "tensUnits", "value": 30, "remove": 7, "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "44 + 6 = 50 : on retrouve la dizaine.",
+      "speech": "Pour vérifier, je fais le chemin inverse : 44 + 6 = 50. On retrouve bien la dizaine !",
+      "animation": { "type": "equation", "left": 44, "operation": "add", "right": 6, "family": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "80 − … = 75 : quel nombre va dans la case ?",
+      "speech": "À toi ! 80 moins combien font 75 ? Choisis le nombre de la case.",
+      "animation": { "type": "equation", "left": 80, "operation": "subtract", "right": 5, "missing": "right", "interactive": true, "choices": [4, 5, 6] }
+    },
+    {
+      "title": "Course éclair",
+      "text": "40 − 3 = 37 ; 90 − 8 = 82 ; 20 − 9 = 11.",
+      "speech": "Course éclair ! 40 − 3 : 37. 90 − 8 : 82. 20 − 9 : 11.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 40, "steps": [-3] }, { "start": 90, "steps": [-8] }, { "start": 20, "steps": [-9] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Enlever à une dizaine :",
+      "speech": "Je retiens : pour enlever un petit nombre à une dizaine, je casse une barre. J’utilise les amis de 10 : 10 − 6 = 4, donc 50 − 6 = 44.",
+      "animation": { "type": "recapCard", "text": "Pour enlever un petit nombre à une dizaine, je casse une barre et j’utilise les amis de 10.", "example": "50 − 6 = 44, car 10 − 6 = 4" }
+    }
+  ],
+  "quiz": [
+    { "question": "70 − 4 = ?", "spoken": "Combien font 70 − 4 ?", "answer": 66, "explanation": "10 − 4 = 6 : il reste 6 dizaines et 6 unités, 66." },
+    { "question": "60 − 5 = ?", "spoken": "Combien font 60 − 5 ? Choisis la bonne réponse.", "answer": 55, "choices": [55, 56, 65], "explanation": "10 − 5 = 5 : il reste 5 dizaines et 5 unités, 55." },
+    { "question": "60 − … = 52", "spoken": "60 moins combien font 52 ?", "answer": 8, "explanation": "De 52 à 60, il faut 8 : 60 − 8 = 52." },
+    { "question": "30 − 8 = ?", "spoken": "Combien font 30 − 8 ?", "answer": 22, "explanation": "10 − 8 = 2 : il reste 2 dizaines et 2 unités, 22." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : soustraire un nombre à un chiffre d'une dizaine entière (compléments à 10)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

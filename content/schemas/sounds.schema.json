@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sounds.schema.json",
+  "title": "Sons et graphies Educator",
+  "description": "Les sons travaillés en orthographe et leurs graphies concurrentes (SUB001407, SUB001408) : propositions des mots à trous et écritures fausses de « Choisis la bonne écriture ».",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sounds"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "sounds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "spoken",
+          "graphemes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zàâéèêëîïôöùûüç]+$",
+            "description": "Identifiant court (« o », « an », « muet », « pluriel »)."
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Écrit : « [o] »."
+          },
+          "spoken": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Lu : « le son o »."
+          },
+          "graphemes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Graphies concurrentes du son (« o », « au », « eau »)."
+          },
+          "confusions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Graphies souvent confondues, proposées quand le son a moins de 3 graphies. Il faut au moins 3 propositions en tout, sauf pour « muet » et « pluriel », où l'absence de lettre en est une."
+          }
+        }
+      }
+    }
+  }
+}

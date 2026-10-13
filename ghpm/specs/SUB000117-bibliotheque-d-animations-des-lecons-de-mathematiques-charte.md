@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACXzI
-rev: 2026-10-12T19:49:07Z
+rev: 2026-10-13T18:57:25Z
 url: https://github.com/georgesp/Educator/issues/85
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000117 — Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix)
-status: Todo
+status: In Review
 size: L
 estimate:
 startDate:
@@ -60,9 +60,9 @@ trois-là sont reprises ici avec le style Grand Prix ; `letterTiles` et `soundSo
 | `numberLine` | Piste graduée : la voiture fait des bonds (avant, arrière, écart), drapeaux sur les repères | `from`, `to`, `step`, `jumps`, `marks`, `decimals`, `fractions` |
 | `tensUnits` | Cubes, barres de dix, plaques de cent, blocs de mille ; échanges (casser une dizaine, 10 → 1) | `value`, `actions` |
 | `placeValueTable` | Tableau de numération (classes et rangs, partie décimale) ; chiffres qui glissent (× 10, ÷ 10) | `value`, `classes`, `shift` |
-| `columnOperation` | Opération posée pas à pas (+, −, ×, ÷) : alignement, retenues en rouge, résultat ; soustraction selon les deux techniques (`cassage` : on barre et on casse une dizaine ; `compensation` : on ajoute 10 unités en haut et 1 dizaine en bas) | `operation`, `operands`, `steps`, `method` (`cassage`, `compensation`) |
+| `columnOperation` | Opération posée pas à pas (+, − ; × et ÷ à ajouter avec les leçons qui les posent) : alignement, retenues en rouge, résultat ; soustraction selon les deux techniques (`cassage` : on barre et on casse une dizaine ou une centaine ; `compensation` : on ajoute 10 unités en haut et 1 dizaine en bas), ou les deux côte à côte (`both`) ; l'enfant peut écrire le résultat chiffre par chiffre | `operation` (`add`, `subtract`), `operands` (2 ou 3 nombres, au plus 9 999), `method` (`cassage`, `compensation`, `both`), `computedColumns` (colonnes déjà calculées sur la slide, 0 = seulement posée), `interactive` |
 | `calcChain` | Calcul mental en chaîne de flèches (47 → +3 → 50 → +5 → 55) | `start`, `steps` |
-| `equation` | Égalité qui se construit, case à trou, famille de nombres (triangle +/−, ×/÷) | `terms`, `missing`, `family` |
+| `equation` | Égalité qui se construit, case à trou, famille de nombres (a + b = c, b + a = c, c − a = b, c − b = a) ; l'enfant peut choisir le nombre de la case | `left`, `operation` (`add`, `subtract`), `right`, `missing` (`left`, `right`, `result`), `family`, `interactive`, `choices` |
 | `compareNumbers` | Deux nombres face à face, comparaison rang par rang, apparition de `<`, `>` ou `=` | `a`, `b`, `highlightRank` |
 | `arrayGrid` | « Grille de départ » : voitures en rangées × colonnes ; découpage pour la distributivité | `rows`, `cols`, `split` |
 | `timesTable` | Table (addition ou multiplication) dont les cases s'allument, motifs, symétrie | `operation`, `table`, `highlight` |
@@ -70,6 +70,14 @@ trois-là sont reprises ici avec le style Grand Prix ; `letterTiles` et `soundSo
 | `barModel` | Schéma en barres pour les problèmes (tout / parties, comparaison, fois plus) | `kind`, `values`, `unknown` |
 | `proportionTable` | Tableau de proportionnalité avec flèches × k et + entre colonnes | `rows`, `arrows` |
 | `sequencePattern` | Suites de nombres ou de motifs (compter de 2 en 2, de 10 en 10, à rebours) | `start`, `step`, `count`, `hidden` |
+
+Avancement (2026-10-13) : les 16 animations utilisées par les leçons du CP et du CE1 existent (`titleCard`, `recapCard`,
+`calcChain` — modes `show`, `match` et `pick`, `numberLine` — avec drapeaux, `tensUnits` — ajout, retrait, partage et
+manipulation, `columnOperation`, `equation` — dont ×, `compareNumbers`, `sequencePattern`, `arrayGrid`, `timesTable`,
+`placeValueTable`, `groupObjects`, `tenFrame`, `fractionBar`, `barModel`). `proportionTable` viendra avec les leçons du
+CM (lots 5 et 6). Les valeurs affichées (chiffres, retenues, cassage, compensation, familles, blocs à chaque étape,
+cases des tables, parts, schémas) sont calculées par `educator-core::lessons`, jamais par le front. Paramètres et
+comportements : `docs/specs/animations-lecons.md` ; démonstrations : page `#/dev/composants`, section Leçons.
 
 Le type d'animation et ses paramètres sont validés par `lesson.schema.json` : une leçon qui cite une animation inconnue
 ou des paramètres invalides fait échouer les tests, jamais l'application devant l'enfant.
@@ -81,8 +89,8 @@ ou des paramètres invalides fait échouer les tests, jamais l'application devan
 - [ ] Couleurs et polices exclusivement par variables CSS du thème ; relecture visuelle par Georges des 17 animations
       côte à côte avec l'écran de série (même univers).
 - [ ] Contraste WCAG AA sur tous les textes et nombres ; `prefers-reduced-motion` respecté.
-- [ ] Tests Vitest des animations interactives (glisser-déposer, clic, retour en cas d'erreur).
-- [ ] Paramètres décrits dans `lesson.schema.json` et documentés dans `docs/specs/animations-lecons.md`.
+- [x] Tests Vitest des animations interactives (glisser-déposer, clic, retour en cas d'erreur).
+- [x] Paramètres décrits dans `lesson.schema.json` et documentés dans `docs/specs/animations-lecons.md`.
 
 ## Dépendances
 

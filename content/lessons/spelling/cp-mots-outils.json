@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-mots-outils",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-mots-outils"],
+  "title": "Les petits mots à connaître",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à bien écrire les petits mots qu’on rencontre partout.",
+      "speech": "Aujourd’hui, on apprend à bien écrire les petits mots. On les rencontre dans presque toutes les phrases !",
+      "animation": {"type": "titleCard", "title": "Les petits mots", "subtitle": "Je les regarde, je les retiens"}
+    },
+    {
+      "title": "Des mots partout",
+      "text": "Les petits mots sont dans presque toutes les phrases : le, la, un, et, dans, avec…",
+      "speech": "Le, la, un, et, dans, avec : ces petits mots sont partout ! Il faut savoir les écrire sans hésiter.",
+      "animation": {"type": "letterTiles", "word": "dans", "tiles": ["d", "an", "s"], "interactive": false}
+    },
+    {
+      "title": "Ma méthode",
+      "text": "Je regarde le mot. Je l’épelle : a, v, e, c. Je le cache et je l’écris. Je vérifie !",
+      "speech": "Voici ma méthode. Je regarde bien le mot. Je l’épelle : a, v, e, c. Je le cache, je l’écris, puis je vérifie !",
+      "animation": {"type": "letterTiles", "word": "avec", "tiles": ["a", "v", "e", "c"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « avec » : a, v, e, c. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot avec, sans regarder le modèle. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "avec", "tiles": ["a", "v", "e", "c"], "distractors": ["k", "é"]}
+    },
+    {
+      "title": "Les lettres muettes",
+      "text": "Beaucoup de petits mots ont une lettre muette à la fin : dans, nous, tout. Range-les !",
+      "speech": "Beaucoup de petits mots ont une lettre muette à la fin. À toi ! Range chaque mot selon sa lettre muette : s ou t.",
+      "animation": {"type": "soundSort", "groups": ["s", "t"], "words": [{"word": "dans", "group": "s"}, {"word": "sous", "group": "s"}, {"word": "nous", "group": "s"}, {"word": "vous", "group": "s"}, {"word": "mais", "group": "s"}, {"word": "tout", "group": "t"}, {"word": "ont", "group": "t"}, {"word": "sont", "group": "t"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « comme ». Attention : il y a deux m !",
+      "speech": "À toi ! Écris le mot comme. Attention, il y a deux m collés !",
+      "animation": {"type": "letterTiles", "word": "comme", "tiles": ["c", "o", "mm", "e"], "distractors": ["m", "n"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « beaucoup ». Il est difficile : regarde-le bien avant !",
+      "speech": "À toi ! Écris le mot beaucoup. Il est difficile : le son o s’écrit e, a, u, et il y a un p muet à la fin.",
+      "animation": {"type": "letterTiles", "word": "beaucoup", "tiles": ["b", "eau", "c", "ou", "p"], "distractors": ["o", "k"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les petits mots :",
+      "speech": "Je retiens : pour bien écrire un petit mot, je le regarde, je l’épelle, je le cache, je l’écris, puis je vérifie.",
+      "animation": {"type": "recapCard", "text": "Je regarde le petit mot, je l’épelle, je le cache, je l’écris, je vérifie.", "example": "dans · avec · comme · beaucoup"}
+    }
+  ],
+  "quiz": [
+    {"question": "Quel mot est bien écrit ?", "spoken": "Je joue avec toi. Choisis la bonne écriture du mot avec.", "answer": "avec", "choices": ["avec", "avek", "avèc"], "explanation": "Avec s’écrit a, v, e, c."},
+    {"question": "Écoute le petit mot, puis écris-le.", "spoken": "Écris le petit mot dans. Le chat est dans la maison.", "answer": "dans", "explanation": "Dans s’écrit d, a, n, s : le s ne s’entend pas."},
+    {"question": "Il manque une lettre muette : nou…", "spoken": "Nous. Quelle lettre muette faut-il écrire à la fin de nous ?", "answer": "s", "choices": ["s", "t", "x"], "explanation": "Nous s’écrit n, o, u, s."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Comme. Choisis la bonne écriture du mot comme.", "answer": "comme", "choices": ["come", "comme", "kome"], "explanation": "Comme s’écrit avec deux m."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : mémoriser les mots fréquents et réguliers ; mémoriser l’orthographe lexicale",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Liste de fréquence lexicale (eduscol) — mots-outils les plus fréquents de l’écrit",
+      "url": "https://eduscol.education.gouv.fr/6873/liste-de-frequence-lexicale"
+    }
+  ]
+}

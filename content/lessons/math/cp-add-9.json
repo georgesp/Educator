@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-9",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-add-9"],
+  "title": "Ajouter 9",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, une astuce de pilote pour ajouter 9 très vite.",
+      "speech": "Aujourd’hui, tu vas apprendre une astuce de pilote pour ajouter 9 très vite.",
+      "animation": { "type": "titleCard", "title": "Ajouter 9", "subtitle": "J’ajoute 10, puis j’enlève 1" }
+    },
+    {
+      "title": "9, presque 10",
+      "text": "9 cubes : il manque 1 cube pour faire une barre de dix. 9 = 10 − 1.",
+      "speech": "Regarde ces 9 cubes. Il manque seulement 1 cube pour faire une barre de dix. 9, c’est presque 10 : 9 = 10 − 1.",
+      "animation": { "type": "tensUnits", "value": 9, "completeTen": true }
+    },
+    {
+      "title": "L’astuce",
+      "text": "37 + 9 : j’ajoute 10, 47. Puis j’enlève 1 : 46.",
+      "speech": "Pour calculer 37 + 9, j’ajoute 10 : 47. Mais j’ai ajouté 1 de trop ! Alors j’enlève 1 : 46. Donc 37 + 9 = 46.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 37, "steps": [10, -1] }] }
+    },
+    {
+      "title": "Sur la piste",
+      "text": "Un grand bond de 10, puis un petit pas en arrière.",
+      "speech": "Sur la piste, la voiture fait un grand bond de 10 : de 37 à 47. Puis un petit pas en arrière : 46.",
+      "animation": { "type": "numberLine", "from": 30, "to": 50, "step": 1, "start": 37, "jumps": [10, -1] }
+    },
+    {
+      "title": "Pourquoi ça marche",
+      "text": "Après + 10 : 47, une barre de plus. Puis on rend un cube : 46.",
+      "speech": "Pourquoi ça marche ? Ajouter 10, c’est ajouter une barre entière : 47. Comme on voulait ajouter 9, on rend un cube. Il reste 46.",
+      "animation": { "type": "tensUnits", "value": 47, "remove": 1 }
+    },
+    {
+      "title": "À toi !",
+      "text": "24 + 9 : clique où arrive la voiture après + 10, puis après − 1.",
+      "speech": "À toi ! Calcule 24 + 9. D’abord, la voiture avance de 10. Ensuite, elle recule de 1. Clique où elle arrive à chaque fois.",
+      "animation": { "type": "numberLine", "from": 20, "to": 40, "step": 1, "start": 24, "jumps": [10, -1], "interactive": true }
+    },
+    {
+      "title": "Attention",
+      "text": "58 + 9 : + 10 → 68, − 1 → 67. Et non 69 : on enlève 1, on n’ajoute pas !",
+      "speech": "Attention au piège ! 58 + 9 : j’ajoute 10, 68. Puis j’enlève 1 : 67. Si j’ajoute 1 au lieu de l’enlever, je trouve 69 : c’est faux !",
+      "animation": { "type": "calcChain", "chains": [{ "start": 58, "steps": [10, -1] }, { "start": 58, "steps": [10, 1], "crossed": true }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "42 + 9 : quel chemin donne le bon résultat ?",
+      "speech": "À toi ! Pour calculer 42 + 9, quel est le bon chemin ? Clique dessus.",
+      "animation": { "type": "calcChain", "mode": "pick", "chains": [{ "start": 42, "steps": [10, 1], "crossed": true }, { "start": 42, "steps": [10, -1] }, { "start": 42, "steps": [9, -1], "crossed": true }] }
+    },
+    {
+      "title": "Course éclair",
+      "text": "15 + 9, 26 + 9, 63 + 9 : j’ajoute 10, puis j’enlève 1.",
+      "speech": "Course éclair ! 15 + 9 : 25, puis 24. 26 + 9 : 36, puis 35. 63 + 9 : 73, puis 72.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 15, "steps": [10, -1] }, { "start": 26, "steps": [10, -1] }, { "start": 63, "steps": [10, -1] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Ajouter 9 :",
+      "speech": "Je retiens : pour ajouter 9, j’ajoute 10, puis j’enlève 1.",
+      "animation": { "type": "recapCard", "text": "Pour ajouter 9, j’ajoute 10 puis j’enlève 1.", "example": "37 + 9 = 47 − 1 = 46" }
+    }
+  ],
+  "quiz": [
+    { "question": "35 + 9 = ?", "spoken": "Combien font 35 + 9 ?", "answer": 44, "explanation": "35 + 10 = 45, puis j’enlève 1 : 44." },
+    { "question": "53 + 9 = ?", "spoken": "Combien font 53 + 9 ? Choisis la bonne réponse.", "answer": 62, "choices": [61, 62, 63], "explanation": "53 + 10 = 63, puis j’enlève 1 : 62." },
+    { "question": "66 + 9 = ?", "spoken": "Combien font 66 + 9 ?", "answer": 75, "explanation": "66 + 10 = 76, puis j’enlève 1 : 75." },
+    { "question": "9 + 27 = ?", "spoken": "Combien font 9 + 27 ?", "answer": 36, "explanation": "9 + 27, c’est 27 + 9 : 27 + 10 = 37, puis j’enlève 1 : 36." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul mental : ajouter 9 (ajouter 10 puis retrancher 1)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

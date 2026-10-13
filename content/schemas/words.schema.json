@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "words.schema.json",
+  "title": "Banque de mots Educator",
+  "description": "Mots des compétences d'orthographe (SUB001402), regroupés par son ou par thème. Un mot n'apparaît qu'une fois dans toute la banque. L'audio pré-généré (SUB001404) est nommé d'après le mot (scripts/generate-word-audio.sh).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "words"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "words": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/word"
+      }
+    }
+  },
+  "$defs": {
+    "word": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "word",
+        "grades",
+        "sounds",
+        "graphemes",
+        "frequency",
+        "category",
+        "source"
+      ],
+      "properties": {
+        "word": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S+( \\S+)*$",
+          "description": "Le mot en minuscules, orthographe traditionnelle, Unicode NFC (« bateau », « des chats »)."
+        },
+        "grades": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CP",
+              "CE1",
+              "CE2",
+              "CM1",
+              "CM2"
+            ]
+          },
+          "description": "Classes où le mot est adapté."
+        },
+        "sounds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Sons travaillés dans le mot (identifiants de content/spelling/sounds.json) : ceux de ses graphies."
+        },
+        "graphemes": {
+          "type": "array",
+          "description": "Graphies travaillées dans le mot, celles qu'un mot à trous peut masquer.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "sound",
+              "position"
+            ],
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "description": "La graphie (« eau »), une des graphies du son."
+              },
+              "sound": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Le son (« o »), ou « muet » pour une lettre muette, « pluriel » pour la marque du pluriel."
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Indice de la première lettre de la graphie dans le mot, à partir de 0 (« eau » dans « bateau » : 3)."
+              }
+            }
+          }
+        },
+        "frequency": {
+          "enum": [
+            1,
+            2,
+            3
+          ],
+          "description": "1 très fréquent, 2 fréquent, 3 moins fréquent."
+        },
+        "category": {
+          "enum": [
+            "nom",
+            "verbe",
+            "adjectif",
+            "adverbe",
+            "mot-outil",
+            "groupe-nominal"
+          ]
+        },
+        "example": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Phrase courte contenant le mot, lue après lui pour lever les ambiguïtés (« vert », « verre », « ver »)."
+        },
+        "audio": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+\\.wav$",
+          "description": "Nom du fichier audio pré-généré ; calculé d'après le mot quand il est absent."
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "D'où vient le mot (liste de fréquence lexicale d'eduscol, vocabulaire courant)."
+        }
+      }
+    }
+  }
+}

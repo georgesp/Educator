@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-sub-1-2",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-add-sub-1-2"],
+  "title": "Ajouter ou enlever 1 ou 2",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, la voiture avance et recule de 1 ou de 2 cases.",
+      "speech": "Aujourd’hui, tu vas faire avancer et reculer la voiture sur la piste, d’une case ou de deux cases.",
+      "animation": { "type": "titleCard", "title": "Ajouter ou enlever 1 ou 2", "subtitle": "Le nombre d’après, le nombre d’avant" }
+    },
+    {
+      "title": "Le nombre d’après",
+      "text": "La voiture est sur 8. + 1 : elle avance d’une case, sur 9. 9 est le nombre suivant.",
+      "speech": "La voiture est sur la case 8. On ajoute 1 : elle avance d’une case. Elle arrive sur 9. 9, c’est le nombre qui suit 8.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 8, "jumps": [1] }
+    },
+    {
+      "title": "Deux bonds",
+      "text": "8 + 2 : deux bonds, 9 puis 10.",
+      "speech": "Et pour ajouter 2 ? La voiture fait deux bonds : 9, puis 10. Donc 8 + 2 = 10.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 8, "jumps": [1, 1] }
+    },
+    {
+      "title": "Le nombre d’avant",
+      "text": "11 − 1 : la voiture recule d’une case, sur 10. 10 est le nombre précédent.",
+      "speech": "Maintenant, la voiture est sur 11. On enlève 1 : elle recule d’une case. Elle arrive sur 10. 10, c’est le nombre qui est juste avant 11.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 11, "jumps": [-1] }
+    },
+    {
+      "title": "Reculer de 2",
+      "text": "11 − 2 : deux pas en arrière, 10 puis 9.",
+      "speech": "Pour enlever 2, la voiture recule deux fois : 10, puis 9. Donc 11 − 2 = 9.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 11, "jumps": [-1, -1] }
+    },
+    {
+      "title": "À toi !",
+      "text": "6 + 2 : clique sur la case où arrive la voiture après chaque bond.",
+      "speech": "À toi ! Calcule 6 + 2. Clique sur la case où arrive la voiture après le premier bond, puis après le deuxième.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 6, "jumps": [1, 1], "interactive": true }
+    },
+    {
+      "title": "Avec des objets",
+      "text": "7 casques, on en retire 2 : il en reste 5.",
+      "speech": "Avec des casques, c’est pareil. Il y a 7 casques. On en retire 2. Il en reste 5. 7 − 2 = 5.",
+      "animation": { "type": "groupObjects", "mode": "remove", "object": "helmet", "total": 7, "removed": 2 }
+    },
+    {
+      "title": "Compter à rebours",
+      "text": "On compte à l’envers : 14, 13, … Quel nombre se cache ?",
+      "speech": "On peut compter en avançant, mais aussi à l’envers, à rebours : 14, 13, puis un nombre se cache, puis 11, 10, 9. Quel est le nombre caché ?",
+      "animation": { "type": "sequencePattern", "start": 14, "step": -1, "count": 6, "hidden": [2] }
+    },
+    {
+      "title": "À toi !",
+      "text": "13 − 2 : clique sur la case où arrive la voiture après chaque pas en arrière.",
+      "speech": "À toi ! Calcule 13 − 2. La voiture recule. Clique sur la case où elle arrive après chaque pas.",
+      "animation": { "type": "numberLine", "from": 0, "to": 14, "step": 1, "start": 13, "jumps": [-1, -1], "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "1 ou 2 :",
+      "speech": "Je retiens : ajouter 1, c’est le nombre d’après. Enlever 1, c’est le nombre d’avant. Pour 2, je fais deux pas.",
+      "animation": { "type": "recapCard", "text": "Ajouter 1, c’est le nombre d’après. Enlever 1, c’est le nombre d’avant. Pour 2, je fais deux pas.", "example": "8 + 2 = 10" }
+    }
+  ],
+  "quiz": [
+    { "question": "9 + 1 = ?", "spoken": "Combien font 9 + 1 ?", "answer": 10, "explanation": "Le nombre qui vient juste après 9, c’est 10." },
+    { "question": "13 − 2 = ?", "spoken": "Combien font 13 − 2 ? Choisis la bonne réponse.", "answer": 11, "choices": [10, 11, 12], "explanation": "Deux pas en arrière depuis 13 : 12, puis 11." },
+    { "question": "10 + 2 = ?", "spoken": "Combien font 10 + 2 ?", "answer": 12, "explanation": "Deux bonds depuis 10 : 11, puis 12." },
+    { "question": "Le nombre juste avant 7 ?", "spoken": "Quel est le nombre juste avant 7 ?", "answer": 6, "explanation": "Je recule d’une case depuis 7 : 6. C’est 7 − 1." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, nombres et calcul : nombre suivant et précédent, ajouter ou retrancher 1 ou 2",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

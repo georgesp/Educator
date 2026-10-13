@@ -43,6 +43,12 @@ fn number_to_words_cases() {
 fn normalize_cases() {
     let cases = [
         ("7 + 5", "sept plus cinq"),
+        ("Jusqu'à 1 000.", "Jusqu'à mille."),
+        (
+            "12\u{a0}500 et 3\u{202f}000",
+            "douze mille cinq cents et trois mille",
+        ),
+        ("De 300 à 400", "De trois cents à quatre cents"),
         ("7 + 5 = 12", "sept plus cinq égale douze"),
         ("12 − 5 = 7", "douze moins cinq égale sept"),
         ("12 - 5", "douze moins cinq"),

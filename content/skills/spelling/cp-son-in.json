@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-son-in",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 4,
+  "title": "Le son [in]",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "sounds": [
+      "in"
+    ],
+    "graphemes": [
+      "in"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — Vocabulaire, « Mémoriser l'orthographe lexicale » : graphies in/im ; 25 à 30 CGP en milieu d'année. Période choisie par Educator."
+}

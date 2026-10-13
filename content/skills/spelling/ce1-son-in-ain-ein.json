@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-son-in-ain-ein",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 2,
+  "title": "Le son [in] : in, ain, ein",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "in"
+    ],
+    "graphemes": [
+      "in",
+      "ain",
+      "ein"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — décoder et mémoriser toutes les CGP, y compris les plus complexes. Ligne « ain, ein » du guide « Pour enseigner la lecture et l'écriture au CE1 » (eduscol), progression des graphèmes complexes. Période choisie par Educator."
+}

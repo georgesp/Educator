@@ -1,0 +1,89 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-g-gu-ge",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 3,
+  "skillIds": ["ce1-g-gu-ge"],
+  "title": "Les lettres g, gu et ge",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend comment la lettre g change de son, et comment l’aider.",
+      "speech": "Aujourd’hui, on découvre une lettre qui change de son : la lettre g. Écoute : une gare, une page. On apprend aussi à l’aider avec gu et ge !",
+      "animation": {"type": "titleCard", "title": "Les lettres g, gu, ge", "subtitle": "g dur ou g doux ?"}
+    },
+    {
+      "title": "g devant a, o, u",
+      "text": "Devant a, o, u, la lettre g se lit [g] : une gare, une gomme, un légume.",
+      "speech": "Devant les lettres a, o et u, la lettre g fait le son gue. Une gare, une gomme, un légume.",
+      "animation": {"type": "letterTiles", "word": "gomme", "tiles": ["g", "o", "mm", "e"], "interactive": false}
+    },
+    {
+      "title": "g devant e, i, y",
+      "text": "Devant e, i, y, la lettre g se lit [j] : une page, la magie, la gymnastique.",
+      "speech": "Devant les lettres e, i et y, la lettre g fait le son je. Une page, la magie, la gymnastique.",
+      "animation": {"type": "letterTiles", "word": "magie", "tiles": ["m", "a", "g", "i", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Quelle lettre suit le g ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Regarde la lettre qui suit le g, et range chaque mot. Avec ga et go, on entend gue. Avec ge et gi, on entend je.",
+      "animation": {"type": "soundSort", "groups": ["ga", "go", "ge", "gi"], "words": [{"word": "gare", "group": "ga"}, {"word": "galette", "group": "ga"}, {"word": "gomme", "group": "go"}, {"word": "gorille", "group": "go"}, {"word": "page", "group": "ge"}, {"word": "cage", "group": "ge"}, {"word": "magie", "group": "gi"}, {"word": "girafe", "group": "gi"}]}
+    },
+    {
+      "title": "Pour garder [g] : gu",
+      "text": "Devant e ou i, pour entendre [g], j’ajoute un u : une bague, une guitare. Le u ne se lit pas !",
+      "speech": "Et si je veux entendre gue devant un e ou un i ? J’ajoute un u après le g : une bague, une guitare. Ce u ne se lit pas !",
+      "animation": {"type": "letterTiles", "word": "bague", "tiles": ["b", "a", "gu", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « guitare ». Pense au u qui aide le g !",
+      "speech": "À toi ! Écris le mot guitare. Pense au u qui aide le g à garder le son gue !",
+      "animation": {"type": "letterTiles", "word": "guitare", "tiles": ["gu", "i", "t", "a", "r", "e"], "distractors": ["g", "j"]}
+    },
+    {
+      "title": "Pour garder [j] : ge",
+      "text": "Devant a ou o, pour entendre [j], j’ajoute un e : un pigeon, nous mangeons. Le e ne se lit pas !",
+      "speech": "Et pour entendre je devant un a ou un o ? J’ajoute un e après le g : un pigeon, nous mangeons. Ce e ne se lit pas !",
+      "animation": {"type": "letterTiles", "word": "pigeon", "tiles": ["p", "i", "ge", "on"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "gu ou ge ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Dans chaque mot, le g est aidé par un u ou par un e. Range le mot dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["gu", "ge"], "words": [{"word": "bague", "group": "gu"}, {"word": "figue", "group": "gu"}, {"word": "langue", "group": "gu"}, {"word": "guidon", "group": "gu"}, {"word": "pigeon", "group": "ge"}, {"word": "nageoire", "group": "ge"}, {"word": "bourgeon", "group": "ge"}, {"word": "plongeon", "group": "ge"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « nageoire ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot nageoire. Pour entendre je devant oi, que faut-il ajouter au g ?",
+      "animation": {"type": "letterTiles", "word": "nageoire", "tiles": ["n", "a", "ge", "oi", "r", "e"], "distractors": ["g", "gu"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "La lettre g :",
+      "speech": "Je retiens : devant a, o, u, le g fait gue. Devant e, i, y, il fait je. Pour gue devant e, i, j’écris g, u. Pour je devant a, o, j’écris g, e.",
+      "animation": {"type": "recapCard", "text": "g + a, o, u = [g] ; g + e, i, y = [j]. Pour [g] devant e, i : gu (une bague). Pour [j] devant a, o : ge (un pigeon).", "example": "gare · page · bague · pigeon"}
+    }
+  ],
+  "quiz": [
+    {"question": "Une ba…e : quelle écriture ?", "spoken": "Une bague. Quelles lettres manquent dans le mot bague ?", "answer": "gu", "choices": ["g", "gu", "ge"], "explanation": "Bague : devant le e, on écrit g, u pour entendre gue."},
+    {"question": "Un pi…on : quelle écriture ?", "spoken": "Un pigeon. Quelles lettres manquent dans le mot pigeon ?", "answer": "ge", "choices": ["g", "gu", "ge"], "explanation": "Pigeon : devant le o, on écrit g, e pour entendre je."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot gare. Le train arrive à la gare.", "answer": "gare", "explanation": "Gare : devant le a, la lettre g fait gue."},
+    {"question": "Dans « magie », entends-tu [g] ?", "spoken": "La magie. Entends-tu le son gue, comme dans gare, dans le mot magie ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : devant le i, la lettre g fait je. Ma, gie."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Le guidon du vélo. Choisis la bonne écriture du mot guidon.", "answer": "guidon", "choices": ["guidon", "gidon", "jidon"], "explanation": "Guidon : devant le i, on écrit g, u pour entendre gue."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : valeur des lettres c, g, s selon leur position ; classer les mots fréquents avec g",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : j, g ; g, gu",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

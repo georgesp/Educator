@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-multiplier-en-decomposant",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 5,
+  "skillIds": ["ce1-mul-distributive"],
+  "title": "Multiplier en décomposant",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, une astuce de pilote pour calculer 13 × 7 sans compter les voitures une par une.",
+      "speech": "Aujourd’hui, tu vas apprendre une astuce de pilote pour multiplier un nombre comme 13, sans compter les voitures une par une.",
+      "animation": { "type": "titleCard", "title": "Multiplier en décomposant", "subtitle": "Couper pour calculer plus vite" }
+    },
+    {
+      "title": "Une grande grille",
+      "text": "13 rangées de 7 voitures : 13 × 7. C’est trop long à compter une par une !",
+      "speech": "Voici une grande grille : 13 rangées de 7 voitures. Pour savoir combien il y en a, il faut calculer 13 × 7. Compter une par une, ce serait bien trop long !",
+      "animation": { "type": "arrayGrid", "rows": 13, "cols": 7 }
+    },
+    {
+      "title": "Couper",
+      "text": "On coupe la grille après 10 rangées : 10 rangées de 7, puis 3 rangées de 7.",
+      "speech": "L’astuce : on coupe la grille en deux. En haut, 10 rangées de 7. En bas, 3 rangées de 7. 13, c’est 10 + 3.",
+      "animation": { "type": "arrayGrid", "rows": 13, "cols": 7, "split": 10 }
+    },
+    {
+      "title": "Deux petits calculs",
+      "text": "En haut, 10 × 7 = 70 : 7 dizaines. En bas, le calcul à faire : 3 × 7 = 21.",
+      "speech": "Maintenant, deux petits calculs faciles. 10 rangées de 7, c’est 7 dizaines : 70. Et 3 rangées de 7 : 7 + 7 + 7 = 21.",
+      "animation": { "type": "equation", "left": 3, "operation": "multiply", "right": 7 }
+    },
+    {
+      "title": "Ajouter",
+      "text": "70 + 21 = 91. Donc 13 × 7 = 91.",
+      "speech": "Il ne reste plus qu’à ajouter les deux morceaux : 70 + 21 = 91. Donc 13 × 7 = 91.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 70, "steps": [21] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "16 rangées de 4 voitures. Clique pour couper la grille après 10 rangées.",
+      "speech": "À toi ! Voici 16 rangées de 4 voitures. Coupe la grille pour avoir 10 rangées en haut. Clique entre deux rangées.",
+      "animation": { "type": "arrayGrid", "rows": 16, "cols": 4, "split": 10, "interactive": true }
+    },
+    {
+      "title": "Autre exemple",
+      "text": "12 × 5 = 10 × 5 + 2 × 5 = 50 + 10 = 60.",
+      "speech": "Un autre exemple : 12 × 5. 12, c’est 10 + 2. 10 × 5 = 50 et 2 × 5 = 10. Puis 50 + 10 = 60.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 50, "steps": [10] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "14 × 3 = 10 × 3 + … × 3. Le morceau du bas : … × 3 = 12. Choisis la case.",
+      "speech": "À toi ! 14 × 3, c’est 10 × 3, plus combien de fois 3 ? Le morceau du bas fait 12. Choisis le nombre qui va dans la case.",
+      "animation": { "type": "equation", "left": 4, "operation": "multiply", "right": 3, "missing": "left", "interactive": true, "choices": [3, 4, 14] }
+    },
+    {
+      "title": "Course éclair",
+      "text": "11 × 6 = 60 + 6 ; 15 × 2 = 20 + 10 ; 17 × 3 = 30 + 21.",
+      "speech": "Course éclair ! 11 × 6 : 60 + 6 = 66. 15 × 2 : 20 + 10 = 30. 17 × 3 : 30 + 21 = 51.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 60, "steps": [6] }, { "start": 20, "steps": [10] }, { "start": 30, "steps": [21] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour multiplier un nombre de 11 à 19 :",
+      "speech": "Je retiens : je coupe le nombre en 10 et ses unités. Je multiplie chaque morceau, puis j’ajoute.",
+      "animation": { "type": "recapCard", "text": "Je coupe en 10 et les unités, je multiplie chaque morceau, puis j’ajoute.", "example": "13 × 7 = 70 + 21 = 91" }
+    }
+  ],
+  "quiz": [
+    { "question": "13 × 6 = ?", "spoken": "Combien font 13 × 6 ?", "answer": 78, "explanation": "10 × 6 = 60 et 3 × 6 = 18. Puis 60 + 18 = 78." },
+    { "question": "18 × 2 = ?", "spoken": "Combien font 18 × 2 ? Choisis la bonne réponse.", "answer": 36, "choices": [28, 36, 46], "explanation": "10 × 2 = 20 et 8 × 2 = 16. Puis 20 + 16 = 36." },
+    { "question": "15 × 4 = 10 × 4 + … × 4", "spoken": "15 × 4 égale 10 × 4 plus combien de fois 4 ?", "answer": 5, "explanation": "15, c’est 10 + 5 : 15 × 4 = 10 × 4 + 5 × 4." },
+    { "question": "11 × 7 = ?", "spoken": "Combien font 11 × 7 ?", "answer": 77, "explanation": "10 × 7 = 70 et 1 × 7 = 7. Puis 70 + 7 = 77." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, calcul : multiplier un nombre de 11 à 19 en le décomposant (10 et les unités)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

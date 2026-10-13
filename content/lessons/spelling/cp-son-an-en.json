@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-an-en",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-son-an-en"],
+  "title": "Le son [an] : an, en",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les deux façons d’écrire le son [an].",
+      "speech": "Aujourd’hui, on apprend à écrire le son an. Écoute : maman, une dent. On entend le même son, mais il ne s’écrit pas toujours pareil !",
+      "animation": {"type": "titleCard", "title": "Le son [an]", "subtitle": "an, en"}
+    },
+    {
+      "title": "Avec an",
+      "text": "Le son [an] s’écrit souvent a et n : maman, un panda, une tante.",
+      "speech": "Le son an s’écrit souvent avec les lettres a et n. Maman, un panda, une tante.",
+      "animation": {"type": "letterTiles", "word": "panda", "tiles": ["p", "an", "d", "a"], "interactive": false}
+    },
+    {
+      "title": "Avec en",
+      "text": "Il s’écrit aussi e et n : une dent, le vent, le ventre.",
+      "speech": "Il s’écrit aussi avec les lettres e et n. Une dent, le vent, le ventre.",
+      "animation": {"type": "letterTiles", "word": "ventre", "tiles": ["v", "en", "t", "r", "e"], "interactive": false}
+    },
+    {
+      "title": "Les deux dans un mot",
+      "text": "Dans enfant, on entend deux fois [an] : en au début, an à la fin.",
+      "speech": "Écoute : enfant. On entend deux fois le son an ! Au début, il s’écrit e, n. À la fin, il s’écrit a, n.",
+      "animation": {"type": "letterTiles", "word": "enfant", "tiles": ["en", "f", "an", "t"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Regarde bien chaque mot : an ou en ? Range-le dans sa boîte.",
+      "speech": "À toi ! Regarde bien chaque mot : le son an s’écrit-il a, n ou e, n ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["an", "en"], "words": [{"word": "maman", "group": "an"}, {"word": "panda", "group": "an"}, {"word": "ruban", "group": "an"}, {"word": "plante", "group": "an"}, {"word": "dent", "group": "en"}, {"word": "vent", "group": "en"}, {"word": "tente", "group": "en"}, {"word": "encre", "group": "en"}]}
+    },
+    {
+      "title": "Je regarde le mot",
+      "text": "Pour savoir si on écrit an ou en, je regarde bien le mot et je le mémorise.",
+      "speech": "Comment savoir ? Il n’y a pas de règle : je regarde bien le mot, je le photographie dans ma tête, et je le mémorise.",
+      "animation": {"type": "letterTiles", "word": "cantine", "tiles": ["c", "an", "t", "i", "n", "e"], "distractors": ["en", "on"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « ventre ». Attention aux intrus !",
+      "speech": "À toi ! Écris le mot ventre. Souviens-toi : le son an s’écrit e, n dans ce mot.",
+      "animation": {"type": "letterTiles", "word": "ventre", "tiles": ["v", "en", "t", "r", "e"], "distractors": ["an", "on"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "an, en ou on ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Attention, il y a aussi le son on ! Range chaque mot dans la boîte qui va.",
+      "animation": {"type": "soundSort", "groups": ["an", "en", "on"], "words": [{"word": "danse", "group": "an"}, {"word": "orange", "group": "an"}, {"word": "serpent", "group": "en"}, {"word": "trente", "group": "en"}, {"word": "encre", "group": "en"}, {"word": "melon", "group": "on"}, {"word": "savon", "group": "on"}, {"word": "bonbon", "group": "on"}]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [an] s’écrit :",
+      "speech": "Je retiens : le son an s’écrit a, n, comme dans maman, ou e, n, comme dans une dent. Je regarde bien le mot pour le mémoriser.",
+      "animation": {"type": "recapCard", "text": "Le son [an] s’écrit an (maman) ou en (une dent). Je mémorise chaque mot.", "example": "maman · dent · enfant"}
+    }
+  ],
+  "quiz": [
+    {"question": "Un p…da : quelle écriture ?", "spoken": "Un panda. Quelles lettres manquent dans le mot panda ?", "answer": "an", "choices": ["an", "en", "on"], "explanation": "Panda s’écrit p, a, n, d, a."},
+    {"question": "Une d…t : quelle écriture ?", "spoken": "Une dent. Quelles lettres manquent dans le mot dent ?", "answer": "en", "choices": ["an", "en", "on"], "explanation": "Dent s’écrit d, e, n, t. Le t ne s’entend pas."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot maman. J’aime ma maman.", "answer": "maman", "explanation": "Maman s’écrit m, a, m, a, n : le son an s’écrit a, n."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un enfant. Choisis la bonne écriture du mot enfant.", "answer": "enfant", "choices": ["enfant", "anfant", "enfent"], "explanation": "Enfant s’écrit avec en au début et an à la fin."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : mémoriser l’orthographe des mots ; graphies an, en",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — graphèmes complexes : une même voyelle nasale, plusieurs écritures",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { vi } from "vitest";
-import type { AnswerPayload, Exercise, Lesson, Profile, Series, Token } from "../api/client";
+import type { AnswerPayload, Exercise, Lesson, Profile, Series, SeriesSummary, Subject, Token } from "../api/client";
 import type { UiApi } from "../api/ui";
 import { BackendProvider } from "../app/BackendContext";
 import { ProfileProvider } from "../app/ProfileContext";
@@ -23,16 +23,19 @@ const slot: Token = { kind: "slot", slot: 0 };
 
 /** A calculation typed with the keypad (no question, no picture). */
 export function numberExercise(index: number, statement: Token[], prompt: string, spokenPrompt: string): Exercise {
-  return { index, question: null, statement, picture: null, input: { kind: "number", slots: 1 }, choices: null, prompt, spokenPrompt };
+  return { index, question: null, statement, picture: null, input: { kind: "number", slots: 1 }, choices: null, prompt, spokenPrompt, word: null };
 }
 
 /** Series of 2 exercises: 3 + 4 = ? (answer 7), then 5 + ? = 9 (answer 4). */
 export const twoExercises: Series = {
   seriesId: "s1",
+  sessionType: "Exercise",
+  subject: "Math",
   seed: 1,
   skillId: "cp-add-sum-10",
   instruction: "Calcule.",
   answerMode: "Keyboard",
+  timeLimitSeconds: null,
   exercises: [
     numberExercise(0, [n(3), sign("+"), n(4), sign("="), slot], "3 + 4 = ?", "Combien font 3 plus 4 ?"),
     numberExercise(1, [n(5), sign("+"), slot, sign("="), n(9)], "5 + ? = 9", "Combien faut-il ajouter à 5 pour obtenir 9 ?"),
@@ -46,7 +49,9 @@ export const twoExercises: Series = {
 export const shortLesson: Lesson = {
   id: "ce1-add-9-19-29",
   title: "Ajouter 9, 19 ou 29",
+  subject: "Math",
   grade: "CE1",
+  resumeSlide: null,
   skillIds: ["ce1-add-9-19-29"],
   slides: [
     {
@@ -73,6 +78,7 @@ export const shortLesson: Lesson = {
         ],
         interactive: true,
         hoverValues: true,
+        flags: [],
       },
     },
     {
@@ -108,18 +114,57 @@ export const shortLesson: Lesson = {
   ],
 };
 
+/** The summary of a series of one skill. */
+export function summaryOf(correctCount: number, exerciseCount: number, pointsEarned: number, profilePoints: number, skillId = "cp-add-sum-10"): SeriesSummary {
+  return {
+    correctCount,
+    exerciseCount,
+    pointsEarned,
+    profilePoints,
+    skills: [{ skillId, title: "Additions jusqu'à 10", correctCount, questionCount: exerciseCount, lessonId: null, strong: correctCount * 3 >= exerciseCount * 2 }],
+    mascotSituation: correctCount === exerciseCount ? "SeriesPerfect" : correctCount * 3 >= exerciseCount * 2 ? "SeriesWell" : "SeriesEncourage",
+    previousBest: null,
+    newRecord: false,
+    reviewLesson: exerciseCount > 0 && correctCount * 2 < exerciseCount,
+  };
+}
+
+/** The quiz of the short lesson, as the core starts it. */
+export const quizSeries: Series = {
+  seriesId: "quiz",
+  sessionType: "LessonQuiz",
+  subject: "Math",
+  seed: 0,
+  skillId: "ce1-add-9-19-29",
+  instruction: "",
+  answerMode: "Keyboard",
+  timeLimitSeconds: null,
+  exercises: shortLesson.quiz.map((q) => ({
+    index: q.index,
+    question: q.question,
+    statement: [],
+    picture: null,
+    input: q.choices ? { kind: "pick" as const } : { kind: "number" as const, slots: 1 },
+    choices: q.choices,
+    prompt: q.question,
+    spokenPrompt: q.spoken,
+    word: null,
+  })),
+};
+
 /** A fake UI API: every call is a vi.fn, overridable per test. Speech fails (no voice in tests). */
 export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
   const expected = [7, 4];
   return {
     getStatus: vi.fn().mockResolvedValue({ version: "0.1.0", database: { isReady: true }, speech: { isAvailable: false, voice: null, problem: "tests" } }),
     getSkills: vi.fn().mockResolvedValue({
+      subject: "Math",
       grade: "CP",
       skillsGrade: "CP",
       currentPeriod: 1,
       skills: [
-        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation" },
-        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation" },
+        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", spellingFormats: [], mastery: null },
+        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", spellingFormats: [], mastery: 75 },
       ],
     }),
     getCharacters: vi.fn().mockResolvedValue([
@@ -132,40 +177,81 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
     createProfile: vi.fn(async (name: string, grade, characterId?: string) => ({ ...lea, id: "p-new", name, grade, points: 0, characterId: characterId ?? "lion" })),
     updateProfile: vi.fn(async (id: string, changes) => ({ ...lea, id, ...changes })),
     selectProfile: vi.fn().mockResolvedValue(lea),
+    deleteProfile: vi.fn().mockResolvedValue(undefined),
     startSeries: vi.fn().mockResolvedValue(twoExercises),
-    answerSeries: vi.fn(async (_s: string, index: number, answer: AnswerPayload) => {
+    answerSeries: vi.fn(async (seriesId: string, index: number, answer: AnswerPayload) => {
       const value = answer.kind === "number" ? answer.value : null;
+      if (seriesId === quizSeries.seriesId) {
+        // The quiz of the short lesson: 28 + 9 (typed, 37), then 46 + 19 (QCM, 65).
+        const right = [37, 65][index];
+        const last = index === quizSeries.exercises.length - 1;
+        return {
+          correct: value === right,
+          expected: { kind: "number" as const, value: right },
+          expectedLabel: String(right),
+          explanation: index === 0 ? "28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37." : "46 + 20 = 66, puis j'enlève 1 : 46 + 19 = 65.",
+          help: null,
+          correction: null,
+          summary: last ? summaryOf(1, 2, 30, 150, "ce1-add-9-19-29") : null,
+        };
+      }
       return {
         correct: value === expected[index],
         expected: { kind: "number", value: expected[index] },
         expectedLabel: String(expected[index]),
         explanation: index === 0 ? "3 + 4 = 7" : "5 + 4 = 9",
         help: null,
-        summary: index === 1 ? { correctCount: value === 4 ? 2 : 1, exerciseCount: 2, pointsEarned: 40, profilePoints: 160 } : null,
+        correction: null,
+        summary: index === 1 ? summaryOf(value === 4 ? 2 : 1, 2, 40, 160) : null,
       };
     }),
-    abandonSeries: vi.fn().mockResolvedValue({ correctCount: 0, exerciseCount: 2, pointsEarned: 0, profilePoints: 120 }),
+    abandonSeries: vi.fn().mockResolvedValue(summaryOf(0, 2, 0, 120)),
+    // A first timed challenge at this duration: a record, decided by the commands.
+    finishSeries: vi.fn().mockResolvedValue({ ...summaryOf(1, 2, 30, 150), newRecord: true }),
+    startExam: vi.fn(async (_p: string, subject: Subject) => ({ ...twoExercises, sessionType: "Exam" as const, subject, skillId: null })),
+    getTimedChallenge: vi.fn(async (_p: string, subject: Subject) => ({
+      subject,
+      skillCount: 2,
+      durations: [
+        { seconds: 60, best: null },
+        { seconds: 120, best: 7 },
+        { seconds: 180, best: null },
+      ],
+      defaultSeconds: 120,
+    })),
+    startTimed: vi.fn(async (_p: string, subject: Subject, seconds: number) => ({
+      ...twoExercises,
+      sessionType: "Timed" as const,
+      subject,
+      skillId: null,
+      answerMode: "Choice" as const,
+      timeLimitSeconds: seconds,
+    })),
     getMultiplicationTable: vi.fn(async (number: number) => ({
       number,
       lines: Array.from({ length: 11 }, (_, right) => ({ left: number, right, result: number * right, spoken: `${number} fois ${right}, ${number * right}.` })),
     })),
     listLessons: vi.fn().mockResolvedValue({
+      subject: "Math",
       grade: "CP",
       lessonsGrade: "CP",
       currentPeriod: 1,
       lessons: [{ id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4 }],
     }),
     getLesson: vi.fn().mockResolvedValue(shortLesson),
-    answerLessonQuiz: vi.fn(async (_l: string, index: number, answer: AnswerPayload) => {
-      const right = [37, 65][index];
-      return {
-        correct: answer.kind === "number" && answer.value === right,
-        expected: { kind: "number", value: right },
-        expectedLabel: String(right),
-        explanation: index === 0 ? "28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37." : "46 + 20 = 66, puis j'enlève 1 : 46 + 19 = 65.",
-      };
+    saveLessonProgress: vi.fn().mockResolvedValue(undefined),
+    startLessonQuiz: vi.fn().mockResolvedValue(quizSeries),
+    getMascot: vi.fn().mockResolvedValue({
+      name: "Plume",
+      pictures: ["Happy", "Thinking", "Encouraging", "Party"].map((expression) => ({ expression, svg: "<svg xmlns='http://www.w3.org/2000/svg'/>" })),
     }),
+    getMascotPhrase: vi.fn(async (situation: string, title?: string) => ({
+      text: situation === "LessonStart" ? `Aujourd'hui, on apprend : ${title ?? ""}.` : situation === "SeriesPerfect" ? "Un sans-faute !" : "Courage !",
+      expression: situation === "SeriesPerfect" ? "Party" : "Happy",
+    })),
     speak: vi.fn().mockRejectedValue(new Error("no voice in tests")),
+    speakSeriesWord: vi.fn().mockRejectedValue(new Error("no voice in tests")),
+    speakWord: vi.fn().mockRejectedValue(new Error("no voice in tests")),
     ...overrides,
   } as UiApi;
 }

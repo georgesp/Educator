@@ -40,10 +40,11 @@ Educator/
 │   ├── educator-core/      # Domaine + moteur d'exercices — code pur, aucune dépendance d'infrastructure
 │   ├── educator-content/   # Chargement / validation du contenu (JSON, SVG) + Piper (bureau)
 │   └── educator-data/      # SQLite : base, migrations, profils, réglages
-├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, personnages, calendrier, points) + schémas JSON
+├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, banque de mots, sons, leçons, mascotte, personnages, calendrier, points) + schémas JSON
+│   └── audio/words/        # Audio des mots pré-généré par scripts/generate-word-audio (non commité, embarqué au build)
 ├── web/                    # Front React + application Tauri (src-tauri/), voir web/README.md
 │   └── src/api/types.ts    # Types des commandes, générés depuis web/src-tauri/src/contracts.rs
-├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh
+├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, generate-word-audio.sh / .ps1
 ├── vendor/piper/           # Moteur Piper + voix, téléchargés par scripts/fetch-piper (non commités)
 ├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust)
 ├── ghpm/                   # Backlog en fiches (voir ci-dessous)
@@ -77,7 +78,7 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
 ## Règles pédagogiques à respecter
 
 - Contenu conforme aux programmes et repères annuels officiels (eduscol / Éducation nationale).
-- Orthographe : **aucune tolérance sur les accents** ; majuscules tolérées pour l'instant.
+- Orthographe : **aucune tolérance sur les accents** ; majuscules tolérées pour l'instant ; « oe » ne remplace pas « œ » (le clavier à l'écran le propose).
 - Retours bienveillants : jamais de message culpabilisant pour l'enfant.
 
 ## Commandes Tauri
@@ -89,6 +90,9 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
   `reroll_character`, `delete_profile`, `start_series`, `answer_series` (réponse typée : nombre, fraction, signe,
   oui / non, suite, ensemble, texte), `abandon_series`, `get_multiplication_table` (« Mes tables »), `speak` (WAV en
   binaire, `503` si la voix est indisponible).
+- Lot 2 : `start_exam`, `get_timed_challenge`, `start_timed`, `finish_series` (fin d'un défi chrono seulement),
+  `list_lessons`, `get_lesson`, `save_lesson_progress`, `start_lesson_quiz`, `speak_series_word` (mot d'une dictée,
+  jamais envoyé au front avant la réponse), `speak_word`, `get_mascot`, `get_mascot_phrase`.
 - Côté front : `web/src/api/ui.ts` (`UiApi`, injectée par `BackendContext`, simulée dans les tests).
 - Après toute modification d'un contrat : `cd web && npm run api:generate`, puis commiter `web/src/api/types.ts`
   (le test `bindings::types_ts_is_up_to_date` le vérifie).
@@ -126,6 +130,9 @@ Conventions :
 - `CreatedAt` / `UpdatedAt` renseignés par les stores à partir du `Clock` injecté ; `UpdatedAt` ne bouge que si une
   colonne change.
 - Une base créée par l'ancienne version .NET est reprise avec ses profils (ADR 0003).
+- Statistiques (lot 2, migration `0002_sessions`) : `Session` (une par série, examen, défi ou quiz de leçon),
+  `Answer` (une par réponse, avec sa durée), `SkillMastery` (20 dernières réponses par compétence),
+  `LessonProgress` (slide où une leçon a été laissée). Tout est supprimé avec le profil.
 
 ## Commandes
 
@@ -140,6 +147,7 @@ cargo fmt --all
 cd web && npm install
 cd web && npm run tauri dev            # application complète
 cd web && npm run api:generate         # après une modification des contrats
+scripts/generate-word-audio.sh         # audio des mots d'orthographe (après ajout ou modification de mots)
 cd web && npm run build && npm test && npm run test:e2e
 ```
 
@@ -152,7 +160,7 @@ Le backlog est géré en fiches Markdown dans `ghpm/specs/`, synchronisées avec
 `georgesp/projects/7` par GitHubProjectManager (format décrit dans `ghpm/README.md`).
 
 - Lots : 0 socle technique, 1 socle mathématiques, 1bis migration du backend vers Rust, 2 orthographe / leçons /
-  examens, 3 motivation et espace parent, 4 / 5 / 6 exercices et leçons du CE2 / CM1 / CM2 (maths, orthographe, grammaire) ; packaging et signature dans un lot dédié.
+  examens, 2bis voix en direct pour les mots, 3 motivation et espace parent, 4 / 5 / 6 exercices et leçons du CE2 / CM1 / CM2 (maths, orthographe, grammaire) ; packaging et signature dans un lot dédié.
 - Ne jamais modifier les clés « Managed by GHPM » de l'en-tête d'une fiche.
 - Les codes (`US0060`, `SUB006001`…) sont attribués par GHPM à la synchronisation et ne changent plus.
 - En implémentant une fiche : respecter ses critères d'acceptation, cocher ceux qui sont remplis, passer `status`

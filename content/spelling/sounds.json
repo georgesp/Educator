@@ -1,0 +1,412 @@
+{
+  "$schema": "../schemas/sounds.schema.json",
+  "sounds": [
+    {
+      "id": "a",
+      "label": "[a]",
+      "spoken": "le son a",
+      "graphemes": [
+        "a",
+        "à"
+      ],
+      "confusions": [
+        "o",
+        "e"
+      ]
+    },
+    {
+      "id": "e",
+      "label": "[ə]",
+      "spoken": "le son e",
+      "graphemes": [
+        "e"
+      ],
+      "confusions": [
+        "é",
+        "eu"
+      ]
+    },
+    {
+      "id": "i",
+      "label": "[i]",
+      "spoken": "le son i",
+      "graphemes": [
+        "i",
+        "y"
+      ],
+      "confusions": [
+        "u",
+        "e"
+      ]
+    },
+    {
+      "id": "o",
+      "label": "[o]",
+      "spoken": "le son o",
+      "graphemes": [
+        "o",
+        "au",
+        "eau",
+        "ô"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "u",
+      "label": "[y]",
+      "spoken": "le son u",
+      "graphemes": [
+        "u"
+      ],
+      "confusions": [
+        "ou",
+        "i"
+      ]
+    },
+    {
+      "id": "é",
+      "label": "[e]",
+      "spoken": "le son é",
+      "graphemes": [
+        "é",
+        "er",
+        "ez",
+        "et",
+        "es"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "è",
+      "label": "[ɛ]",
+      "spoken": "le son è",
+      "graphemes": [
+        "è",
+        "ê",
+        "ai",
+        "ei",
+        "et",
+        "e"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "ou",
+      "label": "[u]",
+      "spoken": "le son ou",
+      "graphemes": [
+        "ou",
+        "où"
+      ],
+      "confusions": [
+        "o",
+        "u"
+      ]
+    },
+    {
+      "id": "on",
+      "label": "[ɔ̃]",
+      "spoken": "le son on",
+      "graphemes": [
+        "on",
+        "om"
+      ],
+      "confusions": [
+        "an",
+        "no"
+      ]
+    },
+    {
+      "id": "an",
+      "label": "[ɑ̃]",
+      "spoken": "le son an",
+      "graphemes": [
+        "an",
+        "en",
+        "am",
+        "em"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "in",
+      "label": "[ɛ̃]",
+      "spoken": "le son in",
+      "graphemes": [
+        "in",
+        "ain",
+        "ein",
+        "im"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "un",
+      "label": "[œ̃]",
+      "spoken": "le son un",
+      "graphemes": [
+        "un"
+      ],
+      "confusions": [
+        "in",
+        "on"
+      ]
+    },
+    {
+      "id": "oi",
+      "label": "[wa]",
+      "spoken": "le son oi",
+      "graphemes": [
+        "oi"
+      ],
+      "confusions": [
+        "oa",
+        "wa"
+      ]
+    },
+    {
+      "id": "eu",
+      "label": "[ø]",
+      "spoken": "le son eu",
+      "graphemes": [
+        "eu",
+        "œu"
+      ],
+      "confusions": [
+        "e",
+        "ou"
+      ]
+    },
+    {
+      "id": "ch",
+      "label": "[ʃ]",
+      "spoken": "le son ch",
+      "graphemes": [
+        "ch"
+      ],
+      "confusions": [
+        "c",
+        "sh"
+      ]
+    },
+    {
+      "id": "gn",
+      "label": "[ɲ]",
+      "spoken": "le son gn",
+      "graphemes": [
+        "gn"
+      ],
+      "confusions": [
+        "ni",
+        "ng"
+      ]
+    },
+    {
+      "id": "s",
+      "label": "[s]",
+      "spoken": "le son s",
+      "graphemes": [
+        "s",
+        "ss",
+        "c",
+        "ç"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "z",
+      "label": "[z]",
+      "spoken": "le son z",
+      "graphemes": [
+        "s",
+        "z"
+      ],
+      "confusions": [
+        "ss"
+      ]
+    },
+    {
+      "id": "k",
+      "label": "[k]",
+      "spoken": "le son k",
+      "graphemes": [
+        "c",
+        "k",
+        "qu",
+        "q"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "g",
+      "label": "[g]",
+      "spoken": "le son g",
+      "graphemes": [
+        "g",
+        "gu"
+      ],
+      "confusions": [
+        "j",
+        "c"
+      ]
+    },
+    {
+      "id": "j",
+      "label": "[ʒ]",
+      "spoken": "le son j",
+      "graphemes": [
+        "j",
+        "g",
+        "ge"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "f",
+      "label": "[f]",
+      "spoken": "le son f",
+      "graphemes": [
+        "f",
+        "ph"
+      ],
+      "confusions": [
+        "v"
+      ]
+    },
+    {
+      "id": "v",
+      "label": "[v]",
+      "spoken": "le son v",
+      "graphemes": [
+        "v"
+      ],
+      "confusions": [
+        "f",
+        "w"
+      ]
+    },
+    {
+      "id": "l",
+      "label": "[l]",
+      "spoken": "le son l",
+      "graphemes": [
+        "l",
+        "ll"
+      ],
+      "confusions": [
+        "r"
+      ]
+    },
+    {
+      "id": "r",
+      "label": "[ʁ]",
+      "spoken": "le son r",
+      "graphemes": [
+        "r"
+      ],
+      "confusions": [
+        "l",
+        "rr"
+      ]
+    },
+    {
+      "id": "m",
+      "label": "[m]",
+      "spoken": "le son m",
+      "graphemes": [
+        "m",
+        "mm"
+      ],
+      "confusions": [
+        "n"
+      ]
+    },
+    {
+      "id": "n",
+      "label": "[n]",
+      "spoken": "le son n",
+      "graphemes": [
+        "n"
+      ],
+      "confusions": [
+        "m",
+        "nn"
+      ]
+    },
+    {
+      "id": "t",
+      "label": "[t]",
+      "spoken": "le son t",
+      "graphemes": [
+        "t",
+        "tt"
+      ],
+      "confusions": [
+        "d"
+      ]
+    },
+    {
+      "id": "p",
+      "label": "[p]",
+      "spoken": "le son p",
+      "graphemes": [
+        "p",
+        "pp"
+      ],
+      "confusions": [
+        "b"
+      ]
+    },
+    {
+      "id": "d",
+      "label": "[d]",
+      "spoken": "le son d",
+      "graphemes": [
+        "d"
+      ],
+      "confusions": [
+        "t",
+        "b"
+      ]
+    },
+    {
+      "id": "b",
+      "label": "[b]",
+      "spoken": "le son b",
+      "graphemes": [
+        "b"
+      ],
+      "confusions": [
+        "d",
+        "p"
+      ]
+    },
+    {
+      "id": "muet",
+      "label": "lettre muette",
+      "spoken": "une lettre muette",
+      "graphemes": [
+        "t",
+        "d",
+        "s",
+        "x",
+        "p",
+        "c",
+        "g",
+        "z",
+        "l"
+      ],
+      "confusions": []
+    },
+    {
+      "id": "pluriel",
+      "label": "pluriel",
+      "spoken": "la marque du pluriel",
+      "graphemes": [
+        "s",
+        "x"
+      ],
+      "confusions": []
+    }
+  ]
+}

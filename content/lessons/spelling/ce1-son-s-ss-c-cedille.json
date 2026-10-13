@@ -1,0 +1,95 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-son-s-ss-c-cedille",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 3,
+  "skillIds": ["ce1-son-s-ss-c-cedille"],
+  "title": "Le son [s] : s, ss, c, ç",
+  "durationMinutes": 5,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend les quatre façons d’écrire le son [s].",
+      "speech": "Aujourd’hui, on apprend à écrire le son du serpent : sss. Écoute : un sac, une tasse, une cerise, un glaçon. Quatre écritures !",
+      "animation": {"type": "titleCard", "title": "Le son [s]", "subtitle": "s, ss, c, ç"}
+    },
+    {
+      "title": "Avec s",
+      "text": "Au début d’un mot ou à côté d’une consonne, [s] s’écrit s : un sac, le soleil, une veste.",
+      "speech": "Au début d’un mot, ou à côté d’une consonne, le son du serpent s’écrit avec la lettre s. Un sac, le soleil, une veste.",
+      "animation": {"type": "letterTiles", "word": "sac", "tiles": ["s", "a", "c"], "interactive": false}
+    },
+    {
+      "title": "s entre deux voyelles",
+      "text": "Attention : entre deux voyelles, la lettre s se lit [z] : une rose, une chemise.",
+      "speech": "Attention ! Entre deux voyelles, la lettre s ne fait plus sss : elle fait zzz, comme une abeille. Une rose, une chemise.",
+      "animation": {"type": "letterTiles", "word": "rose", "tiles": ["r", "o", "s", "e"], "interactive": false}
+    },
+    {
+      "title": "Avec ss",
+      "text": "Pour entendre [s] entre deux voyelles, j’écris ss : une tasse, une trousse.",
+      "speech": "Alors, pour entendre sss entre deux voyelles, j’écris deux s. Une tasse, une trousse.",
+      "animation": {"type": "letterTiles", "word": "tasse", "tiles": ["t", "a", "ss", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "s ou ss ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Regarde bien chaque mot : un s, ou deux s ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["s", "ss"], "words": [{"word": "sac", "group": "s"}, {"word": "sable", "group": "s"}, {"word": "veste", "group": "s"}, {"word": "ski", "group": "s"}, {"word": "tasse", "group": "ss"}, {"word": "trousse", "group": "ss"}, {"word": "hérisson", "group": "ss"}, {"word": "classe", "group": "ss"}]}
+    },
+    {
+      "title": "c devant e, i, y",
+      "text": "Devant e, i ou y, la lettre c se lit [s] : une cerise, le cirque, une glace.",
+      "speech": "Devant les lettres e, i ou y, la lettre c fait le son du serpent. Une cerise, le cirque, une glace.",
+      "animation": {"type": "letterTiles", "word": "cirque", "tiles": ["c", "i", "r", "qu", "e"], "interactive": false}
+    },
+    {
+      "title": "ç devant a, o, u",
+      "text": "Devant a, o, u, c se lit [k]. Pour entendre [s], j’ajoute une cédille : ç. Un glaçon, un garçon.",
+      "speech": "Devant a, o, u, la lettre c se lit ke, comme dans un car. Pour entendre sss, j’ajoute une petite queue : la cédille. Un glaçon, un garçon.",
+      "animation": {"type": "letterTiles", "word": "glaçon", "tiles": ["g", "l", "a", "ç", "on"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "c ou ç ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Regarde la lettre qui suit le c : e ou i ? Alors pas de cédille. a, o ou u ? Alors il faut la cédille !",
+      "animation": {"type": "soundSort", "groups": ["c", "ç"], "words": [{"word": "cerise", "group": "c"}, {"word": "cirque", "group": "c"}, {"word": "police", "group": "c"}, {"word": "place", "group": "c"}, {"word": "glaçon", "group": "ç"}, {"word": "maçon", "group": "ç"}, {"word": "leçon", "group": "ç"}, {"word": "reçu", "group": "ç"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « garçon ». N’oublie pas la cédille !",
+      "speech": "À toi ! Écris le mot garçon. Le c est devant un o : n’oublie pas la cédille !",
+      "animation": {"type": "letterTiles", "word": "garçon", "tiles": ["g", "a", "r", "ç", "on"], "distractors": ["c", "s"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « poisson ». Un s ou deux s ?",
+      "speech": "À toi ! Écris le mot poisson. Le son du serpent est entre deux voyelles : un s, ou deux s ?",
+      "animation": {"type": "letterTiles", "word": "poisson", "tiles": ["p", "oi", "ss", "on"], "distractors": ["s", "c"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [s] s’écrit :",
+      "speech": "Je retiens : le son du serpent s’écrit s, comme dans sac ; deux s entre deux voyelles, comme dans tasse ; c devant e et i, comme dans cerise ; c cédille devant a, o, u, comme dans glaçon.",
+      "animation": {"type": "recapCard", "text": "Le son [s] s’écrit s (un sac), ss entre deux voyelles (une tasse), c devant e, i (une cerise), ç devant a, o, u (un glaçon).", "example": "sac · tasse · cerise · glaçon"}
+    }
+  ],
+  "quiz": [
+    {"question": "Une ta…e : quelle écriture ?", "spoken": "Une tasse. Comment s’écrit le son du serpent dans tasse ?", "answer": "ss", "choices": ["s", "ss", "c"], "explanation": "Tasse : le son est entre deux voyelles, donc on écrit deux s."},
+    {"question": "Un gla…on : quelle lettre ?", "spoken": "Un glaçon. Quelle lettre manque dans le mot glaçon ?", "answer": "ç", "choices": ["c", "ç", "s"], "explanation": "Glaçon : le c est devant un o, il lui faut une cédille."},
+    {"question": "Une …erise : quelle lettre ?", "spoken": "Une cerise. Quelle lettre manque au début du mot cerise ?", "answer": "c", "choices": ["c", "ç", "ss"], "explanation": "Cerise : le c est devant un e, il se lit comme un s, sans cédille."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot classe. Je suis dans ma classe.", "answer": "classe", "explanation": "Classe s’écrit avec deux s, entre deux voyelles."},
+    {"question": "Dans « rose », entends-tu [s] ?", "spoken": "Une rose. Entends-tu le son du serpent dans le mot rose ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : entre deux voyelles, la lettre s se lit z. Ro, se."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : valeur des lettres c, g, s selon leur position (ça, glaçon, garçon)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — progression des graphèmes complexes : c, ç ; s, ss",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

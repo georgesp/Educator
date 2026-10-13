@@ -1,0 +1,94 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-sum-10",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-add-sum-10"],
+  "title": "Additions jusqu’à 10",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à ajouter des voitures sur la ligne de départ.",
+      "speech": "Aujourd’hui, tu vas apprendre à faire des additions, avec des voitures de course.",
+      "animation": { "type": "titleCard", "title": "Additions jusqu’à 10", "subtitle": "Ajouter, c’est réunir" }
+    },
+    {
+      "title": "Réunir",
+      "text": "3 voitures rouges et 2 voitures bleues se rejoignent. On compte : 5 voitures.",
+      "speech": "Voici 3 voitures rouges et 2 voitures bleues. Elles se rejoignent sur la ligne de départ. On compte toutes les voitures : 1, 2, 3, 4, 5. Il y en a 5.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [3, 2] }
+    },
+    {
+      "title": "Les signes",
+      "text": "On écrit 3 + 2 = 5. « + » veut dire « on met ensemble », « = » veut dire « ça fait autant que ».",
+      "speech": "On l’écrit avec des signes : 3 + 2 = 5. Le signe plus veut dire : on met ensemble. Le signe égal veut dire : ça fait autant que.",
+      "animation": { "type": "equation", "left": 3, "operation": "add", "right": 2 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Amène 4 voitures rouges et 3 bleues sur la ligne de départ. Combien en tout ?",
+      "speech": "À toi ! Clique sur chaque voiture pour l’amener sur la ligne de départ. Ensuite, choisis combien il y en a en tout.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [4, 3], "interactive": true }
+    },
+    {
+      "title": "Partir du plus grand",
+      "text": "2 + 6 : je pars de 6, le plus grand, et j’avance de 2 : 7, 8.",
+      "speech": "Pour calculer 2 + 6, je pars du plus grand nombre, 6. La voiture avance de 1, puis encore de 1 : 7, 8. Donc 2 + 6 = 8.",
+      "animation": { "type": "numberLine", "from": 0, "to": 10, "step": 1, "start": 6, "jumps": [1, 1] }
+    },
+    {
+      "title": "Dans l’ordre que je veux",
+      "text": "2 + 6 et 6 + 2 donnent le même résultat : 8. Les voitures échangent leur place.",
+      "speech": "Regarde : 2 voitures et 6 voitures, ou 6 voitures et 2 voitures, ça fait toujours 8. On peut ajouter dans l’ordre qu’on veut !",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [2, 6], "commute": true }
+    },
+    {
+      "title": "Le garage de 10",
+      "text": "Le garage a 10 places. 6 voitures et 4 voitures le remplissent : 6 et 4 sont des amis de 10.",
+      "speech": "Voici le garage de 10 places. 6 voitures rouges sont garées. 4 voitures bleues arrivent : le garage est plein ! 6 + 4 = 10. On dit que 6 et 4 sont des amis de 10.",
+      "animation": { "type": "tenFrame", "filled": 6, "added": 4 }
+    },
+    {
+      "title": "À toi !",
+      "text": "7 voitures sont garées. Gare les voitures qui manquent pour remplir le garage.",
+      "speech": "À toi ! 7 voitures sont déjà garées. Clique sur les places vides pour garer les voitures qui manquent.",
+      "animation": { "type": "tenFrame", "filled": 7, "added": 3, "interactive": true }
+    },
+    {
+      "title": "Le nombre caché",
+      "text": "4 + … = 9 : je compte de 4 à 9 : 5, 6, 7, 8, 9. J’ai compté 5 nombres. Le nombre caché est 5.",
+      "speech": "Un nombre se cache : 4 plus combien font 9 ? Je pars de 4 et je compte jusqu’à 9 : 5, 6, 7, 8, 9. J’ai compté 5 nombres. Le nombre caché est 5.",
+      "animation": { "type": "equation", "left": 4, "operation": "add", "right": 5, "missing": "right" }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Ajouter :",
+      "speech": "Je retiens : ajouter, c’est réunir. Pour calculer, je pars du plus grand nombre et j’avance.",
+      "animation": { "type": "recapCard", "text": "Ajouter, c’est réunir. Je pars du plus grand nombre et j’avance.", "example": "2 + 6 = 6 + 2 = 8" }
+    }
+  ],
+  "quiz": [
+    { "question": "5 + 3 = ?", "spoken": "Combien font 5 + 3 ?", "answer": 8, "explanation": "Je pars de 5 et j’avance de 3 : 6, 7, 8." },
+    { "question": "2 + 7 = ?", "spoken": "Combien font 2 + 7 ? Choisis la bonne réponse.", "answer": 9, "choices": [8, 9, 10], "explanation": "Je pars du plus grand, 7, et j’avance de 2 : 8, 9." },
+    { "question": "4 + … = 10", "spoken": "4 plus combien font 10 ?", "answer": 6, "explanation": "4 et 6 sont des amis de 10 : 4 + 6 = 10." },
+    {
+      "question": "3 + 4 et 4 + 3 : même résultat ?",
+      "spoken": "3 + 4 et 4 + 3 donnent-ils le même résultat ?",
+      "answer": "oui",
+      "choices": ["oui", "non"],
+      "explanation": "Oui ! On peut ajouter dans l’ordre qu’on veut : 3 + 4 = 4 + 3 = 7."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : sens de l'addition (réunir), signes + et =, compléments à 10",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

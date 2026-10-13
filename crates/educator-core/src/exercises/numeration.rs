@@ -75,6 +75,7 @@ fn exercise(
         help: None,
         key,
         calculation: None,
+        word: None,
     }
 }
 

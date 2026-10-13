@@ -8,7 +8,8 @@ sur macOS et Windows, entièrement hors ligne.
 ## Fonctionnalités
 
 - **Mathématiques** du CP au CM2 : exercices **générés en direct** à partir de règles par niveau, leçons illustrées, tables de multiplication (« Mes tables »), mode contre-la-montre.
-- **Orthographe** : dictées et règles, sans aucune tolérance sur les accents (prévu au lot 2).
+- **Orthographe** CP et CE1 : dictée de mots, mots à trous, « Choisis la bonne écriture », leçons par sons et graphies, correction lettre à lettre, sans aucune tolérance sur les accents.
+- **Examen** (bilan par compétence) et **défi chrono** ; une mascotte, Plume, accompagne l'enfant.
 - **Plusieurs profils locaux** par ordinateur (nom + personnage), sans mot de passe, choisis à l'ouverture ; un espace parent affichera les statistiques.
 - **Voix** pour les consignes et les dictées : synthèse vocale locale avec [Piper](https://github.com/rhasspy/piper), hors ligne.
 - **Aucun compte, aucune donnée envoyée** : tout reste sur l'ordinateur.
@@ -18,9 +19,9 @@ sur macOS et Windows, entièrement hors ligne.
 
 > Projet en construction, développé lot par lot (backlog dans [`ghpm/`](ghpm/)).
 
-- **Disponible** : profils et personnages, menu, séries d'exercices (clavier et QCM), points, voix, tables de multiplication, leçons et exercices de mathématiques CP et CE1, backend 100 % Rust (lot 1bis).
+- **Disponible** : profils et personnages, menu, séries d'exercices (clavier et QCM), points, voix, tables de multiplication, leçons et exercices de mathématiques CP et CE1, backend 100 % Rust (lot 1bis), orthographe CP et CE1, examens, défi chrono, mascotte et enregistrement des statistiques (lot 2).
 - **En cours** : exercices et leçons de mathématiques du CE2 au CM2.
-- **À venir** : orthographe, examens, motivation et espace parent, puis packaging et signature des applications.
+- **À venir** : motivation et espace parent (lot 3), puis packaging et signature des applications.
 
 ## Stack technique
 
@@ -48,6 +49,10 @@ npm install
 npm run tauri dev             # compile le cœur Rust et lance l'application
 ```
 
+Audio des mots d'orthographe (une fois, puis après chaque ajout de mots) : `scripts/generate-word-audio.sh`
+(Windows : `.\scripts\generate-word-audio.ps1`). Les fichiers sont écrits dans `content/audio/words/` (non commités,
+embarqués au build, environ 130 Mo) ; sans eux, les mots sont lus par la voix en direct.
+
 ## Commandes
 
 ```bash
@@ -68,9 +73,9 @@ npm run api:generate                     # régénère src/api/types.ts après u
 | Dossier | Contenu |
 |---|---|
 | `crates/` | Cœur Rust : `educator-core` (domaine), `educator-content` (contenu, voix), `educator-data` (SQLite) ; tests dans `tests/` de chaque crate |
-| `content/` | Contenu pédagogique (règles d'exercices, personnages, calendrier, points) et schémas JSON |
+| `content/` | Contenu pédagogique (règles d'exercices, banque de mots, leçons, mascotte, personnages, calendrier, points) et schémas JSON |
 | `web/` | Front React + TypeScript et application Tauri (`web/src-tauri/`), voir [`web/README.md`](web/README.md) |
-| `scripts/` | Installation de Piper, comparaison des voix |
+| `scripts/` | Installation de Piper, comparaison des voix, génération de l'audio des mots |
 | `docs/adr/` | Décisions d'architecture |
 | `docs/specs/` | Règles de génération des exercices et échantillons de contenu |
 | `ghpm/` | Backlog en fiches, synchronisé avec le projet GitHub par GitHubProjectManager |

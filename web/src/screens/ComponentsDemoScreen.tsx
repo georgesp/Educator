@@ -8,7 +8,10 @@ import { PointsBadge } from "../components/child/PointsBadge";
 import { RaceTrack } from "../components/child/RaceTrack";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { LockIcon, PencilIcon } from "../components/icons";
+import { LessonAnimation } from "../components/lesson/LessonAnimation";
 import { useCharacters } from "../app/queries";
+import { lessonDemos } from "./lessonDemos";
+import "../components/lesson/lesson.css";
 
 /**
  * Development page (route /dev/composants, never in the built application): every child component of
@@ -74,6 +77,20 @@ export function ComponentsDemoScreen() {
         <div className="demo-row">
           {characters.data?.map((c) => <CharacterImage key={c.id} id={c.id} size={96} alt={c.name} />)}
         </div>
+      </section>
+
+      <section>
+        <h2 className="section-title">Leçons — animations (SUB000117)</h2>
+        {lessonDemos.map((demo) => (
+          <div key={demo.name} className="demo-lesson">
+            <h3 className="demo-lesson-name">
+              {demo.name} <small>{demo.source}</small>
+            </h3>
+            <div className="lesson-stage">
+              <LessonAnimation animation={demo.animation} />
+            </div>
+          </div>
+        ))}
       </section>
     </main>
   );

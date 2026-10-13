@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "US0014 — Lot 2 — Orthographe, leçons et examens"
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
@@ -35,5 +35,10 @@ Ouvrir l'orthographe (dictée de mots et mots à trous, voix Piper), les leçons
 ## Critères d'acceptation
 
 - [ ] Toutes les sous-issues sont terminées.
-- [ ] Les entrées Leçons, Exercices (maths + orthographe) et Examen du menu sont actives.
-- [ ] Chaque réponse donnée par un enfant est enregistrée en base.
+- [x] Les entrées Leçons, Exercices (maths + orthographe) et Examen du menu sont actives.
+- [x] Chaque réponse donnée par un enfant est enregistrée en base.
+
+## Implémentation (2026-10-14)
+
+- 17 sous-fiches implémentées ; restent en cours les relectures de contenu par Georges (mots, leçons, phrases de
+  la mascotte, écoute de l'audio) et l'écart de SUB001407 à valider.

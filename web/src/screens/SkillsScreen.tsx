@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import type { Profile, Skill } from "../api/client";
 import { useSkills } from "../app/queries";
+import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { PencilIcon } from "../components/icons";
@@ -8,8 +9,8 @@ import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
 /**
- * Exercises → Mathematics (SUB000109): the skills of the profile's grade, the current period first,
- * then the revisions of the grade before (SUB000113), then the other periods.
+ * Exercises → Mathematics or Spelling (SUB000109, SUB001416): the skills of the profile's grade, the
+ * current period first, then the revisions of the grade before (SUB000113), then the other periods.
  */
 export function SkillsScreen() {
   return <RequireProfile>{(profile) => <Skills profile={profile} />}</RequireProfile>;
@@ -17,7 +18,9 @@ export function SkillsScreen() {
 
 function Skills({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
-  const skills = useSkills(profile.grade);
+  const subject = subjectOfSlug(useParams().subject);
+  const slug = SUBJECT_SLUGS[subject];
+  const skills = useSkills(profile.grade, subject, profile.id);
   const data = skills.data;
   // Grades without skills yet (CE2 to CM2 in lot 1) receive the CE1 ones from the host (SUB000108).
   const usesFallback = data !== undefined && data.skillsGrade !== data.grade;
@@ -26,21 +29,24 @@ function Skills({ profile }: { profile: Profile }) {
   // Skills of the grade before, offered again at the start of the year (SUB000113).
   const revisions = data?.skills.filter((s) => s.revisionFrom !== null) ?? [];
   const others = data?.skills.filter((s) => !s.isCurrentPeriod && s.revisionFrom === null) ?? [];
-  // A single way to answer: straight to the series, no question asked.
+  // A single way to answer (and a single kind of exercise): straight to the series, no question asked.
   const open = (skill: Skill) =>
     void navigate(
-      skill.answerModes.length === 1 ? `/serie/${encodeURIComponent(skill.id)}/${skill.answerModes[0]}` : `/exercices/${encodeURIComponent(skill.id)}`,
+      skill.answerModes.length === 1 && skill.spellingFormats.length <= 1
+        ? `/serie/${encodeURIComponent(skill.id)}/${skill.answerModes[0]}`
+        : `/exercices/${slug}/${encodeURIComponent(skill.id)}`,
     );
+  const hint = (skill: Skill, text: string) => (skill.mastery === null ? text : `${text} · ${fr.skills.mastery(skill.mastery)}`);
   // « Mes tables » next to the multiplications (SUB000119).
   const hasTables = data?.skills.some((s) => s.family === "Multiplication") ?? false;
 
   return (
     <main className="screen">
       <header className="screen-header">
-        <button type="button" className="back-button" onClick={() => void navigate("/menu")}>
-          ← {fr.series.menu}
+        <button type="button" className="back-button" onClick={() => void navigate("/exercices")}>
+          ← {fr.common.back}
         </button>
-        <h1 className="title">{fr.skills.title}</h1>
+        <h1 className="title">{fr.skills.titles[subject]}</h1>
         <SpeakButton text={usesFallback ? `${fr.skills.noSkills} ${fr.skills.spoken}` : fr.skills.spoken} autoPlay />
         {hasTables && (
           <button type="button" className="button tables-button" onClick={() => void navigate("/tables")}>
@@ -60,7 +66,7 @@ function Skills({ profile }: { profile: Profile }) {
           </h2>
           <div className="skill-list">
             {current.map((skill) => (
-              <BigButton key={skill.id} label={skill.title} hint={fr.skills.period(skill.period)} icon={<PencilIcon />} variant="primary" onClick={() => open(skill)} />
+              <BigButton key={skill.id} label={skill.title} hint={hint(skill, fr.skills.period(skill.period))} icon={<PencilIcon />} variant="primary" onClick={() => open(skill)} />
             ))}
           </div>
         </section>
@@ -76,7 +82,7 @@ function Skills({ profile }: { profile: Profile }) {
               <BigButton
                 key={skill.id}
                 label={skill.title}
-                hint={fr.skills.revisionFrom(skill.revisionFrom ?? "")}
+                hint={hint(skill, fr.skills.revisionFrom(skill.revisionFrom ?? ""))}
                 number={skill.revisionFrom ?? undefined}
                 onClick={() => open(skill)}
               />
@@ -92,7 +98,7 @@ function Skills({ profile }: { profile: Profile }) {
           </h2>
           <div className="skill-list skill-list-compact">
             {others.map((skill) => (
-              <BigButton key={skill.id} label={skill.title} hint={fr.skills.period(skill.period)} onClick={() => open(skill)} />
+              <BigButton key={skill.id} label={skill.title} hint={hint(skill, fr.skills.period(skill.period))} onClick={() => open(skill)} />
             ))}
           </div>
         </section>

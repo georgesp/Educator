@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-small-crossing",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-add-small-crossing"],
+  "title": "Ajouter en passant la dizaine",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on ajoute un petit nombre en s’arrêtant à la dizaine.",
+      "speech": "Aujourd’hui, tu vas apprendre à ajouter un petit nombre en t’arrêtant d’abord à la dizaine.",
+      "animation": { "type": "titleCard", "title": "Ajouter en passant la dizaine", "subtitle": "Je complète, puis j’ajoute le reste" }
+    },
+    {
+      "title": "Sans dépasser",
+      "text": "32 + 4 = 36 : seules les unités changent.",
+      "speech": "32 + 4 : on ajoute 4 cubes aux 2 cubes. 6 cubes, pas assez pour une barre. Seules les unités changent : 36.",
+      "animation": { "type": "tensUnits", "value": 32, "add": 4 }
+    },
+    {
+      "title": "On dépasse",
+      "text": "47 + 8 dépasse 50 : la voiture s’arrête d’abord au drapeau du 50.",
+      "speech": "47 + 8, ça dépasse 50 ! Alors la voiture s’arrête d’abord au drapeau du 50. De 47 à 50, elle avance de 3.",
+      "animation": { "type": "numberLine", "from": 40, "to": 60, "step": 1, "start": 47, "jumps": [3], "flags": [50] }
+    },
+    {
+      "title": "Couper 8",
+      "text": "Pour aller de 47 à 50, il faut 3. 8, c’est 3 et 5.",
+      "speech": "Dans le garage, 7 voitures : comme les 7 unités de 47. 3 voitures remplissent le garage. Les 5 autres vont dans le garage suivant. 8, c’est 3 et 5.",
+      "animation": { "type": "tenFrame", "filled": 7, "added": 8, "frames": 2 }
+    },
+    {
+      "title": "Le reste",
+      "text": "47 + 3 = 50, puis 50 + 5 = 55. Donc 47 + 8 = 55.",
+      "speech": "J’ai ajouté 3 pour arriver à 50. Il me reste 5 à ajouter : 50 + 5 = 55. Donc 47 + 8 = 55.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 47, "steps": [3, 5] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "26 + 7 : quel chemin coupe bien 7 et passe par 30 ?",
+      "speech": "À toi ! Pour calculer 26 + 7, il faut couper 7 en deux morceaux et passer par 30. Quel est le bon chemin ? Clique dessus.",
+      "animation": { "type": "calcChain", "mode": "pick", "chains": [{ "start": 26, "steps": [3, 3], "crossed": true }, { "start": 26, "steps": [4, 3] }, { "start": 26, "steps": [4, 4], "crossed": true }] }
+    },
+    {
+      "title": "Autre exemple",
+      "text": "68 + 5 : 68 → 70 (+ 2), puis + 3 → 73.",
+      "speech": "Un autre exemple : 68 + 5. De 68 au drapeau du 70, il faut 2. Il reste 3 : 73.",
+      "animation": { "type": "numberLine", "from": 60, "to": 80, "step": 1, "start": 68, "jumps": [2, 3], "flags": [70] }
+    },
+    {
+      "title": "À toi !",
+      "text": "39 + 4 : la voiture va d’abord au drapeau du 40, puis avance encore. Clique où elle arrive.",
+      "speech": "À toi ! Calcule 39 + 4. D’abord, la voiture avance de 1 jusqu’au drapeau du 40. Puis elle avance de 3. Clique où elle arrive à chaque fois.",
+      "animation": { "type": "numberLine", "from": 30, "to": 50, "step": 1, "start": 39, "jumps": [1, 3], "interactive": true, "flags": [40] }
+    },
+    {
+      "title": "Vérifier",
+      "text": "On vérifie avec les barres et les cubes : 47 + 8 = 55.",
+      "speech": "On vérifie avec les barres et les cubes. 47 et 8 : 4 barres et 15 cubes. On échange 10 cubes contre une barre : 5 barres et 5 cubes, 55. C’est juste !",
+      "animation": { "type": "tensUnits", "value": 47, "add": 8 }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Passer la dizaine :",
+      "speech": "Je retiens : je complète jusqu’à la dizaine, puis j’ajoute ce qu’il reste.",
+      "animation": { "type": "recapCard", "text": "Je complète jusqu’à la dizaine, puis j’ajoute ce qu’il reste.", "example": "47 + 8 = 47 + 3 + 5 = 55" }
+    }
+  ],
+  "quiz": [
+    { "question": "38 + 5 = ?", "spoken": "Combien font 38 + 5 ?", "answer": 43, "explanation": "38 + 2 = 40, puis 40 + 3 = 43." },
+    { "question": "56 + 7 = ?", "spoken": "Combien font 56 + 7 ? Choisis la bonne réponse.", "answer": 63, "choices": [62, 63, 64], "explanation": "56 + 4 = 60, puis 60 + 3 = 63." },
+    { "question": "29 + 4 = ?", "spoken": "Combien font 29 + 4 ?", "answer": 33, "explanation": "29 + 1 = 30, puis 30 + 3 = 33." },
+    { "question": "45 + 6 = ?", "spoken": "Combien font 45 + 6 ?", "answer": 51, "explanation": "45 + 5 = 50, puis 50 + 1 = 51." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : ajouter un nombre à un chiffre en passant par la dizaine supérieure",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

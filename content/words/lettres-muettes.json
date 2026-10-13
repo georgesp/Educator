@@ -1,0 +1,622 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "renard",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le renard est roux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bord",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je m'assois au bord de l'eau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "léopard",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le léopard a des taches.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "jus",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je bois un jus de pomme.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bras",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon bras est fort.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tas",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Il y a un tas de feuilles.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fruit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La pomme est un fruit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "biscuit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je mange un biscuit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bruit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La moto fait du bruit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "étang",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "g",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les canards nagent sur l'étang.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "drap",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le drap de mon lit est blanc.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "galop",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le cheval part au galop.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "prix",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quel est le prix de ce jouet ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "choix",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Tu as le choix.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tronc",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 2
+        },
+        {
+          "text": "c",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le tronc de l'arbre est épais.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "avocat",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'aime l'avocat avec du citron.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "plat",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le plat est très chaud.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "marchand",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 5
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le marchand vend des fruits.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "gourmand",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "ou",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 5
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Mon chat est gourmand.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pied",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je tape du pied.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lourd",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le sac est lourd.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "crapaud",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 4
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le crapaud saute dans l'herbe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "brebis",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La brebis donne de la laine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "colis",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le facteur apporte un colis.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "repos",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "C'est l'heure du repos.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "outil",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 0
+        },
+        {
+          "text": "l",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa range son outil.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    }
+  ]
+}

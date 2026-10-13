@@ -1,0 +1,111 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-comparer-ranger-1000",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-num-compare", "ce1-num-frame-line"],
+  "title": "Comparer, ranger et placer jusqu’à 1 000",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on compare les nombres, on les range et on les place sur la piste.",
+      "speech": "Aujourd’hui, tu vas apprendre à comparer deux nombres, à les ranger du plus petit au plus grand, et à les placer sur la piste graduée.",
+      "animation": { "type": "titleCard", "title": "Comparer, ranger et placer", "subtitle": "Les nombres jusqu’à 1 000" }
+    },
+    {
+      "title": "Les signes",
+      "text": "< veut dire « est plus petit que », > veut dire « est plus grand que ». La pointe montre le plus petit.",
+      "speech": "Pour comparer, on utilise deux signes. Le premier se lit : est plus petit que. Le second : est plus grand que. Retiens bien : la pointe montre toujours le plus petit nombre. Ici, 25 est plus petit que 52.",
+      "animation": { "type": "compareNumbers", "a": 25, "b": 52 }
+    },
+    {
+      "title": "Les centaines d’abord",
+      "text": "438 et 483 : 4 centaines chacun. Je regarde les dizaines : 3 < 8, donc 438 < 483.",
+      "speech": "Comparons 438 et 483. Je commence par la gauche : les centaines. 4 et 4, c’est pareil. Alors je regarde les dizaines : 3 dizaines contre 8 dizaines. Donc 438 est plus petit que 483.",
+      "animation": { "type": "compareNumbers", "a": 438, "b": 483 }
+    },
+    {
+      "title": "Avec le matériel",
+      "text": "483 : 4 plaques, 8 barres, 3 cubes. 438 a aussi 4 plaques, mais seulement 3 barres.",
+      "speech": "Avec le matériel, on le voit bien. 483, c’est 4 plaques, 8 barres et 3 cubes. 438 a aussi 4 plaques, mais seulement 3 barres. 483 a plus de barres : il est plus grand.",
+      "animation": { "type": "tensUnits", "value": 483 }
+    },
+    {
+      "title": "À toi !",
+      "text": "607 … 670 : quel signe ? Compare d’abord les centaines, puis les dizaines.",
+      "speech": "À toi ! Quel signe mets-tu entre 607 et 670 ? Compare d’abord les centaines, puis les dizaines. Clique sur le bon signe.",
+      "animation": { "type": "compareNumbers", "a": 607, "b": 670, "interactive": true }
+    },
+    {
+      "title": "Ranger",
+      "text": "Range les voitures sur la grille de départ, du plus petit nombre au plus grand.",
+      "speech": "Ranger dans l’ordre croissant, c’est aller du plus petit au plus grand. Clique d’abord sur la voiture qui a le plus petit nombre, puis sur la suivante.",
+      "animation": { "type": "sequencePattern", "values": [483, 348, 438], "interactive": true }
+    },
+    {
+      "title": "Encadrer",
+      "text": "347 est entre 300 et 400 : 300 < 347 < 400. On l’encadre entre deux drapeaux.",
+      "speech": "Sur la piste de 0 à 1000, les graduations vont de 100 en 100. La voiture est sur 300. 347 est plus loin que 300, mais avant 400. On dit qu’on encadre 347 entre 300 et 400.",
+      "animation": { "type": "numberLine", "from": 0, "to": 1000, "step": 100, "start": 300, "flags": [300, 400] }
+    },
+    {
+      "title": "La graduation",
+      "text": "Entre 300 et 400, la piste va de 10 en 10. La voiture s’arrête sur 340 ; 347 est un peu plus loin.",
+      "speech": "Faisons un zoom entre 300 et 400. Ici, les graduations vont de 10 en 10. La voiture avance de 40 : elle arrive sur 340. 347 est juste un peu plus loin, entre 340 et 350.",
+      "animation": { "type": "numberLine", "from": 300, "to": 400, "step": 10, "start": 300, "jumps": [40], "flags": [300, 400] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Où est 520 ? Les graduations vont de 10 en 10. Clique sur la graduation de 520.",
+      "speech": "À toi ! Trouve 520 sur la piste. Les graduations vont de 10 en 10, et le drapeau marque 500. Clique sur la graduation de 520.",
+      "animation": { "type": "numberLine", "from": 400, "to": 600, "step": 10, "start": 400, "jumps": [120], "interactive": true, "hoverValues": false, "flags": [500] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour comparer deux nombres :",
+      "speech": "Je retiens : pour comparer, je regarde d’abord les centaines. Si elles sont égales, je regarde les dizaines, puis les unités.",
+      "animation": { "type": "recapCard", "text": "Je compare d’abord les centaines ; si elles sont égales, les dizaines ; puis les unités.", "example": "438 < 483" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "529 … 592",
+      "spoken": "Quel signe mets-tu entre 529 et 592 ?",
+      "answer": "<",
+      "choices": ["<", ">", "="],
+      "explanation": "Les centaines sont égales. 2 dizaines, c’est moins que 9 dizaines : 529 est plus petit que 592."
+    },
+    {
+      "question": "Le plus grand : 699, 701 ou 690 ?",
+      "spoken": "Quel est le plus grand nombre : 699, 701 ou 690 ?",
+      "answer": 701,
+      "choices": [699, 701, 690],
+      "explanation": "701 a 7 centaines, les autres seulement 6 : 701 est le plus grand."
+    },
+    {
+      "question": "500 < 563 < …",
+      "spoken": "563 est entre 500 et quelle centaine ?",
+      "answer": 600,
+      "explanation": "Après 500, la centaine suivante est 600 : 500 est plus petit que 563, qui est plus petit que 600."
+    },
+    {
+      "question": "765, 657, 756 : le premier rangé ?",
+      "spoken": "On range 765, 657 et 756 du plus petit au plus grand. Lequel vient en premier ?",
+      "answer": 657,
+      "choices": [765, 657, 756],
+      "explanation": "657 n’a que 6 centaines : c’est le plus petit. Puis 756, puis 765."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, nombres : comparer, ranger, encadrer et repérer sur une droite graduée les nombres jusqu'à 1 000",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

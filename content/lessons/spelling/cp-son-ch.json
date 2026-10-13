@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-ch",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-son-ch"],
+  "title": "Le son [ch]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [ch].",
+      "speech": "Aujourd’hui, on apprend à écrire le son che. Écoute : un chat, une vache. C’est le bruit qu’on fait pour dire chut !",
+      "animation": {"type": "titleCard", "title": "Le son [ch]", "subtitle": "c et h, ensemble"}
+    },
+    {
+      "title": "c et h ensemble",
+      "text": "Quand on colle les lettres c et h, on entend [ch] : une vache, un chat.",
+      "speech": "Quand on colle la lettre c et la lettre h, on entend che. Une vache, un chat.",
+      "animation": {"type": "letterTiles", "word": "vache", "tiles": ["v", "a", "ch", "e"], "interactive": false}
+    },
+    {
+      "title": "Partout dans le mot",
+      "text": "[ch] peut être au début (un chien), au milieu (une machine) ou à la fin (une ruche).",
+      "speech": "Le son che peut être au début du mot, comme dans chien, au milieu, comme dans machine, ou à la fin, comme dans ruche.",
+      "animation": {"type": "letterTiles", "word": "machine", "tiles": ["m", "a", "ch", "i", "n", "e"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « ruche » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot ruche : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "ruche", "tiles": ["r", "u", "ch", "e"], "distractors": ["c", "j"]}
+    },
+    {
+      "title": "ch ou j ?",
+      "text": "[ch] souffle sans bruit, [j] vibre dans la gorge. Un chou, une joue.",
+      "speech": "Attention ! Le son che souffle sans bruit. Le son je vibre dans la gorge. Écoute : un chou, une joue. Range chaque mot dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["ch", "j"], "words": [{"word": "chou", "group": "ch"}, {"word": "niche", "group": "ch"}, {"word": "biche", "group": "ch"}, {"word": "poche", "group": "ch"}, {"word": "joue", "group": "j"}, {"word": "jupe", "group": "j"}, {"word": "judo", "group": "j"}, {"word": "pyjama", "group": "j"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « cheval ». Dis le mot doucement : che, val.",
+      "speech": "À toi ! Écris le mot cheval. Dis-le tout doucement : che, val.",
+      "animation": {"type": "letterTiles", "word": "cheval", "tiles": ["ch", "e", "v", "a", "l"], "distractors": ["j", "s"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « cloche ». Attention : c tout seul et ch, ce n’est pas pareil !",
+      "speech": "À toi ! Écris le mot cloche. Attention : la lettre c toute seule et les lettres c, h ensemble, ce n’est pas pareil !",
+      "animation": {"type": "letterTiles", "word": "cloche", "tiles": ["c", "l", "o", "ch", "e"], "distractors": ["j", "s"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [ch] :",
+      "speech": "Je retiens : le son che s’écrit avec deux lettres collées, c et h. Un chat, une vache, une ruche.",
+      "animation": {"type": "recapCard", "text": "Le son [ch] s’écrit avec deux lettres collées : c et h.", "example": "chat · vache · ruche"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il manque deux lettres : une va…e", "spoken": "Une vache. Quelles lettres manquent dans le mot vache ?", "answer": "ch", "choices": ["ch", "j", "s"], "explanation": "Vache s’écrit v, a, c, h, e."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot niche. Le chien dort dans sa niche.", "answer": "niche", "explanation": "Niche s’écrit n, i, c, h, e."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un petit chaton. Choisis la bonne écriture du mot chaton.", "answer": "chaton", "choices": ["chaton", "jaton", "caton"], "explanation": "Chaton commence par c, h : on entend che."},
+    {"question": "Entends-tu [ch] dans « joue » ?", "spoken": "Une joue. Entends-tu le son che dans le mot joue ?", "answer": "non", "choices": ["oui", "non"], "explanation": "Non : dans joue, on entend je, qui vibre. Dans chou, on entend che, qui souffle."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : vingt-cinq à trente correspondances en milieu d’année ; dictée de mots",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — graphèmes de deux lettres : ch ; distinguer les sons proches ch et j",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

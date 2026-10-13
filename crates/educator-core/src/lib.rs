@@ -12,13 +12,16 @@ mod error;
 pub mod exercises;
 mod grade;
 pub mod lessons;
+pub mod mascot;
 pub mod numbers;
 pub mod points;
 pub mod profiles;
 pub mod random;
+pub mod sessions;
 pub mod settings;
 pub mod skills;
 pub mod speech;
+pub mod spelling;
 
 pub use error::{Error, Result};
 pub use grade::Grade;

@@ -2,23 +2,34 @@ import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { AnswerPayload, Exercise, Series, SeriesAnswer } from "../api/client";
-import { fakeApi, renderApp } from "../test/renderWithApp";
+import { fakeApi, renderApp, summaryOf } from "../test/renderWithApp";
 
 /** A series of one exercise, answered by `expected`. */
 function oneExercise(exercise: Omit<Exercise, "index">, expected: AnswerPayload, help: SeriesAnswer["help"] = null) {
-  const series: Series = { seriesId: "s", seed: 1, skillId: "ce1", instruction: "Consigne.", answerMode: "Keyboard", exercises: [{ index: 0, ...exercise }] };
+  const series: Series = {
+    seriesId: "s",
+    sessionType: "Exercise",
+    subject: "Math",
+    seed: 1,
+    skillId: "ce1",
+    instruction: "Consigne.",
+    answerMode: "Keyboard",
+    timeLimitSeconds: null,
+    exercises: [{ index: 0, ...exercise }],
+  };
   const answerSeries = vi.fn(async (_s: string, _i: number, given: AnswerPayload) => ({
     correct: JSON.stringify(given) === JSON.stringify(expected),
     expected,
     expectedLabel: "label",
     explanation: "La correction.",
     help,
-    summary: { correctCount: 0, exerciseCount: 1, pointsEarned: 0, profilePoints: 120 },
+    correction: null,
+    summary: summaryOf(0, 1, 0, 120, "ce1"),
   }));
   return fakeApi({ startSeries: async () => series, answerSeries });
 }
 
-const base = { question: null, picture: null, choices: null, prompt: "?", spokenPrompt: "?" } as const;
+const base = { question: null, picture: null, choices: null, prompt: "?", spokenPrompt: "?", word: null } as const;
 
 describe("SeriesScreen — CE1 families", () => {
   it("comparison: three sign buttons, the picked sign goes in the slot", async () => {
@@ -31,7 +42,7 @@ describe("SeriesScreen — CE1 families", () => {
 
     await user.click(await screen.findByRole("button", { name: "est plus grand que" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "comparison", sign: ">" });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "comparison", sign: ">" }, expect.any(Number));
     expect(await screen.findByText("La correction.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "est plus petit que" })).toHaveClass("choice-right");
     expect(within(document.querySelector(".equation") as HTMLElement).getByText(">")).toHaveClass("slot-wrong");
@@ -58,7 +69,7 @@ describe("SeriesScreen — CE1 families", () => {
     await user.click(screen.getByRole("button", { name: "0" }));
     await user.click(screen.getByRole("button", { name: "Valider" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "sequence", values: [300, 400] });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "sequence", values: [300, 400] }, expect.any(Number));
     expect(await screen.findByRole("status")).toHaveTextContent(/!/);
   });
 
@@ -80,7 +91,7 @@ describe("SeriesScreen — CE1 families", () => {
     await user.type(screen.getByLabelText("Numérateur (en haut)"), "6{Enter}");
     await user.type(screen.getByLabelText("Dénominateur (en bas)"), "8{Enter}");
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "fraction", numerator: 6, denominator: 8 });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "fraction", numerator: 6, denominator: 8 }, expect.any(Number));
   });
 
   it("order: the arrows move the numbers, then « Valider » sends the order", async () => {
@@ -95,7 +106,7 @@ describe("SeriesScreen — CE1 families", () => {
     await user.click(screen.getByRole("button", { name: "Déplacer 483 vers la droite" }));
     await user.click(screen.getByRole("button", { name: "Valider" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "sequence", values: [348, 438, 483] });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "sequence", values: [348, 438, 483] }, expect.any(Number));
   });
 
   it("several right numbers: pick them, then validate; the missed ones are shown", async () => {
@@ -111,7 +122,7 @@ describe("SeriesScreen — CE1 families", () => {
     await user.click(screen.getByRole("button", { name: "461" }));
     await user.click(screen.getByRole("button", { name: "Valider" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "set", values: [496, 461] });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "set", values: [496, 461] }, expect.any(Number));
     await waitFor(() => expect(screen.getByRole("button", { name: "461" })).toHaveClass("choice-wrong"));
     expect(screen.getByRole("button", { name: "710" })).toHaveClass("choice-missed");
     expect(screen.getByRole("button", { name: "496" })).toHaveClass("choice-right");
@@ -124,7 +135,7 @@ describe("SeriesScreen — CE1 families", () => {
 
     await user.click(await screen.findByRole("button", { name: "Non" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "yesNo", value: false });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "yesNo", value: false }, expect.any(Number));
   });
 
   it("number line: a click on a graduation answers with its number", async () => {
@@ -143,7 +154,7 @@ describe("SeriesScreen — CE1 families", () => {
 
     await user.click(await screen.findByRole("button", { name: "Graduation 6" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "number", value: 460 });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "number", value: 460 }, expect.any(Number));
   });
 
   it("pick among written words, then the correction with its picture", async () => {
@@ -158,7 +169,7 @@ describe("SeriesScreen — CE1 families", () => {
 
     await user.click(await screen.findByRole("button", { name: "deux cent quatre-vingt" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "text", value: "deux cent quatre-vingt" });
+    expect(api.answerSeries).toHaveBeenCalledWith("s", 0, { kind: "text", value: "deux cent quatre-vingt" }, expect.any(Number));
     expect(await screen.findByRole("button", { name: "deux cent quatre-vingts" })).toHaveClass("choice-right");
     expect(screen.getByRole("img", { name: "Schéma en barres" })).toBeInTheDocument();
     expect(screen.getByText("Regarde le schéma")).toBeInTheDocument();

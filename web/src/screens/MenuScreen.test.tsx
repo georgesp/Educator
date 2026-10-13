@@ -13,17 +13,31 @@ describe("MenuScreen", () => {
     expect(screen.getByLabelText("120 points")).toBeInTheDocument();
   });
 
-  it("opens Exercises, and says aloud that the locked entries come soon", async () => {
+  it("every entry is open (SUB001416): Lessons, Exercises, Exam and Options", async () => {
     setVoiceEnabled(true);
     const api = fakeApi();
     const router = renderApp(api, "/menu");
     const user = userEvent.setup();
 
-    await user.click(await screen.findByRole("button", { name: /Examen/ }));
-    expect(api.speak).toHaveBeenCalledWith("Cette partie arrive bientôt.");
-    expect(router.state.location.pathname).toBe("/menu");
+    const entries = await screen.findAllByRole("button", { name: /Leçons|Exercices|Examen|Options/ });
+    expect(entries.map((e) => e.textContent)).toEqual([
+      expect.stringContaining("Leçons"),
+      expect.stringContaining("Exercices"),
+      expect.stringContaining("Examen"),
+      expect.stringContaining("Options"),
+    ]);
+    expect(entries.every((e) => e.getAttribute("aria-disabled") === null)).toBe(true);
 
-    await user.click(screen.getByRole("button", { name: /Exercices/ }));
+    await user.click(screen.getByRole("button", { name: /Examen/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/examen"));
+    expect(api.speak).not.toHaveBeenCalledWith("Cette partie arrive bientôt.");
+  });
+
+  it("opens Exercises", async () => {
+    const router = renderApp(fakeApi(), "/menu");
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: /Exercices/ }));
     await waitFor(() => expect(router.state.location.pathname).toBe("/exercices"));
   });
 
@@ -42,8 +56,8 @@ describe("MenuScreen", () => {
     exercises.focus();
 
     await user.keyboard("{ArrowDown}");
-    expect(screen.getByRole("button", { name: /Leçons/ })).toHaveFocus();
-    await user.keyboard("{ArrowUp}{ArrowUp}");
+    expect(screen.getByRole("button", { name: /Examen/ })).toHaveFocus();
+    await user.keyboard("{ArrowUp}{ArrowUp}{ArrowUp}");
     expect(screen.getByRole("button", { name: /Options/ })).toHaveFocus();
   });
 

@@ -7,6 +7,7 @@ mod answer;
 mod calculation;
 mod calculation_exercise;
 mod double_half;
+pub mod exam;
 mod exercise;
 pub mod expression;
 mod family;
@@ -23,15 +24,19 @@ pub use answer::{join_numbers, Answer, Comparison, Fraction};
 pub use calculation::{ArithmeticOperation, Calculation, DuplicateKey};
 pub use calculation_exercise::{CalculationExercise, HiddenPart};
 pub use exercise::{Exercise, PLACEHOLDER};
+pub(crate) use family::{Draw, Position};
 pub use generator::{
-    build_choices, distinct_count, generate_calculations, generate_series, CHOICE_COUNT,
-    DEFAULT_LENGTH, FOCUS_SHARE, MAX_OPERAND_REPEATS, RESULT_FORMAT_SHARE,
+    build_choices, distinct_count, formats_for, generate_calculations, generate_series,
+    generate_series_as, CHOICE_COUNT, DEFAULT_LENGTH, FOCUS_SHARE, MAX_OPERAND_REPEATS,
+    RESULT_FORMAT_SHARE,
 };
 pub use presentation::{BarSegment, FractionShape, Input, Picture, Token};
 pub use problems::{
     draw_numbers, elide, fill, FirstName, Noun, ProblemHelp, ProblemKind, ProblemSet,
     ProblemTemplate, ProblemWords, VariableRange, WORD_PLACEHOLDERS,
 };
-pub use series::{AnswerOutcome, Series, SeriesService, SeriesSummary, SERIES_CAPACITY};
+pub use series::{
+    AnswerOutcome, NewSeries, Series, SeriesService, SeriesSummary, SkillResult, SERIES_CAPACITY,
+};
 pub use space::CalculationSpace;
 pub use tables::{multiplication_table, TableLine, TABLE_LAST_FACTOR};

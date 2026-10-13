@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-m-devant-m-b-p",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 2,
+  "title": "m devant m, b, p",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "an",
+      "on",
+      "in"
+    ],
+    "graphemes": [
+      "am",
+      "em",
+      "om",
+      "im"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — Vocabulaire : « il décode les mots comportant un m devant m/b/p » ; consolidé au CE1 : première ligne (an, am, in, im, en, em) du guide « Pour enseigner la lecture et l'écriture au CE1 » (eduscol), progression des graphèmes complexes. Période choisie par Educator."
+}

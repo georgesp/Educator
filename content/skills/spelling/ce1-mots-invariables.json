@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-mots-invariables",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 5,
+  "title": "Les mots invariables",
+  "instruction": "Écoute bien le petit mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "categories": [
+      "adverbe",
+      "mot-outil"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — mémoriser des listes analogiques (tôt / aussitôt / plutôt) et thématiques (ici / loin) de mots invariables. Mots tirés de la liste de fréquence lexicale (eduscol). Période choisie par Educator."
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-premieres-fractions",
+  "subject": "math",
+  "grade": "CE1",
+  "period": 2,
+  "skillIds": ["ce1-frac-unit", "ce1-frac-read-write", "ce1-frac-compare-add"],
+  "title": "Les premières fractions",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on partage une bande de piste en parts égales : ce sont les fractions.",
+      "speech": "Aujourd’hui, tu vas partager une bande de piste en parts égales. Chaque part a un nom : c’est une fraction.",
+      "animation": { "type": "titleCard", "title": "Les premières fractions", "subtitle": "Partager en parts égales" }
+    },
+    {
+      "title": "Partager juste",
+      "text": "La bande est partagée en 2 parts égales. Chaque part est un demi : 1/2.",
+      "speech": "La bande de piste est partagée en 2 parts égales. Chaque part s’appelle un demi. On l’écrit avec un 1 en haut et un 2 en bas.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 2, "numerators": [1] }] }
+    },
+    {
+      "title": "Pas égales ?",
+      "text": "Si les parts ne sont pas égales, ce ne sont pas des demis !",
+      "speech": "Attention ! Ici, la bande est coupée en 2, mais une part est bien plus grande que l’autre. Les parts ne sont pas égales : ce ne sont pas des demis.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 2, "numerators": [1] }], "unequal": true }
+    },
+    {
+      "title": "Tiers, quarts…",
+      "text": "En 3 parts : des tiers. En 4 : des quarts. Puis des cinquièmes, sixièmes, huitièmes, dixièmes.",
+      "speech": "En 3 parts égales, chaque part est un tiers. En 4 parts, un quart. En 5, un cinquième. Puis il y a les sixièmes, les huitièmes et les dixièmes.",
+      "animation": {
+        "type": "fractionBar",
+        "bars": [
+          { "denominator": 3, "numerators": [1] },
+          { "denominator": 4, "numerators": [1] },
+          { "denominator": 5, "numerators": [1] },
+          { "denominator": 6, "numerators": [1] },
+          { "denominator": 8, "numerators": [1] },
+          { "denominator": 10, "numerators": [1] }
+        ]
+      }
+    },
+    {
+      "title": "À toi !",
+      "text": "La bande a 4 parts égales. Colorie un quart.",
+      "speech": "À toi ! La bande est partagée en 4 parts égales. Colorie un quart : clique sur une part.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 4, "numerators": [1] }], "interactive": true }
+    },
+    {
+      "title": "Plusieurs parts",
+      "text": "3 quarts : 3/4. En bas, le dénominateur (4 parts). En haut, le numérateur (3 parts prises).",
+      "speech": "Ici, on a colorié 3 parts sur 4 : ce sont 3 quarts. En bas, le dénominateur dit en combien de parts on a partagé : 4. En haut, le numérateur dit combien on en prend : 3.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 4, "numerators": [3] }], "notation": true }
+    },
+    {
+      "title": "Plus de parts, plus petites",
+      "text": "Un tiers et un cinquième : plus il y a de parts, plus elles sont petites. 1/3 > 1/5.",
+      "speech": "Compare un tiers et un cinquième. La bande partagée en 5 a plus de parts, donc ses parts sont plus petites. Un tiers est plus grand qu’un cinquième.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 3, "numerators": [1] }, { "denominator": 5, "numerators": [1] }] }
+    },
+    {
+      "title": "Ajouter",
+      "text": "2/8 + 3/8 = 5/8 : on compte des huitièmes, le dénominateur ne change pas.",
+      "speech": "Deux huitièmes plus trois huitièmes : on compte des huitièmes. 2 huitièmes et 3 huitièmes font 5 huitièmes. Le dénominateur ne change pas.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 8, "numerators": [2, 3] }] }
+    },
+    {
+      "title": "À toi !",
+      "text": "1/4 + 2/4 : colorie un quart, puis deux quarts. Combien de quarts en tout ?",
+      "speech": "À toi ! Un quart plus deux quarts. Colorie un quart, puis encore deux quarts sur la bande.",
+      "animation": { "type": "fractionBar", "bars": [{ "denominator": 4, "numerators": [3] }], "interactive": true, "notation": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les fractions :",
+      "speech": "Je retiens : le dénominateur dit en combien de parts égales on partage. Le numérateur dit combien de parts on prend.",
+      "animation": { "type": "recapCard", "text": "Le dénominateur dit en combien de parts égales on partage ; le numérateur dit combien de parts on prend.", "example": "3/4 : 3 parts sur 4" }
+    }
+  ],
+  "quiz": [
+    {
+      "question": "4 parts égales, 1 part coloriée : quelle fraction ?",
+      "spoken": "Une bande partagée en 4 parts égales, 1 part est coloriée. Quelle fraction est coloriée ?",
+      "answer": "1/4",
+      "choices": ["1/4", "1/3", "4/1"],
+      "explanation": "1 part coloriée sur 4 parts égales : c’est un quart."
+    },
+    {
+      "question": "Écris en chiffres : trois quarts",
+      "spoken": "Écris en chiffres : trois quarts. Choisis la bonne écriture.",
+      "answer": "3/4",
+      "choices": ["3/4", "4/3", "3/3"],
+      "explanation": "Trois quarts : on écrit en haut 3, les parts prises, et en bas 4, les parts égales."
+    },
+    {
+      "question": "1/4 … 1/6",
+      "spoken": "Quel signe mets-tu entre un quart et un sixième ?",
+      "answer": ">",
+      "choices": ["<", ">", "="],
+      "explanation": "Un sixième est plus petit qu’un quart : plus il y a de parts, plus elles sont petites."
+    },
+    {
+      "question": "1/5 + 3/5 = ?",
+      "spoken": "Combien font un cinquième plus trois cinquièmes ?",
+      "answer": "4/5",
+      "choices": ["4/5", "4/10", "3/5"],
+      "explanation": "1 cinquième et 3 cinquièmes font 4 cinquièmes : le dénominateur ne change pas."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1, nombres : fractions (demi, tiers, quart…), numérateur et dénominateur, comparer et ajouter des fractions simples",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-son-eu",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 5,
+  "title": "Le son [eu]",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "sounds": [
+      "eu"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — en fin d'année, déchiffrer tous les mots et écrire sous la dictée des mots et des phrases. Période choisie par Educator."
+}

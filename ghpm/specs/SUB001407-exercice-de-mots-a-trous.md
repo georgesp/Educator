@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001407 — Exercice de mots à trous
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -30,5 +30,18 @@ En tant qu'enfant, je veux compléter les lettres manquantes d'un mot afin de re
 
 ## Critères d'acceptation
 
-- [ ] Les propositions du mode choix sont des graphies concurrentes du même son.
-- [ ] Tests du générateur (masquage, propositions).
+- [x] Les propositions du mode choix sont des graphies concurrentes du même son (confusions fréquentes pour un son écrit d'une seule façon, décision du 2026-10-14).
+- [x] Tests du générateur (masquage, propositions).
+
+## Implémentation (2026-10-14)
+
+- Format `missingLetters` : une graphie travaillée par mot (champ `graphemes`) est masquée ; le mot est affiché
+  avec un tiret par lettre manquante (« bat___ ») : dans la case à compléter (saisie) ou à la place des lettres
+  (choix). Deux modes : saisie des lettres ou choix parmi 3 graphies. Un seul trou par mot (décision du
+  2026-10-14).
+- Propositions : graphies concurrentes du même son (`content/spelling/sounds.json`). Pour un son qui n'a qu'une
+  graphie au CP (ou, on, oi, ch), il n'en existe pas : les propositions viennent alors des confusions fréquentes
+  (o / u pour ou, an / no pour on…), qui sont les erreurs réelles des enfants de CP. Décision de Georges du
+  2026-10-14 : on garde ces confusions.
+- Les mots outils ne sont pas proposés en mots à trous (pas de graphie travaillée).
+- Tests du générateur (`spelling/exercises.rs`, `content_validation.rs`).

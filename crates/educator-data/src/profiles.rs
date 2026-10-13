@@ -21,7 +21,7 @@ impl SqliteProfileStore {
 }
 
 /// Upper-case hyphenated text, as EF Core stores a Guid in SQLite.
-fn id_text(id: Uuid) -> String {
+pub(crate) fn id_text(id: Uuid) -> String {
     id.hyphenated()
         .encode_upper(&mut Uuid::encode_buffer())
         .to_owned()

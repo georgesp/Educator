@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-mots-outils",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 3,
+  "title": "Les petits mots à connaître",
+  "instruction": "Écoute bien le petit mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "categories": [
+      "mot-outil",
+      "adverbe"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — en milieu d'année, mémoriser les mots fréquents et réguliers ; mémoriser l'orthographe lexicale tout au long de l'année. Liste tirée de la liste de fréquence lexicale (eduscol)."
+}

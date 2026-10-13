@@ -1,14 +1,16 @@
-import { useState } from "react";
-import { isMuted, setMuted } from "../audio/sounds";
+import { setMuted, useMuted } from "../audio/sounds";
+import { stopSpeech } from "../audio/useSpeech";
 import { fr } from "../i18n/fr";
 import { MutedIcon, SpeakerIcon } from "./icons";
 
 /** Mutes the feedback sounds (setting kept in this computer until the Options of lot 3). */
 export function SoundToggle() {
-  const [muted, setMutedState] = useState(isMuted);
+  const muted = useMuted();
   const toggle = () => {
     setMuted(!muted);
-    setMutedState(!muted);
+    if (!muted) {
+      stopSpeech();
+    }
   };
 
   return (

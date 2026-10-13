@@ -15,6 +15,8 @@ type NumberLineProps = {
   interactive: boolean;
   /** Interactive line: the value of the graduation under the pointer shows (off when finding it is the lesson). */
   hoverValues: boolean;
+  /** Graduations marked with a checkered flag (bounds of a framing, ten to reach). */
+  flags?: number[];
   onComplete?(): void;
 };
 
@@ -31,7 +33,7 @@ const ROW_HEIGHT = 36;
 const labelled = (value: number, step: number) => step >= 10 || value % 10 === 0;
 
 /** `numberLine`: a graduated track; the car jumps from `start` (+ 20, then − 1). */
-export function NumberLine({ from, to, step, start, jumps, interactive, hoverValues, onComplete }: NumberLineProps) {
+export function NumberLine({ from, to, step, start, jumps, interactive, hoverValues, flags = [], onComplete }: NumberLineProps) {
   const shownSteps = useSteps(interactive ? 0 : jumps.length, jumps);
   const [found, setFound] = useState(0);
   const [misses, setMisses] = useState(0);
@@ -55,7 +57,7 @@ export function NumberLine({ from, to, step, start, jumps, interactive, hoverVal
   // Labels from left to right, a label too close to the previous one of its row goes a row lower.
   const rows = new Map<number, number>();
   const lastOfRow: number[] = [];
-  for (const v of values.filter((v) => labelled(v, step) || reached.has(v))) {
+  for (const v of values.filter((v) => labelled(v, step) || reached.has(v) || flags.includes(v))) {
     let row = 0;
     while (lastOfRow[row] !== undefined && x(v) - lastOfRow[row] < LABEL_ROOM) {
       row += 1;
@@ -104,6 +106,14 @@ export function NumberLine({ from, to, step, start, jumps, interactive, hoverVal
           </pattern>
         </defs>
         <rect x={x(to) + 20} y={BASE - 14} width={28} height={28} fill={`url(#${checker})`} />
+
+        {/* Flags on a tall pole, above the car that may stand on the same graduation. */}
+        {flags.map((f) => (
+          <g key={`flag-${f}`} className="line-flag" role="img" aria-label={fr.lessons.flag(f)}>
+            <line x1={x(f)} y1={BASE - 14} x2={x(f)} y2={BASE - 96} className="line-flag-pole" />
+            <rect x={x(f)} y={BASE - 96} width={36} height={24} fill={`url(#${checker})`} className="line-flag-cloth" />
+          </g>
+        ))}
 
         {values.map((v) => (
           <g key={v}>

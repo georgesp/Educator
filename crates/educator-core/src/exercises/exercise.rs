@@ -1,5 +1,6 @@
 use super::{Answer, CalculationExercise, Input, Picture, Token};
 use crate::skills::ExerciseFormat;
+use crate::spelling::{self, SpellingCorrection, SpokenWord};
 
 pub const PLACEHOLDER: &str = "?";
 
@@ -30,6 +31,8 @@ pub struct Exercise {
     pub key: String,
     /// The calculation, for the calculation families.
     pub calculation: Option<CalculationExercise>,
+    /// Spelling: the word read (pre-generated audio) and the letters around the blank.
+    pub word: Option<SpokenWord>,
 }
 
 impl Exercise {
@@ -42,9 +45,33 @@ impl Exercise {
         self.expected.label()
     }
 
+    /// Spelling: the child's whole word, letter by letter against the expected one (the letters
+    /// typed or picked put back in the word for the missing letters). `None` for the other families.
+    pub fn correction(&self, given: &Answer) -> Option<SpellingCorrection> {
+        let (Some(word), Answer::Text(text)) = (&self.word, given) else {
+            return None;
+        };
+
+        Some(spelling::correct(&word.word, &word.completed(text)))
+    }
+
     /// Written form of the whole exercise, with `?` for the answer: the question, then the
-    /// statement (reviews of the samples, accessibility).
+    /// statement (reviews of the samples, accessibility). A spelling exercise never shows the word
+    /// to find: « Dictée », « bat_ ».
     pub fn prompt(&self) -> String {
+        match (self.format, &self.word) {
+            (ExerciseFormat::Dictation, _) => return "Dictée".to_owned(),
+            (ExerciseFormat::ChooseSpelling, _) => return "Choisis la bonne écriture".to_owned(),
+            (
+                _,
+                Some(SpokenWord {
+                    blank: Some((before, after)),
+                    ..
+                }),
+            ) => return format!("{before}_{after}"),
+            _ => {}
+        }
+
         let statement = self
             .statement
             .iter()

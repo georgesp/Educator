@@ -20,7 +20,7 @@ describe("SeriesScreen", () => {
     expect(api.speak).toHaveBeenCalledWith("Calcule. Combien font 3 plus 4 ?");
 
     await user.type(input, "a7{Enter}");
-    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 7 });
+    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 7 }, expect.any(Number));
     expect(await screen.findByRole("status")).toHaveTextContent("Bravo !");
 
     // The next exercise comes by itself.
@@ -71,7 +71,7 @@ describe("SeriesScreen", () => {
 
     await user.click(await screen.findByRole("button", { name: "8" }));
 
-    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 8 });
+    expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 8 }, expect.any(Number));
     expect(await screen.findByText("3 + 4 = 7")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "7" })).toHaveClass("choice-right");
     expect(screen.queryByLabelText("Ta réponse")).not.toBeInTheDocument();

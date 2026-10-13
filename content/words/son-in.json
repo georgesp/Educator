@@ -1,0 +1,1382 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "lapin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le lapin mange une carotte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "sapin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le sapin de Noël brille.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "jardin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les fleurs poussent dans le jardin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "matin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le matin, je prends mon petit déjeuner.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "moulin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le moulin tourne avec le vent.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dessin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je fais un dessin pour maman.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "voisin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "z",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon voisin a un chien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "raisin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "z",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le raisin est sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "coussin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je pose ma tête sur le coussin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dauphin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "f",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "ph",
+          "sound": "f",
+          "position": 3
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le dauphin saute hors de l'eau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "lutin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le lutin se cache dans la forêt.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "patin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai un patin à roulettes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "linge",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Maman étend le linge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "singe",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le singe grimpe à l'arbre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "dinde",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La dinde fait glouglou.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cinq",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "in",
+        "k"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "q",
+          "sound": "k",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "J'ai cinq doigts à chaque main.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "quinze",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "k",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 0
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "J'ai quinze billes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mince",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le fil est très mince.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "prince",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 2
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le prince monte à cheval.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "magasin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "z",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Nous allons au magasin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "câlin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je fais un câlin à mon papa.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "marin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le marin navigue sur son bateau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bassin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les poissons rouges nagent dans le bassin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "malin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le renard est malin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pin est un grand arbre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "C'est la fin de l'histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "instant",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Attends un instant.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "insecte",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La coccinelle est un insecte.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "inviter",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais inviter mes amis.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vingt",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "muet",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "J'ai vingt crayons.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pépin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pépin de la pomme est petit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "coquin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "adjectif",
+      "example": "Le chaton est coquin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "infirmière",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'infirmière me met un pansement.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "inventer",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "an",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 0
+        },
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "J'aime inventer des histoires.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "requin",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "k",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 2
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le requin nage dans l'océan.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "main",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je lève la main.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pain",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le boulanger fait du pain.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bain",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le bébé prend son bain.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "train",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le train arrive en gare.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "grain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La poule picore un grain de blé.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "copain",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon copain joue avec moi.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "parrain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon parrain m'offre un cadeau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "terrain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les enfants jouent sur le terrain de foot.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "certain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Je suis certain que tu vas réussir.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poulain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le poulain suit sa maman.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "refrain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Nous chantons le refrain ensemble.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "prochain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        },
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le prochain train arrive bientôt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "lointain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "adjectif",
+      "example": "Le château lointain est sur la colline.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "plein",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Mon verre est plein.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "peinture",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais de la peinture.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "peintre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le peintre peint un tableau.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "frein",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon vélo a un bon frein.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "ceinture",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'attache ma ceinture.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "éteindre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Il faut éteindre la lumière.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "peindre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je vais peindre un arc-en-ciel.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "atteindre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Je peux atteindre l'étagère.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "empreinte",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "ein",
+          "sound": "in",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le chien laisse une empreinte dans le sable.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    }
+  ]
+}

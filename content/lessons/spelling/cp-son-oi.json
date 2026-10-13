@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-oi",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-son-oi"],
+  "title": "Le son [oi]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [oi].",
+      "speech": "Aujourd’hui, on apprend à écrire le son oi. Écoute : un roi, une étoile, le soir. Tu l’entends ?",
+      "animation": {"type": "titleCard", "title": "Le son [oi]", "subtitle": "o et i, ensemble"}
+    },
+    {
+      "title": "o et i ensemble",
+      "text": "Quand on colle les lettres o et i, on entend [oi] : un roi, une étoile.",
+      "speech": "Quand on colle la lettre o et la lettre i, elles chantent ensemble : oi ! Un roi, une étoile.",
+      "animation": {"type": "letterTiles", "word": "roi", "tiles": ["r", "oi"], "interactive": false}
+    },
+    {
+      "title": "Souvent -oir",
+      "text": "Beaucoup de mots finissent par -oir : un miroir, un tiroir, le soir.",
+      "speech": "Un indice : beaucoup de mots finissent par o, i, r. Un miroir, un tiroir, le soir.",
+      "animation": {"type": "letterTiles", "word": "miroir", "tiles": ["m", "i", "r", "oi", "r"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « poire » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot poire : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "poire", "tiles": ["p", "oi", "r", "e"], "distractors": ["o", "a"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "oi, ou ou o ? Écoute chaque mot et range-le dans sa boîte.",
+      "speech": "À toi ! Écoute chaque mot. Entends-tu oi, ou, ou bien o ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["oi", "ou", "o"], "words": [{"word": "roi", "group": "oi"}, {"word": "noir", "group": "oi"}, {"word": "étoile", "group": "oi"}, {"word": "loup", "group": "ou"}, {"word": "roue", "group": "ou"}, {"word": "poule", "group": "ou"}, {"word": "moto", "group": "o"}, {"word": "vélo", "group": "o"}, {"word": "robe", "group": "o"}]}
+    },
+    {
+      "title": "Une lettre muette",
+      "text": "Après [oi], il y a parfois une lettre muette : trois, un toit, une noix.",
+      "speech": "Attention ! Après le son oi, il y a parfois une lettre muette. Trois finit par un s, un toit par un t, une noix par un x.",
+      "animation": {"type": "soundSort", "groups": ["s", "t", "x"], "words": [{"word": "trois", "group": "s"}, {"word": "bois", "group": "s"}, {"word": "toit", "group": "t"}, {"word": "droit", "group": "t"}, {"word": "noix", "group": "x"}, {"word": "voix", "group": "x"}], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « voiture ». Dis le mot doucement : voi, tu, re.",
+      "speech": "À toi ! Écris le mot voiture. Dis-le tout doucement : voi, tu, re.",
+      "animation": {"type": "letterTiles", "word": "voiture", "tiles": ["v", "oi", "t", "u", "r", "e"], "distractors": ["o", "ou"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [oi] :",
+      "speech": "Je retiens : le son oi s’écrit avec deux lettres collées, o et i. Un roi, une étoile, un miroir.",
+      "animation": {"type": "recapCard", "text": "Le son [oi] s’écrit avec deux lettres collées : o et i.", "example": "roi · étoile · miroir"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il manque deux lettres : une ét…le", "spoken": "Une étoile. Quelles lettres manquent dans le mot étoile ?", "answer": "oi", "choices": ["oi", "ou", "o"], "explanation": "Étoile s’écrit é, t, o, i, l, e."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot roi. Le roi porte une couronne.", "answer": "roi", "explanation": "Roi s’écrit r, o, i."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un chat noir. Choisis la bonne écriture du mot noir.", "answer": "noir", "choices": ["noir", "nouar", "nor"], "explanation": "Noir s’écrit n, o, i, r."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Un miroir. Choisis la bonne écriture du mot miroir.", "answer": "miroir", "choices": ["miroir", "miroire", "mirouar"], "explanation": "Miroir finit par o, i, r, sans e à la fin."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : en fin d’année, déchiffrer tous les mots et écrire sous la dictée",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — graphèmes de deux lettres : oi",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

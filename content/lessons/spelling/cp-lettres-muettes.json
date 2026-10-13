@@ -1,0 +1,72 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-lettres-muettes",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-lettres-muettes"],
+  "title": "Les lettres muettes",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on découvre des lettres qu’on écrit mais qu’on n’entend pas.",
+      "speech": "Aujourd’hui, on découvre des lettres un peu spéciales : on les écrit, mais on ne les entend pas ! Ce sont les lettres muettes.",
+      "animation": {"type": "titleCard", "title": "Les lettres muettes", "subtitle": "On les écrit, on ne les entend pas"}
+    },
+    {
+      "title": "Une lettre qui se tait",
+      "text": "Dans un rat, on n’entend pas le t. On l’écrit quand même : c’est une lettre muette.",
+      "speech": "Écoute : un rat. On entend r, a. Mais on écrit aussi un t à la fin ! Il ne dit rien : c’est une lettre muette.",
+      "animation": {"type": "letterTiles", "word": "rat", "tiles": ["r", "a", "t"], "interactive": false}
+    },
+    {
+      "title": "Souvent à la fin",
+      "text": "Les lettres muettes sont souvent à la fin du mot : un lit, un tapis, un nid.",
+      "speech": "Les lettres muettes se cachent souvent à la fin du mot. Un lit, un tapis, un nid.",
+      "animation": {"type": "letterTiles", "word": "tapis", "tiles": ["t", "a", "p", "i", "s"], "interactive": false}
+    },
+    {
+      "title": "Un mot qui aide",
+      "text": "Pour trouver la lettre muette, je cherche un mot de la même famille : petit, petite. J’entends le t !",
+      "speech": "Une astuce : je cherche un mot de la même famille. Petit, petite. Dans petite, j’entends le t ! Alors petit finit par un t.",
+      "animation": {"type": "letterTiles", "word": "petit", "tiles": ["p", "e", "t", "i", "t"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « grand ». Pense à « grande » pour trouver la lettre muette !",
+      "speech": "À toi ! Écris le mot grand. Pense à grande : quelle lettre entends-tu à la fin ? C’est la lettre muette de grand !",
+      "animation": {"type": "letterTiles", "word": "grand", "tiles": ["g", "r", "an", "d"], "distractors": ["t", "s"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Range chaque mot selon sa lettre muette : t, d ou s.",
+      "speech": "À toi ! Regarde la fin de chaque mot. Quelle lettre ne s’entend pas ? Range le mot dans sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["t", "d", "s"], "words": [{"word": "chat", "group": "t"}, {"word": "lit", "group": "t"}, {"word": "fruit", "group": "t"}, {"word": "nid", "group": "d"}, {"word": "canard", "group": "d"}, {"word": "pied", "group": "d"}, {"word": "jus", "group": "s"}, {"word": "souris", "group": "s"}, {"word": "bras", "group": "s"}]}
+    },
+    {
+      "title": "Je regarde le mot",
+      "text": "Parfois, aucun mot ne m’aide : je regarde bien le mot et je le mémorise. Un tapis.",
+      "speech": "Parfois, aucun mot ne m’aide. Alors je regarde bien le mot, je le photographie dans ma tête, et je le mémorise. À toi : écris tapis !",
+      "animation": {"type": "letterTiles", "word": "tapis", "tiles": ["t", "a", "p", "i", "s"], "distractors": ["d", "x"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les lettres muettes :",
+      "speech": "Je retiens : une lettre muette s’écrit mais ne s’entend pas. Elle est souvent à la fin du mot. Un mot de la famille peut m’aider : petit, petite.",
+      "animation": {"type": "recapCard", "text": "Une lettre muette s’écrit mais ne s’entend pas, souvent à la fin du mot. Un mot de la famille m’aide : petit → petite.", "example": "rat · nid · tapis"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il est petit : quelle lettre muette ?", "spoken": "Il est petit. Quelle lettre muette faut-il écrire à la fin de petit ?", "answer": "t", "choices": ["t", "d", "s"], "explanation": "Petit, petite : dans petite, on entend le t."},
+    {"question": "Le sac est lour… : quelle lettre ?", "spoken": "Le sac est lourd. Quelle lettre muette faut-il écrire à la fin de lourd ?", "answer": "d", "choices": ["t", "d", "s"], "explanation": "Lourd, lourde : dans lourde, on entend le d."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot nid. L’oiseau est dans son nid.", "answer": "nid", "explanation": "Nid s’écrit n, i, d : le d ne s’entend pas, c’est une lettre muette."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Une souris. Choisis la bonne écriture du mot souris.", "answer": "souris", "choices": ["souris", "souri", "sourid"], "explanation": "Une souris s’écrit avec un s muet à la fin."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : écrire sous la dictée des mots avec des lettres muettes apprises ; prendre conscience des lettres finales muettes",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    }
+  ]
+}

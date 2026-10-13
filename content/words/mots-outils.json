@@ -1,0 +1,2336 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "le",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "l",
+        "e"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "e",
+          "sound": "e",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le chat dort.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "la",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "l",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "La lune brille.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « le »"
+    },
+    {
+      "word": "les",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "es",
+          "sound": "é",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Les enfants jouent.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « le »"
+    },
+    {
+      "word": "un",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "un"
+      ],
+      "graphemes": [
+        {
+          "text": "un",
+          "sound": "un",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "J'ai un chat.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "une",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "n"
+      ],
+      "graphemes": [
+        {
+          "text": "n",
+          "sound": "n",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "J'ai une sœur.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « un »"
+    },
+    {
+      "word": "des",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "es",
+          "sound": "é",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je mange des fruits.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « un »"
+    },
+    {
+      "word": "et",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "et",
+          "sound": "é",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le chat et le chien jouent.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "est",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le ciel est bleu.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « être »"
+    },
+    {
+      "word": "il",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "i",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 0
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Il fait beau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "elle",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "è",
+        "l"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 0
+        },
+        {
+          "text": "ll",
+          "sound": "l",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Elle chante bien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ils",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "i",
+        "l",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "i",
+          "sound": "i",
+          "position": 0
+        },
+        {
+          "text": "l",
+          "sound": "l",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Ils jouent dans la cour.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « il »"
+    },
+    {
+      "word": "je",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "j",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je lis un livre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tu",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "t",
+        "u"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Tu viens jouer ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nous",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Nous allons au parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vous",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Vous êtes gentils.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "on",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "On va à la plage.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ont",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 0
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Ils ont un chien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « avoir »"
+    },
+    {
+      "word": "sont",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Les chats sont noirs.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « être »"
+    },
+    {
+      "word": "a",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Il a un vélo.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « avoir »"
+    },
+    {
+      "word": "à",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "à",
+          "sound": "a",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je vais à l'école.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "au",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je vais au marché.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "dans",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le chat est dans la boîte.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "avec",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "k"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "c",
+          "sound": "k",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je joue avec mon frère.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "u",
+        "r"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "u",
+          "sound": "u",
+          "position": 1
+        },
+        {
+          "text": "r",
+          "sound": "r",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le livre est sur la table.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sous",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Le chat dort sous le lit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pour",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Ce cadeau est pour toi.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mais",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je voudrais jouer, mais il pleut.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ou",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Tu veux du lait ou du jus ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "où",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "où",
+          "sound": "ou",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Où est mon doudou ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mon",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Mon chat est roux.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ton",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Ton dessin est beau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ma",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "m",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "m",
+          "sound": "m",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Ma maison est grande.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « mon »"
+    },
+    {
+      "word": "ta",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "t",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 0
+        },
+        {
+          "text": "a",
+          "sound": "a",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Ta sœur est gentille.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « ton »"
+    },
+    {
+      "word": "mes",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "es",
+          "sound": "é",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Mes amis sont là.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « mon »"
+    },
+    {
+      "word": "qui",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "k"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Qui veut jouer ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "que",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "k"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je sais que tu es là.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ce",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Ce livre est beau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "très",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il fait très chaud.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "aussi",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Moi aussi, j'aime le chocolat.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chez",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je vais chez mamie.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voici",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Voici mon chat.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voilà",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "à",
+          "sound": "a",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Voilà mon ami !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ici",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s"
+      ],
+      "graphemes": [
+        {
+          "text": "c",
+          "sound": "s",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Viens ici !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "là",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "à",
+          "sound": "a",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Mon chien est là.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "oui",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Oui, je veux bien.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "non",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Non merci, je n'ai plus faim.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "moi",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Viens avec moi !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "toi",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "C'est pour toi.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "puis",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je mange, puis je joue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "alors",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il pleut, alors je reste à la maison.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "comme",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "m"
+      ],
+      "graphemes": [
+        {
+          "text": "mm",
+          "sound": "m",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Il court comme un lapin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "quand",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "k",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Quand il fait beau, je joue dehors.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tout",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Tout le monde est là.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "beaucoup",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 5
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "J'aime beaucoup les chats.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "toujours",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je suis toujours content de te voir.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jamais",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ai",
+          "sound": "è",
+          "position": 3
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il ne neige jamais ici.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "souvent",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je vais souvent au parc.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "maintenant",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 1
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 7
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 9
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Maintenant, il faut ranger.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "demain",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "ain",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adverbe",
+      "example": "Demain, nous irons à la piscine.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "déjà",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "é",
+        "a"
+      ],
+      "graphemes": [
+        {
+          "text": "é",
+          "sound": "é",
+          "position": 1
+        },
+        {
+          "text": "à",
+          "sound": "a",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il est déjà midi.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "encore",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je veux encore jouer.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ensuite",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je me lave, ensuite je m'habille.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "enfin",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "in"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 0
+        },
+        {
+          "text": "in",
+          "sound": "in",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Enfin, les vacances !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "longtemps",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "muet",
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "muet",
+          "position": 3
+        },
+        {
+          "text": "em",
+          "sound": "an",
+          "position": 5
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 7
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 8
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "J'ai attendu longtemps.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tôt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ô",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je me lève tôt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bientôt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ô",
+          "sound": "o",
+          "position": 5
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Les vacances arrivent bientôt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "aussitôt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "s",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "ô",
+          "sound": "o",
+          "position": 6
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je suis venu aussitôt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "plutôt",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ô",
+          "sound": "o",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je préfère plutôt le chocolat.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "près",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "L'école est près de chez moi.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "dessus",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Le chat est assis dessus.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "dessous",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 2
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "adverbe",
+      "example": "La balle est dessous.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "dehors",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "adverbe",
+      "example": "Il fait beau dehors.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "partout",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il y a des fleurs partout.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "devant",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Le bus s'arrête devant l'école.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "derrière",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "è",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Le chat se cache derrière le canapé.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "avant",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Je me lave les mains avant le repas.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pendant",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je lis pendant les vacances.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "depuis",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "J'attends depuis ce matin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sans",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "s",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je mange ma soupe sans pain.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vers",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "mot-outil",
+      "example": "Je marche vers la maison.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "combien",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "om",
+          "sound": "on",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Combien de billes as-tu ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pourquoi",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "k",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 4
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Pourquoi le ciel est-il bleu ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "comment",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Comment vas-tu ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "assez",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 1
+        },
+        {
+          "text": "ez",
+          "sound": "é",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "J'ai assez mangé.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "trop",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "o",
+          "sound": "o",
+          "position": 2
+        },
+        {
+          "text": "p",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il fait trop chaud.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "peu",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "J'ai un peu faim.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mieux",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Je vais mieux aujourd'hui.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vite",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "t"
+      ],
+      "graphemes": [
+        {
+          "text": "t",
+          "sound": "t",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Le lapin court vite.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "tard",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Il est tard, je vais au lit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "autour",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Les enfants dansent autour du sapin.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "surtout",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "J'aime surtout les fraises.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "donc",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "k"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "c",
+          "sound": "k",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "mot-outil",
+      "example": "Il pleut, donc je prends mon parapluie.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "hier",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "e",
+          "sound": "è",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Hier, je suis allé au zoo.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "aujourd'hui",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adverbe",
+      "example": "Aujourd'hui, il fait beau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    }
+  ]
+}

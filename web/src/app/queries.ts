@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Grade, Profile } from "../api/client";
+import type { Grade, Profile, Subject } from "../api/client";
 import { useApi } from "./BackendContext";
 import { useProfileSession } from "./ProfileContext";
 
@@ -7,7 +7,7 @@ export const queryKeys = {
   profiles: ["profiles"] as const,
   characters: ["characters"] as const,
   characterSvg: (id: string) => ["character-svg", id] as const,
-  skills: (grade: Grade) => ["skills", grade] as const,
+  skills: (grade: Grade, subject: Subject = "Math", profileId?: string) => ["skills", grade, subject, profileId ?? null] as const,
 };
 
 export function useProfiles() {
@@ -27,8 +27,11 @@ export function useCharacters() {
   return useQuery({ queryKey: queryKeys.characters, queryFn: () => api.getCharacters(), staleTime: Infinity });
 }
 
-/** Skills offered to a grade (the host falls back to CE1 for the grades without skills yet). */
-export function useSkills(grade: Grade) {
+/**
+ * Skills of a subject offered to a grade (the core falls back to CE1 for the grades without skills
+ * yet), with the profile's mastery when `profileId` is given.
+ */
+export function useSkills(grade: Grade, subject: Subject = "Math", profileId?: string) {
   const api = useApi();
-  return useQuery({ queryKey: queryKeys.skills(grade), queryFn: () => api.getSkills(grade) });
+  return useQuery({ queryKey: queryKeys.skills(grade, subject, profileId), queryFn: () => api.getSkills(grade, subject, profileId) });
 }

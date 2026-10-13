@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-2-digits",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "skillIds": ["cp-add-2-digits"],
+  "title": "Additions de deux nombres plus petits que 100",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on additionne deux grands nombres : 47 + 28.",
+      "speech": "Aujourd’hui, tu vas apprendre à additionner deux nombres plus grands, comme 47 + 28.",
+      "animation": { "type": "titleCard", "title": "Additions jusqu’à 100", "subtitle": "Les dizaines, puis les unités" }
+    },
+    {
+      "title": "Décomposer",
+      "text": "47 = 40 + 7 : 4 barres et 7 cubes. Et 28 = 20 + 8.",
+      "speech": "D’abord, on regarde les nombres. 47, c’est 4 barres et 7 cubes : 40 + 7. Et 28, c’est 2 barres et 8 cubes : 20 + 8.",
+      "animation": { "type": "tensUnits", "value": 47 }
+    },
+    {
+      "title": "Dizaines puis unités",
+      "text": "40 + 20 = 60 ; 7 + 8 = 15 ; 60 + 15 = 75.",
+      "speech": "J’ajoute les dizaines avec les dizaines : 40 + 20 = 60. Les unités avec les unités : 7 + 8 = 15. Puis 60 + 15 = 75.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 40, "steps": [20] }, { "start": 7, "steps": [8] }, { "start": 60, "steps": [15] }] }
+    },
+    {
+      "title": "L’échange",
+      "text": "Les 15 cubes : 10 cubes deviennent une barre. 7 barres et 5 cubes : 75.",
+      "speech": "Avec le matériel : 47 et 28 ensemble, c’est 6 barres et 15 cubes. 10 cubes, c’est une barre ! On les échange. 7 barres et 5 cubes : 75.",
+      "animation": { "type": "tensUnits", "value": 47, "add": 28 }
+    },
+    {
+      "title": "Autre chemin",
+      "text": "47 + 20 = 67, puis 67 + 8 = 75.",
+      "speech": "Un autre chemin sur la piste : la voiture part de 47 et fait un bond de 20 : 67. Puis un bond de 8 : 75.",
+      "animation": { "type": "numberLine", "from": 40, "to": 80, "step": 1, "start": 47, "jumps": [20, 8] }
+    },
+    {
+      "title": "À toi !",
+      "text": "35 + 24 : ajoute les barres et les cubes pour arriver au résultat.",
+      "speech": "À toi ! Tu as 35. Ajoute 24 : 2 barres et 4 cubes. Clique sur les boutons pour arriver au résultat.",
+      "animation": { "type": "tensUnits", "value": 35, "add": 24, "interactive": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "36 + 27 : ajoute, puis échange 10 cubes contre une barre.",
+      "speech": "À toi ! Tu as 36. Ajoute 27. Attention : si tu as 10 cubes ou plus, échange 10 cubes contre une barre.",
+      "animation": { "type": "tensUnits", "value": 36, "add": 27, "interactive": true }
+    },
+    {
+      "title": "En colonnes",
+      "text": "47 + 28 posée : 7 + 8 = 15, j’écris 5 et je retiens 1, c’est la retenue. Puis 1 + 4 + 2 = 7.",
+      "speech": "On peut aussi poser l’addition en colonnes : unités sous les unités. 7 + 8 = 15 : j’écris 5 et je retiens 1. C’est la retenue, en rouge. Puis 1 + 4 + 2 = 7. 75.",
+      "animation": { "type": "columnOperation", "operation": "add", "operands": [47, 28] }
+    },
+    {
+      "title": "Vérifier",
+      "text": "47 + 28, c’est environ 50 + 30 = 80. 75 est proche : c’est vraisemblable.",
+      "speech": "Pour vérifier, j’arrondis : 47, c’est presque 50, et 28, presque 30. 50 + 30 = 80. 75 est proche de 80 : mon résultat est vraisemblable.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 50, "steps": [30] }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Additionner :",
+      "speech": "Je retiens : j’ajoute les dizaines avec les dizaines, les unités avec les unités. 10 unités font 1 dizaine.",
+      "animation": { "type": "recapCard", "text": "J’ajoute les dizaines avec les dizaines, les unités avec les unités. 10 unités font 1 dizaine.", "example": "47 + 28 = 60 + 15 = 75" }
+    }
+  ],
+  "quiz": [
+    { "question": "23 + 45 = ?", "spoken": "Combien font 23 + 45 ?", "answer": 68, "explanation": "20 + 40 = 60 et 3 + 5 = 8 : 68." },
+    { "question": "38 + 27 = ?", "spoken": "Combien font 38 + 27 ? Choisis la bonne réponse.", "answer": 65, "choices": [55, 65, 75], "explanation": "30 + 20 = 50 et 8 + 7 = 15 : 50 + 15 = 65." },
+    { "question": "50 + 36 = ?", "spoken": "Combien font 50 + 36 ?", "answer": 86, "explanation": "50 + 30 = 80, et les 6 unités : 86." },
+    { "question": "19 + 19 = ?", "spoken": "Combien font 19 + 19 ?", "answer": 38, "explanation": "10 + 10 = 20 et 9 + 9 = 18 : 20 + 18 = 38." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : additionner deux nombres inférieurs à 100 (dizaines et unités, échange, addition posée)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

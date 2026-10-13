@@ -1,0 +1,1101 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "feu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le feu de cheminée nous réchauffe.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jeu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ce jeu est très amusant.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bleu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le ciel est bleu.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "deux",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "J'ai deux mains.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cheveu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Il y a un cheveu sur ma veste.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "neveu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le neveu de maman est mon cousin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "jeudi",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Jeudi, nous allons à la piscine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fleur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La fleur sent bon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "beurre",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je mets du beurre sur ma tartine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "heure",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Quelle heure est-il ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "sœur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Ma sœur joue avec moi.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "cœur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Je t'aime de tout mon cœur.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "œuf",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La poule a pondu un œuf.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "bœuf",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le bœuf tire la charrette.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "vœu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je fais un vœu.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "neuf",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "J'ai un cartable neuf.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "joueur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le joueur tape dans le ballon.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "chanteur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "an",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chanteur chante une chanson.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "danseur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le danseur fait une pirouette.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "nageur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le nageur traverse la piscine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "moteur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le moteur de la voiture fait du bruit.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "couleur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quelle est ta couleur préférée ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "odeur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quelle bonne odeur de gâteau !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "chaleur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quelle chaleur cet été !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vendeur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le vendeur range les fruits.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "facteur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le facteur apporte le courrier.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "pêcheur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "è",
+        "ch",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ê",
+          "sound": "è",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 2
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pêcheur attrape un poisson.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "professeur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "s",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 5
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le professeur explique la leçon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "ordinateur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 7
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Papa travaille sur son ordinateur.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "meuble",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ce meuble est en bois.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "seul",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Je sais lire tout seul.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "jeune",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le chiot est très jeune.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "déjeuner",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 3
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous allons déjeuner à midi.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "nœud",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "œu",
+          "sound": "eu",
+          "position": 1
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais un nœud à mon lacet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "queue",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "k",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "qu",
+          "sound": "k",
+          "position": 0
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le renard a une belle queue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "creuser",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "z",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Le chien aime creuser un trou.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "heureux",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Je suis heureux aujourd'hui.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "milieu",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le chat est au milieu du salon.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "docteur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le docteur soigne les malades.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bonheur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Quel bonheur de te voir !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fleuve",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le fleuve coule jusqu'à la mer.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "feuille",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La feuille tombe de l'arbre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "écureuil",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'écureuil grimpe dans l'arbre.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "fauteuil",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "o",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "au",
+          "sound": "o",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papi lit dans son fauteuil.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "vieux",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Mon vieux nounours est tout doux.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "pleuvoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "eu",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 2
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Il va pleuvoir ce soir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    }
+  ]
+}

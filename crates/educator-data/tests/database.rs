@@ -44,7 +44,10 @@ fn new_database_applies_the_initial_migration_without_backup() {
     let (_, report) = open(&db.path, Arc::new(SystemClock));
 
     assert!(db.path.is_file());
-    assert_eq!(vec!["0001_initial"], report.applied_migrations);
+    assert_eq!(
+        vec!["0001_initial", "0002_sessions"],
+        report.applied_migrations
+    );
     assert_eq!(None, report.backup_path);
     assert_eq!(
         format!("Integer({})", MIGRATIONS.len()),
@@ -104,7 +107,10 @@ fn database_of_the_dotnet_version_is_adopted_with_its_profiles() {
 
     let (database, report) = open(&db.path, Arc::new(SystemClock));
 
-    assert_eq!(vec!["0001_initial"], report.applied_migrations);
+    assert_eq!(
+        vec!["0001_initial", "0002_sessions"],
+        report.applied_migrations
+    );
     let profiles = SqliteProfileStore::new(database).list().unwrap();
     assert_eq!(
         vec![("Léa".to_owned(), Grade::CE1, 30)],

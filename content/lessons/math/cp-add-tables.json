@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-tables",
+  "subject": "math",
+  "grade": "CP",
+  "period": 2,
+  "skillIds": ["cp-add-tables"],
+  "title": "Tables d’addition",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, des astuces pour retenir les tables d’addition.",
+      "speech": "Aujourd’hui, tu vas apprendre des astuces de pilote pour retenir les tables d’addition.",
+      "animation": { "type": "titleCard", "title": "Tables d’addition", "subtitle": "Doubles, amis de 10, passer par 10" }
+    },
+    {
+      "title": "Les doubles",
+      "text": "4 + 4 : deux groupes pareils de 4 voitures. 4 + 4 = 8.",
+      "speech": "4 + 4, c’est un double : deux groupes pareils de 4 voitures. En tout, 8 voitures. Les doubles, il faut les connaître par cœur.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [4, 4] }
+    },
+    {
+      "title": "Presque-doubles",
+      "text": "4 + 5, c’est 4 + 4, plus 1 : 8 + 1 = 9.",
+      "speech": "4 + 5, c’est presque un double. Je calcule le double de 4 : 8. Puis j’ajoute 1 : 9. Donc 4 + 5 = 9.",
+      "animation": { "type": "calcChain", "chains": [{ "start": 4, "steps": [4, 1] }] }
+    },
+    {
+      "title": "Les amis de 10",
+      "text": "1 et 9, 2 et 8, 3 et 7, 4 et 6, 5 et 5 remplissent le garage de 10 places.",
+      "speech": "Les amis de 10 remplissent le garage : 1 et 9, 2 et 8, 3 et 7, 4 et 6, et 5 et 5.",
+      "animation": { "type": "tenFrame", "friends": true }
+    },
+    {
+      "title": "10 + un nombre",
+      "text": "10 + 6 = 16 : une barre de dix et 6 cubes.",
+      "speech": "10 + 6, c’est facile : une barre de dix et 6 cubes, ça fait 16.",
+      "animation": { "type": "tensUnits", "value": 16 }
+    },
+    {
+      "title": "Passer par 10",
+      "text": "8 + 5 : je remplis le garage avec 2 voitures, il en reste 3. 10 + 3 = 13.",
+      "speech": "8 + 5. 8 voitures sont garées. J’en ajoute 2 pour remplir le garage : 10. Il reste 3 voitures, qui vont dans le deuxième garage. 10 + 3 = 13.",
+      "animation": { "type": "tenFrame", "filled": 8, "added": 5, "frames": 2 }
+    },
+    {
+      "title": "À toi !",
+      "text": "9 + 4 : gare les 4 voitures. Remplis d’abord le premier garage.",
+      "speech": "À toi ! 9 voitures sont garées. Gare 4 voitures de plus. Clique sur les places vides : le premier garage se remplit d’abord.",
+      "animation": { "type": "tenFrame", "filled": 9, "added": 4, "frames": 2, "interactive": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "6 + … = 10 : quel nombre va dans la case ?",
+      "speech": "À toi ! 6 plus combien font 10 ? Pense aux amis de 10, et choisis le nombre de la case.",
+      "animation": { "type": "equation", "left": 6, "operation": "add", "right": 4, "missing": "right", "interactive": true, "choices": [3, 4, 5] }
+    },
+    {
+      "title": "Ma table",
+      "text": "Le tableau des tables : les doubles en rouge, les amis de 10 en bleu.",
+      "speech": "Voici le tableau des tables d’addition. Les doubles s’allument en rouge, en diagonale. Les amis de 10 s’allument en bleu.",
+      "animation": { "type": "timesTable", "operation": "add", "size": 9, "highlights": [{ "kind": "doubles" }, { "kind": "result", "value": 10 }] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Mes astuces :",
+      "speech": "Je retiens : pour retenir mes tables, j’utilise les doubles, les amis de 10, et je passe par 10.",
+      "animation": { "type": "recapCard", "text": "Pour retenir mes tables : les doubles, les amis de 10, et je passe par 10.", "example": "8 + 5 = 8 + 2 + 3 = 13" }
+    }
+  ],
+  "quiz": [
+    { "question": "6 + 6 = ?", "spoken": "Combien font 6 + 6 ?", "answer": 12, "explanation": "C’est le double de 6 : 12." },
+    { "question": "7 + 8 = ?", "spoken": "Combien font 7 + 8 ? Choisis la bonne réponse.", "answer": 15, "choices": [14, 15, 16], "explanation": "Le double de 7, plus 1 : 14 + 1 = 15." },
+    { "question": "5 + … = 12", "spoken": "5 plus combien font 12 ?", "answer": 7, "explanation": "5 + 5 = 10, puis 10 + 2 = 12 : j’ai ajouté 5 + 2 = 7." },
+    { "question": "9 + 3 = ?", "spoken": "Combien font 9 + 3 ?", "answer": 12, "explanation": "9 + 1 = 10 : je remplis le garage. Il reste 2 : 10 + 2 = 12." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : mémoriser les tables d'addition (doubles, compléments à 10, passage par 10)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

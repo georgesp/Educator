@@ -1,0 +1,52 @@
+{
+  "$schema": "../schemas/mascot.schema.json",
+  "name": "Plume",
+  "comment": "La mascotte (SUB001417) : une chouette, dans le style des personnages. Une image par expression (content.svg, reflechit.svg, encourage.svg, fete.svg), des phrases tirées au hasard par situation, jamais deux fois de suite la même.",
+  "phrases": {
+    "lessonStart": [
+      "Aujourd'hui, on apprend : {title}. On y va ? C'est parti !",
+      "Bonjour ! Aujourd'hui, on découvre : {title}. Je t'accompagne !",
+      "Installe-toi bien : aujourd'hui, on apprend {title}.",
+      "Hou hou ! Aujourd'hui, la leçon, c'est : {title}. On y va ensemble ?",
+      "Ouvre grand les yeux et les oreilles : on apprend {title} !"
+    ],
+    "seriesPerfect": [
+      "Tout est juste ! Bravo, quel talent !",
+      "Waouh, un sans-faute ! Bravo !",
+      "Parfait ! Je suis fière de toi !",
+      "Toutes les réponses sont justes ! Quelle course !",
+      "Un tour parfait ! Ton travail est magnifique !"
+    ],
+    "seriesWell": [
+      "Très bien ! Tu progresses à chaque tour.",
+      "Bravo, c'est du beau travail !",
+      "Super série ! Continue comme ça.",
+      "Bien joué ! Tu fais des progrès à chaque série.",
+      "Belle course ! Encore un petit effort et ce sera parfait."
+    ],
+    "seriesEncourage": [
+      "Tu as bien travaillé ! On apprend aussi en se trompant.",
+      "Courage ! Chaque essai te fait progresser.",
+      "Ce n'est pas grave de se tromper : on recommence quand tu veux !",
+      "Tu as fait de ton mieux, bravo pour tes efforts !",
+      "Une leçon peut t'aider : regarde-la, puis réessaie. Tu vas y arriver !"
+    ],
+    "examEnd": [
+      "Bilan terminé ! Regarde tout ce que tu sais déjà faire.",
+      "Bravo, tu as tout fait jusqu'au bout ! Voici tes points forts.",
+      "Merci pour ce bilan ! On voit bien tes progrès.",
+      "Bien joué ! Regarde ce que tu peux encore travailler."
+    ],
+    "timedEnd": [
+      "Quelle vitesse ! Bravo pour ce défi.",
+      "Le chrono est fini ! Tu as tout donné.",
+      "Super défi ! Tu peux essayer de battre ton record.",
+      "Bien joué ! Plus tu t'entraînes, plus tu vas vite."
+    ],
+    "levelUp": [
+      "Tu passes au niveau suivant ! Bravo !",
+      "Nouveau niveau ! Tu grandis à chaque exercice.",
+      "Hou hou ! Un niveau de plus, quelle fierté !"
+    ]
+  }
+}

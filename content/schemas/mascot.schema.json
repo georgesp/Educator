@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mascot.schema.json",
+  "title": "Mascotte Educator",
+  "description": "La mascotte (SUB001417) : son nom et ses phrases par situation, tirées au hasard (jamais deux fois de suite la même). Les images sont les fichiers content.svg, reflechit.svg, encourage.svg et fete.svg du même dossier, au format des personnages. Phrases toujours bienveillantes, jamais moqueuses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "phrases"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "comment": { "type": "string" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 20 },
+    "phrases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lessonStart", "seriesPerfect", "seriesWell", "seriesEncourage", "examEnd", "timedEnd", "levelUp"],
+      "properties": {
+        "lessonStart": { "$ref": "#/$defs/phrases", "description": "Au début d'une leçon ; « {title} » est remplacé par le titre de la leçon." },
+        "seriesPerfect": { "$ref": "#/$defs/phrases", "description": "Fin de série sans faute (la mascotte fait la fête)." },
+        "seriesWell": { "$ref": "#/$defs/phrases", "description": "Fin de série réussie aux deux tiers ou plus (la mascotte est contente)." },
+        "seriesEncourage": { "$ref": "#/$defs/phrases", "description": "Fin de série plus difficile (la mascotte encourage)." },
+        "examEnd": { "$ref": "#/$defs/phrases", "description": "Fin d'un bilan." },
+        "timedEnd": { "$ref": "#/$defs/phrases", "description": "Fin d'un défi chrono." },
+        "levelUp": { "$ref": "#/$defs/phrases", "description": "Montée de niveau (lot 3)." }
+      }
+    }
+  },
+  "$defs": {
+    "phrases": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "minLength": 1, "maxLength": 160 } }
+  }
+}

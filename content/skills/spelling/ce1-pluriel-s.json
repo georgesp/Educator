@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "ce1-pluriel-s",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 4,
+  "title": "Le pluriel des noms : s, x",
+  "instruction": "Écoute bien, puis écris les mots. Pense à la marque du pluriel !",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CE1"
+    ],
+    "sounds": [
+      "pluriel"
+    ],
+    "graphemes": [
+      "s",
+      "x"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CE1 — utiliser en dictée les marques de pluriel en -s pour le nom ; chaîne d'accords dans le groupe nominal. Marques muettes du pluriel s, x : livret d'accompagnement CE1 (eduscol). Période choisie par Educator."
+}

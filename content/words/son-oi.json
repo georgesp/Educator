@@ -1,0 +1,1050 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "roi",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le roi porte une couronne.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je veux voir le spectacle.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "boire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Il faut boire de l'eau.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La poire est juteuse.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "noir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le corbeau est noir.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "soir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le soir, je lis une histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bois",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Nous nous promenons dans le bois.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "mois",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Mon anniversaire est ce mois-ci.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voix",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La maîtresse a une douce voix.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "noix",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "x",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'écureuil mange une noix.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "oiseau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "z",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 2
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'oiseau chante dans l'arbre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "étoile",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Une étoile brille dans le ciel.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voiture",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "La voiture est garée devant la maison.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "poisson",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "s",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "ss",
+          "sound": "s",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Le poisson rouge nage dans son bocal.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "armoire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Range tes habits dans l'armoire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "mouchoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "ch",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 3
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Prends un mouchoir pour te moucher.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "miroir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je me regarde dans le miroir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "tiroir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Les crayons sont dans le tiroir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "histoire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Papa me raconte une histoire.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "victoire",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Bravo pour cette belle victoire !",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poil",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chat a un poil tout doux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "toit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le toit de la maison est rouge.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "trois",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "J'ai trois crayons de couleur.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "froid",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "L'hiver, il fait froid.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "doigt",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "g",
+          "sound": "muet",
+          "position": 3
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je lève le doigt.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "droit",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le trait est bien droit.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "joie",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "Elle saute de joie.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "oie",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'oie se promène dans la ferme.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "moineau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le moineau picore des miettes.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poivre",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Papa met un peu de poivre dans la soupe.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "poireau",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "o"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "eau",
+          "sound": "o",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le poireau est un légume.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "couloir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Ne cours pas dans le couloir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "arrosoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "z",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'arrose les fleurs avec l'arrosoir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "devoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais mon devoir de lecture.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "savoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "J'aimerais savoir nager.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "choisir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "ch",
+        "oi",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "ch",
+          "sound": "ch",
+          "position": 0
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Tu peux choisir un livre.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "soif",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'ai soif après la course.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "noisette",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "z"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'écureuil cache une noisette.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "coiffeur",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi",
+        "eu"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        },
+        {
+          "text": "eu",
+          "sound": "eu",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le coiffeur me coupe les cheveux.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "toile",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "L'araignée tisse sa toile.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "voile",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le bateau a une grande voile.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "bavoir",
+      "grades": [
+        "CP"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 3
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le bébé porte un bavoir.",
+      "source": "Mot courant du vocabulaire de l'enfant (CP)"
+    },
+    {
+      "word": "avoir",
+      "grades": [
+        "CP",
+        "CE1"
+      ],
+      "sounds": [
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 2
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Je voudrais avoir un chaton.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    }
+  ]
+}

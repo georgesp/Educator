@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-consonnes-n-d-b-v-f-j",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 2,
+  "title": "Les consonnes n, d, b, v, f, j",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "sounds": [
+      "n",
+      "d",
+      "b",
+      "v",
+      "f",
+      "j"
+    ],
+    "graphemes": [
+      "n",
+      "d",
+      "b",
+      "v",
+      "f",
+      "j"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — 25 à 30 CGP en milieu d'année ; dictées de mots à partir de la période 2. Relations simples et univoques d'abord (b, d, f, j, l, m, n, p, t, v) : guide « Pour enseigner la lecture et l'écriture au CP » (eduscol). Période choisie par Educator."
+}

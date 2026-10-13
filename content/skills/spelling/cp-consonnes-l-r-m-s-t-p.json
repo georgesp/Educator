@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-consonnes-l-r-m-s-t-p",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 1,
+  "title": "Les consonnes l, r, m, s, t, p",
+  "instruction": "Écoute bien le mot, puis écris-le.",
+  "operation": "spelling",
+  "words": {
+    "grades": [
+      "CP"
+    ],
+    "sounds": [
+      "l",
+      "r",
+      "m",
+      "s",
+      "t",
+      "p"
+    ],
+    "graphemes": [
+      "l",
+      "r",
+      "m",
+      "s",
+      "t",
+      "p"
+    ]
+  },
+  "formats": [
+    "dictation",
+    "missingLetters",
+    "chooseSpelling"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — 12 à 15 CGP régulières, fréquentes et aisément prononçables en fin de période 1. Consonnes choisies d'après l'exemple de progression d'octobre du guide « Pour enseigner la lecture et l'écriture au CP » (eduscol) (r, l, p, t…)."
+}

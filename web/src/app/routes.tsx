@@ -2,13 +2,16 @@ import { createHashRouter, type RouteObject } from "react-router";
 import { Layout } from "../components/Layout";
 import { ComponentsDemoScreen } from "../screens/ComponentsDemoScreen";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
+import { ExamRunScreen, ExamScreen, TimedRunScreen, TimedSetupScreen } from "../screens/ExamScreen";
 import { LessonScreen } from "../screens/LessonScreen";
 import { LessonsScreen } from "../screens/LessonsScreen";
 import { MenuScreen } from "../screens/MenuScreen";
 import { ModeScreen } from "../screens/ModeScreen";
+import { OptionsScreen } from "../screens/OptionsScreen";
 import { ProfilesScreen } from "../screens/ProfilesScreen";
 import { SeriesScreen } from "../screens/SeriesScreen";
 import { SkillsScreen } from "../screens/SkillsScreen";
+import { SubjectScreen } from "../screens/SubjectScreen";
 import { TablesScreen } from "../screens/TablesScreen";
 
 /** Screens of the application, shared by the app and the tests. */
@@ -16,12 +19,19 @@ export const screenRoutes: RouteObject[] = [
   { index: true, element: <ProfilesScreen /> },
   { path: "menu", element: <MenuScreen /> },
   { path: "profil/:profileId", element: <EditProfileScreen /> },
-  { path: "exercices", element: <SkillsScreen /> },
-  { path: "exercices/:skillId", element: <ModeScreen /> },
+  { path: "exercices", element: <SubjectScreen kind="exercises" /> },
+  { path: "exercices/:subject", element: <SkillsScreen /> },
+  { path: "exercices/:subject/:skillId", element: <ModeScreen /> },
   { path: "serie/:skillId/:mode", element: <SeriesScreen /> },
   { path: "tables", element: <TablesScreen /> },
-  { path: "lecons", element: <LessonsScreen /> },
-  { path: "lecons/:lessonId", element: <LessonScreen /> },
+  { path: "options", element: <OptionsScreen /> },
+  { path: "examen", element: <ExamScreen /> },
+  { path: "examen/:subject", element: <ExamRunScreen /> },
+  { path: "defi/:subject", element: <TimedSetupScreen /> },
+  { path: "defi/:subject/:seconds", element: <TimedRunScreen /> },
+  { path: "lecons", element: <SubjectScreen kind="lessons" /> },
+  { path: "lecons/:subject", element: <LessonsScreen /> },
+  { path: "lecons/:subject/:lessonId", element: <LessonScreen /> },
   // Development only: every child component on one page (SUB000105).
   ...(import.meta.env.DEV ? [{ path: "dev/composants", element: <ComponentsDemoScreen /> }] : []),
 ];

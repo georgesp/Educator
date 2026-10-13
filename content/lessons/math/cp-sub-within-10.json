@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-sub-within-10",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-sub-within-10"],
+  "title": "Soustractions jusqu’à 10",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à enlever : c’est la soustraction.",
+      "speech": "Aujourd’hui, tu vas apprendre à enlever des voitures et à trouver ce qui reste. C’est la soustraction.",
+      "animation": { "type": "titleCard", "title": "Soustractions jusqu’à 10", "subtitle": "Enlever et trouver ce qui reste" }
+    },
+    {
+      "title": "Enlever",
+      "text": "7 voitures sont là, 3 partent. Il en reste 4.",
+      "speech": "Il y a 7 voitures. 3 voitures partent faire la course. Combien en reste-t-il ? On compte celles qui restent : 1, 2, 3, 4. Il en reste 4.",
+      "animation": { "type": "groupObjects", "mode": "remove", "total": 7, "removed": 3 }
+    },
+    {
+      "title": "Le signe −",
+      "text": "On écrit 7 − 3 = 4. « − » veut dire « on enlève ».",
+      "speech": "On l’écrit avec des signes : 7 − 3 = 4. Le signe moins veut dire : on enlève.",
+      "animation": { "type": "equation", "left": 7, "operation": "subtract", "right": 3 }
+    },
+    {
+      "title": "7, c’est 4 et 3",
+      "text": "Dans le garage : 4 voitures rouges et 3 bleues, 7 en tout. Donc 7 − 3 = 4 et 7 − 4 = 3.",
+      "speech": "Dans le garage, il y a 4 voitures rouges et 3 voitures bleues : 7 en tout. Si les 3 bleues partent, il reste les 4 rouges : 7 − 3 = 4. Si les 4 rouges partent, il reste 3.",
+      "animation": { "type": "tenFrame", "filled": 4, "added": 3 }
+    },
+    {
+      "title": "À toi !",
+      "text": "8 voitures sont garées. Fais sortir 5 voitures.",
+      "speech": "À toi ! 8 voitures sont garées. Clique sur 5 voitures pour les faire sortir du garage. Puis compte celles qui restent.",
+      "animation": { "type": "tenFrame", "filled": 8, "removed": 5, "interactive": true }
+    },
+    {
+      "title": "Reculer",
+      "text": "9 − 2 : la voiture part de 9 et recule de 2 cases : 8, 7.",
+      "speech": "On peut aussi reculer sur la piste. 9 − 2 : la voiture part de 9 et recule d’une case, puis encore d’une : 8, 7. Donc 9 − 2 = 7.",
+      "animation": { "type": "numberLine", "from": 0, "to": 10, "step": 1, "start": 9, "jumps": [-1, -1] }
+    },
+    {
+      "title": "L’écart",
+      "text": "9 − 7 : de 7 à 9, il y a 2 bonds. C’est plus rapide que de reculer de 7 !",
+      "speech": "Pour 9 − 7, reculer de 7, c’est long ! Je cherche plutôt l’écart entre 7 et 9 : de 7 à 9, il y a 2 bonds. Donc 9 − 7 = 2.",
+      "animation": { "type": "numberLine", "from": 0, "to": 10, "step": 1, "start": 7, "jumps": [1, 1] }
+    },
+    {
+      "title": "Addition et soustraction",
+      "text": "3 + 4 = 7, donc 7 − 4 = 3 et 7 − 3 = 4 : c’est une famille de nombres.",
+      "speech": "Les nombres 3, 4 et 7 forment une famille. 3 + 4 = 7. Donc 7 − 4 = 3, et 7 − 3 = 4. Quand on connaît l’addition, on connaît la soustraction !",
+      "animation": { "type": "equation", "left": 3, "operation": "add", "right": 4, "family": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "8 − … = 5 : quel nombre se cache dans la case ?",
+      "speech": "À toi ! 8 moins combien font 5 ? Pense à l’écart entre 5 et 8. Choisis le nombre qui va dans la case.",
+      "animation": { "type": "equation", "left": 8, "operation": "subtract", "right": 3, "missing": "right", "interactive": true, "choices": [2, 3, 4] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Enlever :",
+      "speech": "Je retiens : soustraire, c’est enlever, et je cherche ce qui reste. Si 7, c’est 4 et 3, alors 7 − 4 = 3.",
+      "animation": { "type": "recapCard", "text": "Soustraire, c’est enlever : je cherche ce qui reste. Si 7, c’est 4 et 3, alors 7 − 4 = 3.", "example": "7 − 4 = 3" }
+    }
+  ],
+  "quiz": [
+    { "question": "6 − 2 = ?", "spoken": "Combien font 6 − 2 ?", "answer": 4, "explanation": "6 voitures, 2 partent : il en reste 4. Je recule de 2 : 5, 4." },
+    { "question": "10 − 7 = ?", "spoken": "Combien font 10 − 7 ? Choisis la bonne réponse.", "answer": 3, "choices": [2, 3, 4], "explanation": "7 et 3 sont des amis de 10 : 10 − 7 = 3." },
+    { "question": "9 − … = 4", "spoken": "9 moins combien font 4 ?", "answer": 5, "explanation": "De 4 à 9, il y a 5 bonds : 9 − 5 = 4." },
+    { "question": "5 + 3 = 8, donc 8 − 3 = ?", "spoken": "5 + 3 = 8. Alors, combien font 8 − 3 ?", "answer": 5, "explanation": "5, 3 et 8 sont de la même famille : 8 − 3 = 5." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : sens de la soustraction (enlever, chercher ce qui reste, l'écart), signe −, lien avec l'addition",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-add-sub-tens",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-add-sub-tens"],
+  "title": "Ajouter ou enlever des dizaines",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on ajoute et on enlève des dizaines.",
+      "speech": "Aujourd’hui, tu vas apprendre à ajouter et à enlever des dizaines, très vite.",
+      "animation": { "type": "titleCard", "title": "Ajouter ou enlever des dizaines", "subtitle": "Des barres de dix" }
+    },
+    {
+      "title": "Une dizaine",
+      "text": "10 cubes s’assemblent en une barre : 1 dizaine = 10 unités.",
+      "speech": "Quand on a 10 cubes, on les assemble en une barre. Une barre, c’est une dizaine : 10 unités.",
+      "animation": { "type": "tensUnits", "value": 9, "add": 1 }
+    },
+    {
+      "title": "Des paquets de 10",
+      "text": "Fais des paquets de 10 voitures, puis dis combien il y en a en tout.",
+      "speech": "À toi ! Clique sur les voitures pour faire des paquets de 10. Celles qui restent à la fin sont toutes seules. Ensuite, dis combien il y a de voitures en tout.",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "counts": [23], "size": 10, "interactive": true }
+    },
+    {
+      "title": "Lire 37",
+      "text": "37, c’est 3 barres et 7 cubes : 3 dizaines et 7 unités.",
+      "speech": "Regarde le nombre 37 : 3 barres et 7 cubes. C’est 3 dizaines et 7 unités.",
+      "animation": { "type": "tensUnits", "value": 37 }
+    },
+    {
+      "title": "+ 10",
+      "text": "37 + 10 : une barre de plus. 47. Le 7 des unités ne bouge pas.",
+      "speech": "37 + 10 : on ajoute une barre. Il y a maintenant 4 barres et toujours 7 cubes : 47. Le chiffre des unités ne bouge pas, seul le chiffre des dizaines change.",
+      "animation": { "type": "tensUnits", "value": 37, "add": 10 }
+    },
+    {
+      "title": "− 10",
+      "text": "37 − 10 : une barre de moins. 27.",
+      "speech": "37 − 10 : on enlève une barre. Il reste 2 barres et 7 cubes : 27.",
+      "animation": { "type": "tensUnits", "value": 37, "remove": 10 }
+    },
+    {
+      "title": "Bonds de 10",
+      "text": "La voiture part de 6 et fait des bonds de 10 : 16, 26, 36.",
+      "speech": "La voiture part de 6 et fait des bonds de 10 : 16, 26, 36. Le chiffre des unités reste 6 à chaque fois !",
+      "animation": { "type": "numberLine", "from": 0, "to": 40, "step": 1, "start": 6, "jumps": [10, 10, 10] }
+    },
+    {
+      "title": "+ 30",
+      "text": "46 + 30 : trois barres de plus. 76.",
+      "speech": "46 + 30 : 30, c’est 3 dizaines. On ajoute 3 barres : 4 barres plus 3 barres, 7 barres. Avec les 6 cubes : 76.",
+      "animation": { "type": "tensUnits", "value": 46, "add": 30 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Ajoute des barres à 25 pour arriver à 65.",
+      "speech": "À toi ! Tu as 25. Ajoute des barres pour arriver à 65. Combien de barres faut-il ajouter ?",
+      "animation": { "type": "tensUnits", "value": 25, "add": 40, "interactive": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "Tu as 76 : enlève 4 barres.",
+      "speech": "À toi ! Tu as 76. Enlève 4 barres, c’est-à-dire 40. Combien te reste-t-il ?",
+      "animation": { "type": "tensUnits", "value": 76, "remove": 40, "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les dizaines :",
+      "speech": "Je retiens : quand j’ajoute ou j’enlève des dizaines, seul le chiffre des dizaines change.",
+      "animation": { "type": "recapCard", "text": "Quand j’ajoute ou j’enlève des dizaines, seul le chiffre des dizaines change.", "example": "46 + 30 = 76" }
+    }
+  ],
+  "quiz": [
+    { "question": "53 + 10 = ?", "spoken": "Combien font 53 + 10 ?", "answer": 63, "explanation": "Une dizaine de plus : 5 dizaines deviennent 6. 63." },
+    { "question": "48 − 10 = ?", "spoken": "Combien font 48 − 10 ?", "answer": 38, "explanation": "Une dizaine de moins : 4 dizaines deviennent 3. 38." },
+    {
+      "question": "76 − 30 = ?",
+      "spoken": "Combien font 76 − 30 ? Choisis la bonne réponse.",
+      "answer": 46,
+      "choices": [36, 46, 73],
+      "explanation": "J’enlève 3 dizaines : 7 − 3 = 4. Les 6 unités ne bougent pas : 46."
+    },
+    { "question": "24 + … = 54", "spoken": "24 plus combien font 54 ?", "answer": 30, "explanation": "Les unités ne changent pas. Les dizaines passent de 2 à 5 : 3 dizaines, 30." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, calcul : ajouter ou retrancher des dizaines entières, unités et dizaines",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

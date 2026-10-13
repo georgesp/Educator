@@ -4,6 +4,9 @@
 
 use educator_core::characters::{CharacterCatalog, CharacterInfo, CharacterKind};
 use educator_core::profiles::{Profile, ProfileStore};
+use educator_core::sessions::{
+    AnswerRecord, SessionEnd, SessionRecord, SessionStore, SessionType, SkillMastery,
+};
 use educator_core::skills::{
     AnswerMode, ExerciseFormat, OperandRule, Skill, SkillConstraints, SkillOperation, SkillParams,
     Subject,
@@ -114,5 +117,186 @@ impl CharacterCatalog for FakeCharacters {
 
     fn svg(&self, id: &str) -> Option<&str> {
         self.0.iter().any(|c| c.id == id).then_some("<svg/>")
+    }
+}
+
+/// In-memory [`SessionStore`] (the SQLite one is tested in educator-data).
+#[derive(Default)]
+pub struct InMemorySessionStore {
+    pub sessions: Mutex<Vec<SessionRecord>>,
+    pub answers: Mutex<Vec<AnswerRecord>>,
+    pub masteries: Mutex<Vec<SkillMastery>>,
+    pub lesson_slides: Mutex<HashMap<(Uuid, String), u32>>,
+}
+
+impl SessionStore for InMemorySessionStore {
+    fn add_session(&self, session: &SessionRecord) -> Result<()> {
+        self.sessions.lock().unwrap().push(session.clone());
+        Ok(())
+    }
+
+    fn session(&self, id: Uuid) -> Result<Option<SessionRecord>> {
+        Ok(self
+            .sessions
+            .lock()
+            .unwrap()
+            .iter()
+            .find(|s| s.id == id)
+            .cloned())
+    }
+
+    fn add_answer(&self, answer: &AnswerRecord) -> Result<bool> {
+        let mut answers = self.answers.lock().unwrap();
+        if answers
+            .iter()
+            .any(|a| a.session_id == answer.session_id && a.index == answer.index)
+        {
+            return Ok(false);
+        }
+        answers.push(answer.clone());
+        Ok(true)
+    }
+
+    fn answers(&self, session_id: Uuid) -> Result<Vec<AnswerRecord>> {
+        let mut found: Vec<AnswerRecord> = self
+            .answers
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|a| a.session_id == session_id)
+            .cloned()
+            .collect();
+        found.sort_by_key(|a| a.index);
+        Ok(found)
+    }
+
+    fn end_session(&self, id: Uuid, end: &SessionEnd) -> Result<bool> {
+        let mut sessions = self.sessions.lock().unwrap();
+        let Some(session) = sessions
+            .iter_mut()
+            .find(|s| s.id == id && s.ended_at.is_none())
+        else {
+            return Ok(false);
+        };
+        session.ended_at = Some(end.ended_at);
+        session.abandoned = end.abandoned;
+        session.question_count = end.question_count;
+        session.correct_count = end.correct_count;
+        session.points_earned = end.points_earned;
+        Ok(true)
+    }
+
+    fn open_sessions(&self) -> Result<Vec<SessionRecord>> {
+        Ok(self
+            .sessions
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|s| s.ended_at.is_none())
+            .cloned()
+            .collect())
+    }
+
+    fn abandon_open_sessions(&self, now: i64) -> Result<usize> {
+        let mut count = 0;
+        for session in self.sessions.lock().unwrap().iter_mut() {
+            if session.ended_at.is_none() {
+                session.ended_at = Some(now);
+                session.abandoned = true;
+                count += 1;
+            }
+        }
+        Ok(count)
+    }
+
+    fn recent_results(&self, profile_id: Uuid, skill_id: &str, limit: usize) -> Result<Vec<bool>> {
+        let sessions = self.sessions.lock().unwrap();
+        let mut answers: Vec<AnswerRecord> = self
+            .answers
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|a| {
+                a.skill_id == skill_id
+                    && sessions
+                        .iter()
+                        .any(|s| s.id == a.session_id && s.profile_id == profile_id)
+            })
+            .cloned()
+            .collect();
+        answers.sort_by_key(|a| std::cmp::Reverse((a.answered_at, a.index)));
+        Ok(answers.iter().take(limit).map(|a| a.is_correct).collect())
+    }
+
+    fn answer_count(&self, profile_id: Uuid, skill_id: &str) -> Result<u32> {
+        Ok(self.recent_results(profile_id, skill_id, usize::MAX)?.len() as u32)
+    }
+
+    fn save_mastery(&self, mastery: &SkillMastery) -> Result<()> {
+        let mut masteries = self.masteries.lock().unwrap();
+        masteries
+            .retain(|m| !(m.profile_id == mastery.profile_id && m.skill_id == mastery.skill_id));
+        masteries.push(mastery.clone());
+        Ok(())
+    }
+
+    fn masteries(&self, profile_id: Uuid) -> Result<Vec<SkillMastery>> {
+        let mut found: Vec<SkillMastery> = self
+            .masteries
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|m| m.profile_id == profile_id)
+            .cloned()
+            .collect();
+        found.sort_by(|a, b| a.skill_id.cmp(&b.skill_id));
+        Ok(found)
+    }
+
+    fn best_timed_score(
+        &self,
+        profile_id: Uuid,
+        subject: educator_core::skills::Subject,
+        time_limit_seconds: u32,
+    ) -> Result<Option<u32>> {
+        Ok(self
+            .sessions
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|s| {
+                s.profile_id == profile_id
+                    && s.session_type == SessionType::Timed
+                    && s.subject == subject
+                    && s.time_limit_seconds == Some(time_limit_seconds)
+                    && s.ended_at.is_some()
+                    && !s.abandoned
+            })
+            .map(|s| s.correct_count)
+            .max())
+    }
+
+    fn lesson_slide(&self, profile_id: Uuid, lesson_id: &str) -> Result<Option<u32>> {
+        Ok(self
+            .lesson_slides
+            .lock()
+            .unwrap()
+            .get(&(profile_id, lesson_id.to_owned()))
+            .copied())
+    }
+
+    fn save_lesson_slide(
+        &self,
+        profile_id: Uuid,
+        lesson_id: &str,
+        slide: Option<u32>,
+    ) -> Result<()> {
+        let mut slides = self.lesson_slides.lock().unwrap();
+        let key = (profile_id, lesson_id.to_owned());
+        match slide {
+            Some(slide) => slides.insert(key, slide),
+            None => slides.remove(&key),
+        };
+        Ok(())
     }
 }

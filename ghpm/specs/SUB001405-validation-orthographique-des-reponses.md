@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001405 — Validation orthographique des réponses
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -30,6 +30,17 @@ En tant qu'enfant, je veux voir exactement où je me suis trompé afin de corrig
 
 ## Critères d'acceptation
 
-- [ ] Code dans la crate `educator-core`, sans dépendance d'infrastructure.
-- [ ] Tests unitaires : accents manquants, accent erroné (è / é), lettre doublée, lettre manquante, inversion, majuscule.
-- [ ] La correction renvoyée au front permet de surligner chaque lettre.
+- [x] Code dans la crate `educator-core`, sans dépendance d'infrastructure.
+- [x] Tests unitaires : accents manquants, accent erroné (è / é), lettre doublée, lettre manquante, inversion, majuscule.
+- [x] La correction renvoyée au front permet de surligner chaque lettre.
+
+## Implémentation (2026-10-14)
+
+- `educator-core::spelling` : comparaison après normalisation NFC (`spelling/nfc.rs`, sous-ensemble suffisant pour
+  les lettres du français, sans dépendance), espaces de début et de fin ignorés, accents stricts, majuscules
+  tolérées pour toutes les compétences (un réglage par compétence pourra être ajouté plus tard).
+- Correction lettre à lettre par alignement de Levenshtein : chaque lettre est juste, fausse, manquante ou en trop ;
+  le front la surligne (`WordCorrection`).
+- Tests : accent manquant, è / é, lettre doublée, manquante, inversion, majuscule.
+- La ligature « œ » est une lettre à part entière : « soeur » est compté faux pour « sœur » (décision de Georges du
+  2026-10-14, puisque le clavier à l'écran propose « œ »).

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001406 — Exercice de dictée de mots
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -31,5 +31,14 @@ En tant qu'enfant, je veux écouter un mot et l'écrire afin de m'entraîner à 
 
 ## Critères d'acceptation
 
-- [ ] Clavier à l'écran utilisable à la souris seule.
-- [ ] Test de parcours (Playwright) avec graine fixe.
+- [x] Clavier à l'écran utilisable à la souris seule.
+- [x] Test de parcours (Playwright) avec graine fixe.
+
+## Implémentation (2026-10-14)
+
+- Format `dictation` des compétences d'orthographe : 10 mots sans doublon, graine enregistrée dans la séance.
+- Le mot est lu à l'affichage (seul puis dans sa phrase), jamais envoyé au front avant la réponse ; boutons
+  « Réécouter le mot » et « Le mot dans une phrase ».
+- `LetterKeyboard` : clavier à l'écran avec une rangée de lettres accentuées (é è ê à â ù û ç ï î ô œ…).
+- Mot faux : le mot de l'enfant avec les lettres fausses surlignées, puis le mot juste, lu à voix haute.
+- Points selon le barème du lot 1. Parcours Playwright `web/e2e/lot2.spec.ts` (graine fixe, souris seule).

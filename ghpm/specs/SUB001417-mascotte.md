@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001417 — Mascotte
-status: Todo
+status: In progress
 size: M
 estimate:
 startDate:
@@ -30,6 +30,15 @@ En tant qu'enfant, je veux un personnage qui m'accompagne, me présente les leç
 
 ## Critères d'acceptation
 
-- [ ] 4 expressions minimum, rendu homogène avec les personnages.
+- [x] 4 expressions minimum, rendu homogène avec les personnages.
 - [ ] Phrases toujours bienveillantes, jamais moqueuses, relues.
-- [ ] La mascotte peut être masquée (Options) si elle gêne.
+- [x] La mascotte peut être masquée (Options) si elle gêne.
+
+## Implémentation (2026-10-14)
+
+- Plume, une chouette originale dans le style des personnages : 4 expressions (`content/mascot/*.svg` : content,
+  réfléchit, encourage, fait la fête), petites animations Framer Motion (`Mascot`).
+- Début des leçons, fin des séries, des examens et des défis ; montée de niveau prête pour le lot 3.
+- Phrases dans `content/mascot/mascot.json` (validé par `mascot.schema.json`), tirées au hasard par situation,
+  jamais deux fois de suite la même, lues par Piper ; formulées sans accord masculin ou féminin.
+- Reste : relecture des phrases par Georges.

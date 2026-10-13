@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "ce1-pluriel-s",
+  "subject": "spelling",
+  "grade": "CE1",
+  "period": 4,
+  "skillIds": ["ce1-pluriel-s"],
+  "title": "Le pluriel des noms : s, x",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire un nom quand il y en a plusieurs.",
+      "speech": "Aujourd’hui, on apprend à écrire un nom quand il y en a plusieurs : c’est le pluriel !",
+      "animation": {"type": "titleCard", "title": "Le pluriel des noms", "subtitle": "s ou x"}
+    },
+    {
+      "title": "Un ou plusieurs ?",
+      "text": "Un chat : il y en a un seul, c’est le singulier. Des chats : il y en a plusieurs, c’est le pluriel.",
+      "speech": "Un chat : il y en a un seul, c’est le singulier. Des chats : il y en a plusieurs, c’est le pluriel.",
+      "animation": {"type": "letterTiles", "word": "chats", "tiles": ["chat", "s"], "interactive": false}
+    },
+    {
+      "title": "Le s du pluriel",
+      "text": "Au pluriel, j’ajoute un s à la fin du nom. Je ne l’entends pas, mais je l’écris : des pommes.",
+      "speech": "Au pluriel, j’ajoute un s à la fin du nom. Je ne l’entends pas, mais je l’écris ! Une pomme, des pommes.",
+      "animation": {"type": "letterTiles", "word": "pommes", "tiles": ["pomme", "s"], "interactive": false}
+    },
+    {
+      "title": "Les petits mots qui aident",
+      "text": "les, des, mes, tes, ses m’annoncent un pluriel. Écris « fleurs » : les fleurs.",
+      "speech": "Les petits mots les, des, mes, tes, ses m’annoncent un pluriel. À toi ! Écris le mot fleurs, comme dans : les fleurs.",
+      "animation": {"type": "letterTiles", "word": "fleurs", "tiles": ["fl", "eu", "r", "s"], "distractors": ["x", "e"]}
+    },
+    {
+      "title": "Avec x",
+      "text": "Les noms en -eau prennent un x au pluriel : des bateaux. Beaucoup de noms en -eu aussi : des jeux.",
+      "speech": "Les noms qui finissent par e, a, u prennent un x au pluriel : un bateau, des bateaux. Beaucoup de noms en e, u aussi : un jeu, des jeux.",
+      "animation": {"type": "letterTiles", "word": "bateaux", "tiles": ["b", "a", "t", "eau", "x"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "s ou x ? Range chaque groupe de mots dans sa boîte.",
+      "speech": "À toi ! Ces noms sont au pluriel. Prennent-ils un s ou un x ? Clique sur le groupe de mots, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["s", "x"], "words": [{"word": "les chats", "group": "s"}, {"word": "des livres", "group": "s"}, {"word": "les vélos", "group": "s"}, {"word": "des lapins", "group": "s"}, {"word": "des gâteaux", "group": "x"}, {"word": "les oiseaux", "group": "x"}, {"word": "des jeux", "group": "x"}, {"word": "les cheveux", "group": "x"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « chapeaux », comme dans : des chapeaux.",
+      "speech": "À toi ! Écris le mot chapeaux, comme dans : des chapeaux. Un s ou un x à la fin ?",
+      "animation": {"type": "letterTiles", "word": "chapeaux", "tiles": ["ch", "a", "p", "eau", "x"], "distractors": ["s", "o"]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « ballons », comme dans : les ballons.",
+      "speech": "À toi ! Écris le mot ballons, comme dans : les ballons. N’oublie pas la marque du pluriel !",
+      "animation": {"type": "letterTiles", "word": "ballons", "tiles": ["b", "a", "ll", "on", "s"], "distractors": ["x", "l"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le pluriel des noms :",
+      "speech": "Je retiens : au pluriel, le nom prend un s qu’on n’entend pas. Les noms en e, a, u et beaucoup de noms en e, u prennent un x.",
+      "animation": {"type": "recapCard", "text": "Au pluriel, le nom prend un s qu’on n’entend pas (des chats). Les noms en -eau et beaucoup de noms en -eu prennent un x (des bateaux, des jeux).", "example": "des chats · des bateaux · des jeux"}
+    }
+  ],
+  "quiz": [
+    {"question": "Des lapin… : quelle lettre ?", "spoken": "Des lapins. Quelle lettre faut-il écrire à la fin de lapins ?", "answer": "s", "choices": ["s", "x", "t"], "explanation": "Des lapins : au pluriel, le nom prend un s."},
+    {"question": "Des cadeau… : quelle lettre ?", "spoken": "Des cadeaux. Quelle lettre faut-il écrire à la fin de cadeaux ?", "answer": "x", "choices": ["s", "x", "t"], "explanation": "Cadeau finit par e, a, u : au pluriel, il prend un x."},
+    {"question": "Écoute, puis écris les mots.", "spoken": "Écris : des pommes. J’ai acheté des pommes.", "answer": "des pommes", "explanation": "Des pommes : au pluriel, pomme prend un s."},
+    {"question": "Quel groupe est bien écrit ?", "spoken": "Les oiseaux. Choisis la bonne écriture.", "answer": "les oiseaux", "choices": ["les oiseaux", "les oiseaus", "les oiseau"], "explanation": "Oiseau finit par e, a, u : au pluriel, il prend un x."},
+    {"question": "« Des chats » : c’est le pluriel ?", "spoken": "Des chats. Est-ce le pluriel ?", "answer": "oui", "choices": ["oui", "non"], "explanation": "Oui : il y en a plusieurs. Le petit mot des l’annonce, et chats prend un s."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CE1 : utiliser en dictée la marque du pluriel en -s du nom ; accords dans le groupe nominal",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CE1 (eduscol) — marques muettes du pluriel",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-ce1-67857.pdf"
+    }
+  ]
+}

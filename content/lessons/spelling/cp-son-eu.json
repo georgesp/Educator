@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-son-eu",
+  "subject": "spelling",
+  "grade": "CP",
+  "period": 5,
+  "skillIds": ["cp-son-eu"],
+  "title": "Le son [eu]",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui, on apprend à écrire le son [eu].",
+      "speech": "Aujourd’hui, on apprend à écrire le son eu. Écoute : le feu, une fleur, bleu. Tu l’entends ?",
+      "animation": {"type": "titleCard", "title": "Le son [eu]", "subtitle": "eu, œu"}
+    },
+    {
+      "title": "e et u ensemble",
+      "text": "Quand on colle les lettres e et u, on entend [eu] : le feu, un jeu, bleu.",
+      "speech": "Quand on colle la lettre e et la lettre u, on entend eu. Le feu, un jeu, bleu.",
+      "animation": {"type": "letterTiles", "word": "bleu", "tiles": ["b", "l", "eu"], "interactive": false}
+    },
+    {
+      "title": "Les mots en -eur",
+      "text": "Beaucoup de mots finissent par -eur : une fleur, un moteur, la couleur.",
+      "speech": "Un indice : beaucoup de mots finissent par e, u, r. Une fleur, un moteur, la couleur.",
+      "animation": {"type": "letterTiles", "word": "fleur", "tiles": ["f", "l", "eu", "r"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « jeudi » : clique sur les morceaux dans l’ordre. Attention aux intrus !",
+      "speech": "À toi ! Écris le mot jeudi : clique sur les morceaux dans le bon ordre. Attention, il y a des intrus !",
+      "animation": {"type": "letterTiles", "word": "jeudi", "tiles": ["j", "eu", "d", "i"], "distractors": ["ou", "o"]}
+    },
+    {
+      "title": "Avec œu",
+      "text": "Dans quelques mots, [eu] s’écrit œu : une sœur, un cœur, un œuf.",
+      "speech": "Dans quelques mots, on écrit o et e collés, puis u : une sœur, un cœur, un œuf. On dit : e dans l’o.",
+      "animation": {"type": "letterTiles", "word": "cœur", "tiles": ["c", "œu", "r"], "interactive": false}
+    },
+    {
+      "title": "À toi !",
+      "text": "eu, œu ou ou ? Range chaque mot dans sa boîte.",
+      "speech": "À toi ! Regarde bien chaque mot : eu, e dans l’o, ou bien ou ? Clique sur le mot, puis sur sa boîte.",
+      "animation": {"type": "soundSort", "groups": ["eu", "œu", "ou"], "words": [{"word": "feu", "group": "eu"}, {"word": "fleur", "group": "eu"}, {"word": "jeudi", "group": "eu"}, {"word": "sœur", "group": "œu"}, {"word": "œuf", "group": "œu"}, {"word": "cœur", "group": "œu"}, {"word": "loup", "group": "ou"}, {"word": "poule", "group": "ou"}, {"word": "jour", "group": "ou"}]}
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris « moteur ». Dis le mot doucement : mo, teur.",
+      "speech": "À toi ! Écris le mot moteur. Dis-le tout doucement : mo, teur.",
+      "animation": {"type": "letterTiles", "word": "moteur", "tiles": ["m", "o", "t", "eu", "r"], "distractors": ["ou", "œu"]}
+    },
+    {
+      "title": "Je retiens",
+      "text": "Le son [eu] s’écrit :",
+      "speech": "Je retiens : le son eu s’écrit le plus souvent e, u, comme dans feu. Dans quelques mots, il s’écrit e dans l’o, puis u, comme dans sœur.",
+      "animation": {"type": "recapCard", "text": "Le son [eu] s’écrit eu (le feu, une fleur), ou œu dans quelques mots (une sœur, un œuf).", "example": "feu · fleur · sœur"}
+    }
+  ],
+  "quiz": [
+    {"question": "Il manque deux lettres : le f…", "spoken": "Le feu. Quelles lettres manquent dans le mot feu ?", "answer": "eu", "choices": ["eu", "ou", "u"], "explanation": "Feu s’écrit f, e, u."},
+    {"question": "Écoute le mot, puis écris-le.", "spoken": "Écris le mot bleu. Le ciel est bleu.", "answer": "bleu", "explanation": "Bleu s’écrit b, l, e, u."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Ma sœur. Choisis la bonne écriture du mot sœur.", "answer": "sœur", "choices": ["sœur", "seur", "sour"], "explanation": "Sœur s’écrit avec e dans l’o : s, œ, u, r."},
+    {"question": "Quel mot est bien écrit ?", "spoken": "Une fleur. Choisis la bonne écriture du mot fleur.", "answer": "fleur", "choices": ["fleur", "flœur", "flur"], "explanation": "Fleur s’écrit f, l, e, u, r."}
+  ],
+  "sources": [
+    {
+      "title": "Programme de français du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP : en fin d’année, déchiffrer tous les mots et écrire sous la dictée",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%203%20%E2%80%93%20Programme%20de%20fran%C3%A7ais%20du%20cycle%202-403818.pdf"
+    },
+    {
+      "title": "Pour enseigner la lecture et l’écriture au CP (eduscol) — graphèmes complexes : eu, œu",
+      "url": "https://eduscol.education.gouv.fr/sites/default/files/document/guide-pour-enseigner-la-lecture-et-l-ecriture-au-cp-67854.pdf"
+    }
+  ]
+}

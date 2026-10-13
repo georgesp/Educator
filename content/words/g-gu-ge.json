@@ -1,0 +1,1168 @@
+{
+  "$schema": "../schemas/words.schema.json",
+  "words": [
+    {
+      "word": "gare",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le train entre en gare.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gomme",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        }
+      ],
+      "frequency": 1,
+      "category": "nom",
+      "example": "J'efface avec ma gomme.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gorille",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le gorille est très fort.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "garage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La voiture est au garage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "légume",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La carotte est un légume.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "tigre",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le tigre a des rayures.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "wagon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le train a un wagon rouge.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "regarder",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 6
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "J'aime regarder les étoiles.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "gagner",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "gn",
+        "é"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "gn",
+          "sound": "gn",
+          "position": 2
+        },
+        {
+          "text": "er",
+          "sound": "é",
+          "position": 4
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Notre équipe va gagner !",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "gobelet",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "è"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "et",
+          "sound": "è",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je bois dans un gobelet.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "galette",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous mangeons la galette des rois.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gris",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "s",
+          "sound": "muet",
+          "position": 3
+        }
+      ],
+      "frequency": 1,
+      "category": "adjectif",
+      "example": "Le ciel est gris.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "grenouille",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "ou"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La grenouille saute dans la mare.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "guitare",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je joue de la guitare.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "bague",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Elle porte une bague en or.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "langue",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le chien tire la langue.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "vague",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La vague arrive sur la plage.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "figue",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "La figue est un fruit sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "guirlande",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "an"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La guirlande décore le sapin.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "guidon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je tiens le guidon de mon vélo.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "déguisement",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "z",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        },
+        {
+          "text": "s",
+          "sound": "z",
+          "position": 5
+        },
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 8
+        },
+        {
+          "text": "t",
+          "sound": "muet",
+          "position": 10
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Mon déguisement de pirate est super.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "longue",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 1
+        },
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Cette histoire est longue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « long »"
+    },
+    {
+      "word": "baguette",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "J'achète une baguette de pain.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "fatigue",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Après la course, je sens la fatigue.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "guépard",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "g",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 0
+        },
+        {
+          "text": "d",
+          "sound": "muet",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le guépard court très vite.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mangue",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "g"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "gu",
+          "sound": "g",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La mangue est un fruit sucré.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "cage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le hamster joue dans sa cage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "page",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Tourne la page.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "plage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Nous jouons sur la plage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "image",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Regarde cette image.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "nuage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 3
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Un nuage cache le soleil.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "fromage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "La souris aime le fromage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "sage",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Le chat est très sage.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "âge",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 1
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Quel âge as-tu ?",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
+    },
+    {
+      "word": "magie",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 2
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le magicien fait de la magie.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gymnastique",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais de la gymnastique.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gentil",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "an",
+        "muet"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        },
+        {
+          "text": "en",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "l",
+          "sound": "muet",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "adjectif",
+      "example": "Mon chien est très gentil.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "gelée",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "g",
+          "sound": "j",
+          "position": 0
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "J'aime la gelée de fraise.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "pigeon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le pigeon picore du pain.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "plongeon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "on",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 2
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 4
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 6
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Je fais un plongeon dans la piscine.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "nageoire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 2
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "nom",
+      "example": "Le poisson bouge sa nageoire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mangeoire",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "j",
+        "oi"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 3
+        },
+        {
+          "text": "oi",
+          "sound": "oi",
+          "position": 5
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Les oiseaux mangent dans la mangeoire.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "bourgeon",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "ou",
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ou",
+          "sound": "ou",
+          "position": 1
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 4
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 6
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Le bourgeon va devenir une fleur.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "orangeade",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "j"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 2
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 4
+        }
+      ],
+      "frequency": 3,
+      "category": "nom",
+      "example": "Je bois une orangeade.",
+      "source": "Mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "mangeons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 1,
+      "category": "verbe",
+      "example": "Nous mangeons des pâtes.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « manger »"
+    },
+    {
+      "word": "nageons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 2
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 4
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous nageons dans la piscine.",
+      "source": "Forme de « nager », mot courant du vocabulaire de l'enfant (CE1)"
+    },
+    {
+      "word": "partageons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 5
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 7
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous partageons le goûter.",
+      "source": "Liste de fréquence lexicale (eduscol, É. Brunet) — forme de « partager »"
+    },
+    {
+      "word": "rangeons",
+      "grades": [
+        "CE1"
+      ],
+      "sounds": [
+        "an",
+        "j",
+        "on"
+      ],
+      "graphemes": [
+        {
+          "text": "an",
+          "sound": "an",
+          "position": 1
+        },
+        {
+          "text": "ge",
+          "sound": "j",
+          "position": 3
+        },
+        {
+          "text": "on",
+          "sound": "on",
+          "position": 5
+        }
+      ],
+      "frequency": 2,
+      "category": "verbe",
+      "example": "Nous rangeons nos jouets.",
+      "source": "Forme de « ranger », mot courant du vocabulaire de l'enfant (CE1)"
+    }
+  ]
+}

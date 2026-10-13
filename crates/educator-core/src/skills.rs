@@ -3,6 +3,7 @@
 //! from these rules ([`crate::exercises::generate_series`]).
 
 use crate::exercises::ProblemSet;
+use crate::spelling::WordSet;
 use crate::Grade;
 
 pub const FIRST_PERIOD: u8 = 1;
@@ -59,6 +60,8 @@ pub struct SkillParams {
     pub unit_fractions_only: bool,
     /// Problems: the templates and words resolved at loading (SUB000124).
     pub problems: Option<ProblemSet>,
+    /// Spelling: the words of the bank taken by the skill, resolved at loading (SUB001402).
+    pub words: Option<WordSet>,
 }
 
 /// Order of the exercises in a series.
@@ -107,9 +110,27 @@ pub struct OfferedSkill<'a> {
     pub revision_from: Option<Grade>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub enum Subject {
     Math,
+    /// Spelling (lot 2): dictation, missing letters, the right spelling.
+    Spelling,
+}
+
+impl Subject {
+    pub const ALL: [Subject; 2] = [Subject::Math, Subject::Spelling];
+
+    /// Name in the content files (`"math"`) and in the database.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Subject::Math => "math",
+            Subject::Spelling => "spelling",
+        }
+    }
+
+    pub fn from_name(name: &str) -> Option<Subject> {
+        Subject::ALL.into_iter().find(|s| s.as_str() == name)
+    }
 }
 
 /// Operation (family) of a skill. `Mixed`: each exercise is an addition or a subtraction.
@@ -126,6 +147,8 @@ pub enum SkillOperation {
     Fraction,
     /// Word problems generated from templates.
     Problem,
+    /// Spelling: words of the bank (dictation, missing letters, the right spelling).
+    Spelling,
 }
 
 impl SkillOperation {
@@ -295,6 +318,63 @@ pub enum ExerciseFormat {
     FractionWords,
     /// A word problem.
     Problem,
+    /// Spelling: the word is read, the child writes it (SUB001406).
+    Dictation,
+    /// Spelling: the word with its worked letters hidden, typed or picked (SUB001407).
+    MissingLetters,
+    /// Spelling: the word is read, the child picks the right spelling among 3 (SUB001408).
+    ChooseSpelling,
+}
+
+impl ExerciseFormat {
+    /// Every format with its name in the content files and the database (`"missingOperand"`).
+    pub const NAMES: [(&'static str, ExerciseFormat); 20] = [
+        ("result", ExerciseFormat::Result),
+        ("missingOperand", ExerciseFormat::MissingOperand),
+        ("phrase", ExerciseFormat::Phrase),
+        ("recompose", ExerciseFormat::Recompose),
+        ("decompose", ExerciseFormat::Decompose),
+        ("placeValue", ExerciseFormat::PlaceValue),
+        ("writeNumber", ExerciseFormat::WriteNumber),
+        ("readNumber", ExerciseFormat::ReadNumber),
+        ("compare", ExerciseFormat::Compare),
+        ("order", ExerciseFormat::Order),
+        ("frame", ExerciseFormat::Frame),
+        ("numberLinePoint", ExerciseFormat::NumberLinePoint),
+        ("yesNo", ExerciseFormat::YesNo),
+        ("multiChoice", ExerciseFormat::MultiChoice),
+        ("fractionPicture", ExerciseFormat::FractionPicture),
+        ("fractionWords", ExerciseFormat::FractionWords),
+        ("problem", ExerciseFormat::Problem),
+        ("dictation", ExerciseFormat::Dictation),
+        ("missingLetters", ExerciseFormat::MissingLetters),
+        ("chooseSpelling", ExerciseFormat::ChooseSpelling),
+    ];
+
+    pub fn name(self) -> &'static str {
+        Self::NAMES
+            .iter()
+            .find(|(_, f)| *f == self)
+            .map(|(n, _)| *n)
+            .unwrap_or("result")
+    }
+
+    pub fn from_name(name: &str) -> Option<ExerciseFormat> {
+        Self::NAMES
+            .iter()
+            .find(|(n, _)| *n == name)
+            .map(|(_, f)| *f)
+    }
+
+    /// The spelling formats.
+    pub fn is_spelling(self) -> bool {
+        matches!(
+            self,
+            ExerciseFormat::Dictation
+                | ExerciseFormat::MissingLetters
+                | ExerciseFormat::ChooseSpelling
+        )
+    }
 }
 
 /// How the child answers.
@@ -304,6 +384,22 @@ pub enum AnswerMode {
     Keyboard,
     /// Picks one of 4 proposals.
     Choice,
+}
+
+impl AnswerMode {
+    /// Stored name (the name of the former API).
+    pub fn as_str(self) -> &'static str {
+        match self {
+            AnswerMode::Keyboard => "Keyboard",
+            AnswerMode::Choice => "Choice",
+        }
+    }
+
+    pub fn from_name(name: &str) -> Option<AnswerMode> {
+        [AnswerMode::Keyboard, AnswerMode::Choice]
+            .into_iter()
+            .find(|m| m.as_str() == name)
+    }
 }
 
 /// The skills loaded from the content (read-only). Implemented in `educator-content`.
