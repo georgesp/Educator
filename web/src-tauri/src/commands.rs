@@ -302,3 +302,46 @@ pub async fn speak(
 ) -> CommandResult<Response> {
     run(state, move |s| s.speak(&text, speed).map(Response::new)).await
 }
+
+/// The « adult » gate of the parents' space (SUB001510), drawn again at every call.
+#[tauri::command]
+pub async fn get_parent_gate(state: State<'_, Arc<AppState>>) -> CommandResult<ParentGateResponse> {
+    run(state, |s| Ok(s.parent_gate())).await
+}
+
+/// Whether `answer` opens the gate `id`; the gate is used up either way (draw a new one after a
+/// wrong answer).
+#[tauri::command]
+pub async fn check_parent_gate(
+    state: State<'_, Arc<AppState>>,
+    id: String,
+    answer: u32,
+) -> CommandResult<bool> {
+    run(state, move |s| Ok(s.check_parent_gate(&id, answer))).await
+}
+
+/// Statistics of a profile for the parents' space (SUB001511).
+#[tauri::command]
+pub async fn get_profile_statistics(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<ProfileStatisticsResponse> {
+    run(state, move |s| s.profile_statistics(&profile_id)).await
+}
+
+/// The parents' card of the profile choice, created with default values the first time.
+#[tauri::command]
+pub async fn get_parent_profile(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<ParentProfileResponse> {
+    run(state, |s| s.parent_profile()).await
+}
+
+/// Changes the name or the character of the parents' card (400 with the field when invalid).
+#[tauri::command]
+pub async fn update_parent_profile(
+    state: State<'_, Arc<AppState>>,
+    changes: UpdateParentProfileRequest,
+) -> CommandResult<ParentProfileResponse> {
+    run(state, move |s| s.update_parent_profile(changes)).await
+}

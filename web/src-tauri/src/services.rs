@@ -14,13 +14,17 @@ use educator_core::exercises::SeriesSummary;
 use educator_core::exercises::{multiplication_table, SeriesService, TABLE_LAST_FACTOR};
 use educator_core::lessons::LessonCatalog;
 use educator_core::mascot::{Expression, MascotService};
+use educator_core::parent_gate::ParentGateKeeper;
+use educator_core::parent_profile::ParentProfileService;
 use educator_core::profiles::ProfileService;
 use educator_core::random::RandomSource;
 use educator_core::sessions::{close_open_sessions, SessionStore};
+use educator_core::settings::AppSettingsStore;
 use educator_core::skills::{Date, SchoolCalendar, SkillCatalog};
 use educator_core::speech::{self, SpeechSynthesizer};
+use educator_core::statistics::{profile_statistics, utc_date_of, LocalCalendar};
 use educator_core::Error;
-use educator_data::{Database, SqliteProfileStore, SqliteSessionStore};
+use educator_data::{Database, SqliteAppSettingsStore, SqliteProfileStore, SqliteSessionStore};
 use std::fmt;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -53,6 +57,12 @@ pub struct Services {
     speech: Arc<dyn SpeechSynthesizer>,
     /// Local date of the computer (school period of today).
     today: Box<dyn Fn() -> Date + Send + Sync>,
+    /// Local date of an instant (days of the statistics); UTC until [`Services::with_local_date`].
+    local_date: Box<dyn Fn(i64) -> Date + Send + Sync>,
+    /// The parents' gate waiting for its answer (SUB001510).
+    parent_gates: ParentGateKeeper,
+    /// The parents' card of the profile choice.
+    parent_profile: ParentProfileService,
 }
 
 impl fmt::Debug for Services {
@@ -92,7 +102,9 @@ impl Services {
         );
         let database = Arc::new(database);
         let store = Arc::new(SqliteProfileStore::new(Arc::clone(&database)));
-        let sessions: Arc<dyn SessionStore> = Arc::new(SqliteSessionStore::new(database));
+        let sessions: Arc<dyn SessionStore> =
+            Arc::new(SqliteSessionStore::new(Arc::clone(&database)));
+        let settings: Arc<dyn AppSettingsStore> = Arc::new(SqliteAppSettingsStore::new(database));
         // A series does not survive the application: what was left open is closed as abandoned.
         let closed =
             close_open_sessions(sessions.as_ref(), clock.now_ms()).map_err(|e| e.to_string())?;
@@ -113,6 +125,8 @@ impl Services {
             mascot: content
                 .mascot
                 .map(|m| MascotService::new(m, Arc::clone(&random))),
+            parent_gates: ParentGateKeeper::new(Arc::clone(&random), Arc::clone(&clock)),
+            parent_profile: ParentProfileService::new(settings, Arc::clone(&characters)),
             series: SeriesService::new(
                 Arc::clone(&skills),
                 store,
@@ -121,6 +135,7 @@ impl Services {
                 random,
                 clock,
             ),
+            local_date: Box::new(utc_date_of),
             skills,
             words: content.words,
             word_audio: content.directory.join(WORD_AUDIO_FOLDER),
@@ -131,6 +146,12 @@ impl Services {
             speech,
             today,
         })
+    }
+
+    /// The local date of an instant, for the days of the statistics (the time zone of the computer).
+    pub fn with_local_date(mut self, local_date: Box<dyn Fn(i64) -> Date + Send + Sync>) -> Self {
+        self.local_date = local_date;
+        self
     }
 
     pub fn status(&self) -> StatusResponse {
@@ -587,6 +608,74 @@ impl Services {
         Ok((&series).into())
     }
 
+    /// A new « adult » gate (SUB001510); it replaces the one waiting.
+    pub fn parent_gate(&self) -> ParentGateResponse {
+        let (id, gate) = self.parent_gates.open();
+        ParentGateResponse {
+            id: id.to_string().to_uppercase(),
+            left: gate.left,
+            right: gate.right,
+        }
+    }
+
+    /// Whether `answer` opens the gate `id`. The gate is used up either way.
+    pub fn check_parent_gate(&self, id: &str, answer: u32) -> bool {
+        self.parent_gates.check(id, answer)
+    }
+
+    /// The parents' card, created with default values the first time.
+    pub fn parent_profile(&self) -> Result<ParentProfileResponse, CommandError> {
+        let profile = self.parent_profile.get().map_err(profile_error)?;
+        Ok((&profile).into())
+    }
+
+    pub fn update_parent_profile(
+        &self,
+        changes: UpdateParentProfileRequest,
+    ) -> Result<ParentProfileResponse, CommandError> {
+        let profile = self
+            .parent_profile
+            .update(changes.name.as_deref(), changes.character_id.as_deref())
+            .map_err(profile_error)?;
+        Ok((&profile).into())
+    }
+
+    /// Statistics of a profile for the parents' space (SUB001511).
+    pub fn profile_statistics(
+        &self,
+        profile_id: &str,
+    ) -> Result<ProfileStatisticsResponse, CommandError> {
+        let profile = self
+            .profiles
+            .get(profile_id_of(profile_id)?)
+            .map_err(profile_error)?;
+        let sessions = self
+            .sessions
+            .profile_sessions(profile.id)
+            .map_err(unexpected)?;
+        let answers = self
+            .sessions
+            .profile_answers(profile.id)
+            .map_err(unexpected)?;
+        let statistics = profile_statistics(
+            &sessions,
+            &answers,
+            &LocalCalendar {
+                today: (self.today)(),
+                date_of: &*self.local_date,
+            },
+        );
+        Ok(ProfileStatisticsResponse::new(
+            profile_id.to_owned(),
+            &statistics,
+            &|id| {
+                self.skills
+                    .find(id)
+                    .map(|s| (s.title.clone(), s.grade.into()))
+            },
+        ))
+    }
+
     /// WAV of a French text; numbers and calculation signs are read as words (« 7 + 5 » → « sept plus cinq »).
     pub fn speak(&self, text: &str, speed: Option<f64>) -> Result<Vec<u8>, CommandError> {
         let text = speech::normalize(text);
@@ -915,6 +1004,133 @@ mod tests {
         );
         f.services.delete_profile(&lea.id).unwrap();
         assert!(f.services.list_profiles().unwrap().is_empty());
+    }
+
+    /// SUB001510: the id sent to the front opens its gate once (the rules: educator-core).
+    #[test]
+    fn the_parents_gate_round_trips_through_the_front() {
+        let f = fixture();
+        let gate = f.services.parent_gate();
+        assert!((12..=99).contains(&gate.left) && (3..=9).contains(&gate.right));
+        assert_eq!(gate.id.to_uppercase(), gate.id);
+
+        assert!(f
+            .services
+            .check_parent_gate(&gate.id, gate.left * gate.right));
+        assert!(!f
+            .services
+            .check_parent_gate(&gate.id, gate.left * gate.right));
+    }
+
+    /// The parents' card: default values, then a change kept in the database.
+    #[test]
+    fn the_parents_card_is_created_then_edited() {
+        let f = fixture();
+
+        let card = f.services.parent_profile().unwrap();
+        assert_eq!(
+            ("Parents", "ours"),
+            (card.name.as_str(), card.character_id.as_str())
+        );
+
+        let card = f
+            .services
+            .update_parent_profile(UpdateParentProfileRequest {
+                name: Some("Papa".to_owned()),
+                character_id: Some("lion".to_owned()),
+            })
+            .unwrap();
+        assert_eq!(
+            ("Papa", "lion"),
+            (card.name.as_str(), card.character_id.as_str())
+        );
+        assert_eq!("Papa", f.services.parent_profile().unwrap().name);
+        // The card is not a child: the profile list stays empty.
+        assert!(f.services.list_profiles().unwrap().is_empty());
+
+        let error = f
+            .services
+            .update_parent_profile(UpdateParentProfileRequest {
+                name: Some(" ".to_owned()),
+                character_id: None,
+            })
+            .unwrap_err();
+        assert_eq!((400, Some("name")), (error.status, error.field.as_deref()));
+    }
+
+    /// SUB001511: a profile without any session, then after a series.
+    #[test]
+    fn the_statistics_of_a_profile_follow_its_series() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+
+        let empty = f.services.profile_statistics(&lea.id).unwrap();
+        assert_eq!(lea.id, empty.profile_id);
+        assert_eq!(0, empty.summary.session_count);
+        assert_eq!(None, empty.summary.success_rate);
+        assert_eq!(14, empty.days.len());
+        assert_eq!("2026-10-11", empty.days.last().unwrap().date);
+        assert_eq!(8, empty.weeks.len());
+        assert_eq!("2026-10-05", empty.weeks.last().unwrap().start);
+        assert!(empty.skills.is_empty() && empty.tests.is_empty());
+        assert!(empty.frequent_mistakes.is_empty() && empty.to_review.is_empty());
+
+        let series = f
+            .services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "cp-add-sum-10".to_owned(),
+                answer_mode: AnswerMode::Keyboard,
+                format: None,
+                seed: Some(42),
+            })
+            .unwrap();
+        for exercise in &series.exercises {
+            f.services
+                .answer_series(&series.series_id, exercise.index, number(-1), None)
+                .unwrap();
+        }
+
+        let statistics = f.services.profile_statistics(&lea.id).unwrap();
+        assert_eq!(1, statistics.summary.session_count);
+        assert_eq!(20, statistics.summary.points_earned);
+        assert_eq!(Some(0), statistics.summary.success_rate);
+        assert_eq!(1, statistics.days.last().unwrap().session_count);
+        let skill = &statistics.skills[0];
+        assert_eq!("cp-add-sum-10", skill.skill_id);
+        assert_ne!(skill.skill_id, skill.title);
+        assert_eq!(Some(Grade::CP), skill.grade);
+        assert_eq!(
+            (1, 0, 10),
+            (
+                skill.completed_count,
+                skill.abandoned_count,
+                skill.answer_count
+            )
+        );
+        assert_eq!(MasteryStateName::ToReview, skill.state);
+        assert_eq!(
+            vec![20],
+            skill
+                .history
+                .iter()
+                .map(|p| p.points_earned)
+                .collect::<Vec<_>>()
+        );
+        assert_eq!(vec!["cp-add-sum-10".to_owned()], statistics.to_review);
+        let mistake = &statistics.frequent_mistakes[0];
+        assert_eq!("-1", mistake.usual_answer);
+        assert_eq!(skill.title, mistake.skill_title);
+
+        let unknown = f
+            .services
+            .profile_statistics("0192F6B4-0000-7000-8000-000000000000")
+            .unwrap_err();
+        assert_eq!(404, unknown.status);
+        assert_eq!(
+            404,
+            f.services.profile_statistics("nope").unwrap_err().status
+        );
     }
 
     #[test]

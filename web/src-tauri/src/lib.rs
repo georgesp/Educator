@@ -98,6 +98,11 @@ pub fn run() {
             commands::save_lesson_progress,
             commands::start_lesson_quiz,
             commands::speak,
+            commands::get_parent_gate,
+            commands::check_parent_gate,
+            commands::get_profile_statistics,
+            commands::get_parent_profile,
+            commands::update_parent_profile,
         ])
         .run(tauri::generate_context!())
         .expect("error while running the application");

@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { vi } from "vitest";
-import type { AnswerPayload, Exercise, Lesson, Profile, Series, SeriesSummary, Subject, Token } from "../api/client";
+import type { AnswerPayload, Exercise, Lesson, Profile, ProfileStatistics, Series, SeriesSummary, Subject, Token } from "../api/client";
 import type { UiApi } from "../api/ui";
 import { BackendProvider } from "../app/BackendContext";
 import { ProfileProvider } from "../app/ProfileContext";
@@ -152,6 +152,29 @@ export const quizSeries: Series = {
   })),
 };
 
+/** Statistics of a profile without any session (14 days and 8 weeks to 2026-10-14). */
+export function emptyStatistics(profileId: string): ProfileStatistics {
+  const day = (offset: number) => new Date(Date.UTC(2026, 9, 14 + offset)).toISOString().slice(0, 10);
+  return {
+    profileId,
+    summary: { sessionCount: 0, totalSeconds: 0, pointsEarned: 0, answerCount: 0, correctCount: 0, successRate: null, activeDays: 0, lastActivityAt: null },
+    days: Array.from({ length: 14 }, (_, i) => ({ date: day(i - 13), seconds: 0, sessionCount: 0 })),
+    weeks: Array.from({ length: 8 }, (_, i) => ({
+      start: day(-2 - 7 * (7 - i)),
+      seconds: 0,
+      sessionCount: 0,
+      answerCount: 0,
+      correctCount: 0,
+      successRate: null,
+      pointsEarned: 0,
+    })),
+    skills: [],
+    toReview: [],
+    tests: [],
+    frequentMistakes: [],
+  };
+}
+
 /** A fake UI API: every call is a vi.fn, overridable per test. Speech fails (no voice in tests). */
 export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
   const expected = [7, 4];
@@ -252,6 +275,12 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
     speak: vi.fn().mockRejectedValue(new Error("no voice in tests")),
     speakSeriesWord: vi.fn().mockRejectedValue(new Error("no voice in tests")),
     speakWord: vi.fn().mockRejectedValue(new Error("no voice in tests")),
+    // The gate is 27 × 6 = 162.
+    getParentGate: vi.fn().mockResolvedValue({ id: "gate", left: 27, right: 6 }),
+    checkParentGate: vi.fn(async (_id: string, answer: number) => answer === 162),
+    getProfileStatistics: vi.fn(async (profileId: string) => emptyStatistics(profileId)),
+    getParentProfile: vi.fn().mockResolvedValue({ name: "Parents", characterId: "ours" }),
+    updateParentProfile: vi.fn(async (changes: { name?: string; characterId?: string }) => ({ name: changes.name ?? "Parents", characterId: changes.characterId ?? "ours" })),
     ...overrides,
   } as UiApi;
 }

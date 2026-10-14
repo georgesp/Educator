@@ -14,7 +14,7 @@ estimate:
 startDate:
 endDate:
 parent: "#15"
-order: 530
+order: 612
 ---
 
 ## User story

@@ -8,10 +8,12 @@ use educator_core::characters::{self, CharacterInfo};
 use educator_core::exercises::{self, Answer, Exercise, SeriesSummary, TableLine};
 use educator_core::lessons::{self, Lesson};
 use educator_core::mascot;
+use educator_core::parent_profile::ParentProfile;
 use educator_core::profiles::Profile;
 use educator_core::sessions;
 use educator_core::skills;
 use educator_core::spelling::{LetterKind, SpellingCorrection, SpokenWord};
+use educator_core::statistics;
 use serde::{Deserialize, Serialize};
 
 mod figures;
@@ -1691,6 +1693,356 @@ pub struct QuizQuestionResponse {
     /// Read aloud (send it to `speak`).
     pub spoken: String,
     pub choices: Option<Vec<ChoiceResponse>>,
+}
+
+// ── Parents' space (SUB001510, SUB001511) ───────────────────────────────────────────────────
+
+/// The « adult » gate: `left × right` to compute, drawn again at every opening.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct ParentGateResponse {
+    /// To send back with the answer (`check_parent_gate`).
+    pub id: String,
+    pub left: u32,
+    pub right: u32,
+}
+
+/// The parents' card of the profile choice: created with default values, editable.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct ParentProfileResponse {
+    pub name: String,
+    pub character_id: String,
+}
+
+impl From<&ParentProfile> for ParentProfileResponse {
+    fn from(profile: &ParentProfile) -> Self {
+        Self {
+            name: profile.name.clone(),
+            character_id: profile.character_id.clone(),
+        }
+    }
+}
+
+/// Only the given fields change.
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct UpdateParentProfileRequest {
+    #[serde(default)]
+    #[cfg_attr(test, ts(optional))]
+    pub name: Option<String>,
+    #[serde(default)]
+    #[cfg_attr(test, ts(optional))]
+    pub character_id: Option<String>,
+}
+
+/// How well an exercise is mastered: from the share of right answers among the last 20.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum MasteryStateName {
+    /// Fewer than 5 answers: too early to judge.
+    TooEarly,
+    /// 80 % or more.
+    Mastered,
+    InProgress,
+    /// Under 50 %.
+    ToReview,
+}
+
+impl From<statistics::MasteryState> for MasteryStateName {
+    fn from(state: statistics::MasteryState) -> Self {
+        match state {
+            statistics::MasteryState::TooEarly => MasteryStateName::TooEarly,
+            statistics::MasteryState::Mastered => MasteryStateName::Mastered,
+            statistics::MasteryState::InProgress => MasteryStateName::InProgress,
+            statistics::MasteryState::ToReview => MasteryStateName::ToReview,
+        }
+    }
+}
+
+/// The points of the last series of an exercise compared with the ones before (±10 % or more).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum TrendName {
+    /// Fewer than 4 series.
+    Unknown,
+    Up,
+    Stable,
+    Down,
+}
+
+impl From<statistics::Trend> for TrendName {
+    fn from(trend: statistics::Trend) -> Self {
+        match trend {
+            statistics::Trend::Unknown => TrendName::Unknown,
+            statistics::Trend::Up => TrendName::Up,
+            statistics::Trend::Stable => TrendName::Stable,
+            statistics::Trend::Down => TrendName::Down,
+        }
+    }
+}
+
+/// Statistics of a profile for the parents' space. Instants are ISO 8601 (UTC), days are local
+/// dates `YYYY-MM-DD`, rates are percentages (null without any answer).
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct ProfileStatisticsResponse {
+    pub profile_id: String,
+    pub summary: StatisticsSummaryResponse,
+    /// The last 14 days, today last.
+    pub days: Vec<DayActivityResponse>,
+    /// The last 8 weeks (Monday to Sunday), the current week last.
+    pub weeks: Vec<WeekActivityResponse>,
+    /// Every exercise practised, the most recently practised first.
+    pub skills: Vec<SkillStatisticsResponse>,
+    /// Up to 3 exercises to review first (ids of `skills`), the weakest first.
+    pub to_review: Vec<String>,
+    /// Exams and timed challenges, the most recent first.
+    pub tests: Vec<TestResultResponse>,
+    pub frequent_mistakes: Vec<FrequentMistakeResponse>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct StatisticsSummaryResponse {
+    pub session_count: u32,
+    /// Time spent in the exercises, exams, challenges and lesson quizzes.
+    pub total_seconds: u32,
+    pub points_earned: i32,
+    pub answer_count: u32,
+    pub correct_count: u32,
+    pub success_rate: Option<u32>,
+    /// Days with an activity among the last 14.
+    pub active_days: u32,
+    pub last_activity_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct DayActivityResponse {
+    pub date: String,
+    pub seconds: u32,
+    pub session_count: u32,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct WeekActivityResponse {
+    /// The Monday.
+    pub start: String,
+    pub seconds: u32,
+    pub session_count: u32,
+    pub answer_count: u32,
+    pub correct_count: u32,
+    pub success_rate: Option<u32>,
+    pub points_earned: i32,
+}
+
+/// An exercise practised by the profile.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct SkillStatisticsResponse {
+    pub skill_id: String,
+    /// Title of the skill (its id when the skill no longer exists).
+    pub title: String,
+    pub subject: Subject,
+    /// Grade of the skill, when it still exists.
+    pub grade: Option<Grade>,
+    /// Series answered to the end.
+    pub completed_count: u32,
+    /// Series stopped before the end.
+    pub abandoned_count: u32,
+    /// Every answer, exams and timed challenges included.
+    pub answer_count: u32,
+    pub correct_count: u32,
+    /// Share of right answers among the last 20 (the score shown to the child).
+    pub mastery: u32,
+    pub state: MasteryStateName,
+    /// Points of the series of this exercise (an exam mixes exercises: its points are not split).
+    pub points_earned: i32,
+    pub average_points: Option<u32>,
+    pub best_points: Option<i32>,
+    pub trend: TrendName,
+    pub last_practiced_at: String,
+    /// The last 20 completed series, oldest first: the points chart.
+    pub history: Vec<SeriesPointResponse>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct SeriesPointResponse {
+    pub started_at: String,
+    pub date: String,
+    pub session_type: SessionType,
+    pub question_count: u32,
+    pub correct_count: u32,
+    pub points_earned: i32,
+}
+
+/// An exam or a timed challenge.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct TestResultResponse {
+    pub session_type: SessionType,
+    pub subject: Subject,
+    pub started_at: String,
+    pub date: String,
+    pub question_count: u32,
+    pub correct_count: u32,
+    pub points_earned: i32,
+    pub time_limit_seconds: Option<u32>,
+    pub abandoned: bool,
+}
+
+/// A question often missed, with the wrong answer given most often.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct FrequentMistakeResponse {
+    pub skill_id: String,
+    pub skill_title: String,
+    /// The question as written, `?` for the answer.
+    pub prompt: String,
+    pub expected: String,
+    pub mistake_count: u32,
+    pub attempt_count: u32,
+    pub usual_answer: String,
+    pub last_at: String,
+}
+
+/// A local date as `YYYY-MM-DD`.
+pub fn local_date(date: skills::Date) -> String {
+    format!("{:04}-{:02}-{:02}", date.year, date.month, date.day)
+}
+
+fn clamp_i32(value: i64) -> i32 {
+    i32::try_from(value).unwrap_or(if value < 0 { i32::MIN } else { i32::MAX })
+}
+
+impl ProfileStatisticsResponse {
+    /// `skill`: title and grade of a skill id, when it still exists.
+    pub fn new(
+        profile_id: String,
+        statistics: &statistics::ProfileStatistics,
+        skill: &dyn Fn(&str) -> Option<(String, Grade)>,
+    ) -> Self {
+        let title = |id: &str| skill(id).map(|(t, _)| t).unwrap_or_else(|| id.to_owned());
+        let summary = &statistics.summary;
+        Self {
+            profile_id,
+            summary: StatisticsSummaryResponse {
+                session_count: summary.session_count,
+                total_seconds: summary.total_seconds,
+                points_earned: clamp_i32(summary.points_earned),
+                answer_count: summary.answer_count,
+                correct_count: summary.correct_count,
+                success_rate: summary.success_rate.map(u32::from),
+                active_days: summary.active_days,
+                last_activity_at: summary.last_activity_at.map(iso_8601),
+            },
+            days: statistics
+                .days
+                .iter()
+                .map(|d| DayActivityResponse {
+                    date: local_date(d.date),
+                    seconds: d.seconds,
+                    session_count: d.session_count,
+                })
+                .collect(),
+            weeks: statistics
+                .weeks
+                .iter()
+                .map(|w| WeekActivityResponse {
+                    start: local_date(w.start),
+                    seconds: w.seconds,
+                    session_count: w.session_count,
+                    answer_count: w.answer_count,
+                    correct_count: w.correct_count,
+                    success_rate: w.success_rate.map(u32::from),
+                    points_earned: clamp_i32(w.points_earned),
+                })
+                .collect(),
+            skills: statistics
+                .skills
+                .iter()
+                .map(|s| {
+                    let found = skill(&s.skill_id);
+                    SkillStatisticsResponse {
+                        skill_id: s.skill_id.clone(),
+                        title: found
+                            .as_ref()
+                            .map(|(t, _)| t.clone())
+                            .unwrap_or_else(|| s.skill_id.clone()),
+                        subject: s.subject.into(),
+                        grade: found.map(|(_, g)| g),
+                        completed_count: s.completed_count,
+                        abandoned_count: s.abandoned_count,
+                        answer_count: s.answer_count,
+                        correct_count: s.correct_count,
+                        mastery: u32::from(s.mastery),
+                        state: s.state.into(),
+                        points_earned: clamp_i32(s.points_earned),
+                        average_points: s.average_points,
+                        best_points: s.best_points,
+                        trend: s.trend.into(),
+                        last_practiced_at: iso_8601(s.last_practiced_at),
+                        history: s
+                            .history
+                            .iter()
+                            .map(|p| SeriesPointResponse {
+                                started_at: iso_8601(p.started_at),
+                                date: local_date(p.date),
+                                session_type: p.session_type.into(),
+                                question_count: p.question_count,
+                                correct_count: p.correct_count,
+                                points_earned: p.points_earned,
+                            })
+                            .collect(),
+                    }
+                })
+                .collect(),
+            to_review: statistics.to_review.clone(),
+            tests: statistics
+                .tests
+                .iter()
+                .map(|t| TestResultResponse {
+                    session_type: t.session_type.into(),
+                    subject: t.subject.into(),
+                    started_at: iso_8601(t.started_at),
+                    date: local_date(t.date),
+                    question_count: t.question_count,
+                    correct_count: t.correct_count,
+                    points_earned: t.points_earned,
+                    time_limit_seconds: t.time_limit_seconds,
+                    abandoned: t.abandoned,
+                })
+                .collect(),
+            frequent_mistakes: statistics
+                .frequent_mistakes
+                .iter()
+                .map(|m| FrequentMistakeResponse {
+                    skill_id: m.skill_id.clone(),
+                    skill_title: title(&m.skill_id),
+                    prompt: m.prompt.clone(),
+                    expected: m.expected.clone(),
+                    mistake_count: m.mistake_count,
+                    attempt_count: m.attempt_count,
+                    usual_answer: m.usual_answer.clone(),
+                    last_at: iso_8601(m.last_at),
+                })
+                .collect(),
+        }
+    }
 }
 
 // ── Errors ───────────────────────────────────────────────────────────────────────────────────

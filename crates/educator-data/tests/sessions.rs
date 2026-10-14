@@ -355,3 +355,59 @@ fn the_slide_of_an_unfinished_lesson_is_kept_until_it_is_finished() {
     f.profiles.delete(f.profile.id).unwrap();
     assert_eq!(0, count(&f.path, "LessonProgress"));
 }
+
+#[test]
+fn the_parents_space_reads_the_closed_sessions_and_answers_of_one_profile() {
+    let f = fixture();
+    let now = f.clock.now_ms();
+    let other = add_profile(&f.profiles, "Tom", now);
+    let end = |at: i64| SessionEnd {
+        ended_at: at,
+        abandoned: false,
+        question_count: 10,
+        correct_count: 1,
+        points_earned: 30,
+    };
+
+    let later = session(f.profile.id, SessionType::Exercise, now + 100);
+    let earlier = session(f.profile.id, SessionType::Exam, now);
+    let open = session(f.profile.id, SessionType::Exercise, now + 200);
+    let of_other = session(other.id, SessionType::Exercise, now);
+    for s in [&later, &earlier, &open, &of_other] {
+        f.sessions.add_session(s).unwrap();
+    }
+    f.sessions
+        .add_answer(&answer(later.id, 0, "ce1-son-o-au-eau", true, now + 101))
+        .unwrap();
+    f.sessions
+        .add_answer(&answer(earlier.id, 0, "ce1-son-o-au-eau", false, now + 1))
+        .unwrap();
+    f.sessions
+        .add_answer(&answer(open.id, 0, "ce1-son-o-au-eau", true, now + 201))
+        .unwrap();
+    f.sessions
+        .add_answer(&answer(of_other.id, 0, "ce1-son-o-au-eau", true, now + 2))
+        .unwrap();
+    f.sessions.end_session(later.id, &end(now + 150)).unwrap();
+    f.sessions.end_session(earlier.id, &end(now + 50)).unwrap();
+    f.sessions.end_session(of_other.id, &end(now + 50)).unwrap();
+
+    let sessions = f.sessions.profile_sessions(f.profile.id).unwrap();
+    assert_eq!(
+        vec![earlier.id, later.id],
+        sessions.iter().map(|s| s.id).collect::<Vec<_>>()
+    );
+    assert_eq!(Some(now + 50), sessions[0].ended_at);
+
+    let answers = f.sessions.profile_answers(f.profile.id).unwrap();
+    assert_eq!(
+        vec![earlier.id, later.id],
+        answers.iter().map(|a| a.session_id).collect::<Vec<_>>()
+    );
+    assert_eq!("bato", answers[0].given);
+    assert_eq!(Some(2500), answers[0].duration_ms);
+
+    let fresh = add_profile(&f.profiles, "Zoé", now);
+    assert!(f.sessions.profile_sessions(fresh.id).unwrap().is_empty());
+    assert!(f.sessions.profile_answers(fresh.id).unwrap().is_empty());
+}

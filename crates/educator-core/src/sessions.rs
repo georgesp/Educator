@@ -2,7 +2,7 @@
 //! challenge is a [`SessionRecord`] with one [`AnswerRecord`] per question, stored locally
 //! (`educator-data`). At the end of a session, the [`SkillMastery`] of each skill practised is
 //! updated: the share of right answers among the last [`MASTERY_WINDOW`] answers. They feed the
-//! adaptive difficulty and the parents' space (lot 3), and the timed challenge (SUB001415).
+//! adaptive difficulty and the parents' space (lot 3, [`crate::statistics`]), and the timed challenge (SUB001415).
 
 use crate::skills::{AnswerMode, ExerciseFormat, Subject};
 use crate::{Grade, Result};
@@ -170,6 +170,12 @@ pub trait SessionStore: Send + Sync {
 
     /// Every mastery of a profile, by skill id.
     fn masteries(&self, profile_id: Uuid) -> Result<Vec<SkillMastery>>;
+
+    /// The closed sessions of a profile, oldest first (parents' space, SUB001511).
+    fn profile_sessions(&self, profile_id: Uuid) -> Result<Vec<SessionRecord>>;
+
+    /// The answers of the closed sessions of a profile, oldest first.
+    fn profile_answers(&self, profile_id: Uuid) -> Result<Vec<AnswerRecord>>;
 
     /// Best number of right answers of the finished timed challenges of a profile, for a subject
     /// and a duration.

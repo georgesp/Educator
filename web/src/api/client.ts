@@ -74,6 +74,18 @@ export type BarKind = Types.BarKindName;
 export type BarValue = Types.BarValueResponse;
 export type QuizQuestion = Types.QuizQuestionResponse;
 export type SortedWord = Types.SortedWordResponse;
+export type ParentGate = Types.ParentGateResponse;
+export type ParentProfile = Types.ParentProfileResponse;
+export type UpdateParentProfile = Types.UpdateParentProfileRequest;
+export type ProfileStatistics = Types.ProfileStatisticsResponse;
+export type SkillStatistics = Types.SkillStatisticsResponse;
+export type SeriesPoint = Types.SeriesPointResponse;
+export type TestResult = Types.TestResultResponse;
+export type FrequentMistake = Types.FrequentMistakeResponse;
+export type DayActivity = Types.DayActivityResponse;
+export type WeekActivity = Types.WeekActivityResponse;
+export type MasteryState = Types.MasteryStateName;
+export type Trend = Types.TrendName;
 
 /**
  * Error returned by a command. `status` keeps the meaning of the former HTTP API (400 invalid input,

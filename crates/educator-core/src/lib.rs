@@ -14,6 +14,8 @@ mod grade;
 pub mod lessons;
 pub mod mascot;
 pub mod numbers;
+pub mod parent_gate;
+pub mod parent_profile;
 pub mod points;
 pub mod profiles;
 pub mod random;
@@ -22,6 +24,7 @@ pub mod settings;
 pub mod skills;
 pub mod speech;
 pub mod spelling;
+pub mod statistics;
 
 pub use error::{Error, Result};
 pub use grade::Grade;

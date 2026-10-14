@@ -648,6 +648,104 @@ export type QuizQuestionResponse = { index: number, question: string,
  */
 spoken: string, choices: Array<ChoiceResponse> | null, };
 
+export type ParentGateResponse = { 
+/**
+ * To send back with the answer (`check_parent_gate`).
+ */
+id: string, left: number, right: number, };
+
+export type ParentProfileResponse = { name: string, characterId: string, };
+
+export type UpdateParentProfileRequest = { name?: string, characterId?: string, };
+
+export type MasteryStateName = "TooEarly" | "Mastered" | "InProgress" | "ToReview";
+
+export type TrendName = "Unknown" | "Up" | "Stable" | "Down";
+
+export type ProfileStatisticsResponse = { profileId: string, summary: StatisticsSummaryResponse, 
+/**
+ * The last 14 days, today last.
+ */
+days: Array<DayActivityResponse>, 
+/**
+ * The last 8 weeks (Monday to Sunday), the current week last.
+ */
+weeks: Array<WeekActivityResponse>, 
+/**
+ * Every exercise practised, the most recently practised first.
+ */
+skills: Array<SkillStatisticsResponse>, 
+/**
+ * Up to 3 exercises to review first (ids of `skills`), the weakest first.
+ */
+toReview: Array<string>, 
+/**
+ * Exams and timed challenges, the most recent first.
+ */
+tests: Array<TestResultResponse>, frequentMistakes: Array<FrequentMistakeResponse>, };
+
+export type StatisticsSummaryResponse = { sessionCount: number, 
+/**
+ * Time spent in the exercises, exams, challenges and lesson quizzes.
+ */
+totalSeconds: number, pointsEarned: number, answerCount: number, correctCount: number, successRate: number | null, 
+/**
+ * Days with an activity among the last 14.
+ */
+activeDays: number, lastActivityAt: string | null, };
+
+export type DayActivityResponse = { date: string, seconds: number, sessionCount: number, };
+
+export type WeekActivityResponse = { 
+/**
+ * The Monday.
+ */
+start: string, seconds: number, sessionCount: number, answerCount: number, correctCount: number, successRate: number | null, pointsEarned: number, };
+
+export type SkillStatisticsResponse = { skillId: string, 
+/**
+ * Title of the skill (its id when the skill no longer exists).
+ */
+title: string, subject: Subject, 
+/**
+ * Grade of the skill, when it still exists.
+ */
+grade: Grade | null, 
+/**
+ * Series answered to the end.
+ */
+completedCount: number, 
+/**
+ * Series stopped before the end.
+ */
+abandonedCount: number, 
+/**
+ * Every answer, exams and timed challenges included.
+ */
+answerCount: number, correctCount: number, 
+/**
+ * Share of right answers among the last 20 (the score shown to the child).
+ */
+mastery: number, state: MasteryStateName, 
+/**
+ * Points of the series of this exercise (an exam mixes exercises: its points are not split).
+ */
+pointsEarned: number, averagePoints: number | null, bestPoints: number | null, trend: TrendName, lastPracticedAt: string, 
+/**
+ * The last 20 completed series, oldest first: the points chart.
+ */
+history: Array<SeriesPointResponse>, };
+
+export type SeriesPointResponse = { startedAt: string, date: string, sessionType: SessionType, questionCount: number, correctCount: number, pointsEarned: number, };
+
+export type TestResultResponse = { sessionType: SessionType, subject: Subject, startedAt: string, date: string, questionCount: number, correctCount: number, pointsEarned: number, timeLimitSeconds: number | null, abandoned: boolean, };
+
+export type FrequentMistakeResponse = { skillId: string, skillTitle: string, 
+/**
+ * The question as written, `?` for the answer.
+ */
+prompt: string, expected: string, mistakeCount: number, attemptCount: number, usualAnswer: string, lastAt: string, };
+
 export type CommandError = { status: number, title: string, detail: string | null, 
 /**
  * Request field in error (`name`, `grade`, `characterId`), for the profile errors.

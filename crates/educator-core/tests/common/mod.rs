@@ -253,6 +253,33 @@ impl SessionStore for InMemorySessionStore {
         Ok(found)
     }
 
+    fn profile_sessions(&self, profile_id: Uuid) -> Result<Vec<SessionRecord>> {
+        let mut found: Vec<SessionRecord> = self
+            .sessions
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|s| s.profile_id == profile_id && s.ended_at.is_some())
+            .cloned()
+            .collect();
+        found.sort_by_key(|s| s.started_at);
+        Ok(found)
+    }
+
+    fn profile_answers(&self, profile_id: Uuid) -> Result<Vec<AnswerRecord>> {
+        let sessions = self.profile_sessions(profile_id)?;
+        let mut found: Vec<AnswerRecord> = self
+            .answers
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|a| sessions.iter().any(|s| s.id == a.session_id))
+            .cloned()
+            .collect();
+        found.sort_by_key(|a| (a.answered_at, a.index));
+        Ok(found)
+    }
+
     fn best_timed_score(
         &self,
         profile_id: Uuid,

@@ -1,4 +1,26 @@
-import type { Grade, LessonOperator, LetterKind, RaceObjectName, RankName, SpellingFormat, Subject, TableHighlightKind } from "../api/client";
+import type {
+  Grade,
+  LessonOperator,
+  LetterKind,
+  MasteryState,
+  RaceObjectName,
+  RankName,
+  SessionType,
+  SpellingFormat,
+  Subject,
+  TableHighlightKind,
+  Trend,
+} from "../api/client";
+
+const dayFormat = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+const shortDayFormat = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-digit" });
+const instantFormat = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+
+/** A local date `YYYY-MM-DD` (statistics) as a Date at local midnight. */
+const localDate = (date: string): Date => {
+  const [year, month, day] = date.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
 
 /** A step of a calculation as written in the lessons: « + 20 », « − 1 » (typographic minus). */
 export const signed = (delta: number): string => (delta < 0 ? `− ${-delta}` : `+ ${delta}`);
@@ -53,6 +75,8 @@ export const fr = {
     editSpoken: "Tu peux changer le prénom, la classe ou le personnage. Clique ensuite sur Enregistrer.",
     randomCharacter: "Au hasard",
     save: "Enregistrer",
+    parentCard: (name: string) => `${name} : espace parent`,
+    parentBadge: "Espace parent",
   },
   menu: {
     greeting: (name: string) => `En piste, ${name} !`,
@@ -439,14 +463,139 @@ export const fr = {
     mute: "Couper les sons et la voix",
     hideMascot: "Cacher la mascotte",
     profiles: "Les profils",
+    parentSpace: "Espace parent",
+    parentSpaceHint: "Pour les adultes : les progrès de chaque enfant et la gestion des profils.",
+  },
+  /** Parents' space (SUB001510, SUB001511): written for an adult. */
+  parent: {
+    title: "Espace parent",
+    gateIntro: "Cet espace est réservé aux adultes. Pour entrer, calcule :",
+    gateQuestion: (left: number, right: number) => `${left} × ${right} = ?`,
+    gateAnswer: "Résultat du calcul",
+    gateEnter: "Entrer",
+    gateWrong: "Ce n'est pas le bon résultat. Voici un autre calcul.",
+    backToOptions: "Retour",
+    backToChild: "Retour au menu enfant",
+    backToProfiles: "Retour au choix du profil",
+    card: "Carte des parents",
+    cardHint: "Elle s'affiche sur l'écran « Qui joue ? » et ouvre cet espace, après le calcul.",
+    cardName: "Nom de la carte",
+    cardCharacter: (name: string) => `Personnage de la carte : ${name}`,
+    cardSave: "Enregistrer le nom",
+    cardSaved: "Enregistré.",
+    cardReroll: "Changer de personnage",
+    children: "Enfants",
+    childTab: (name: string, grade: string) => `${name} · ${grade}`,
+    noProfiles: "Aucun profil pour l'instant.",
+    empty: (name: string) => `${name} n'a encore fait aucune activité. Les statistiques apparaîtront après sa première série d'exercices.`,
+    overview: "Vue d'ensemble",
+    timeThisWeek: "Temps cette semaine",
+    timeTotal: "Temps total",
+    pointsEarned: "Points gagnés",
+    success: "Réussite globale",
+    activeDays: "Jours d'activité",
+    activeDaysValue: (days: number, shown: number) => `${days} sur ${shown} jours`,
+    lastActivity: "Dernière activité",
+    none: "—",
+    toReview: "À revoir en priorité",
+    toReviewHint: "Les exercices les moins réussis : une leçon ou une série courte peut aider.",
+    noToReview: "Rien à revoir en priorité pour l'instant.",
+    timeByDay: "Temps passé par jour",
+    timeByDayCaption: (days: number) => `Les ${days} derniers jours, en minutes`,
+    /** Value above a bar of the daily chart: minutes only, to stay narrow. */
+    minutes: (seconds: number) => (seconds === 0 ? "" : seconds < 60 ? "<1" : String(Math.round(seconds / 60))),
+    successByWeek: "Réussite par semaine",
+    successByWeekCaption: (weeks: number) => `Part des bonnes réponses, les ${weeks} dernières semaines`,
+    exercises: "Exercices",
+    exercisesHint: "Une ligne par exercice. Les points d'un bilan ou d'un défi chrono, qui mélangent les exercices, sont comptés à part.",
+    sortBy: "Trier par",
+    sorts: {
+      recent: "Les plus récents",
+      weakest: "Les moins réussis",
+      most: "Les plus pratiqués",
+      points: "Le plus de points",
+    },
+    columns: {
+      exercise: "Exercice",
+      done: "Fait",
+      points: "Points gagnés",
+      evolution: "Évolution des points",
+      mastery: "Réussite",
+      last: "Dernière fois",
+    },
+    doneCount: (count: number) => `${count} fois`,
+    abandoned: (count: number) => `+ ${count} non terminée${count > 1 ? "s" : ""}`,
+    average: (points: number) => `${points} en moyenne`,
+    states: {
+      TooEarly: "Trop tôt pour juger",
+      Mastered: "Maîtrisé",
+      InProgress: "En cours",
+      ToReview: "À revoir",
+    } as Record<MasteryState, string>,
+    trends: {
+      Unknown: "",
+      Up: "En progrès",
+      Stable: "Stable",
+      Down: "En baisse",
+    } as Record<Trend, string>,
+    masteryValue: (mastery: number) => `${mastery} %`,
+    masteryHint: "sur les 20 dernières réponses",
+    sparkline: (points: number[]) =>
+      points.length === 1 ? `Points de la seule série : ${points[0]}` : `Points des ${points.length} dernières séries : ${points.join(", ")}`,
+    noSeries: "Pas encore de série terminée",
+    showDetails: (title: string) => `Voir le détail de « ${title} »`,
+    hideDetails: (title: string) => `Masquer le détail de « ${title} »`,
+    detailsTitle: (title: string) => `Points par série · ${title}`,
+    seriesPoint: (date: string, points: number, correct: number, total: number) => `${date} : ${points} points, ${correct} sur ${total}`,
+    best: (points: number) => `Meilleure série : ${points} points`,
+    tests: "Examens et défis chrono",
+    noTests: "Aucun bilan ni défi chrono pour l'instant.",
+    testColumns: { date: "Date", kind: "Épreuve", score: "Bonnes réponses", points: "Points" },
+    testKind: (type: SessionType, subject: Subject, seconds: number | null) => {
+      const of = subject === "Math" ? "de maths" : "d'orthographe";
+      return type === "Timed" ? `Défi chrono ${of}${seconds ? ` (${seconds / 60} min)` : ""}` : `Bilan ${of}`;
+    },
+    score: (correct: number, total: number) => `${correct} sur ${total}`,
+    stopped: "arrêté avant la fin",
+    mistakes: "Erreurs fréquentes",
+    mistakesHint: "Les questions les plus souvent ratées, et la réponse donnée le plus souvent.",
+    noMistakes: "Aucune erreur enregistrée.",
+    mistakeColumns: {
+      exercise: "Exercice",
+      question: "Question",
+      expected: "Bonne réponse",
+      given: "Réponse souvent donnée",
+      count: "Erreurs",
+    },
+    mistakeCount: (mistakes: number, attempts: number) => `${mistakes} sur ${attempts}`,
+    emptyAnswer: "(sans réponse)",
+    manage: "Gérer les profils",
     delete: "Supprimer",
     deleteLabel: (name: string) => `Supprimer le profil de ${name}`,
     deleteQuestion: (name: string) => `Supprimer le profil de ${name} ?`,
-    deleteWarning: "Ses points et ses résultats seront effacés pour toujours. Demande à un adulte avant de continuer.",
+    deleteWarning: "Ses points et ses résultats seront effacés pour toujours.",
     keep: "Non, je garde le profil",
     continue: "Continuer",
     typeName: (name: string) => `Pour confirmer, écris le prénom « ${name} » :`,
     deleteForever: "Supprimer pour toujours",
+    loadError: "Les statistiques n'ont pas pu être chargées.",
+    /** 45 s, 12 min, 1 h 05. */
+    duration: (seconds: number) => {
+      if (seconds < 60) {
+        return `${seconds} s`;
+      }
+      const minutes = Math.round(seconds / 60);
+      return minutes < 60 ? `${minutes} min` : `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, "0")}`;
+    },
+    /** A local date `YYYY-MM-DD` as « lun. 12 oct. ». */
+    day: (date: string) => dayFormat.format(localDate(date)),
+    /** A local date `YYYY-MM-DD` as « 12/10 ». */
+    shortDay: (date: string) => shortDayFormat.format(localDate(date)),
+    /** A local date `YYYY-MM-DD` as its day of the month: « 12 ». */
+    dayOfMonth: (date: string) => String(localDate(date).getDate()),
+    week: (monday: string) => `Sem. du ${shortDayFormat.format(localDate(monday))}`,
+    /** An ISO instant as « 12 oct. 2026 ». */
+    instant: (iso: string) => instantFormat.format(new Date(iso)),
   },
   exam: {
     title: "Examen",

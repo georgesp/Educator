@@ -46,4 +46,26 @@ describe("ProfilesScreen", () => {
 
     expect(await screen.findByRole("alert")).toHaveTextContent("Ce prénom est déjà pris. Choisis-en un autre.");
   });
+  it("shows the parents' card last, which leads to the parents' space through the gate", async () => {
+    const router = renderApp(fakeApi(), "/", null);
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: "Parents : espace parent" }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/parent"));
+    await user.type(await screen.findByRole("textbox", { name: "Résultat du calcul" }), "162{Enter}");
+    await waitFor(() => expect(router.state.location.pathname).toBe("/parent/espace"));
+
+    // Back to the profile choice, where it was opened from.
+    await user.click(await screen.findByRole("button", { name: "← Retour au choix du profil" }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/"));
+  });
+
+  it("the gate opened from the parents' card goes back to the profile choice", async () => {
+    const router = renderApp(fakeApi(), "/", null);
+    const user = userEvent.setup();
+
+    await user.click(await screen.findByRole("button", { name: "Parents : espace parent" }));
+    await user.click(await screen.findByRole("button", { name: "← Retour" }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/"));
+  });
 });

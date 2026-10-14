@@ -98,6 +98,7 @@ pub fn start(state: Arc<AppState>, folders: Folders) {
                 Box::new(today),
             ) {
                 Ok(services) => {
+                    let services = services.with_local_date(Box::new(local_date));
                     state.set(Startup::Ready(Arc::new(services)));
                     // The first sentence is then read without delay.
                     speech.warm_up(crate::services::CHILD_SPEECH_SPEED);
@@ -141,4 +142,13 @@ fn today() -> Date {
     use chrono::Datelike;
     let now = chrono::Local::now().date_naive();
     Date::new(now.year(), now.month(), now.day())
+}
+
+/// Local date of an instant (Unix milliseconds), in the time zone of the computer.
+fn local_date(instant_ms: i64) -> Date {
+    use chrono::{Datelike, TimeZone};
+    match chrono::Local.timestamp_millis_opt(instant_ms).earliest() {
+        Some(local) => Date::new(local.year(), local.month(), local.day()),
+        None => educator_core::statistics::utc_date_of(instant_ms),
+    }
 }

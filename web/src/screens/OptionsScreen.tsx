@@ -1,32 +1,26 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import type { Profile } from "../api/client";
 import { setMuted, useMuted } from "../audio/sounds";
 import { stopSpeech } from "../audio/useSpeech";
-import { useApi } from "../app/BackendContext";
-import { useProfileSession } from "../app/ProfileContext";
-import { queryKeys, useProfiles } from "../app/queries";
+import { useProfiles } from "../app/queries";
 import { setMascotHidden, useMascotHidden } from "../app/settings";
 import { CharacterImage } from "../components/child/CharacterImage";
-import { PencilIcon, TrashIcon } from "../components/icons";
+import { LockIcon, PencilIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
 /**
- * Options, first version (SUB001416): the sounds, the mascot, the profiles (change one, or delete it
- * with an explicit two-step confirmation: never by an accidental click).
+ * Options (SUB001416): the sounds, the mascot, the profiles (change one) and the way to the parents'
+ * space, where a profile is deleted (SUB001510).
  */
 export function OptionsScreen() {
-  return <RequireProfile>{(profile) => <Options current={profile} />}</RequireProfile>;
+  return <RequireProfile>{() => <Options />}</RequireProfile>;
 }
 
-function Options({ current }: { current: Profile }) {
+function Options() {
   const navigate = useNavigate();
   const profiles = useProfiles();
   const muted = useMuted();
   const mascotHidden = useMascotHidden();
-  const [deleting, setDeleting] = useState<Profile | null>(null);
 
   const toggleSounds = () => {
     setMuted(!muted);
@@ -72,84 +66,22 @@ function Options({ current }: { current: Profile }) {
               <Link className="button" to={`/profil/${encodeURIComponent(profile.id)}?retour=options`} aria-label={fr.profiles.editLabel(profile.name)}>
                 <PencilIcon size={18} /> {fr.profiles.edit}
               </Link>
-              <button type="button" className="button button-danger" onClick={() => setDeleting(profile)} aria-label={fr.options.deleteLabel(profile.name)}>
-                <TrashIcon size={18} /> {fr.options.delete}
-              </button>
             </li>
           ))}
         </ul>
       </section>
 
-      {deleting && <DeleteProfile key={deleting.id} profile={deleting} isCurrent={deleting.id === current.id} onClose={() => setDeleting(null)} />}
-    </main>
-  );
-}
-
-/**
- * Deleting a profile, in two steps: the question first, then the profile's name to type before the
- * button deletes anything.
- */
-function DeleteProfile({ profile, isCurrent, onClose }: { profile: Profile; isCurrent: boolean; onClose(): void }) {
-  const api = useApi();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { setProfileId } = useProfileSession();
-  const [step, setStep] = useState<1 | 2>(1);
-  const [typed, setTyped] = useState("");
-  const matches = typed.trim().toLocaleLowerCase("fr") === profile.name.toLocaleLowerCase("fr");
-
-  const remove = useMutation({
-    mutationFn: () => api.deleteProfile(profile.id),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
-      onClose();
-      if (isCurrent) {
-        setProfileId(null);
-        await navigate("/");
-      }
-    },
-  });
-
-  return (
-    <div className="quit-confirm options-delete" role="alertdialog" aria-labelledby="delete-question" aria-describedby="delete-warning">
-      <p id="delete-question">{fr.options.deleteQuestion(profile.name)}</p>
-      <p id="delete-warning" className="message">
-        {fr.options.deleteWarning}
-      </p>
-      {step === 1 ? (
-        <div className="actions">
-          <button type="button" className="button" onClick={onClose} autoFocus>
-            {fr.options.keep}
-          </button>
-          <button type="button" className="button button-danger" onClick={() => setStep(2)}>
-            {fr.options.continue}
-          </button>
+      <section className="options-section" aria-labelledby="options-parent">
+        <h2 id="options-parent" className="section-title">
+          {fr.options.parentSpace}
+        </h2>
+        <p className="parent-hint">{fr.options.parentSpaceHint}</p>
+        <div>
+          <Link className="button" to="/parent">
+            <LockIcon size={22} /> {fr.options.parentSpace}
+          </Link>
         </div>
-      ) : (
-        <form
-          className="options-delete-confirm"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (matches) {
-              remove.mutate();
-            }
-          }}
-        >
-          <label>
-            {fr.options.typeName(profile.name)}
-            <input className="name-input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" autoFocus />
-          </label>
-          <div className="actions">
-            <button type="button" className="button" onClick={onClose}>
-              {fr.options.keep}
-            </button>
-            <button type="submit" className="button button-danger" disabled={!matches || remove.isPending}>
-              {fr.options.deleteForever}
-            </button>
-          </div>
-          {remove.isError && <p className="message">{fr.app.error}</p>}
-        </form>
-      )}
-    </div>
+      </section>
+    </main>
   );
 }

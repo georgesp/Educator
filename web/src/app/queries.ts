@@ -8,6 +8,9 @@ export const queryKeys = {
   characters: ["characters"] as const,
   characterSvg: (id: string) => ["character-svg", id] as const,
   skills: (grade: Grade, subject: Subject = "Math", profileId?: string) => ["skills", grade, subject, profileId ?? null] as const,
+  parentProfile: ["parent-profile"] as const,
+  /** Statistics of a profile in the parents' space. */
+  statistics: (profileId: string) => ["profile-statistics", profileId] as const,
 };
 
 export function useProfiles() {
@@ -34,4 +37,10 @@ export function useCharacters() {
 export function useSkills(grade: Grade, subject: Subject = "Math", profileId?: string) {
   const api = useApi();
   return useQuery({ queryKey: queryKeys.skills(grade, subject, profileId), queryFn: () => api.getSkills(grade, subject, profileId) });
+}
+
+/** The parents' card of the profile choice (created by the core the first time). */
+export function useParentProfile() {
+  const api = useApi();
+  return useQuery({ queryKey: queryKeys.parentProfile, queryFn: () => api.getParentProfile() });
 }

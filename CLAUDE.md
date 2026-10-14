@@ -93,6 +93,11 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
 - Lot 2 : `start_exam`, `get_timed_challenge`, `start_timed`, `finish_series` (fin d'un défi chrono seulement),
   `list_lessons`, `get_lesson`, `save_lesson_progress`, `start_lesson_quiz`, `speak_series_word` (mot d'une dictée,
   jamais envoyé au front avant la réponse), `speak_word`, `get_mascot`, `get_mascot_phrase`.
+- Lot 3 (espace parent) : `get_parent_gate` (barrière « adulte », tirée à chaque appel), `check_parent_gate`
+  (toute réponse consomme la barrière : `educator-core::parent_gate`), `get_profile_statistics` (statistiques d'un
+  profil calculées par `educator-core::statistics` à partir des séances et réponses enregistrées),
+  `get_parent_profile` / `update_parent_profile` (carte des parents de l'écran « Qui joue ? » : nom et personnage,
+  créée par défaut, stockée dans `AppSetting` par `educator-core::parent_profile` ; ce n'est pas un profil enfant).
 - Côté front : `web/src/api/ui.ts` (`UiApi`, injectée par `BackendContext`, simulée dans les tests).
 - Après toute modification d'un contrat : `cd web && npm run api:generate`, puis commiter `web/src/api/types.ts`
   (le test `bindings::types_ts_is_up_to_date` le vérifie).

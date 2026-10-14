@@ -4,15 +4,18 @@ import { Link, useNavigate } from "react-router";
 import { ApiError, type Character, type Grade, type Profile } from "../api/client";
 import { useApi } from "../app/BackendContext";
 import { useProfileSession } from "../app/ProfileContext";
-import { queryKeys, useProfiles } from "../app/queries";
+import { queryKeys, useParentProfile, useProfiles } from "../app/queries";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { SpeakButton } from "../components/child/SpeakButton";
-import { DiceIcon, PencilIcon, PlusIcon } from "../components/icons";
+import { DiceIcon, LockIcon, PencilIcon, PlusIcon } from "../components/icons";
 import { fr } from "../i18n/fr";
 
 export const GRADES: Grade[] = ["CP", "CE1", "CE2", "CM1", "CM2"];
 
-/** First screen (SUB000103): choose a profile, or create one. Without any profile, the creation shows at once. */
+/**
+ * First screen (SUB000103): choose a profile, or create one. Without any profile, the creation shows at once.
+ * The parents' card, last, leads to the parents' space (SUB001510).
+ */
 export function ProfilesScreen() {
   const profiles = useProfiles();
   const [creating, setCreating] = useState(false);
@@ -62,8 +65,35 @@ export function ProfilesScreen() {
             <span className="profile-name">{fr.profiles.newProfile}</span>
           </button>
         </li>
+        <li>
+          <ParentCard />
+        </li>
       </ul>
     </main>
+  );
+}
+
+/** The parents' card: the way to the parents' space, through the « adult » gate (SUB001510). */
+function ParentCard() {
+  const parent = useParentProfile();
+  const navigate = useNavigate();
+  if (!parent.data) {
+    return null;
+  }
+
+  return (
+    <button
+      type="button"
+      className="profile-card profile-card-parent"
+      onClick={() => void navigate("/parent", { state: { from: "/" } })}
+      aria-label={fr.profiles.parentCard(parent.data.name)}
+    >
+      <CharacterImage id={parent.data.characterId} size={144} />
+      <span className="profile-name">{parent.data.name}</span>
+      <span className="profile-grade profile-parent-badge">
+        <LockIcon size={16} /> {fr.profiles.parentBadge}
+      </span>
+    </button>
   );
 }
 

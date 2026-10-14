@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WPU
-rev: 2026-10-10T19:39:07Z
+rev: 2026-10-14T11:28:38Z
 url: https://github.com/georgesp/Educator/issues/20
 type: Issue
 repository: georgesp/Educator
@@ -45,5 +45,4 @@ En tant qu'enfant, je veux entendre le mot à écrire immédiatement afin de ne 
   pour un mot seul).
 - Reste : écoute de contrôle des 50 mots de `ecoute.txt` et mesure du délai de lecture sur le Mac (Georges).
 - Décision du 2026-10-14 : la pré-génération sera remplacée par la voix en direct (lot 2bis, « Voix en direct pour
-  les mots d'orthographe ») ; l'écoute de contrôle des 50 mots y est reprise (fiche « Corriger la prononciation
-  d'un mot dans la banque »).
+  les mots d'orthographe ») ; l'écoute de contrôle des 50 mots y est reprise (SUB026706).

@@ -305,6 +305,40 @@ impl SessionStore for SqliteSessionStore {
         rows.collect::<rusqlite::Result<Vec<_>>>().map_err(storage)
     }
 
+    fn profile_sessions(&self, profile_id: Uuid) -> Result<Vec<SessionRecord>> {
+        let connection = self.database.connection();
+        let mut statement = connection
+            .prepare(&format!(
+                r#"SELECT {SESSION_COLUMNS} FROM "Session" WHERE "ProfileId" = ?1 AND "EndedAt" IS NOT NULL
+                   ORDER BY "StartedAt", "Id""#
+            ))
+            .map_err(storage)?;
+        let rows = statement
+            .query_map([id_text(profile_id)], read_session)
+            .map_err(storage)?;
+        rows.collect::<rusqlite::Result<Vec<_>>>().map_err(storage)
+    }
+
+    fn profile_answers(&self, profile_id: Uuid) -> Result<Vec<AnswerRecord>> {
+        let connection = self.database.connection();
+        let columns = ANSWER_COLUMNS
+            .split(',')
+            .map(|c| format!("a.{}", c.trim()))
+            .collect::<Vec<_>>()
+            .join(", ");
+        let mut statement = connection
+            .prepare(&format!(
+                r#"SELECT {columns} FROM "Answer" a JOIN "Session" s ON s."Id" = a."SessionId"
+                   WHERE s."ProfileId" = ?1 AND s."EndedAt" IS NOT NULL
+                   ORDER BY a."AnsweredAt", a."Index""#
+            ))
+            .map_err(storage)?;
+        let rows = statement
+            .query_map([id_text(profile_id)], read_answer)
+            .map_err(storage)?;
+        rows.collect::<rusqlite::Result<Vec<_>>>().map_err(storage)
+    }
+
     fn best_timed_score(
         &self,
         profile_id: Uuid,

@@ -8,13 +8,13 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0015 — Lot 3 — Motivation et espace parent
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
 endDate:
 parent:
-order: 510
+order: 610
 ---
 
 Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), sections 9 à 11 et 13.

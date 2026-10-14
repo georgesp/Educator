@@ -8,6 +8,9 @@ import {
   type Lesson,
   type Lessons,
   type Mascot,
+  type ParentGate,
+  type ParentProfile,
+  type ProfileStatistics,
   type MascotPhrase,
   type MascotSituation,
   type MultiplicationTable,
@@ -20,6 +23,7 @@ import {
   type StatusResponse,
   type Subject,
   type TimedChallenge,
+  type UpdateParentProfile,
   type UpdateProfile,
 } from "./client";
 
@@ -72,6 +76,16 @@ export type UiApi = {
   speakSeriesWord(seriesId: string, index: number, example?: boolean): Promise<Blob>;
   /** WAV of a word of the bank, alone or in its short sentence. */
   speakWord(word: string, example?: boolean): Promise<Blob>;
+  /** The « adult » gate of the parents' space, drawn again at every call (SUB001510). */
+  getParentGate(): Promise<ParentGate>;
+  /** Whether `answer` opens the gate; the gate is used up either way. */
+  checkParentGate(id: string, answer: number): Promise<boolean>;
+  /** Statistics of a profile for the parents' space (SUB001511). */
+  getProfileStatistics(profileId: string): Promise<ProfileStatistics>;
+  /** The parents' card of the profile choice, created with default values the first time. */
+  getParentProfile(): Promise<ParentProfile>;
+  /** Changes the name or the character of the parents' card. */
+  updateParentProfile(changes: UpdateParentProfile): Promise<ParentProfile>;
 };
 
 /** Calls a Tauri command (src-tauri/src/commands.rs); a rejection becomes an ApiError. */
@@ -118,5 +132,10 @@ export function createUiApi(): UiApi {
     speak: (text, speed) => wavOf("speak", { text, speed: speed ?? null }),
     speakSeriesWord: (seriesId, index, example) => wavOf("speak_series_word", { seriesId, index, example: example ?? false }),
     speakWord: (word, example) => wavOf("speak_word", { word, example: example ?? false }),
+    getParentGate: () => call("get_parent_gate"),
+    checkParentGate: (id, answer) => call("check_parent_gate", { id, answer }),
+    getProfileStatistics: (profileId) => call("get_profile_statistics", { profileId }),
+    getParentProfile: () => call("get_parent_profile"),
+    updateParentProfile: (changes) => call("update_parent_profile", { changes }),
   };
 }
