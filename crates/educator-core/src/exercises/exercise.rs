@@ -31,7 +31,7 @@ pub struct Exercise {
     pub key: String,
     /// The calculation, for the calculation families.
     pub calculation: Option<CalculationExercise>,
-    /// Spelling: the word read (pre-generated audio) and the letters around the blank.
+    /// Spelling: the word read by the voice (ADR 0004) and the letters around the blank.
     pub word: Option<SpokenWord>,
 }
 

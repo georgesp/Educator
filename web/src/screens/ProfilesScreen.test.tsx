@@ -1,8 +1,21 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import { ApiError } from "../api/client";
+import { ApiError, type Profile } from "../api/client";
 import { fakeApi, lea, renderApp } from "../test/renderWithApp";
+
+/** No profile at first; the one that is created is then listed, like with the real core. */
+function noProfileYet() {
+  const profiles: Profile[] = [];
+  return {
+    listProfiles: vi.fn(async () => [...profiles]),
+    createProfile: vi.fn(async (name: string, grade: Profile["grade"], characterId?: string) => {
+      const created: Profile = { ...lea, id: "p-new", name, grade, points: 0, characterId: characterId ?? "lion" };
+      profiles.push(created);
+      return created;
+    }),
+  };
+}
 
 describe("ProfilesScreen", () => {
   it("lists the profiles and opens the menu with the chosen one", async () => {
@@ -17,7 +30,7 @@ describe("ProfilesScreen", () => {
   });
 
   it("shows the creation at once when there is no profile, and creates one", async () => {
-    const api = fakeApi({ listProfiles: vi.fn().mockResolvedValue([]) });
+    const api = fakeApi(noProfileYet());
     const router = renderApp(api, "/", null);
     const user = userEvent.setup();
 
@@ -35,7 +48,7 @@ describe("ProfilesScreen", () => {
 
   it("offers the level assessment after the creation of a profile (SUB001418)", async () => {
     const api = fakeApi({
-      listProfiles: vi.fn().mockResolvedValue([]),
+      ...noProfileYet(),
       getPlacementStatus: vi.fn().mockResolvedValue({
         subjects: [
           { subject: "Math", available: true, done: false },

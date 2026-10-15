@@ -1,37 +1,68 @@
-//! [`SpeechSynthesizer`] running the Piper command-line engine as a long-lived child process
-//! (`--json-input`): the voice model is loaded once, then each request is one JSON line on stdin;
-//! Piper writes a WAV file in a private folder and prints its path on stdout. Requests are
-//! serialized (one at a time). The process is restarted after a crash, a timeout or a change of
-//! speed (`--length_scale` is a process-wide option).
+//! [`SpeechSynthesizer`] running the Piper command-line engine as long-lived child processes
+//! (`--json-input`): the voice model is loaded once per process, then each request is one JSON line
+//! on stdin; Piper writes a WAV file in a private folder and prints its path on stdout.
+//!
+//! `--length_scale` is a process-wide option (a speed field in the JSON request is ignored), so one
+//! process is kept **per speed** (SUB026708): going from an instruction to the dictated word, then
+//! to the slow listening, never restarts Piper. Requests at one speed are served one at a time;
+//! different speeds run side by side. The speeds given to [`SpeechSynthesizer::warm_up`] stay ready
+//! for good; any other process stops after [`IDLE_TIMEOUT`] without a request (≈ 110 MB each). A
+//! process that crashed or did not answer is restarted at the next request.
 
 use super::PiperInstallation;
 use super::PiperPlatform;
 use educator_core::clock::{uuid_v7, Clock, SystemClock};
 use educator_core::speech::{speed, SpeechEngineStatus, SpeechSynthesizer};
 use educator_core::{Error, Result};
+use std::collections::{BTreeMap, BTreeSet};
 use std::fmt;
 use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
 use std::process::{Child, ChildStdin, Command, Stdio};
+use std::sync::atomic::{AtomicI64, AtomicUsize, Ordering};
 use std::sync::mpsc::{self, Receiver, RecvTimeoutError};
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex, Weak};
 use std::time::{Duration, Instant};
 
 pub const MAX_TEXT_LENGTH: usize = 1000;
 
+/// A process not kept warm stops after this long without a request.
+pub const IDLE_TIMEOUT: Duration = Duration::from_secs(120);
+
+/// How often the idle processes are looked for ([`PiperSpeechSynthesizer::watch_idle_processes`]).
+const IDLE_CHECK_EVERY: Duration = Duration::from_secs(15);
+
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(20);
+
+/// A speed as Piper sees it: the length scale in hundredths (speed 0.85 → length 1.18 → 118).
+type ScaleKey = u32;
 
 struct Running {
     child: Child,
     stdin: ChildStdin,
     lines: Receiver<std::io::Result<String>>,
+}
+
+/// The process of one speed and its private output folder.
+struct Slot {
     length_scale: f64,
+    output_directory: PathBuf,
+    running: Mutex<Option<Running>>,
+    /// Last request (start or end), Unix milliseconds of the injected clock.
+    last_used_ms: AtomicI64,
 }
 
 pub struct PiperSpeechSynthesizer {
     installation: PiperInstallation,
-    output_directory: PathBuf,
-    process: Mutex<Option<Running>>,
+    output_root: PathBuf,
+    clock: Arc<dyn Clock>,
+    slots: Mutex<BTreeMap<ScaleKey, Arc<Slot>>>,
+    /// Speeds warmed up: never stopped for idleness.
+    kept_warm: Mutex<BTreeSet<ScaleKey>>,
+    starts: AtomicUsize,
+    /// Why the last warm-up failed (Piper cannot start: Rosetta missing, broken files…), until a
+    /// synthesis succeeds: the voice is then reported unavailable (SUB026704).
+    problem: Mutex<Option<String>>,
 }
 
 impl fmt::Debug for PiperSpeechSynthesizer {
@@ -44,39 +75,148 @@ impl fmt::Debug for PiperSpeechSynthesizer {
 
 impl PiperSpeechSynthesizer {
     pub fn new(installation: PiperInstallation) -> Self {
-        let output_directory = std::env::temp_dir()
+        Self::with_clock(installation, Arc::new(SystemClock))
+    }
+
+    /// With an injected clock (tests of the idle processes).
+    pub fn with_clock(installation: PiperInstallation, clock: Arc<dyn Clock>) -> Self {
+        let output_root = std::env::temp_dir()
             .join("educator-piper")
             .join(uuid_v7(SystemClock.now_ms()).simple().to_string());
         Self {
             installation,
-            output_directory,
-            process: Mutex::new(None),
+            output_root,
+            clock,
+            slots: Mutex::new(BTreeMap::new()),
+            kept_warm: Mutex::new(BTreeSet::new()),
+            starts: AtomicUsize::new(0),
+            problem: Mutex::new(None),
         }
+    }
+
+    /// Stops, in the background, the processes idle for [`IDLE_TIMEOUT`]. The watch ends with the
+    /// synthesizer.
+    pub fn watch_idle_processes(self: &Arc<Self>) {
+        let synthesizer: Weak<Self> = Arc::downgrade(self);
+        let spawned = std::thread::Builder::new()
+            .name("piper-idle".to_owned())
+            .spawn(move || loop {
+                std::thread::sleep(IDLE_CHECK_EVERY);
+                match synthesizer.upgrade() {
+                    Some(synthesizer) => synthesizer.stop_idle_processes(),
+                    None => return,
+                }
+            });
+        if let Err(e) = spawned {
+            log::warn!("Piper idle watch not started: {e}");
+        }
+    }
+
+    /// Stops the processes not kept warm and idle for [`IDLE_TIMEOUT`] (a busy one is left alone).
+    pub fn stop_idle_processes(&self) {
+        let now = self.clock.now_ms();
+        let idle_ms = i64::try_from(IDLE_TIMEOUT.as_millis()).unwrap_or(i64::MAX);
+        let kept_warm = self
+            .kept_warm
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .clone();
+        let slots: Vec<(ScaleKey, Arc<Slot>)> = self
+            .slots
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .iter()
+            .map(|(key, slot)| (*key, Arc::clone(slot)))
+            .collect();
+        for (key, slot) in slots {
+            if kept_warm.contains(&key)
+                || now.saturating_sub(slot.last_used_ms.load(Ordering::SeqCst)) < idle_ms
+            {
+                continue;
+            }
+
+            let Ok(mut running) = slot.running.try_lock() else {
+                continue;
+            };
+            if let Some(process) = running.take() {
+                log::info!(
+                    "Piper stopped after {} s without a request (length scale {}).",
+                    IDLE_TIMEOUT.as_secs(),
+                    slot.length_scale
+                );
+                stop(Some(process));
+            }
+        }
+    }
+
+    /// The speeds whose process is running now (length scales), slowest last.
+    pub fn running_length_scales(&self) -> Vec<f64> {
+        self.slots
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .values()
+            .filter(|slot| {
+                slot.running
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .is_some()
+            })
+            .map(|slot| slot.length_scale)
+            .collect()
+    }
+
+    /// How many Piper processes were started since the beginning (diagnostics, tests).
+    pub fn process_starts(&self) -> usize {
+        self.starts.load(Ordering::SeqCst)
+    }
+
+    fn slot(&self, length_scale: f64) -> Arc<Slot> {
+        let key = scale_key(length_scale);
+        let mut slots = self.slots.lock().unwrap_or_else(|e| e.into_inner());
+        Arc::clone(slots.entry(key).or_insert_with(|| {
+            Arc::new(Slot {
+                length_scale,
+                output_directory: self.output_root.join(key.to_string()),
+                running: Mutex::new(None),
+                last_used_ms: AtomicI64::new(self.clock.now_ms()),
+            })
+        }))
+    }
+
+    fn synthesize_in(&self, slot: &Slot, text: &str) -> Result<Vec<u8>> {
+        let mut running = slot.running.lock().unwrap_or_else(|e| e.into_inner());
+        slot.last_used_ms
+            .store(self.clock.now_ms(), Ordering::SeqCst);
+        let outcome = self.synthesize_locked(slot, &mut running, text);
+        slot.last_used_ms
+            .store(self.clock.now_ms(), Ordering::SeqCst);
+        outcome
     }
 
     fn synthesize_locked(
         &self,
-        slot: &mut Option<Running>,
+        slot: &Slot,
+        running: &mut Option<Running>,
         text: &str,
-        length_scale: f64,
     ) -> Result<Vec<u8>> {
-        if slot.as_mut().is_none_or(|r| {
-            r.length_scale != length_scale || !matches!(r.child.try_wait(), Ok(None))
-        }) {
-            stop(slot.take());
-            *slot = Some(self.start(length_scale)?);
+        if running
+            .as_mut()
+            .is_none_or(|r| !matches!(r.child.try_wait(), Ok(None)))
+        {
+            stop(running.take());
+            *running = Some(self.start(slot)?);
         }
 
-        let running = slot.as_mut().expect("started above");
+        let process = running.as_mut().expect("started above");
         let outcome = (|| {
-            clear_directory(&self.output_directory);
-            writeln!(running.stdin, "{}", build_input_line(text))
-                .and_then(|()| running.stdin.flush())
+            clear_directory(&slot.output_directory);
+            writeln!(process.stdin, "{}", build_input_line(text))
+                .and_then(|()| process.stdin.flush())
                 .map_err(|e| unavailable(format!("Piper failed: {e}")))?;
 
             // The printed path is only a signal: the file is looked up in our private folder, so that
             // a path with non-ASCII characters printed in the console encoding cannot break us.
-            match running.lines.recv_timeout(REQUEST_TIMEOUT) {
+            match process.lines.recv_timeout(REQUEST_TIMEOUT) {
                 Ok(Ok(line)) => log::debug!("Piper wrote {line}."),
                 Ok(Err(e)) => return Err(unavailable(format!("Piper failed: {e}"))),
                 Err(RecvTimeoutError::Timeout) => {
@@ -86,7 +226,7 @@ impl PiperSpeechSynthesizer {
                     )))
                 }
                 Err(RecvTimeoutError::Disconnected) => {
-                    let code = running
+                    let code = process
                         .child
                         .try_wait()
                         .ok()
@@ -98,7 +238,7 @@ impl PiperSpeechSynthesizer {
                 }
             }
 
-            let wav = std::fs::read_dir(&self.output_directory)
+            let wav = std::fs::read_dir(&slot.output_directory)
                 .ok()
                 .and_then(|entries| {
                     entries
@@ -116,16 +256,17 @@ impl PiperSpeechSynthesizer {
         if outcome.is_err() {
             // Piper may still be working on that sentence and print its line later: restart it,
             // otherwise the next request would read that stale answer.
-            stop(slot.take());
+            stop(running.take());
         }
 
         outcome
     }
 
-    fn start(&self, length_scale: f64) -> Result<Running> {
-        std::fs::create_dir_all(&self.output_directory)
+    fn start(&self, slot: &Slot) -> Result<Running> {
+        std::fs::create_dir_all(&slot.output_directory)
             .map_err(|e| unavailable(format!("Piper output folder: {e}")))?;
         let installation = &self.installation;
+        let length_scale = slot.length_scale;
         let mut command = Command::new(&installation.executable_path);
         command
             .current_dir(installation.engine_directory())
@@ -136,7 +277,7 @@ impl PiperSpeechSynthesizer {
             .arg("--espeak_data")
             .arg(&installation.espeak_data_directory)
             .arg("--output_dir")
-            .arg(&self.output_directory)
+            .arg(&slot.output_directory)
             .arg("--length_scale")
             .arg(length_scale.to_string())
             .arg("--json-input")
@@ -160,6 +301,7 @@ impl PiperSpeechSynthesizer {
                 installation.executable_path.display()
             ))
         })?;
+        self.starts.fetch_add(1, Ordering::SeqCst);
         let stdin = child.stdin.take().expect("piped");
         let stdout = child.stdout.take().expect("piped");
         let stderr = child.stderr.take().expect("piped");
@@ -198,14 +340,26 @@ impl PiperSpeechSynthesizer {
             child,
             stdin,
             lines,
-            length_scale,
         })
     }
 }
 
 impl SpeechSynthesizer for PiperSpeechSynthesizer {
     fn status(&self) -> SpeechEngineStatus {
-        SpeechEngineStatus::available(self.installation.voice_name.clone())
+        match self
+            .problem
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .clone()
+        {
+            None => SpeechEngineStatus::available(self.installation.voice_name.clone()),
+            // The voice is known (keys of the cache) but does not work.
+            Some(problem) => SpeechEngineStatus {
+                is_available: false,
+                voice: Some(self.installation.voice_name.clone()),
+                problem: Some(problem),
+            },
+        }
     }
 
     fn synthesize(&self, text: &str, speed: f64) -> Result<Vec<u8>> {
@@ -215,34 +369,54 @@ impl SpeechSynthesizer for PiperSpeechSynthesizer {
             )));
         }
 
-        let length_scale = to_length_scale(speed);
-        let mut slot = self.process.lock().unwrap_or_else(|e| e.into_inner());
-        self.synthesize_locked(&mut slot, text, length_scale)
+        let slot = self.slot(to_length_scale(speed));
+        let outcome = self.synthesize_in(&slot, text);
+        if outcome.is_ok() {
+            *self.problem.lock().unwrap_or_else(|e| e.into_inner()) = None;
+        }
+        outcome
     }
 
+    /// Starts the process of this speed and keeps it ready for good.
     fn warm_up(&self, speed: f64) {
+        let length_scale = to_length_scale(speed);
+        self.kept_warm
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .insert(scale_key(length_scale));
         let started = Instant::now();
         match self.synthesize("Bonjour.", speed) {
             Ok(_) => log::info!(
-                "Piper ready with voice {} in {} ms.",
+                "Piper ready with voice {} at length scale {length_scale} in {} ms.",
                 self.installation.voice_name,
                 started.elapsed().as_millis()
             ),
-            Err(e) => log::warn!("Piper warm-up failed: {e}"),
+            Err(e) => {
+                log::warn!("Piper warm-up failed: {e}");
+                *self.problem.lock().unwrap_or_else(|e| e.into_inner()) = Some(e.to_string());
+            }
         }
     }
 }
 
 impl Drop for PiperSpeechSynthesizer {
     fn drop(&mut self) {
-        stop(
-            self.process
-                .get_mut()
-                .unwrap_or_else(|e| e.into_inner())
-                .take(),
-        );
-        let _ = std::fs::remove_dir_all(&self.output_directory);
+        let slots = std::mem::take(self.slots.get_mut().unwrap_or_else(|e| e.into_inner()));
+        for slot in slots.into_values() {
+            stop(
+                slot.running
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .take(),
+            );
+        }
+        let _ = std::fs::remove_dir_all(&self.output_root);
     }
+}
+
+fn scale_key(length_scale: f64) -> ScaleKey {
+    // Length scales are rounded to hundredths (to_length_scale), from 0.67 to 2.
+    (length_scale * 100.0).round() as ScaleKey
 }
 
 fn stop(running: Option<Running>) {

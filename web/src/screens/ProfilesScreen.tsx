@@ -45,7 +45,7 @@ export function ProfilesScreen() {
     <main className="screen">
       <header className="screen-header">
         <h1 className="title">{fr.profiles.title}</h1>
-        <SpeakButton text={fr.profiles.spoken} autoPlay />
+        <SpeakButton text={fr.profiles.spoken} />
       </header>
       <ul className="profile-grid">
         {list.map((profile) => (
@@ -154,7 +154,7 @@ function CreateProfile({ canCancel, onCancel }: { canCancel: boolean; onCancel()
     <main className="screen">
       <header className="screen-header">
         <h1 className="title">{fr.profiles.createTitle}</h1>
-        <SpeakButton text={fr.profiles.createSpoken} autoPlay />
+        <SpeakButton text={fr.profiles.createSpoken} />
       </header>
       <form className="create-profile" onSubmit={submit}>
         <div className="create-fields">

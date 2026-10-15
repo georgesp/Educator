@@ -6,6 +6,7 @@ import type {
   RaceObjectName,
   RankName,
   SessionType,
+  SkillCategory,
   SpellingFormat,
   Subject,
   TableHighlightKind,
@@ -101,6 +102,36 @@ export const fr = {
     level: "Niveau",
     levelSoon: "Les niveaux arrivent bientôt",
   },
+  /** Families of the exercises and lessons: name and symbol shown on every card (fiche « Code couleur »). */
+  families: {
+    names: {
+      Numbers: "Les nombres",
+      AddSubtract: "Additions et soustractions",
+      Multiply: "Multiplier",
+      FractionsHalves: "Fractions, doubles et moitiés",
+      Problems: "Problèmes",
+      LettersAndSounds: "Les lettres et les sons",
+      SpellingRules: "Les petites règles",
+      SilentLetters: "Les lettres muettes",
+      Agreement: "Les accords",
+      WordsToKnow: "Les mots à connaître",
+    } satisfies Record<SkillCategory, string>,
+    symbols: {
+      Numbers: "123",
+      AddSubtract: "+ −",
+      Multiply: "×",
+      FractionsHalves: "½",
+      Problems: "?!",
+      LettersAndSounds: "[ou]",
+      SpellingRules: "gu",
+      SilentLetters: "…t",
+      Agreement: "s/x",
+      WordsToKnow: "★",
+    } satisfies Record<SkillCategory, string>,
+    /** Buttons under the title keeping one family only. */
+    filter: "Choisis une famille",
+    all: "Tout",
+  },
   skills: {
     title: "Exercices de maths",
     titles: { Math: "Exercices de maths", Spelling: "Exercices d'orthographe" } satisfies Record<Subject, string>,
@@ -124,6 +155,8 @@ export const fr = {
       MissingLetters: "Les mots à trous",
       ChooseSpelling: "La bonne écriture",
     } satisfies Record<SpellingFormat, string>,
+    /** Without the voice, the exercises where the word is only heard (SUB026704). */
+    noVoice: "La voix ne fonctionne pas sur cet ordinateur : demande à un adulte.",
     kindHints: {
       Dictation: "J'écoute le mot et je l'écris",
       MissingLetters: "J'écris les lettres qui manquent",
@@ -139,8 +172,11 @@ export const fr = {
     wordLabel: "Écris le mot",
     missingLabel: "Les lettres qui manquent",
     missingCount: (count: number) => (count > 1 ? `Les ${count} lettres qui manquent` : "La lettre qui manque"),
-    listenWord: "Réécouter le mot",
+    listenWord: "Écouter le mot",
+    listenSlowly: "Plus lentement",
     listenExample: "Le mot dans une phrase",
+    /** The article shown before the box of a noun (« un [______] »). */
+    articleLabel: (article: string) => `Le mot s'écrit après « ${article} »`,
     nothing: "rien",
     yourWord: "Tu as écrit :",
     yourWordAria: (word: string) => `Tu as écrit ${word}`,
@@ -156,6 +192,10 @@ export const fr = {
   },
   series: {
     progress: (current: number, total: number) => `Tour ${current} sur ${total}`,
+    /** Speakers: nothing is read by itself, the child clicks (decision of 2026-10-15). */
+    listenInstruction: "Écouter la consigne",
+    listenExplanation: "Écouter la correction",
+    listenSummary: "Écouter le bilan",
     quit: "Quitter",
     quitQuestion: "Tu veux vraiment arrêter ? Tes bonnes réponses sont gardées.",
     quitYes: "Oui, j'arrête",
@@ -217,7 +257,7 @@ export const fr = {
     previous: "Précédent",
     next: "Suivant",
     toQuiz: "Au quiz !",
-    replay: "Réécouter",
+    replay: "Écouter",
     yourTurn: "À toi de jouer pour continuer !",
     quizTitle: "Petit quiz",
     quizProgress: (current: number, total: number) => `Question ${current} sur ${total}`,

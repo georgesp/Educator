@@ -54,6 +54,16 @@ impl LessonCatalog for Lessons {
     }
 }
 
+/// Gives each word to write of the quizzes its word of the bank, when it is one: it is then read
+/// with its article, its pronunciation and its sentence (SUB026706).
+pub fn attach_words(lessons: &mut [Lesson], words: &crate::WordBank) {
+    for question in lessons.iter_mut().flat_map(|l| l.quiz.iter_mut()) {
+        if let (Answer::Spelling(word), true) = (&question.answer, question.choices.is_empty()) {
+            question.word = words.find(word).cloned();
+        }
+    }
+}
+
 /// Every `*.json` below `lessons_directory`, in path order. `skills` checks the linked skills. A
 /// missing folder is not a problem: there may be no lesson yet.
 pub fn load_lessons(lessons_directory: &Path, skills: &dyn SkillCatalog) -> Loaded<Vec<Lesson>> {
@@ -560,6 +570,7 @@ pub fn parse_lesson(
             answer: answer.unwrap_or(Answer::Number(0)),
             choices: choices.into_iter().flatten().collect(),
             explanation: question.explanation,
+            word: None,
         });
     }
 

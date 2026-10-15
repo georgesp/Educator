@@ -3,13 +3,11 @@
 //! here. Kept free of Tauri types so that it is tested directly (`tests` below).
 
 use crate::contracts::*;
-use educator_content::{
-    word_audio_file, EducatorContent, WordBank, EXAMPLE_AUDIO_SPEED, WORD_AUDIO_FOLDER,
-    WORD_AUDIO_SPEED,
-};
+use educator_content::{EducatorContent, WordBank};
 use educator_core::characters::CharacterCatalog;
 use educator_core::clock::Clock;
-use educator_core::exercises::exam::{DEFAULT_TIMED_DURATION, TIMED_DURATIONS};
+use educator_core::exercises::exam::{Listening, DEFAULT_TIMED_DURATION, TIMED_DURATIONS};
+use educator_core::exercises::Series;
 use educator_core::exercises::SeriesSummary;
 use educator_core::exercises::{multiplication_table, SeriesService, TABLE_LAST_FACTOR};
 use educator_core::lessons::LessonCatalog;
@@ -21,7 +19,8 @@ use educator_core::random::RandomSource;
 use educator_core::sessions::{close_open_sessions, SessionStore};
 use educator_core::settings::AppSettingsStore;
 use educator_core::skills::{Date, SchoolCalendar, SkillCatalog};
-use educator_core::speech::{self, SpeechSynthesizer};
+use educator_core::speech::{self, SpeechPreparer, SpeechSynthesizer};
+use educator_core::spelling::SpokenWord;
 use educator_core::statistics::{profile_statistics, utc_date_of, LocalCalendar};
 use educator_core::Error;
 use educator_data::{Database, SqliteAppSettingsStore, SqliteProfileStore, SqliteSessionStore};
@@ -31,7 +30,7 @@ use std::sync::Arc;
 use uuid::Uuid;
 
 /// Default speaking rate: slightly slow for children who are learning to read.
-pub const CHILD_SPEECH_SPEED: f64 = 0.9;
+pub const CHILD_SPEECH_SPEED: f64 = speech::speed::INSTRUCTIONS;
 
 pub const MAX_SPEECH_LENGTH: usize = 300;
 
@@ -45,8 +44,6 @@ pub struct Locations {
 pub struct Services {
     skills: Arc<dyn SkillCatalog>,
     words: WordBank,
-    /// Pre-generated audio of the words (`content/audio/words`, SUB001404).
-    word_audio: PathBuf,
     sessions: Arc<dyn SessionStore>,
     mascot: Option<MascotService>,
     lessons: Arc<dyn LessonCatalog>,
@@ -55,6 +52,8 @@ pub struct Services {
     profiles: ProfileService,
     series: SeriesService,
     speech: Arc<dyn SpeechSynthesizer>,
+    /// The words of the series read ahead of the child (SUB026705).
+    preparer: SpeechPreparer,
     /// Local date of the computer (school period of today).
     today: Box<dyn Fn() -> Date + Send + Sync>,
     /// Local date of an instant (days of the statistics); UTC until [`Services::with_local_date`].
@@ -134,18 +133,26 @@ impl Services {
                 content.points,
                 random,
                 clock,
-            ),
+            )
+            .with_listening(listening_of(speech.as_ref())),
             local_date: Box::new(utc_date_of),
             skills,
             words: content.words,
-            word_audio: content.directory.join(WORD_AUDIO_FOLDER),
             sessions,
             lessons,
             characters,
             calendar: content.calendar,
+            preparer: SpeechPreparer::new(Arc::clone(&speech)),
             speech,
             today,
         })
+    }
+
+    /// Reads the state of the voice again (after its warm-up): without it, the exams ask no
+    /// question where the word is only heard (SUB026704).
+    pub fn refresh_listening(&self) {
+        self.series
+            .set_listening(listening_of(self.speech.as_ref()));
     }
 
     /// The local date of an instant, for the days of the statistics (the time zone of the computer).
@@ -309,7 +316,7 @@ impl Services {
                 request.seed,
             )
             .map_err(start_error)?;
-        Ok((&series).into())
+        Ok(self.prepared(&series))
     }
 
     /// `duration_ms`: time taken to answer, measured by the front (SUB001401).
@@ -329,6 +336,9 @@ impl Services {
                 duration_ms,
             )
             .map_err(|e| series_error(e, "Answer refused"))?;
+        if outcome.summary.is_some() {
+            self.preparer.release(series_id_of(series_id)?);
+        }
         Ok(SeriesAnswerResponse {
             correct: outcome.correct,
             expected: AnswerPayload::from(&outcome.expected),
@@ -357,7 +367,7 @@ impl Services {
                 seed,
             )
             .map_err(start_error)?;
-        Ok((&series).into())
+        Ok(self.prepared(&series))
     }
 
     /// The level assessment (done, to do) of each subject for a profile.
@@ -405,7 +415,7 @@ impl Services {
                 seed,
             )
             .map_err(start_error)?;
-        Ok((&series).into())
+        Ok(self.prepared(&series))
     }
 
     /// What the timed challenge offers to a profile: the mastered skills and the best scores.
@@ -449,15 +459,17 @@ impl Services {
             .series
             .start_timed(profile_id_of(profile_id)?, subject.into(), seconds, seed)
             .map_err(start_error)?;
-        Ok((&series).into())
+        Ok(self.prepared(&series))
     }
 
     /// The end of a timed challenge: the questions answered count, without penalty.
     pub fn finish_series(&self, series_id: &str) -> Result<SeriesSummaryResponse, CommandError> {
+        let id = series_id_of(series_id)?;
         let summary = self
             .series
-            .finish(series_id_of(series_id)?)
+            .finish(id)
             .map_err(|e| series_error(e, "Series already over"))?;
+        self.preparer.release(id);
         Ok(self.summary(&summary))
     }
 
@@ -511,26 +523,48 @@ impl Services {
         })
     }
 
-    /// The word of a spelling exercise in progress, read slowly (`example`: in its sentence), from
-    /// the pre-generated audio when there is one (SUB001404), otherwise by the voice.
+    /// The series as sent to the front, its words being prepared in the background: each word,
+    /// then its sentence (SUB026705).
+    fn prepared(&self, series: &Series) -> SeriesResponse {
+        self.preparer
+            .prepare(series.id, speech::readings_ahead(&series.exercises, 0));
+        series.into()
+    }
+
+    /// The word of a spelling exercise in progress (`example`: its sentence; `slow`: « Plus
+    /// lentement »), prepared ahead when it can be (SUB026705). The word itself never goes to the
+    /// front before the answer.
     pub fn speak_series_word(
         &self,
         series_id: &str,
         index: u32,
         example: bool,
+        slow: bool,
     ) -> Result<Vec<u8>, CommandError> {
+        let id = series_id_of(series_id)?;
         let exercise = self
             .series
-            .exercise(series_id_of(series_id)?, index as usize)
+            .exercise(id, index as usize)
             .map_err(|e| series_error(e, "Unknown exercise"))?;
         let word = exercise.word.ok_or_else(|| {
             CommandError::new(400, "No word", "This exercise has no word to read.")
         })?;
-        self.word_audio(&word.word, word.example.as_deref(), example)
+        let reading = word_speech(&word, example, slow)?;
+        let wav = self.preparer.read(id, &reading).map_err(speech_error)?;
+        // The child goes on: the following words are prepared in turn.
+        if let Ok(ahead) = self.series.readings_ahead(id, index as usize + 1) {
+            self.preparer.prepare(id, ahead);
+        }
+        Ok(wav)
     }
 
-    /// A word of the bank read slowly (lessons, quizzes), or its example sentence.
-    pub fn speak_word(&self, word: &str, example: bool) -> Result<Vec<u8>, CommandError> {
+    /// A word of the bank (lessons), or its example sentence, or the word read slowly.
+    pub fn speak_word(
+        &self,
+        word: &str,
+        example: bool,
+        slow: bool,
+    ) -> Result<Vec<u8>, CommandError> {
         let found = self.words.find(word).ok_or_else(|| {
             CommandError::new(
                 404,
@@ -538,32 +572,10 @@ impl Services {
                 format!("No word '{word}' in the bank."),
             )
         })?;
-        self.word_audio(&found.text, found.example.as_deref(), example)
-    }
-
-    fn word_audio(
-        &self,
-        word: &str,
-        sentence: Option<&str>,
-        example: bool,
-    ) -> Result<Vec<u8>, CommandError> {
-        let (text, speed) = match (example, sentence) {
-            (true, Some(sentence)) => (sentence, EXAMPLE_AUDIO_SPEED),
-            (true, None) => {
-                return Err(CommandError::new(
-                    404,
-                    "No example",
-                    format!("No example sentence for '{word}'."),
-                ))
-            }
-            (false, _) => (word, WORD_AUDIO_SPEED),
-        };
-        let file = self.word_audio.join(word_audio_file(word, example));
-        if let Ok(bytes) = std::fs::read(&file) {
-            return Ok(bytes);
-        }
-
-        self.speak(text, Some(speed))
+        let reading = word_speech(&SpokenWord::of(found, None), example, slow)?;
+        self.speech
+            .synthesize(&reading.text, reading.speed)
+            .map_err(speech_error)
     }
 
     /// « Mes tables » (SUB000119): the table of a number from 0 to 10.
@@ -585,9 +597,12 @@ impl Services {
     }
 
     pub fn abandon_series(&self, series_id: &str) -> Result<SeriesSummaryResponse, CommandError> {
+        let id = series_id_of(series_id)?;
+        // The words not read yet are not prepared any more.
+        self.preparer.release(id);
         let summary = self
             .series
-            .abandon(series_id_of(series_id)?)
+            .abandon(id)
             .map_err(|e| series_error(e, "Series already over"))?;
         Ok(self.summary(&summary))
     }
@@ -608,7 +623,10 @@ impl Services {
             current_period,
             lessons: lessons
                 .iter()
-                .map(|l| LessonSummaryResponse::new(l, current_period))
+                .map(|l| {
+                    let main_skill = l.skill_ids.first().and_then(|id| self.skills.find(id));
+                    LessonSummaryResponse::new(l, current_period, main_skill)
+                })
                 .collect(),
         }
     }
@@ -660,7 +678,7 @@ impl Services {
             .series
             .start_lesson_quiz(profile_id_of(profile_id)?, lesson)
             .map_err(start_error)?;
-        Ok((&series).into())
+        Ok(self.prepared(&series))
     }
 
     /// A new « adult » gate (SUB001510); it replaces the one waiting.
@@ -750,12 +768,37 @@ impl Services {
             ));
         }
 
-        self.speech.synthesize(&text, speed).map_err(|e| match e {
-            Error::SpeechUnavailable(message) => {
-                CommandError::new(503, "Speech unavailable", message)
-            }
-            other => unexpected(other),
-        })
+        self.speech.synthesize(&text, speed).map_err(speech_error)
+    }
+}
+
+fn listening_of(speech: &dyn SpeechSynthesizer) -> Listening {
+    if speech.status().is_available {
+        Listening::Available
+    } else {
+        Listening::Unavailable
+    }
+}
+
+/// What the voice reads for a word, or 404 when it has no sentence.
+fn word_speech(
+    word: &SpokenWord,
+    example: bool,
+    slow: bool,
+) -> Result<speech::Reading, CommandError> {
+    word.speech(example, slow).ok_or_else(|| {
+        CommandError::new(
+            404,
+            "No example",
+            format!("No example sentence for '{}'.", word.word),
+        )
+    })
+}
+
+fn speech_error(e: Error) -> CommandError {
+    match e {
+        Error::SpeechUnavailable(message) => CommandError::new(503, "Speech unavailable", message),
+        other => unexpected(other),
     }
 }
 
@@ -825,6 +868,10 @@ mod tests {
     }
 
     fn fixture() -> Fixture {
+        fixture_with_voice(Arc::new(UnavailableSpeechSynthesizer::new("tests")))
+    }
+
+    fn fixture_with_voice(speech: Arc<dyn SpeechSynthesizer>) -> Fixture {
         let dir = tempfile::tempdir().unwrap();
         let locations = Locations {
             content_directory: Path::new(env!("CARGO_MANIFEST_DIR")).join("../../content"),
@@ -832,7 +879,7 @@ mod tests {
         };
         let services = Services::start(
             &locations,
-            Arc::new(UnavailableSpeechSynthesizer::new("tests")),
+            speech,
             Arc::new(ScriptedRandom::new([3])),
             Arc::new(ManualClock::new(unix_ms(2026, 10, 11, 8, 0, 0))),
             Box::new(|| Date::new(2026, 10, 11)),
@@ -989,6 +1036,8 @@ mod tests {
                     name: Some("Léonie".to_owned()),
                     grade: Some(Grade::CE1),
                     character_id: Some("renard".to_owned()),
+                    placement_seconds: None,
+                    exam_seconds: None,
                 },
             )
             .unwrap();
@@ -1285,7 +1334,7 @@ mod tests {
     }
 
     /// SUB001406, SUB001405: a dictation never sends the word, corrects letter by letter and reads
-    /// the word from its pre-generated audio or the voice.
+    /// the word with the voice.
     #[test]
     fn a_dictation_hides_the_word_and_corrects_letter_by_letter() {
         let f = fixture();
@@ -1309,12 +1358,14 @@ mod tests {
         let word = exercise.word.as_ref().unwrap();
         assert_eq!((None, None), (word.before.clone(), word.after.clone()));
 
-        // The voice is unavailable in the tests: the pre-generated audio when
-        // scripts/generate-word-audio has been run, 503 otherwise.
-        match f.services.speak_series_word(&series.series_id, 0, false) {
-            Ok(wav) => assert!(wav.starts_with(b"RIFF"), "a WAV file"),
-            Err(e) => assert_eq!(503, e.status),
-        }
+        // The voice is unavailable in these tests.
+        assert_eq!(
+            503,
+            f.services
+                .speak_series_word(&series.series_id, 0, false, false)
+                .unwrap_err()
+                .status
+        );
 
         let outcome = f
             .services
@@ -1354,6 +1405,81 @@ mod tests {
             )
             .unwrap();
         assert!(right.correction.is_some());
+    }
+
+    /// A voice that answers the text and the speed it was asked, and counts the requests.
+    #[derive(Default)]
+    struct EchoVoice(std::sync::Mutex<Vec<(String, f64)>>);
+
+    impl SpeechSynthesizer for EchoVoice {
+        fn status(&self) -> educator_core::speech::SpeechEngineStatus {
+            educator_core::speech::SpeechEngineStatus::available("echo")
+        }
+
+        fn synthesize(&self, text: &str, speed: f64) -> educator_core::Result<Vec<u8>> {
+            self.0.lock().unwrap().push((text.to_owned(), speed));
+            Ok(format!("{speed}|{text}").into_bytes())
+        }
+
+        fn warm_up(&self, _speed: f64) {}
+    }
+
+    /// SUB026705, SUB026706, SUB026702: the words of a dictation are prepared (each word, then its
+    /// sentence, at 0.85), a noun is read with its article, served without a new synthesis; « Plus
+    /// lentement » reads it at 0.5.
+    #[test]
+    fn the_words_of_a_dictation_are_prepared_and_read_with_their_article() {
+        let voice = Arc::new(EchoVoice::default());
+        let f = fixture_with_voice(voice.clone());
+        let lea = create(&f.services, "Léa");
+        let series = f
+            .services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "ce1-son-o-au-eau".to_owned(),
+                answer_mode: AnswerMode::Keyboard,
+                format: Some(SpellingFormat::Dictation),
+                seed: Some(5),
+            })
+            .unwrap();
+        let expected = 2 * series.exercises.len();
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+        while voice.0.lock().unwrap().len() < expected {
+            assert!(std::time::Instant::now() < deadline, "not prepared");
+            std::thread::sleep(std::time::Duration::from_millis(5));
+        }
+
+        let asked = voice.0.lock().unwrap().clone();
+        assert!(asked
+            .iter()
+            .all(|(_, speed)| *speed == speech::speed::WORDS));
+        // Word, sentence, word, sentence…: a noun with its article and a period.
+        let first = &asked[0].0;
+        assert!(
+            first.starts_with("un ") || first.starts_with("une "),
+            "{first}"
+        );
+        assert!(first.ends_with('.'), "{first}");
+        let word = f
+            .services
+            .speak_series_word(&series.series_id, 0, false, false)
+            .unwrap();
+        assert_eq!(format!("0.85|{first}").into_bytes(), word);
+        f.services
+            .speak_series_word(&series.series_id, 0, true, false)
+            .unwrap();
+        assert_eq!(expected, voice.0.lock().unwrap().len(), "served prepared");
+        // The article is shown before the box; the word itself is not sent.
+        let article = series.exercises[0].word.as_ref().unwrap().article.clone();
+        assert_eq!(Some(first.split(' ').next().unwrap().to_owned()), article);
+
+        let slow = f
+            .services
+            .speak_series_word(&series.series_id, 0, false, true)
+            .unwrap();
+        assert_eq!(format!("0.5|{first}").into_bytes(), slow);
+
+        f.services.abandon_series(&series.series_id).unwrap();
     }
 
     #[test]
@@ -1535,30 +1661,53 @@ mod tests {
                 .map(|s| (s.subject, s.available, s.done))
                 .collect::<Vec<_>>()
         };
-        assert_eq!(20, f.services.placement_status(&lea.id).unwrap().question_seconds);
         assert_eq!(
-            vec![(Subject::Math, true, false), (Subject::Spelling, true, false)],
+            20,
+            f.services
+                .placement_status(&lea.id)
+                .unwrap()
+                .question_seconds
+        );
+        assert_eq!(
+            vec![
+                (Subject::Math, true, false),
+                (Subject::Spelling, true, false)
+            ],
             state(&f.services)
         );
 
-        let placement = f.services.start_placement(&lea.id, Subject::Math, Some(1)).unwrap();
+        let placement = f
+            .services
+            .start_placement(&lea.id, Subject::Math, Some(1))
+            .unwrap();
         assert_eq!(SessionType::Placement, placement.session_type);
         assert_eq!(Some(20), placement.question_seconds);
         assert!(!placement.exercises.is_empty() && placement.exercises.len() <= 30);
         // Abandoned: still to do.
         f.services.abandon_series(&placement.series_id).unwrap();
         assert_eq!(
-            vec![(Subject::Math, true, false), (Subject::Spelling, true, false)],
+            vec![
+                (Subject::Math, true, false),
+                (Subject::Spelling, true, false)
+            ],
             state(&f.services)
         );
 
         // Every question out of time: the assessment is over, wrong answers count.
-        let placement = f.services.start_placement(&lea.id, Subject::Math, Some(2)).unwrap();
+        let placement = f
+            .services
+            .start_placement(&lea.id, Subject::Math, Some(2))
+            .unwrap();
         let mut summary = None;
         for exercise in &placement.exercises {
             let outcome = f
                 .services
-                .answer_series(&placement.series_id, exercise.index, AnswerPayload::TimedOut, Some(20_000))
+                .answer_series(
+                    &placement.series_id,
+                    exercise.index,
+                    AnswerPayload::TimedOut,
+                    Some(20_000),
+                )
                 .unwrap();
             assert!(!outcome.correct);
             summary = outcome.summary;
@@ -1566,7 +1715,10 @@ mod tests {
         let summary = summary.unwrap();
         assert_eq!((0, 0), (summary.correct_count, summary.points_earned));
         assert_eq!(
-            vec![(Subject::Math, false, true), (Subject::Spelling, true, false)],
+            vec![
+                (Subject::Math, false, true),
+                (Subject::Spelling, true, false)
+            ],
             state(&f.services)
         );
         assert_eq!(
@@ -1591,7 +1743,10 @@ mod tests {
         let f = fixture();
         let lea = create(&f.services, "Léa");
         assert_eq!((20, 0), (lea.placement_seconds, lea.exam_seconds));
-        let exam = f.services.start_exam(&lea.id, Subject::Math, Some(4)).unwrap();
+        let exam = f
+            .services
+            .start_exam(&lea.id, Subject::Math, Some(4))
+            .unwrap();
         assert_eq!(None, exam.question_seconds);
 
         let updated = f
@@ -1607,7 +1762,10 @@ mod tests {
             .unwrap();
 
         assert_eq!((45, 30), (updated.placement_seconds, updated.exam_seconds));
-        let exam = f.services.start_exam(&lea.id, Subject::Math, Some(4)).unwrap();
+        let exam = f
+            .services
+            .start_exam(&lea.id, Subject::Math, Some(4))
+            .unwrap();
         assert_eq!(Some(30), exam.question_seconds);
         let error = f
             .services
@@ -1619,7 +1777,10 @@ mod tests {
                 },
             )
             .unwrap_err();
-        assert_eq!((400, Some("examSeconds".to_owned())), (error.status, error.field));
+        assert_eq!(
+            (400, Some("examSeconds".to_owned())),
+            (error.status, error.field)
+        );
     }
 
     /// SUB001415: offered once a skill is mastered, best score per duration.

@@ -114,3 +114,14 @@ export const StarIcon = (p: IconProps) => (
     <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />
   </Icon>
 );
+
+/** « Plus lentement » (SUB026702): a tortoise. */
+export const TortoiseIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M2 16a7 6 0 0 1 14 0z" />
+    <path d="M6.5 16l1.5-4h4l1.5 4" />
+    <path d="M16 14.5h1" />
+    <circle cx="19" cy="13.5" r="2" />
+    <path d="M5 16v3M13 16v3" />
+  </Icon>
+);

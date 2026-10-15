@@ -20,6 +20,7 @@ fn types_ts_is_up_to_date() {
         SkillsResponse::decl(),
         SkillResponse::decl(),
         SkillFamily::decl(),
+        SkillCategory::decl(),
         CharacterResponse::decl(),
         ProfileResponse::decl(),
         CreateProfileRequest::decl(),

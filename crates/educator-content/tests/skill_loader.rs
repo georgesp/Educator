@@ -71,6 +71,11 @@ fn invalid_file_is_reported() {
         (r#""period": 2"#, r#""period": 6"#, "period 6"),
         (
             r#""source": "Tests""#,
+            r#""source": "Tests", "theme": "agreement""#,
+            "theme is not used by 'addition'",
+        ),
+        (
+            r#""source": "Tests""#,
             r#""source": "Tests", "level": 3"#,
             "Invalid JSON",
         ),

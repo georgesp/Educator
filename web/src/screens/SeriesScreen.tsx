@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer, SeriesSummary, SpellingFormat } from "../api/client";
 import { playSound } from "../audio/sounds";
-import { playVoice, playVoices, setVoiceEnabled, stopSpeech, useSpeech, useVoiceWhile } from "../audio/useSpeech";
+import { playVoice, stopSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
 import { queryKeys } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
@@ -18,6 +18,7 @@ import { MultiChoiceInput, OrderInput, SignButtons, YesNoButtons } from "../comp
 import { FractionText } from "../components/exercise/AnswerText";
 import { ExercisePicture } from "../components/exercise/ExercisePicture";
 import { Statement } from "../components/exercise/Statement";
+import { TortoiseIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
 import { SpellingAnswer } from "../components/spelling/SpellingAnswer";
 import { WordCorrection } from "../components/spelling/WordCorrection";
@@ -89,7 +90,7 @@ type SeriesRunProps = {
   start(): Promise<Series>;
   /** The end of the series, instead of the usual summary (exam, timed challenge). */
   renderSummary?(summary: SeriesSummary, again: () => void): ReactNode;
-  /** What is read at the end, instead of the usual sentence. */
+  /** What the speaker of the end reads, instead of the usual sentence. */
   spokenSummary?(summary: SeriesSummary): string;
 };
 
@@ -108,27 +109,18 @@ function instructionOf(series: Series): string {
   }
 }
 
-/** Plays the word of a spelling exercise, alone or in its sentence. */
+/** Plays the word of a spelling exercise, alone or in its sentence, or very slowly (SUB026702). */
 function useSeriesWord() {
   const api = useApi();
-  return (seriesId: string, index: number, example = false) => playVoice(() => api.speakSeriesWord(seriesId, index, example));
-}
-
-/** Dictates the word of a spelling exercise: the word alone, then in its sentence when it has one
- * (« vert », « verre », « ver » sound the same: SUB001404). */
-function useDictatedWord() {
-  const api = useApi();
-  return (seriesId: string, index: number, hasExample: boolean) =>
-    playVoices([() => api.speakSeriesWord(seriesId, index, false), ...(hasExample ? [() => api.speakSeriesWord(seriesId, index, true)] : [])]);
+  return (seriesId: string, index: number, example = false, slow = false) =>
+    playVoice(() => api.speakSeriesWord(seriesId, index, example, slow));
 }
 
 export function SeriesRun({ profile, answerMode, start: create, renderSummary, spokenSummary }: SeriesRunProps) {
   const api = useApi();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const speak = useSpeech();
   const playWord = useSeriesWord();
-  const dictateWord = useDictatedWord();
 
   const [attempt, setAttempt] = useState(0);
   const [series, setSeries] = useState<Series | null>(null);
@@ -177,20 +169,8 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       setPhase({ kind: "answering" });
       shownAt.current = Date.now();
       const token = ++turn.current;
-      const withTimer = (created.questionSeconds ?? 0) > 0;
-      setTimerRunning(false);
-      const first = created.exercises[0];
-      if (first?.word) {
-        // A French exercise: the instruction, then the word to write.
-        setVoiceEnabled(true);
-        await speak(instructionOf(created));
-        await dictateWord(created.seriesId, 0, first.word.hasExample);
-      } else if (withTimer) {
-        // The time given starts once the question is read.
-        await speak(`${instructionOf(created)} ${first?.spokenPrompt ?? ""}`);
-      } else {
-        void speak(`${instructionOf(created)} ${first?.spokenPrompt ?? ""}`);
-      }
+      // Nothing is read by itself (decision of 2026-10-15): the child clicks « Écouter le mot » or
+      // the speakers. The time of a question starts as soon as it is shown.
       startTimer(token);
     },
   });
@@ -206,14 +186,19 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
 
   useEffect(() => () => stopSpeech(), []);
 
+  /** The sentence of the end, read on click of its speaker. */
+  const spokenEnd = (summary: SeriesSummary) => {
+    const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
+    const spoken = spokenSummary ? spokenSummary(summary) : fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
+    return perfect ? `${fr.series.allRight} ${spoken}` : spoken;
+  };
+
   const finish = (summary: SeriesSummary) => {
     setPoints(summary.profilePoints);
     setPhase({ kind: "finished", summary });
     // Everything right: fireworks, a fanfare and « Bravo, tout est juste ! » (SUB000114).
     const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
     playSound(perfect ? "celebration" : "finished");
-    const spoken = spokenSummary ? spokenSummary(summary) : fr.series.finishedSpoken(summary.correctCount, summary.exerciseCount, summary.pointsEarned);
-    void speak(perfect ? `${fr.series.allRight} ${spoken}` : spoken);
     void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
   };
 
@@ -230,13 +215,9 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
     shownAt.current = Date.now();
     const token = ++turn.current;
     setTimerRunning(false);
-    const word = series?.exercises[next]?.word;
-    if (series && word) {
-      // The time starts once the word is dictated.
-      void dictateWord(series.seriesId, next, word.hasExample).then(() => startTimer(token));
-    } else {
-      startTimer(token);
-    }
+    // The word is heard on click of « Écouter le mot »: the time starts at once.
+    stopSpeech();
+    startTimer(token);
   };
 
   const check = useMutation({
@@ -245,9 +226,6 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       setResults((current) => current.map((r, i) => (i === index ? outcome.correct : r)));
       // The time of a challenge may run out while the answer is on its way: the end stays shown.
       setPhase((current) => (current.kind === "finished" ? current : { kind: "answered", outcome, given }));
-      if (!outcome.correct && !autoNext) {
-        void speak(outcome.explanation);
-      }
     },
   });
 
@@ -473,19 +451,28 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       )}
 
       {phase.kind === "finished" ? (
-        renderSummary ? (
-          renderSummary(phase.summary, again)
-        ) : (
-          <Summary summary={phase.summary} onAgain={again} onMenu={() => void navigate("/menu")} />
-        )
+        <>
+          {renderSummary ? (
+            renderSummary(phase.summary, again)
+          ) : (
+            <Summary summary={phase.summary} onAgain={again} onMenu={() => void navigate("/menu")} />
+          )}
+          {/* The summary is read on click only. */}
+          <SpeakButton text={spokenEnd(phase.summary)} label={fr.series.listenSummary} />
+        </>
       ) : (
         <section className="exercise-card" aria-live="polite">
           <div className="exercise-instruction">
             <span>{instructionOf(series)}</span>
             {word ? (
               <span className="word-listen">
+                <SpeakButton text={instructionOf(series)} label={fr.series.listenInstruction} compact />
                 <button type="button" className="button" onClick={() => void playWord(series.seriesId, index)}>
                   {fr.spelling.listenWord}
+                </button>
+                <button type="button" className="button" onClick={() => void playWord(series.seriesId, index, false, true)}>
+                  <TortoiseIcon size={24} />
+                  {fr.spelling.listenSlowly}
                 </button>
                 {word.hasExample && (
                   <button type="button" className="button" onClick={() => void playWord(series.seriesId, index, true)}>
@@ -531,6 +518,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
               before={word?.before ?? null}
               after={word?.after ?? null}
               missing={word?.missing ?? null}
+              article={word?.article ?? null}
               maxLength={exercise.input.maxLength}
               disabled={disabled}
               onSubmit={(text) => submit({ kind: "text", value: text })}
@@ -541,6 +529,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
 
           {exercise.input.kind === "pick" && blank && word && (
             <p className="spelling-word spelling-word-blank" aria-label={exercise.prompt}>
+              {word.article && <span className="spelling-article">{word.article}</span>}
               <span className="spelling-around">{word.before}</span>
               <span className={answered ? `spelling-given ${answered.outcome.correct ? "slot-right" : "slot-wrong"}` : "spelling-hole"}>
                 {answered ? (given === "" ? fr.spelling.nothing : given) : "_".repeat(word.missing ?? 1)}
@@ -615,6 +604,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
                       message={answered.given.kind === "timedOut" ? fr.placement.timeUp : fr.series.incorrect}
                       detail={answered.outcome.explanation}
                     />
+                    <SpeakButton text={answered.outcome.explanation} label={fr.series.listenExplanation} compact />
                     {answered.outcome.correction && <WordCorrection correction={answered.outcome.correction} />}
                     {answered.outcome.help && (
                       <figure className="answer-help">

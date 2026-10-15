@@ -77,10 +77,13 @@ export type UiApi = {
   getMascotPhrase(situation: MascotSituation, title?: string): Promise<MascotPhrase | null>;
   /** WAV of a French text (numbers and signs are read as words by the core). */
   speak(text: string, speed?: number): Promise<Blob>;
-  /** WAV of the word of a spelling exercise in progress, alone or in its short sentence (`example`). */
-  speakSeriesWord(seriesId: string, index: number, example?: boolean): Promise<Blob>;
-  /** WAV of a word of the bank, alone or in its short sentence. */
-  speakWord(word: string, example?: boolean): Promise<Blob>;
+  /**
+   * WAV of the word of a spelling exercise in progress, alone or in its short sentence (`example`),
+   * or read very slowly (`slow`, « Plus lentement »).
+   */
+  speakSeriesWord(seriesId: string, index: number, example?: boolean, slow?: boolean): Promise<Blob>;
+  /** WAV of a word of the bank, alone or in its short sentence, or read very slowly. */
+  speakWord(word: string, example?: boolean, slow?: boolean): Promise<Blob>;
   /** The « adult » gate of the parents' space, drawn again at every call (SUB001510). */
   getParentGate(): Promise<ParentGate>;
   /** Whether `answer` opens the gate; the gate is used up either way. */
@@ -137,8 +140,9 @@ export function createUiApi(): UiApi {
     getMascot: () => call("get_mascot"),
     getMascotPhrase: (situation, title) => call("get_mascot_phrase", { situation, title: title ?? null }),
     speak: (text, speed) => wavOf("speak", { text, speed: speed ?? null }),
-    speakSeriesWord: (seriesId, index, example) => wavOf("speak_series_word", { seriesId, index, example: example ?? false }),
-    speakWord: (word, example) => wavOf("speak_word", { word, example: example ?? false }),
+    speakSeriesWord: (seriesId, index, example, slow) =>
+      wavOf("speak_series_word", { seriesId, index, example: example ?? false, slow: slow ?? false }),
+    speakWord: (word, example, slow) => wavOf("speak_word", { word, example: example ?? false, slow: slow ?? false }),
     getParentGate: () => call("get_parent_gate"),
     checkParentGate: (id, answer) => call("check_parent_gate", { id, answer }),
     getProfileStatistics: (profileId) => call("get_profile_statistics", { profileId }),

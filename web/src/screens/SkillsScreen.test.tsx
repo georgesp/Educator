@@ -46,8 +46,8 @@ describe("SkillsScreen — CE1 complements", () => {
         skillsGrade: "CE1",
         currentPeriod: 2,
         skills: [
-          { id: "ce1-num-compare", title: "Comparer et ranger", instruction: "Compare.", period: 2, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Numeration", spellingFormats: [], mastery: null },
-          { id: "ce1-mul-meaning", title: "Le signe ×", instruction: "Calcule.", period: 2, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Multiplication", spellingFormats: [], mastery: null },
+          { id: "ce1-num-compare", title: "Comparer et ranger", instruction: "Compare.", period: 2, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Numeration", spellingFormats: [], listeningFormats: [], mastery: null },
+          { id: "ce1-mul-meaning", title: "Le signe ×", instruction: "Calcule.", period: 2, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Multiplication", spellingFormats: [], listeningFormats: [], mastery: null },
         ],
       }),
     });
@@ -67,5 +67,79 @@ describe("SkillsScreen — CE1 complements", () => {
 
     await screen.findByRole("region", { name: "C'est ce que tu travailles en ce moment" });
     expect(screen.queryByRole("button", { name: "Mes tables" })).not.toBeInTheDocument();
+  });
+});
+
+describe("SkillsScreen — families", () => {
+  it("shows the band of its family on every card, and a button per family shown", async () => {
+    const api = fakeApi({
+      getSkills: vi.fn().mockResolvedValue({
+        subject: "Math",
+        grade: "CE1",
+        skillsGrade: "CE1",
+        currentPeriod: 1,
+        skills: [
+          { id: "ce1-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
+          { id: "ce1-num-hundreds", title: "Centaines, dizaines et unités", instruction: "Écris.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Numeration", category: "Numbers", spellingFormats: [], listeningFormats: [], mastery: null },
+          { id: "ce1-sub-9", title: "Enlever 9", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
+        ],
+      }),
+    });
+    renderApp(api, "/exercices/maths");
+
+    const filter = await screen.findByRole("group", { name: "Choisis une famille" });
+    expect(within(filter).getAllByRole("button").map((b) => b.textContent)).toEqual(["Tout", "123Les nombres", "+ −Additions et soustractions"]);
+    expect(within(filter).getByRole("button", { name: "Tout" })).toHaveAttribute("aria-pressed", "true");
+
+    const current = screen.getByRole("button", { name: /Tables d'addition/ });
+    expect(current).toHaveAccessibleName(/Additions et soustractions/);
+    expect(current).toHaveClass("big-button-outline");
+    expect(current).not.toHaveClass("big-button-primary");
+    expect(current.querySelector(".big-button-family")).toHaveClass("family-2");
+    expect(screen.getByRole("button", { name: /Enlever 9/ }).querySelector(".big-button-family")).toHaveTextContent("+ −");
+  });
+
+  it("keeps only the family clicked above the lists, until « Tout » or a second click", async () => {
+    const api = fakeApi({
+      getSkills: vi.fn().mockResolvedValue({
+        subject: "Math",
+        grade: "CE1",
+        skillsGrade: "CE1",
+        currentPeriod: 1,
+        skills: [
+          { id: "ce1-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
+          { id: "ce1-num-hundreds", title: "Centaines, dizaines et unités", instruction: "Écris.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Numeration", category: "Numbers", spellingFormats: [], listeningFormats: [], mastery: null },
+          { id: "ce1-sub-9", title: "Enlever 9", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
+        ],
+      }),
+    });
+    const router = renderApp(api, "/exercices/maths");
+    const user = userEvent.setup();
+    const filter = await screen.findByRole("group", { name: "Choisis une famille" });
+    const numbers = within(filter).getByRole("button", { name: /Les nombres/ });
+
+    await user.click(numbers);
+    expect(numbers).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: /Centaines, dizaines et unités/ })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Tables d'addition/ })).not.toBeInTheDocument();
+    // No other exercise of that family: its section is not shown.
+    expect(screen.queryByRole("region", { name: "Les autres exercices de ta classe" })).not.toBeInTheDocument();
+    expect(router.state.location.search).toBe("?famille=Numbers");
+
+    await user.click(numbers);
+    expect(screen.getByRole("button", { name: /Tables d'addition/ })).toBeInTheDocument();
+
+    await user.click(within(filter).getByRole("button", { name: /Additions et soustractions/ }));
+    expect(screen.queryByRole("button", { name: /Centaines/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Enlever 9/ })).toBeInTheDocument();
+    await user.click(within(filter).getByRole("button", { name: "Tout" }));
+    expect(screen.getByRole("button", { name: /Centaines/ })).toBeInTheDocument();
+    expect(router.state.location.search).toBe("");
+  });
+
+  it("starts with the family of the address, and ignores a family absent from the list", async () => {
+    renderApp(fakeApi(), "/exercices/maths?famille=Numbers");
+
+    expect(await screen.findByRole("button", { name: /Additions jusqu'à 10/ })).toBeInTheDocument();
   });
 });

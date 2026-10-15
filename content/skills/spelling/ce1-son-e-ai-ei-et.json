@@ -7,6 +7,7 @@
   "title": "Le son [è] : è, ê, ai, ei, et",
   "instruction": "Écoute bien le mot, puis écris-le.",
   "operation": "spelling",
+  "theme": "lettersAndSounds",
   "words": {
     "grades": [
       "CE1"

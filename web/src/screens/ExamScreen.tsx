@@ -27,7 +27,7 @@ function ExamChoice() {
           ← {fr.series.menu}
         </button>
         <h1 className="title">{fr.exam.title}</h1>
-        <SpeakButton text={fr.exam.spoken} autoPlay />
+        <SpeakButton text={fr.exam.spoken} />
       </header>
       <div className="exam-choice">
         <section className="mode-choice" aria-labelledby="exam-review">
@@ -184,7 +184,7 @@ function TimedSetup({ profile }: { profile: Profile }) {
       {data && data.skillCount === 0 && (
         <div className="mode-choice">
           <p className="notice">{fr.exam.notYet}</p>
-          <SpeakButton text={fr.exam.notYet} autoPlay compact />
+          <SpeakButton text={fr.exam.notYet} compact />
           <BigButton label={fr.menu.exercises} icon={<PencilIcon />} variant="primary" onClick={() => void navigate(`/exercices/${SUBJECT_SLUGS[subject]}`)} />
         </div>
       )}
@@ -192,7 +192,7 @@ function TimedSetup({ profile }: { profile: Profile }) {
         <div className="mode-choice">
           <div className="screen-instruction">
             <h2 className="section-title">{fr.exam.chooseDuration}</h2>
-            <SpeakButton text={fr.exam.chooseDurationSpoken} autoPlay compact />
+            <SpeakButton text={fr.exam.chooseDurationSpoken} compact />
           </div>
           <div className="timed-durations">
             {data.durations.map((d, i) => (

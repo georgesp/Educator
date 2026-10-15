@@ -62,6 +62,8 @@ pub struct SkillParams {
     pub problems: Option<ProblemSet>,
     /// Spelling: the words of the bank taken by the skill, resolved at loading (SUB001402).
     pub words: Option<WordSet>,
+    /// Spelling: the theme shown to the child (required for a spelling skill, absent in math).
+    pub theme: Option<SpellingTheme>,
 }
 
 /// Order of the exercises in a series.
@@ -161,6 +163,87 @@ impl SkillOperation {
                 | SkillOperation::Mixed
                 | SkillOperation::Multiplication
         )
+    }
+}
+
+/// Theme of a spelling skill, shown to the child with a color and a symbol.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum SpellingTheme {
+    /// Letters and the sounds they write: vowels, consonants, [ou], [an], [é]…
+    LettersAndSounds,
+    /// Small rules of writing: m before m, b, p; g, gu, ge.
+    SpellingRules,
+    SilentLetters,
+    /// Agreement: plural of nouns (later: feminine, verb agreement).
+    Agreement,
+    /// Words learnt by heart: small function words, invariable words.
+    WordsToKnow,
+}
+
+/// Family of a skill as shown to the child: a color and a symbol on every card of the exercises
+/// and the lessons. Math families come from the operation, spelling ones from the theme.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+pub enum SkillCategory {
+    /// Numbers: place value, reading, comparing, number line, parity.
+    Numbers,
+    /// Additions and subtractions.
+    AddSubtract,
+    Multiply,
+    /// Fractions, doubles and halves.
+    FractionsHalves,
+    Problems,
+    LettersAndSounds,
+    SpellingRules,
+    SilentLetters,
+    Agreement,
+    WordsToKnow,
+}
+
+impl SkillCategory {
+    /// Every category, in the order shown to the child (math, then spelling).
+    pub const ALL: [SkillCategory; 10] = [
+        SkillCategory::Numbers,
+        SkillCategory::AddSubtract,
+        SkillCategory::Multiply,
+        SkillCategory::FractionsHalves,
+        SkillCategory::Problems,
+        SkillCategory::LettersAndSounds,
+        SkillCategory::SpellingRules,
+        SkillCategory::SilentLetters,
+        SkillCategory::Agreement,
+        SkillCategory::WordsToKnow,
+    ];
+}
+
+impl From<SpellingTheme> for SkillCategory {
+    fn from(theme: SpellingTheme) -> Self {
+        match theme {
+            SpellingTheme::LettersAndSounds => SkillCategory::LettersAndSounds,
+            SpellingTheme::SpellingRules => SkillCategory::SpellingRules,
+            SpellingTheme::SilentLetters => SkillCategory::SilentLetters,
+            SpellingTheme::Agreement => SkillCategory::Agreement,
+            SpellingTheme::WordsToKnow => SkillCategory::WordsToKnow,
+        }
+    }
+}
+
+impl Skill {
+    /// Family shown to the child. A spelling skill without theme (only built in tests: the
+    /// content requires one) counts as letters and sounds.
+    pub fn category(&self) -> SkillCategory {
+        match self.operation {
+            SkillOperation::Numeration => SkillCategory::Numbers,
+            SkillOperation::Addition | SkillOperation::Subtraction | SkillOperation::Mixed => {
+                SkillCategory::AddSubtract
+            }
+            SkillOperation::Multiplication => SkillCategory::Multiply,
+            SkillOperation::Fraction | SkillOperation::DoubleHalf => SkillCategory::FractionsHalves,
+            SkillOperation::Problem => SkillCategory::Problems,
+            SkillOperation::Spelling => self
+                .params
+                .theme
+                .map_or(SkillCategory::LettersAndSounds, Into::into),
+        }
     }
 }
 
@@ -364,6 +447,15 @@ impl ExerciseFormat {
             .iter()
             .find(|(n, _)| *n == name)
             .map(|(_, f)| *f)
+    }
+
+    /// The formats that cannot be played without the voice: the word is only heard (SUB026704).
+    /// The missing letters stay playable: the word is partly written.
+    pub fn needs_listening(self) -> bool {
+        matches!(
+            self,
+            ExerciseFormat::Dictation | ExerciseFormat::ChooseSpelling
+        )
     }
 
     /// The spelling formats.

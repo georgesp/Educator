@@ -84,7 +84,7 @@ export function playVoice(load: () => Promise<Blob>): Promise<void> {
 }
 
 /**
- * Plays readings one after the other (a word, then its sentence: SUB001404), stopping what was
+ * Plays readings one after the other (a word, then its sentence: SUB001406), stopping what was
  * playing; a stop cancels the readings not started yet.
  */
 export async function playVoices(loads: Array<() => Promise<Blob>>): Promise<void> {
@@ -98,7 +98,7 @@ export async function playVoices(loads: Array<() => Promise<Blob>>): Promise<voi
   }
 }
 
-/** Plays after what is being read (the mascot after the end of a series); a stop cancels it. */
+/** Plays after what is being read; a stop cancels it. */
 export function queueVoice(load: () => Promise<Blob>): Promise<void> {
   const startedAt = generation;
   queue = queue.then(() => (startedAt === generation ? play(load, startedAt) : undefined));
@@ -114,7 +114,7 @@ export function useSpeech(): (text: string) => Promise<void> {
   return useCallback((text: string) => playVoice(() => api.speak(text)), [api]);
 }
 
-/** Reads a text after what is being read (the mascot's phrase after the end of a series). */
+/** Reads a text after what is being read. */
 export function useQueuedSpeech(): (text: string) => Promise<void> {
   const api = useApi();
   return useCallback((text: string) => queueVoice(() => api.speak(text)), [api]);

@@ -49,9 +49,10 @@ npm install
 npm run tauri dev             # compile le cœur Rust et lance l'application
 ```
 
-Audio des mots d'orthographe (une fois, puis après chaque ajout de mots) : `scripts/generate-word-audio.sh`
-(Windows : `.\scripts\generate-word-audio.ps1`). Les fichiers sont écrits dans `content/audio/words/` (non commités,
-embarqués au build, environ 130 Mo) ; sans eux, les mots sont lus par la voix en direct.
+Les mots d'orthographe sont lus par la voix en direct (ADR 0004), sans fichier audio à générer. Écoute de contrôle
+après un ajout de mots : `scripts/listen-words.sh --sample 50` (Windows : `.\scripts\listen-words.ps1`), qui écrit
+les WAV d'un échantillon dans un dossier temporaire avec la liste à écouter ; `--again stylo` refait une lecture
+ratée.
 
 ## Commandes
 

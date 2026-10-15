@@ -524,7 +524,11 @@ fn a_placement_asks_two_or_three_questions_per_skill_and_counts_once_finished() 
     // Two skills: three questions each (30 allows it).
     assert_eq!(6, placement.exercises.len());
     for skill_id in ["test-skill", "second"] {
-        let asked = placement.skill_ids.iter().filter(|s| *s == skill_id).count();
+        let asked = placement
+            .skill_ids
+            .iter()
+            .filter(|s| *s == skill_id)
+            .count();
         assert_eq!(3, asked, "{skill_id}");
     }
     // Not done while it is not finished.
@@ -540,7 +544,14 @@ fn a_placement_asks_two_or_three_questions_per_skill_and_counts_once_finished() 
     }
     let summary = summary.unwrap();
     // No points for an assessment.
-    assert_eq!((6, 6, 0), (summary.correct_count, summary.exercise_count, summary.points_earned));
+    assert_eq!(
+        (6, 6, 0),
+        (
+            summary.correct_count,
+            summary.exercise_count,
+            summary.points_earned
+        )
+    );
     assert_eq!(0, points(&f));
     // Done: it feeds the masteries and cannot be taken again.
     assert!(f.service.placement_done(id, Subject::Math).unwrap());
@@ -582,7 +593,11 @@ fn an_abandoned_placement_counts_for_nothing_and_is_to_do_again() {
     assert!(f.sessions.masteries(id).unwrap().is_empty());
     assert!(f.sessions.profile_sessions(id).unwrap().is_empty());
     assert!(f.sessions.profile_answers(id).unwrap().is_empty());
-    assert!(f.sessions.recent_results(id, "test-skill", 20).unwrap().is_empty());
+    assert!(f
+        .sessions
+        .recent_results(id, "test-skill", 20)
+        .unwrap()
+        .is_empty());
     // It can be taken again, and then it counts.
     let again = f
         .service
@@ -613,13 +628,13 @@ fn a_question_out_of_time_is_wrong_and_the_exam_timer_comes_from_the_profile() {
 
     assert!(!outcome.correct);
     let recorded = f.sessions.answers(placement.id).unwrap();
-    assert_eq!(("", false), (recorded[0].given.as_str(), recorded[0].is_correct));
+    assert_eq!(
+        ("", false),
+        (recorded[0].given.as_str(), recorded[0].is_correct)
+    );
 
     // An exam has no timer until the profile asks for one.
-    let exam = f
-        .service
-        .start_exam(id, Subject::Math, 1, Some(3))
-        .unwrap();
+    let exam = f.service.start_exam(id, Subject::Math, 1, Some(3)).unwrap();
     assert_eq!(None, exam.question_seconds);
     f.profiles
         .update(&Profile {
@@ -628,10 +643,7 @@ fn a_question_out_of_time_is_wrong_and_the_exam_timer_comes_from_the_profile() {
             ..f.profile.clone()
         })
         .unwrap();
-    let exam = f
-        .service
-        .start_exam(id, Subject::Math, 1, Some(3))
-        .unwrap();
+    let exam = f.service.start_exam(id, Subject::Math, 1, Some(3)).unwrap();
     assert_eq!(Some(30), exam.question_seconds);
     let placement = f
         .service

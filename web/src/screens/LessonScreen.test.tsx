@@ -30,7 +30,11 @@ describe("LessonsScreen", () => {
 
     await user.click(await screen.findByRole("button", { name: /Mathématiques/ }));
     expect(await screen.findByRole("heading", { name: "Leçons de maths" })).toBeInTheDocument();
-    await user.click(await screen.findByRole("button", { name: /Ajouter 9, 19 ou 29/ }));
+    const lesson = await screen.findByRole("button", { name: /Ajouter 9, 19 ou 29/ });
+    expect(lesson.querySelector(".big-button-family")).toHaveClass("family-2");
+    // A single family: no filter to show.
+    expect(screen.queryByRole("group", { name: "Choisis une famille" })).not.toBeInTheDocument();
+    await user.click(lesson);
     expect(api.listLessons).toHaveBeenCalledWith("CP", "Math");
     expect(screen.queryByText(/En attendant, voici celles du CE1/)).not.toBeInTheDocument();
     await waitFor(() => expect(router.state.location.pathname).toBe("/lecons/maths/ce1-add-9-19-29"));
@@ -115,15 +119,21 @@ describe("LessonScreen", () => {
     await goThroughTheSlides(user);
 
     expect(await screen.findByRole("heading", { name: "Je retiens" })).toBeInTheDocument();
+    // Nothing is read by itself: the slide is read on click.
+    expect(api.speak).not.toHaveBeenCalledWith("Je retiens.");
+    await user.click(screen.getByRole("button", { name: /^Écouter$/ }));
     expect(api.speak).toHaveBeenCalledWith("Je retiens.");
     await user.click(screen.getByRole("button", { name: "Au quiz !" }));
 
-    // Typed question, wrong answer: the explanation is shown and read.
+    // Typed question, wrong answer: the explanation is shown, and read on click.
     expect(await screen.findByText("28 + 9 = ?")).toBeInTheDocument();
     await user.type(screen.getByLabelText("Ta réponse"), "39{Enter}");
     expect(await screen.findByText("Pas tout à fait. Regarde :")).toBeInTheDocument();
     expect(api.startLessonQuiz).toHaveBeenCalledWith("p-lea", "ce1-add-9-19-29");
     expect(api.answerSeries).toHaveBeenCalledWith("quiz", 0, { kind: "number", value: 39 }, expect.any(Number));
+    expect(api.speak).not.toHaveBeenCalledWith("28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37.");
+    const feedback = screen.getByText("Pas tout à fait. Regarde :").closest(".answer-feedback") as HTMLElement;
+    await user.click(within(feedback).getByRole("button", { name: "Écouter" }));
     expect(api.speak).toHaveBeenCalledWith("28 + 10 = 38, puis j'enlève 1 : 28 + 9 = 37.");
     await user.click(screen.getByRole("button", { name: "Suivant" }));
 

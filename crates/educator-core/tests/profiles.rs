@@ -139,7 +139,13 @@ fn update_timers_changes_the_given_durations_and_refuses_the_others() {
     let lea = service.create("Léa", Grade::CP, None).unwrap();
 
     let only_assessment = service.update_timers(lea.id, Some(45), None).unwrap();
-    assert_eq!((45, 0), (only_assessment.placement_seconds, only_assessment.exam_seconds));
+    assert_eq!(
+        (45, 0),
+        (
+            only_assessment.placement_seconds,
+            only_assessment.exam_seconds
+        )
+    );
     let both = service.update_timers(lea.id, Some(15), Some(60)).unwrap();
     assert_eq!((15, 60), (both.placement_seconds, both.exam_seconds));
     let nothing = service.update_timers(lea.id, None, None).unwrap();
@@ -149,7 +155,13 @@ fn update_timers_changes_the_given_durations_and_refuses_the_others() {
         validation_message(service.update_timers(lea.id, None, Some(25)))
     );
     // 0 is no timer for an exam, but not an assessment without time.
-    assert_eq!(0, service.update_timers(lea.id, None, Some(0)).unwrap().exam_seconds);
+    assert_eq!(
+        0,
+        service
+            .update_timers(lea.id, None, Some(0))
+            .unwrap()
+            .exam_seconds
+    );
     assert_eq!(
         "placementSeconds",
         validation_message(service.update_timers(lea.id, Some(0), None)).0

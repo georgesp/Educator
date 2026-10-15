@@ -3,6 +3,8 @@
 - **Statut** : acceptée pour le moteur ; **voix proposée, à confirmer à l'écoute** (voir « Choix de la voix »)
 - **Date** : 2026-10-10
 - **Fiche** : SUB006006 (lot 0 — socle technique)
+- **Complétée par** : ADR 0004 (lot 2bis) — mots d'orthographe lus en direct, un processus Piper par vitesse, cache
+  plafonné. La pré-génération de l'audio des mots (SUB001404) est abandonnée.
 
 ## Contexte
 
@@ -31,7 +33,8 @@ installeur. Le cadrage a retenu Piper (synthèse neuronale locale, voix ONNX).
    sur l'entrée standard ; Piper écrit un WAV dans un dossier privé et imprime son chemin sur la sortie standard.
    Implémentation : `PiperSpeechSynthesizer` (`Educator.Content`), derrière l'interface `ISpeechSynthesizer`
    (`Educator.Core`). Le processus est préchauffé au démarrage du host et relancé après un plantage, un délai
-   dépassé ou un changement de vitesse (`--length_scale` est global au processus).
+   dépassé ou un changement de vitesse (`--length_scale` est global au processus). Depuis l'ADR 0004 : un
+   processus par vitesse, plus aucun redémarrage au changement de vitesse.
 2. **macOS** : binaire Intel de Piper + bibliothèques Intel de `piper-phonemize`, chargées via
    `DYLD_LIBRARY_PATH`. Sur Apple Silicon, l'ensemble tourne avec **Rosetta 2**.
 3. Les fichiers ne sont **pas commités** : `scripts/fetch-piper.sh` (macOS, Linux) et `scripts/fetch-piper.ps1`

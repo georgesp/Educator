@@ -98,10 +98,14 @@ pub fn start(state: Arc<AppState>, folders: Folders) {
                 Box::new(today),
             ) {
                 Ok(services) => {
-                    let services = services.with_local_date(Box::new(local_date));
-                    state.set(Startup::Ready(Arc::new(services)));
-                    // The first sentence is then read without delay.
-                    speech.warm_up(crate::services::CHILD_SPEECH_SPEED);
+                    let services = Arc::new(services.with_local_date(Box::new(local_date)));
+                    state.set(Startup::Ready(Arc::clone(&services)));
+                    // The instructions and the dictated words are then read without delay: one
+                    // Piper process each, kept ready (SUB026708).
+                    speech.warm_up(educator_core::speech::speed::INSTRUCTIONS);
+                    speech.warm_up(educator_core::speech::speed::WORDS);
+                    // A voice that could not start counts as missing (SUB026704).
+                    services.refresh_listening();
                 }
                 Err(message) => {
                     log::error!("Start-up failed: {message}");
@@ -115,7 +119,7 @@ pub fn start(state: Arc<AppState>, folders: Folders) {
     }
 }
 
-/// Piper with its disk cache on the desktop (ADR 0002).
+/// Piper with its disk cache on the desktop (ADR 0002, ADR 0004).
 #[cfg(desktop)]
 fn speech_synthesizer(folders: &Folders) -> Arc<dyn SpeechSynthesizer> {
     use educator_content::speech::{create_synthesizer, PiperLocatorOptions, SpeechCache};

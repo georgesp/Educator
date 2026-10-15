@@ -4,6 +4,7 @@ import { useApi } from "./BackendContext";
 import { useProfileSession } from "./ProfileContext";
 
 export const queryKeys = {
+  status: ["status"] as const,
   profiles: ["profiles"] as const,
   characters: ["characters"] as const,
   characterSvg: (id: string) => ["character-svg", id] as const,
@@ -50,6 +51,16 @@ export function usePlacementStatus(profileId: string | undefined) {
     enabled: profileId !== undefined,
     staleTime: 0,
   });
+}
+
+/**
+ * Whether the voice can read the words (SUB026704): false only once the status says it is
+ * unavailable, so that nothing is greyed while the status loads.
+ */
+export function useVoiceAvailable(): boolean {
+  const api = useApi();
+  const { data } = useQuery({ queryKey: queryKeys.status, queryFn: () => api.getStatus() });
+  return data?.speech.isAvailable ?? true;
 }
 
 /** The parents' card of the profile choice (created by the core the first time). */

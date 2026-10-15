@@ -7,7 +7,9 @@ use educator_core::exercises::{
     DEFAULT_LENGTH,
 };
 use educator_core::points::PointsRules;
-use educator_core::skills::{AnswerMode, Date, ExerciseFormat, SkillCatalog, Subject};
+use educator_core::skills::{
+    AnswerMode, Date, ExerciseFormat, SkillCatalog, SkillCategory, SpellingTheme, Subject,
+};
 use educator_core::Grade;
 use std::collections::{BTreeSet, HashSet};
 use std::path::{Path, PathBuf};
@@ -44,6 +46,11 @@ fn every_file_matches_its_json_schema() {
         ("skills/spelling", None, "skill.schema.json"),
         ("words", None, "words.schema.json"),
         ("spelling", Some("sounds.json"), "sounds.schema.json"),
+        (
+            "spelling",
+            Some("homophones.json"),
+            "homophones.schema.json",
+        ),
         ("mascot", Some("mascot.json"), "mascot.schema.json"),
         (
             "problems",
@@ -276,6 +283,31 @@ fn read_json(path: &Path) -> serde_json::Value {
         .unwrap_or_else(|e| panic!("{}: {e}", path.display()))
 }
 
+/// Every spelling skill has a theme, no math skill has one: each card shows its family.
+#[test]
+fn every_spelling_skill_has_a_theme_and_math_skills_none() {
+    for skill in content().skills.all() {
+        assert_eq!(
+            skill.subject == Subject::Spelling,
+            skill.params.theme.is_some(),
+            "{}",
+            skill.id
+        );
+    }
+    let category = |id: &str| content().skills.find(id).unwrap().category();
+    assert_eq!(SkillCategory::Numbers, category("ce1-parity"));
+    assert_eq!(
+        SkillCategory::FractionsHalves,
+        category("ce1-double-half-facts")
+    );
+    assert_eq!(SkillCategory::SpellingRules, category("ce1-g-gu-ge"));
+    assert_eq!(SkillCategory::WordsToKnow, category("cp-mots-outils"));
+    assert_eq!(
+        Some(SpellingTheme::Agreement),
+        content().skills.find("ce1-pluriel-s").unwrap().params.theme
+    );
+}
+
 /// SUB001402, SUB001403: every spelling skill has at least 30 words; CP and CE1 have spelling skills.
 #[test]
 fn every_spelling_skill_has_at_least_thirty_words() {
@@ -374,7 +406,7 @@ fn spelling_proposals_are_never_real_words_and_compete_on_the_same_sound() {
 /// recent skills more often, never twice the same question.
 #[test]
 fn exams_are_composed_from_the_skills_reached_without_duplicates() {
-    use educator_core::exercises::exam::{compose_exam, exam_skills, EXAM_LENGTH};
+    use educator_core::exercises::exam::{compose_exam, exam_skills, Listening, EXAM_LENGTH};
     let skills = &content().skills;
     for subject in [Subject::Math, Subject::Spelling] {
         for grade in [Grade::CP, Grade::CE1] {
@@ -387,7 +419,7 @@ fn exams_are_composed_from_the_skills_reached_without_duplicates() {
                     .all(|(s, _)| s.grade == grade && s.period <= period.max(1)));
                 let (mut recent, mut old) = (0usize, 0usize);
                 for seed in 0..40u64 {
-                    let exam = compose_exam(&weighted, seed).unwrap();
+                    let exam = compose_exam(&weighted, seed, Listening::Available).unwrap();
                     assert_eq!(EXAM_LENGTH, exam.len());
                     let keys: HashSet<String> = exam
                         .iter()
@@ -425,12 +457,48 @@ fn exams_are_composed_from_the_skills_reached_without_duplicates() {
     }
 }
 
+/// SUB026704: without the voice, a spelling exam (and a level assessment) asks no question where
+/// the word is only heard: no dictation, no « Choisis la bonne écriture ».
+#[test]
+fn without_the_voice_an_exam_asks_no_listening_question() {
+    use educator_core::exercises::exam::{
+        compose_exam, compose_placement, exam_skills, Listening, EXAM_LENGTH,
+    };
+    let skills = &content().skills;
+    for grade in [Grade::CP, Grade::CE1] {
+        let offered = skills.offered_to(Subject::Spelling, grade);
+        for period in 1..=5u8 {
+            let weighted = exam_skills(&offered, period);
+            for seed in 0..20u64 {
+                let with_voice = compose_exam(&weighted, seed, Listening::Available).unwrap();
+                let exam = compose_exam(&weighted, seed, Listening::Unavailable).unwrap();
+                let placement = compose_placement(&weighted, seed, Listening::Unavailable).unwrap();
+                assert_eq!(EXAM_LENGTH, exam.len(), "{grade} P{period}");
+                assert!(
+                    exam.iter()
+                        .chain(&placement)
+                        .all(|q| !q.exercise.format.needs_listening()),
+                    "{grade} P{period} seed {seed}"
+                );
+                if seed == 0 {
+                    assert!(
+                        with_voice
+                            .iter()
+                            .any(|q| q.exercise.format.needs_listening()),
+                        "{grade} P{period}: the voice gives dictations"
+                    );
+                }
+            }
+        }
+    }
+}
+
 /// SUB001418: a level assessment asks 2 or 3 questions per skill of the grade up to the current
 /// period, 30 at most, never twice the same question, whatever the grade, period and seed.
 #[test]
 fn placements_are_composed_from_the_skills_reached_without_duplicates() {
     use educator_core::exercises::exam::{
-        compose_placement, exam_skills, PLACEMENT_MAX_LENGTH, PLACEMENT_MAX_PER_SKILL,
+        compose_placement, exam_skills, Listening, PLACEMENT_MAX_LENGTH, PLACEMENT_MAX_PER_SKILL,
     };
     let skills = &content().skills;
     for subject in [Subject::Math, Subject::Spelling] {
@@ -440,7 +508,8 @@ fn placements_are_composed_from_the_skills_reached_without_duplicates() {
                 let weighted = exam_skills(&offered, period);
                 assert!(!weighted.is_empty(), "{subject:?} {grade} P{period}");
                 for seed in 0..40u64 {
-                    let placement = compose_placement(&weighted, seed).unwrap();
+                    let placement =
+                        compose_placement(&weighted, seed, Listening::Available).unwrap();
                     assert!(
                         !placement.is_empty() && placement.len() <= PLACEMENT_MAX_LENGTH,
                         "{subject:?} {grade} P{period}: {} questions",
@@ -463,7 +532,11 @@ fn placements_are_composed_from_the_skills_reached_without_duplicates() {
                     }
                     for (skill, _) in &weighted {
                         let asked = placement.iter().filter(|q| q.skill_id == skill.id).count();
-                        assert!(asked <= PLACEMENT_MAX_PER_SKILL, "{} asked {asked} times", skill.id);
+                        assert!(
+                            asked <= PLACEMENT_MAX_PER_SKILL,
+                            "{} asked {asked} times",
+                            skill.id
+                        );
                     }
                 }
             }
@@ -499,7 +572,7 @@ fn a_badly_written_word_is_refused() {
         format!(
             r#"{{"word": "bateau", "grades": ["CP"], "sounds": ["o"],
                 "graphemes": [{{"text": "eau", "sound": "o", "position": {position}}}],
-                "frequency": 1, "category": "nom", "source": "test"}}"#
+                "frequency": 1, "category": "nom", "article": "un", "source": "test"}}"#
         )
     };
     let write = |position: u32| {
@@ -525,4 +598,131 @@ fn a_badly_written_word_is_refused() {
         bad.problems
     );
     assert!(bad.value.find("bateau").is_none());
+}
+
+/// A word bank of one file in a temporary content folder (SUB026706).
+fn load_one_file(words: &str) -> educator_content::Loaded<educator_content::WordBank> {
+    use educator_content::{load_words, HOMOPHONES_FILE, SOUNDS_FILE, WORDS_FOLDER};
+    let dir = tempfile::tempdir().unwrap();
+    for file in [SOUNDS_FILE, HOMOPHONES_FILE] {
+        let path = dir.path().join(file);
+        std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+        std::fs::copy(content_dir().join(file), &path).unwrap();
+    }
+    std::fs::create_dir_all(dir.path().join(WORDS_FOLDER)).unwrap();
+    std::fs::write(
+        dir.path().join(WORDS_FOLDER).join("test.json"),
+        format!(r#"{{"words": [{words}]}}"#),
+    )
+    .unwrap();
+    load_words(dir.path())
+}
+
+fn word_json(word: &str, category: &str, extra: &str) -> String {
+    format!(
+        r#"{{"word": "{word}", "grades": ["CP"], "sounds": [], "graphemes": [],
+            "frequency": 1, "category": "{category}", {extra} "source": "test"}}"#
+    )
+}
+
+/// SUB026706: a noun is read with its article; a word with a pronunciation is read with it, and
+/// the word to write stays the word.
+#[test]
+fn a_word_is_read_with_its_article_or_its_pronunciation() {
+    let loaded = load_one_file(&format!(
+        "{}, {}, {}",
+        word_json("stylo", "nom", r#""article": "un","#),
+        word_json(
+            "fils",
+            "nom",
+            r#""article": "un", "pronunciation": "fisse","#
+        ),
+        word_json("très", "adverbe", ""),
+    ));
+    assert!(loaded.problems.is_empty(), "{:?}", loaded.problems);
+    let bank = loaded.value;
+
+    assert_eq!("un stylo.", bank.find("stylo").unwrap().reading());
+    assert_eq!("un fisse.", bank.find("fils").unwrap().reading());
+    assert_eq!("fils", bank.find("fils").unwrap().text);
+    assert_eq!("très,", bank.find("très").unwrap().reading());
+}
+
+/// SUB026706: a noun without its article, an article other than « un » / « une », an article on
+/// another word and an empty pronunciation are refused.
+#[test]
+fn articles_and_pronunciations_are_checked() {
+    for (word, problem) in [
+        (word_json("stylo", "nom", ""), "a noun needs its article"),
+        (
+            word_json("école", "nom", r#""article": "l'","#),
+            "article 'l'' is unknown",
+        ),
+        (
+            word_json("très", "adverbe", r#""article": "un","#),
+            "only a noun has an article",
+        ),
+        (
+            word_json("très", "adverbe", r#""pronunciation": " ","#),
+            "pronunciation must not be empty",
+        ),
+        (
+            word_json("très", "adverbe", r#""pronunciation": "trè  s","#),
+            "pronunciation must not be empty",
+        ),
+    ] {
+        let loaded = load_one_file(&word);
+        assert!(
+            loaded.problems.iter().any(|p| p.message.contains(problem)),
+            "{word}: {:?}",
+            loaded.problems
+        );
+        assert!(loaded.value.words.is_empty(), "{word}");
+    }
+}
+
+/// SUB026706: « prêt » and « près » sound the same: a homophone without its sentence is refused,
+/// whether it is in the list of common homophones or read like another word of the bank.
+#[test]
+fn a_homophone_without_its_sentence_is_refused() {
+    let listed = load_one_file(&word_json("près", "adverbe", ""));
+    assert!(
+        listed.problems.iter().any(|p| p
+            .message
+            .contains("'près': a homophone needs its example sentence")),
+        "{:?}",
+        listed.problems
+    );
+
+    let with_sentence = load_one_file(&word_json(
+        "près",
+        "adverbe",
+        r#""example": "J'habite près de l'école.","#,
+    ));
+    assert!(
+        with_sentence.problems.is_empty(),
+        "{:?}",
+        with_sentence.problems
+    );
+
+    // Two words of the bank read the same way.
+    let read_alike = load_one_file(&format!(
+        "{}, {}",
+        word_json("pomme", "nom", r#""article": "une","#),
+        word_json(
+            "paume",
+            "nom",
+            r#""article": "une", "pronunciation": "pomme","#
+        ),
+    ));
+    for word in ["pomme", "paume"] {
+        assert!(
+            read_alike
+                .problems
+                .iter()
+                .any(|p| p.message.contains(&format!("'{word}': a homophone"))),
+            "{word}: {:?}",
+            read_alike.problems
+        );
+    }
 }

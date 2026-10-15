@@ -77,7 +77,7 @@ function EditProfile({ profile, back }: { profile: Profile; back: string }) {
     <main className="screen">
       <header className="screen-header">
         <h1 className="title">{fr.profiles.editTitle(profile.name)}</h1>
-        <SpeakButton text={fr.profiles.editSpoken} autoPlay />
+        <SpeakButton text={fr.profiles.editSpoken} />
       </header>
       <form className="create-profile" onSubmit={submit}>
         <div className="create-fields">

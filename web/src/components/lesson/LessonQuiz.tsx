@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { AnswerPayload, Lesson, Series, SeriesAnswer, SeriesSummary } from "../../api/client";
-import { playVoice, useSpeech } from "../../audio/useSpeech";
+import { playVoice } from "../../audio/useSpeech";
 import { useApi } from "../../app/BackendContext";
 import { queryKeys } from "../../app/queries";
 import { fr } from "../../i18n/fr";
@@ -9,6 +9,7 @@ import { ChoiceGrid } from "../child/ChoiceGrid";
 import { Feedback } from "../child/Feedback";
 import { NumberPad } from "../child/NumberPad";
 import { SpeakButton } from "../child/SpeakButton";
+import { TortoiseIcon } from "../icons";
 import { SpellingAnswer } from "../spelling/SpellingAnswer";
 import { WordCorrection } from "../spelling/WordCorrection";
 
@@ -31,7 +32,6 @@ type LessonQuizProps = {
  */
 export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
   const api = useApi();
-  const speak = useSpeech();
   const [quiz, setQuiz] = useState<Series | null>(null);
   const [index, setIndex] = useState(0);
   const [value, setValue] = useState("");
@@ -85,7 +85,6 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
         open.current = null;
       }
       setAnswered({ outcome, given });
-      void speak(outcome.explanation);
     },
   });
 
@@ -144,11 +143,21 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
     <section className="exercise-card lesson-quiz" aria-live="polite">
       <div className="exercise-instruction">
         <span>{fr.lessons.quizProgress(index + 1, quiz.exercises.length)}</span>
-        <SpeakButton key={index} text={question.spokenPrompt} autoPlay compact />
+        <SpeakButton key={index} text={question.spokenPrompt} compact />
         {question.word && (
-          <button type="button" className="button" onClick={() => void playVoice(() => api.speakSeriesWord(quiz.seriesId, index))}>
-            {fr.spelling.listenWord}
-          </button>
+          <span className="word-listen">
+            <button type="button" className="button" onClick={() => void playVoice(() => api.speakSeriesWord(quiz.seriesId, index))}>
+              {fr.spelling.listenWord}
+            </button>
+            <button
+              type="button"
+              className="button"
+              onClick={() => void playVoice(() => api.speakSeriesWord(quiz.seriesId, index, false, true))}
+            >
+              <TortoiseIcon size={24} />
+              {fr.spelling.listenSlowly}
+            </button>
+          </span>
         )}
       </div>
 
@@ -168,6 +177,7 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
           key={`quiz-${index}`}
           before={null}
           after={null}
+          article={question.word?.article ?? null}
           maxLength={question.input.maxLength}
           disabled={check.isPending}
           onSubmit={(text) => submit({ kind: "text", value: text })}
@@ -200,6 +210,7 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
             message={answered.outcome.correct ? praise : fr.lessons.notQuite}
             detail={answered.outcome.explanation}
           />
+          <SpeakButton text={answered.outcome.explanation} compact />
           {answered.outcome.correction && !answered.outcome.correct && <WordCorrection correction={answered.outcome.correction} />}
           <button type="button" className="button button-primary" onClick={next} autoFocus>
             {fr.lessons.next}

@@ -7,6 +7,7 @@
   "title": "Les voyelles a, e, i, o, u, é",
   "instruction": "Écoute bien le mot, puis écris-le.",
   "operation": "spelling",
+  "theme": "lettersAndSounds",
   "words": {
     "grades": [
       "CP"

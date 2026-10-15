@@ -60,15 +60,26 @@ isCurrentPeriod: boolean,
  */
 revisionFrom: Grade | null, answerModes: Array<AnswerMode>, family: SkillFamily, 
 /**
+ * Family shown to the child: a color and a symbol on the card.
+ */
+category: SkillCategory, 
+/**
  * Spelling: the kinds of exercise offered (dictation, missing letters, the right spelling).
  */
 spellingFormats: Array<SpellingFormat>, 
+/**
+ * Spelling: the kinds of exercise where the word is only heard, which cannot be played
+ * without the voice (SUB026704).
+ */
+listeningFormats: Array<SpellingFormat>, 
 /**
  * Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
  */
 mastery: number | null, };
 
 export type SkillFamily = "Calculation" | "Multiplication" | "Numeration" | "DoubleHalf" | "Fraction" | "Problem" | "Spelling";
+
+export type SkillCategory = "Numbers" | "AddSubtract" | "Multiply" | "FractionsHalves" | "Problems" | "LettersAndSounds" | "SpellingRules" | "SilentLetters" | "Agreement" | "WordsToKnow";
 
 export type CharacterResponse = { id: string, name: string, kind: CharacterKind, };
 
@@ -174,7 +185,12 @@ missing: number | null,
 /**
  * The word can also be heard in a short sentence.
  */
-hasExample: boolean, };
+hasExample: boolean, 
+/**
+ * A noun: its article (« un », « une »), shown before the answer; the child writes the noun
+ * only. Null for the other words.
+ */
+article: string | null, };
 
 export type TokenResponse = { "kind": "number", value: number, } | { "kind": "sign", value: string, } | { "kind": "text", value: string, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "slot", slot: number, };
 
@@ -188,7 +204,7 @@ export type ChoiceResponse = { label: string, answer: AnswerPayload, };
 
 export type ComparisonSign = "<" | ">" | "=";
 
-export type AnswerPayload = { "kind": "number", value: number, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "comparison", sign: ComparisonSign, } | { "kind": "yesNo", value: boolean, } | { "kind": "sequence", values: Array<number>, } | { "kind": "set", values: Array<number>, } | { "kind": "text", value: string, } | { "kind": "timedOut", };
+export type AnswerPayload = { "kind": "number", value: number, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "comparison", sign: ComparisonSign, } | { "kind": "yesNo", value: boolean, } | { "kind": "sequence", values: Array<number>, } | { "kind": "set", values: Array<number>, } | { "kind": "text", value: string, } | { "kind": "timedOut" };
 
 export type SeriesAnswerResponse = { correct: boolean, expected: AnswerPayload, 
 /**
@@ -326,7 +342,11 @@ export type LessonSummaryResponse = { id: string, title: string, period: number,
 /**
  * True for the lessons of the current period.
  */
-isCurrentPeriod: boolean, durationMinutes: number, };
+isCurrentPeriod: boolean, durationMinutes: number, 
+/**
+ * Family of the main skill of the lesson (its first one), `null` when it is not loaded.
+ */
+category: SkillCategory | null, };
 
 export type LessonResponse = { id: string, title: string, subject: Subject, grade: Grade, 
 /**

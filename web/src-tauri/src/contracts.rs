@@ -255,8 +255,13 @@ pub struct SkillResponse {
     pub revision_from: Option<Grade>,
     pub answer_modes: Vec<AnswerMode>,
     pub family: SkillFamily,
+    /// Family shown to the child: a color and a symbol on the card.
+    pub category: SkillCategory,
     /// Spelling: the kinds of exercise offered (dictation, missing letters, the right spelling).
     pub spelling_formats: Vec<SpellingFormat>,
+    /// Spelling: the kinds of exercise where the word is only heard, which cannot be played
+    /// without the voice (SUB026704).
+    pub listening_formats: Vec<SpellingFormat>,
     /// Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
     pub mastery: Option<u8>,
 }
@@ -289,6 +294,41 @@ impl From<skills::SkillOperation> for SkillFamily {
     }
 }
 
+/// Family of a skill shown to the child (color and symbol of the cards of the exercises and the
+/// lessons): from the operation in math, from the theme in spelling.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub enum SkillCategory {
+    Numbers,
+    AddSubtract,
+    Multiply,
+    FractionsHalves,
+    Problems,
+    LettersAndSounds,
+    SpellingRules,
+    SilentLetters,
+    Agreement,
+    WordsToKnow,
+}
+
+impl From<skills::SkillCategory> for SkillCategory {
+    fn from(category: skills::SkillCategory) -> Self {
+        use skills::SkillCategory as C;
+        match category {
+            C::Numbers => SkillCategory::Numbers,
+            C::AddSubtract => SkillCategory::AddSubtract,
+            C::Multiply => SkillCategory::Multiply,
+            C::FractionsHalves => SkillCategory::FractionsHalves,
+            C::Problems => SkillCategory::Problems,
+            C::LettersAndSounds => SkillCategory::LettersAndSounds,
+            C::SpellingRules => SkillCategory::SpellingRules,
+            C::SilentLetters => SkillCategory::SilentLetters,
+            C::Agreement => SkillCategory::Agreement,
+            C::WordsToKnow => SkillCategory::WordsToKnow,
+        }
+    }
+}
+
 impl SkillResponse {
     pub fn offered(
         offered: &skills::OfferedSkill<'_>,
@@ -305,9 +345,16 @@ impl SkillResponse {
             revision_from: offered.revision_from.map(Into::into),
             answer_modes: skill.answer_modes.iter().map(|m| (*m).into()).collect(),
             family: skill.operation.into(),
+            category: skill.category().into(),
             spelling_formats: skill
                 .formats
                 .iter()
+                .filter_map(|f| SpellingFormat::from_format(*f))
+                .collect(),
+            listening_formats: skill
+                .formats
+                .iter()
+                .filter(|f| f.needs_listening())
                 .filter_map(|f| SpellingFormat::from_format(*f))
                 .collect(),
             mastery,
@@ -508,6 +555,9 @@ pub struct WordPromptResponse {
     pub missing: Option<u32>,
     /// The word can also be heard in a short sentence.
     pub has_example: bool,
+    /// A noun: its article (« un », « une »), shown before the answer; the child writes the noun
+    /// only. Null for the other words.
+    pub article: Option<String>,
 }
 
 impl From<&SpokenWord> for WordPromptResponse {
@@ -519,6 +569,7 @@ impl From<&SpokenWord> for WordPromptResponse {
                 .missing_count()
                 .map(|n| u32::try_from(n).unwrap_or(u32::MAX)),
             has_example: word.example.is_some(),
+            article: word.article.map(|a| a.as_str().to_owned()),
         }
     }
 }
@@ -1217,16 +1268,20 @@ pub struct LessonSummaryResponse {
     /// True for the lessons of the current period.
     pub is_current_period: bool,
     pub duration_minutes: u8,
+    /// Family of the main skill of the lesson (its first one), `null` when it is not loaded.
+    pub category: Option<SkillCategory>,
 }
 
 impl LessonSummaryResponse {
-    pub fn new(lesson: &Lesson, current_period: u8) -> Self {
+    /// `main_skill`: the first skill of the lesson, which gives its family.
+    pub fn new(lesson: &Lesson, current_period: u8, main_skill: Option<&skills::Skill>) -> Self {
         Self {
             id: lesson.id.clone(),
             title: lesson.title.clone(),
             period: lesson.period,
             is_current_period: lesson.period == current_period,
             duration_minutes: lesson.duration_minutes,
+            category: main_skill.map(|s| s.category().into()),
         }
     }
 }

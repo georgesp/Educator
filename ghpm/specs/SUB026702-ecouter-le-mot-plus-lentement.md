@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB026702 — Écouter le mot plus lentement
-status: Todo
+status: In Review
 size: S
 estimate:
 startDate:
@@ -29,5 +29,15 @@ En tant qu'enfant, je veux pouvoir réécouter un mot très lentement pour bien 
 
 ## Critères d'acceptation
 
-- [ ] Bouton utilisable à la souris et au clavier ; test Vitest.
+- [x] Bouton utilisable à la souris et au clavier ; test Vitest.
 - [ ] Écoute de contrôle par Georges : les mots lus à 0,5 restent naturels (sinon ajuster la vitesse et la noter ici).
+
+## Implémentation (2026-10-15)
+
+- Bouton « Plus lentement » (icône tortue, `TortoiseIcon`) à côté de « Réécouter le mot » dans les séries
+  d'orthographe et le quiz des leçons ; texte `fr.spelling.listenSlowly`.
+- Paramètre `slow` des commandes `speak_series_word` et `speak_word` : le mot est lu à 0,5 (`speech::speed::SLOW`,
+  Piper `--length_scale 2`) par un processus Piper dédié (SUB026708), puis servi par le cache.
+- Test Vitest : « « Plus lentement » reads the word very slowly, with the mouse or the keyboard ».
+- Reste (Georges) : écoute de contrôle à 0,5 — `scripts/listen-words.sh --sample 20 --slow` écrit aussi les fichiers
+  `…-lent.wav`.

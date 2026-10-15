@@ -7,6 +7,7 @@
   "title": "m devant m, b, p",
   "instruction": "Écoute bien le mot, puis écris-le.",
   "operation": "spelling",
+  "theme": "spellingRules",
   "words": {
     "grades": [
       "CE1"

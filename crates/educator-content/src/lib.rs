@@ -24,7 +24,7 @@ pub use characters::{
 };
 pub use directory::{find_content_directory, CONTENT_DIR_VARIABLE, FOLDER_NAME};
 pub use lessons::{
-    load_lessons, parse_lesson, Lessons, MAX_QUIZ, MAX_SLIDES, MAX_SPOKEN_LENGTH,
+    attach_words, load_lessons, parse_lesson, Lessons, MAX_QUIZ, MAX_SLIDES, MAX_SPOKEN_LENGTH,
     MIN_INTERACTIVE_SLIDES, MIN_QUIZ, MIN_SLIDES,
 };
 pub use mascot::{load_mascot, MAX_MASCOT_PHRASE, MIN_MASCOT_PHRASES};
@@ -36,8 +36,7 @@ pub use skills::{
 };
 pub use small::{load_calendar, load_points};
 pub use words::{
-    load_words, word_audio_file, WordBank, CATEGORIES, EXAMPLE_AUDIO_SPEED, SOUNDS_FILE,
-    WORDS_FOLDER, WORD_AUDIO_FOLDER, WORD_AUDIO_MANIFEST, WORD_AUDIO_SPEED,
+    load_words, WordBank, CATEGORIES, HOMOPHONES_FILE, NOUN, SOUNDS_FILE, WORDS_FOLDER,
 };
 
 use educator_core::points::PointsRules;
@@ -79,7 +78,7 @@ pub struct Loaded<T> {
 pub struct EducatorContent {
     pub directory: PathBuf,
     pub skills: Skills,
-    /// The words of the spelling skills (audio of the dictation, SUB001404).
+    /// The words of the spelling skills (read by the voice, ADR 0004).
     pub words: WordBank,
     pub lessons: Lessons,
     pub calendar: SchoolCalendar,
@@ -96,7 +95,8 @@ impl EducatorContent {
         let words = load_words(directory);
         let skills = load_skills_from(&directory.join("skills"), &bank.value, &words.value);
         let catalog = Skills::new(skills.value);
-        let lessons = load_lessons(&directory.join("lessons"), &catalog);
+        let mut lessons = load_lessons(&directory.join("lessons"), &catalog);
+        attach_words(&mut lessons.value, &words.value);
         let calendar = load_calendar(&directory.join("calendar").join("periods.json"));
         let points = load_points(&directory.join("rewards").join("points.json"));
         let characters = Characters::load(&directory.join("characters"));

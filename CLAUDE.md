@@ -40,13 +40,12 @@ Educator/
 │   ├── educator-core/      # Domaine + moteur d'exercices — code pur, aucune dépendance d'infrastructure
 │   ├── educator-content/   # Chargement / validation du contenu (JSON, SVG) + Piper (bureau)
 │   └── educator-data/      # SQLite : base, migrations, profils, réglages
-├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, banque de mots, sons, leçons, mascotte, personnages, calendrier, points) + schémas JSON
-│   └── audio/words/        # Audio des mots pré-généré par scripts/generate-word-audio (non commité, embarqué au build)
+├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, banque de mots, sons, homophones, leçons, mascotte, personnages, calendrier, points) + schémas JSON
 ├── web/                    # Front React + application Tauri (src-tauri/), voir web/README.md
 │   └── src/api/types.ts    # Types des commandes, générés depuis web/src-tauri/src/contracts.rs
-├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, generate-word-audio.sh / .ps1
+├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, listen-words.sh / .ps1
 ├── vendor/piper/           # Moteur Piper + voix, téléchargés par scripts/fetch-piper (non commités)
-├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust)
+├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust, 0004 voix en direct pour les mots, 0005 voix sur tablette — étude)
 ├── ghpm/                   # Backlog en fiches (voir ci-dessous)
 └── CLAUDE.md
 ```
@@ -92,7 +91,8 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
   binaire, `503` si la voix est indisponible).
 - Lot 2 : `start_exam`, `get_timed_challenge`, `start_timed`, `finish_series` (fin d'un défi chrono seulement),
   `list_lessons`, `get_lesson`, `save_lesson_progress`, `start_lesson_quiz`, `speak_series_word` (mot d'une dictée,
-  jamais envoyé au front avant la réponse), `speak_word`, `get_mascot`, `get_mascot_phrase`.
+  jamais envoyé au front avant la réponse ; `example` : sa phrase, `slow` : « Plus lentement »), `speak_word`,
+  `get_mascot`, `get_mascot_phrase`.
 - Lot 3 (espace parent) : `get_parent_gate` (barrière « adulte », tirée à chaque appel), `check_parent_gate`
   (toute réponse consomme la barrière : `educator-core::parent_gate`), `get_profile_statistics` (statistiques d'un
   profil calculées par `educator-core::statistics` à partir des séances et réponses enregistrées),
@@ -104,9 +104,21 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
 
 ## Synthèse vocale (Piper)
 
-Voir `docs/adr/0002-voix-piper.md`. Le trait `SpeechSynthesizer` (`educator-core`) est implémenté par
-`PiperSpeechSynthesizer` (`educator-content::speech`, compilé seulement sur le bureau) : un processus
-`piper --json-input` longue durée, préchauffé au démarrage, avec un cache disque (`SpeechCache`).
+Voir `docs/adr/0002-voix-piper.md` et `docs/adr/0004-voix-en-direct-pour-les-mots.md`. Le trait `SpeechSynthesizer`
+(`educator-core`) est implémenté par `PiperSpeechSynthesizer` (`educator-content::speech`, compilé seulement sur le
+bureau) : un processus `piper --json-input` longue durée **par vitesse** (consignes 0,9 et mots 0,85 préchauffés au
+démarrage ; écoute lente 0,5 arrêtée après 2 min sans demande), avec un cache disque plafonné à 30 Mo
+(`SpeechCache`, éviction des moins récemment lus).
+
+- Mots d'orthographe lus **en direct**, sans fichier pré-généré : un nom avec son article (« un stylo. »), les autres
+  mots suivis d'une virgule (« beau, ») ; mot et phrase à la même vitesse ; champ `pronunciation` pour corriger une
+  prononciation ; un homophone a toujours sa phrase. Les mots d'une série sont préparés en arrière-plan
+  (`educator_core::speech::SpeechPreparer`) : la demande de l'enfant passe avant, jamais deux synthèses du même mot.
+- Sans voix, la dictée et « Choisis la bonne écriture » sont grisées ; les examens n'ont que des questions jouables
+  sans écoute.
+- **Rien n'est lu tout seul** (décision du 2026-10-15) : la voix ne part qu'au clic sur un bouton (« Écouter le mot »,
+  haut-parleurs `SpeakButton`, qui n'a plus de lecture automatique).
+- Écoute de contrôle : `scripts/listen-words.sh` / `.ps1` (`--sample`, `--skill`, `--slow`, `--again`).
 
 - Installation en dev : `scripts/fetch-piper.sh` (macOS / Linux) ou `scripts/fetch-piper.ps1` (Windows).
 - Sur macOS, Piper est un binaire Intel : Rosetta 2 est nécessaire sur Apple Silicon.
@@ -152,7 +164,7 @@ cargo fmt --all
 cd web && npm install
 cd web && npm run tauri dev            # application complète
 cd web && npm run api:generate         # après une modification des contrats
-scripts/generate-word-audio.sh         # audio des mots d'orthographe (après ajout ou modification de mots)
+scripts/listen-words.sh --sample 50    # écoute de contrôle des mots (après ajout ou modification de mots)
 cd web && npm run build && npm test && npm run test:e2e
 ```
 

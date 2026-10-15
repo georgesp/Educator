@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0267 — Lot 2bis — Voix en direct pour les mots d'orthographe
-status: Todo
+status: In progress
 size: L
 estimate:
 startDate:
@@ -45,7 +45,7 @@ Prises par Georges après écoute d'extraits générés avec la voix `fr_FR-siwi
 
 - **Même vitesse pour le mot et sa phrase : 0,85.** Avec 0,75 pour le mot et 0,9 pour la phrase, le même mot ne sonnait pas pareil.
 - **Les noms sont lus avec leur article** : « un stylo. », « une école. ». Seul au début d'une lecture, un nom perd souvent sa première consonne (« stylo » entendu « sylo » : le « t » est dans la phonétique, `stilˈo`, mais la voix l'avale en début de lecture). L'article règle le problème et donne le genre du nom.
-- **Les autres mots sont lus suivis d'un point** : « très. », « gris. » (préféré au point d'exclamation).
+- **Les autres mots sont lus suivis d'une virgule** : « très, », « beau, » (décision du 2026-10-15, qui remplace le point du 2026-10-14 : « beau. » était entendu « beu »).
 - **Les homophones ont toujours leur phrase** : « prêt » et « près » lus seuls sont le même son ; seule la phrase permet de choisir.
 - Piper tire du hasard à chaque lecture (`noise_scale` 0,667, `noise_w` 0,8 dans la configuration de la voix) : deux lectures du même mot diffèrent. Le cache garde la première ; une lecture ratée doit pouvoir être refaite.
 
@@ -61,6 +61,17 @@ Lire les mots d'orthographe avec la voix en direct, sans fichiers pré-généré
 ## Critères d'acceptation
 
 - [ ] Toutes les sous-issues sont terminées.
-- [ ] Aucun fichier audio de mot n'est embarqué ; la taille de l'application ne dépend plus du nombre de mots.
-- [ ] Sur le Mac de Georges (Rosetta), un mot de dictée est entendu moins de 200 ms après l'affichage ou le clic, phrase comprise une fois préparée.
-- [ ] ADR 0004 « Voix en direct pour les mots » rédigé (remplace la partie pré-génération de SUB001404).
+- [x] Aucun fichier audio de mot n'est embarqué ; la taille de l'application ne dépend plus du nombre de mots.
+- [ ] Sur le Mac de Georges (Rosetta), un mot de dictée est entendu moins de 200 ms après le clic, phrase comprise une fois préparée.
+- [x] ADR 0004 « Voix en direct pour les mots » rédigé (remplace la partie pré-génération de SUB001404).
+
+## Avancement (2026-10-15)
+
+- Fait : SUB026701, SUB026704, SUB026707 (Done) ; SUB026702, SUB026705, SUB026706, SUB026708 (In Review : écoutes
+  et mesures sur le Mac de Georges) ; SUB026703 (In progress : partie documentaire faite, ADR 0005, mesures sur
+  iPad au lot tablette).
+- Décision du 2026-10-15 : les consignes restent lues à 0,9.
+- ADR 0004 « Voix en direct pour les mots », ADR 0005 « Voix sur tablette » (étude).
+- Décisions du 2026-10-15 (essais de Georges) : plus aucune lecture automatique dans l'application, la voix ne part
+  qu'au clic (« Écoute » était coupé à l'ouverture de l'exercice) ; les mots autres que les noms sont lus suivis
+  d'une virgule (« beau. » était entendu « beu »). Voir ADR 0004.

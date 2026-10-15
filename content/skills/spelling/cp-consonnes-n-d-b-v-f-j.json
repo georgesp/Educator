@@ -7,6 +7,7 @@
   "title": "Les consonnes n, d, b, v, f, j",
   "instruction": "Écoute bien le mot, puis écris-le.",
   "operation": "spelling",
+  "theme": "lettersAndSounds",
   "words": {
     "grades": [
       "CP"

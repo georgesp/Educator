@@ -8,8 +8,8 @@ use crate::{ContentProblem, Loaded};
 use educator_core::exercises::{distinct_count, ProblemSet};
 use educator_core::skills::{
     AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, Progression, Skill,
-    SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture, Subject,
-    TrivialCase, FIRST_PERIOD, LAST_PERIOD,
+    SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture, SpellingTheme,
+    Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
 };
 use educator_core::spelling::{WordFilter, WordSet};
 use educator_core::Grade;
@@ -183,6 +183,7 @@ struct SkillFile {
     fractions: Option<FractionsFile>,
     problems: Option<ProblemsFile>,
     words: Option<WordFilterFile>,
+    theme: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -507,6 +508,13 @@ pub fn parse_skill_in(
     Ok(skill)
 }
 
+const THEMES: &[(&str, SpellingTheme)] = &[
+    ("lettersAndSounds", SpellingTheme::LettersAndSounds),
+    ("spellingRules", SpellingTheme::SpellingRules),
+    ("silentLetters", SpellingTheme::SilentLetters),
+    ("agreement", SpellingTheme::Agreement),
+    ("wordsToKnow", SpellingTheme::WordsToKnow),
+];
 const SUBJECTS: &[(&str, Subject)] = &[("math", Subject::Math), ("spelling", Subject::Spelling)];
 const GRADES: &[(&str, Grade)] = &[
     ("CP", Grade::CP),
@@ -611,6 +619,7 @@ fn family_params(
         &[SkillOperation::Problem],
     );
     only_for(file.words.is_some(), "words", &[SkillOperation::Spelling]);
+    only_for(file.theme.is_some(), "theme", &[SkillOperation::Spelling]);
 
     let operand = |o: &OperandFile| OperandRule {
         min: o.min,
@@ -756,10 +765,16 @@ fn family_params(
                 });
             }
         },
-        SkillOperation::Spelling => match &file.words {
-            None => errors.push("words is required for spelling.".to_owned()),
-            Some(filter) => params.words = word_set(filter, formats, words, errors),
-        },
+        SkillOperation::Spelling => {
+            match &file.words {
+                None => errors.push("words is required for spelling.".to_owned()),
+                Some(filter) => params.words = word_set(filter, formats, words, errors),
+            }
+            match &file.theme {
+                None => errors.push("theme is required for spelling.".to_owned()),
+                Some(theme) => params.theme = parse_enum(theme, "theme", THEMES, errors),
+            }
+        }
         _ => {}
     }
 

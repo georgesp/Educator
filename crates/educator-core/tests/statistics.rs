@@ -270,7 +270,13 @@ fn a_finished_placement_is_listed_with_the_exams_and_an_abandoned_one_is_ignored
     assert_eq!(6, statistics.summary.answer_count);
     assert_eq!(1, statistics.tests.len());
     assert_eq!(SessionType::Placement, statistics.tests[0].session_type);
-    assert_eq!((4, 6), (statistics.tests[0].correct_count, statistics.tests[0].question_count));
+    assert_eq!(
+        (4, 6),
+        (
+            statistics.tests[0].correct_count,
+            statistics.tests[0].question_count
+        )
+    );
     assert_eq!(1, statistics.skills.len());
     assert_eq!("add", statistics.skills[0].skill_id);
     assert_eq!(6, statistics.skills[0].answer_count);

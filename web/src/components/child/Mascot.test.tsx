@@ -1,4 +1,5 @@
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
 import { setMascotHidden } from "../../app/settings";
 import { setVoiceEnabled } from "../../audio/useSpeech";
@@ -7,7 +8,7 @@ import { fakeApi, renderApp } from "../../test/renderWithApp";
 describe("Mascot (SUB001417)", () => {
   afterEach(() => setMascotHidden(false));
 
-  it("presents the lesson at its start and reads her phrase", async () => {
+  it("presents the lesson at its start and reads her phrase on click only", async () => {
     setVoiceEnabled(true);
     const api = fakeApi();
     renderApp(api, "/lecons/maths/ce1-add-9-19-29");
@@ -15,8 +16,10 @@ describe("Mascot (SUB001417)", () => {
     expect(await screen.findByText("Aujourd'hui, on apprend : Ajouter 9, 19 ou 29.")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Plume" })).toBeInTheDocument();
     expect(api.getMascotPhrase).toHaveBeenCalledWith("LessonStart", "Ajouter 9, 19 ou 29");
-    await screen.findByTestId("mascot");
+    const mascot = await screen.findByTestId("mascot");
     await new Promise((r) => setTimeout(r, 50));
+    expect(api.speak).not.toHaveBeenCalled();
+    await userEvent.setup().click(within(mascot).getByRole("button", { name: "Écouter" }));
     expect(api.speak).toHaveBeenCalledWith("Aujourd'hui, on apprend : Ajouter 9, 19 ou 29.");
   });
 

@@ -17,6 +17,10 @@ parent: "#14"
 order: 370
 ---
 
+> **Remplacée par le lot 2bis** (US0267, ADR 0004, 2026-10-15) : les mots sont lus par la voix en direct ; le script
+> de pré-génération, l'exemple `generate_word_audio` et le dossier `content/audio/` ont été retirés (SUB026707).
+> Les critères restants (délai, écoute de contrôle des 50 mots) sont repris par SUB026705 et SUB026706.
+
 ## User story
 
 En tant qu'enfant, je veux entendre le mot à écrire immédiatement afin de ne pas attendre pendant la dictée.

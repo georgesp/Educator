@@ -17,7 +17,10 @@ describe("SeriesScreen", () => {
     const input = await screen.findByLabelText("Ta réponse");
     expect(screen.getByLabelText("3 + 4 = ?")).toBeInTheDocument();
     expect(api.startSeries).toHaveBeenCalledWith("p-lea", "cp-add-sum-10", "Keyboard");
-    expect(api.speak).toHaveBeenCalledWith("Calcule. Combien font 3 plus 4 ?");
+    // Nothing is read by itself: the speaker reads the question on click.
+    expect(api.speak).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "Écouter" }));
+    expect(api.speak).toHaveBeenCalledWith("Combien font 3 plus 4 ?");
 
     await user.type(input, "a7{Enter}");
     expect(api.answerSeries).toHaveBeenCalledWith("s1", 0, { kind: "number", value: 7 }, expect.any(Number));
@@ -29,6 +32,8 @@ describe("SeriesScreen", () => {
     await user.click(screen.getAllByRole("button", { name: "Valider" })[0]);
 
     expect(await screen.findByText("5 + 4 = 9")).toBeInTheDocument();
+    expect(api.speak).not.toHaveBeenCalledWith("5 + 4 = 9");
+    await user.click(screen.getByRole("button", { name: "Écouter la correction" }));
     expect(api.speak).toHaveBeenCalledWith("5 + 4 = 9");
     await user.click(screen.getByRole("button", { name: "Suivant" }));
 
@@ -50,6 +55,8 @@ describe("SeriesScreen", () => {
 
     expect(await screen.findByText("2 bonnes réponses sur 2", {}, { timeout: AUTO_NEXT_DELAY_MS + 1000 })).toBeInTheDocument();
     expect(screen.getByTestId("fireworks")).toHaveAccessibleName("Bravo, tout est juste !");
+    expect(api.speak).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "Écouter le bilan" }));
     expect(api.speak).toHaveBeenLastCalledWith(expect.stringMatching(/^Bravo, tout est juste ! Série terminée !/));
     // The buttons of the summary stay usable during the animation.
     expect(screen.getByRole("button", { name: "Recommencer" })).toBeEnabled();

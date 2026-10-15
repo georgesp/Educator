@@ -174,6 +174,48 @@ pub struct Grapheme {
     pub position: usize,
 }
 
+/// The article a noun is read with (« un stylo. », SUB026706): « un » or « une », never « le » nor
+/// « l' », which would merge with a vowel.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum Article {
+    Un,
+    Une,
+}
+
+impl Article {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Article::Un => "un",
+            Article::Une => "une",
+        }
+    }
+}
+
+impl std::str::FromStr for Article {
+    type Err = ();
+
+    fn from_str(text: &str) -> std::result::Result<Self, ()> {
+        match text {
+            "un" => Ok(Article::Un),
+            "une" => Ok(Article::Une),
+            _ => Err(()),
+        }
+    }
+}
+
+/// The text read for a word alone (decision of 2026-10-14, SUB026706): a noun with its article
+/// (« un stylo. » — alone at the start of a reading, a noun often loses its first consonant), any
+/// other word followed by a comma (« beau, »: decision of 2026-10-15 — followed by a period, a short
+/// word is often read wrong, « beau. » sounds « beu »). `pronunciation` replaces the word when the voice
+/// reads it wrong (« fils » → « fisse »).
+pub fn word_reading(text: &str, article: Option<Article>, pronunciation: Option<&str>) -> String {
+    let said = pronunciation.unwrap_or(text);
+    match article {
+        Some(article) => format!("{} {said}.", article.as_str()),
+        None => format!("{said},"),
+    }
+}
+
 /// A word of the bank.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Word {
@@ -186,10 +228,19 @@ pub struct Word {
     pub category: String,
     /// A short sentence with the word, read after it (homophones: « vert », « verre », « ver »).
     pub example: Option<String>,
+    /// Nouns: the article they are read and shown with (« un [______] »).
+    pub article: Option<Article>,
+    /// What the voice reads instead of the word, when it reads it wrong.
+    pub pronunciation: Option<String>,
     pub source: String,
 }
 
 impl Word {
+    /// The text read for the word alone: [`word_reading`].
+    pub fn reading(&self) -> String {
+        word_reading(&self.text, self.article, self.pronunciation.as_deref())
+    }
+
     /// The letters before and after a grapheme of the word.
     pub fn around(&self, grapheme: &Grapheme) -> (String, String) {
         let letters: Vec<char> = self.text.chars().collect();
@@ -276,17 +327,60 @@ impl WordFilter {
     }
 }
 
-/// The word read in an exercise (pre-generated audio, SUB001404) and, for the missing letters, the
-/// letters around the blank.
+/// The word read in an exercise (voice, ADR 0004) and, for the missing letters, the letters around
+/// the blank.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct SpokenWord {
     pub word: String,
     pub example: Option<String>,
     /// Missing letters: the letters before and after the blank.
     pub blank: Option<(String, String)>,
+    /// Nouns: the article shown before the answer (the child writes the noun only).
+    pub article: Option<Article>,
+    /// The text read for the word alone (« un stylo. »).
+    pub reading: String,
 }
 
 impl SpokenWord {
+    /// A word of the bank, read with its article or its pronunciation.
+    pub fn of(word: &Word, blank: Option<(String, String)>) -> Self {
+        Self {
+            word: word.text.clone(),
+            example: word.example.clone(),
+            blank,
+            article: word.article,
+            reading: word.reading(),
+        }
+    }
+
+    /// A word that is not in the bank (a lesson quiz): read followed by a comma.
+    pub fn plain(word: impl Into<String>) -> Self {
+        let word = word.into();
+        Self {
+            reading: word_reading(&word, None, None),
+            word,
+            example: None,
+            blank: None,
+            article: None,
+        }
+    }
+
+    /// What the voice reads: the word alone or its sentence (`example`), at the speed of the words
+    /// or slowly (SUB026702). `None` when there is no sentence.
+    pub fn speech(&self, example: bool, slow: bool) -> Option<crate::speech::Reading> {
+        let text = if example {
+            self.example.as_deref()?
+        } else {
+            self.reading.as_str()
+        };
+        let speed = if slow {
+            crate::speech::speed::SLOW
+        } else {
+            crate::speech::speed::WORDS
+        };
+        Some(crate::speech::Reading::new(text, speed))
+    }
+
     /// Missing letters: how many letters the blank hides; the child sees as many dashes
     /// (« bat___ », SUB001407).
     pub fn missing_count(&self) -> Option<usize> {
@@ -356,17 +450,12 @@ mod tests {
     #[test]
     fn the_blank_tells_how_many_letters_are_missing() {
         let blank = |before: &str, after: &str| SpokenWord {
-            word: "bateau".to_owned(),
-            example: None,
             blank: Some((before.to_owned(), after.to_owned())),
+            ..SpokenWord::plain("bateau")
         };
         assert_eq!(Some(3), blank("bat", "").missing_count());
         assert_eq!(Some(1), blank("", "ateau").missing_count());
-        let whole = SpokenWord {
-            word: "bateau".to_owned(),
-            example: None,
-            blank: None,
-        };
+        let whole = SpokenWord::plain("bateau");
         assert_eq!(None, whole.missing_count());
     }
 
@@ -434,12 +523,49 @@ mod tests {
     #[test]
     fn missing_letters_complete_the_word() {
         let spoken = SpokenWord {
-            word: "bateau".to_owned(),
-            example: None,
             blank: Some(("bat".to_owned(), String::new())),
+            ..SpokenWord::plain("bateau")
         };
         assert_eq!("bateau", spoken.completed(" eau "));
         assert_eq!("batau", spoken.completed("au"));
+    }
+
+    #[test]
+    fn a_noun_is_read_with_its_article_any_other_word_with_a_comma() {
+        let mut stylo = word("stylo", &[]);
+        assert_eq!("un stylo.", stylo.reading());
+        stylo.article = Some(Article::Une);
+        stylo.text = "école".to_owned();
+        assert_eq!("une école.", stylo.reading());
+        let mut tres = word("très", &[]);
+        tres.article = None;
+        tres.category = "adverbe".to_owned();
+        assert_eq!("très,", tres.reading());
+        let mut fils = word("fils", &[]);
+        fils.pronunciation = Some("fisse".to_owned());
+        assert_eq!("un fisse.", fils.reading());
+        assert_eq!("fils", SpokenWord::of(&fils, None).word);
+    }
+
+    /// SUB026708: the word and its sentence at the same speed (0.85), the slow listening at 0.5.
+    #[test]
+    fn the_word_and_its_sentence_are_read_at_the_same_speed() {
+        let mut stylo = word("stylo", &[]);
+        stylo.example = Some("J'écris avec un stylo.".to_owned());
+        let spoken = SpokenWord::of(&stylo, None);
+
+        let alone = spoken.speech(false, false).unwrap();
+        let sentence = spoken.speech(true, false).unwrap();
+        let slow = spoken.speech(false, true).unwrap();
+
+        assert_eq!(("un stylo.", 0.85), (alone.text.as_str(), alone.speed));
+        assert_eq!(
+            ("J'écris avec un stylo.", 0.85),
+            (sentence.text.as_str(), sentence.speed)
+        );
+        assert_eq!(("un stylo.", 0.5), (slow.text.as_str(), slow.speed));
+        assert!(SpokenWord::plain("hibou").speech(true, false).is_none());
+        assert_eq!("hibou,", SpokenWord::plain("hibou").reading);
     }
 
     fn word(text: &str, graphemes: &[(&str, &str, usize)]) -> Word {
@@ -458,6 +584,8 @@ mod tests {
             frequency: 1,
             category: "nom".to_owned(),
             example: None,
+            article: Some(Article::Un),
+            pronunciation: None,
             source: "Tests".to_owned(),
         }
     }

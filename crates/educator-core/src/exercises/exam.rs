@@ -3,9 +3,9 @@
 
 use super::{distinct_count, generate_series_as, Exercise};
 use crate::random::SeededRng;
-use crate::skills::{AnswerMode, OfferedSkill, Skill};
+use crate::skills::{AnswerMode, ExerciseFormat, OfferedSkill, Skill};
 use crate::{Error, Result};
-use rand::seq::SliceRandom;
+use rand::seq::{IndexedRandom, SliceRandom};
 use rand::{Rng, SeedableRng};
 use std::collections::HashSet;
 
@@ -160,13 +160,43 @@ fn mode_for(skill: &Skill, prefer_choice: bool, random: &mut impl Rng) -> Answer
     }
 }
 
+/// The voice: whether the exercises where the word is only heard can be asked (SUB026704).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Listening {
+    Available,
+    /// No voice: no dictation, no « Choisis la bonne écriture ».
+    Unavailable,
+}
+
+/// The formats of a skill playable without the voice: `None` when the skill needs no voice (any
+/// format), an empty list when it cannot be played at all.
+fn formats_without_voice(skill: &Skill) -> Option<Vec<ExerciseFormat>> {
+    skill.formats.iter().any(|f| f.needs_listening()).then(|| {
+        skill
+            .formats
+            .iter()
+            .copied()
+            .filter(|f| !f.needs_listening())
+            .collect()
+    })
+}
+
+/// Whether a skill can give questions: always with the voice, without it only when one of its
+/// formats is written.
+fn playable(skill: &Skill, listening: Listening) -> bool {
+    listening == Listening::Available
+        || formats_without_voice(skill).is_none_or(|formats| !formats.is_empty())
+}
+
 /// Composes the questions: `counts[i]` questions of `skills[i]`, never twice the same question
-/// (same written prompt), shuffled, numbered from 0.
+/// (same written prompt), shuffled, numbered from 0. Without the voice, only the formats that do
+/// not need it.
 fn compose(
     skills: &[&Skill],
     counts: &[usize],
     seed: u64,
     prefer_choice: bool,
+    listening: Listening,
 ) -> Result<Vec<ComposedQuestion>> {
     let mut random = SeededRng::seed_from_u64(seed);
     let mut questions: Vec<ComposedQuestion> = Vec::new();
@@ -177,15 +207,22 @@ fn compose(
         }
 
         let mode = mode_for(skill, prefer_choice, &mut random);
+        let format = match (listening, formats_without_voice(skill)) {
+            (Listening::Unavailable, Some(formats)) => match formats.choose(&mut random) {
+                Some(format) => Some(*format),
+                None => continue,
+            },
+            _ => None,
+        };
         // A few more than needed, to skip a question already asked by another skill; counting the
         // different questions of the skill (costly: thousands of draws) only when it has too few.
         let generated = [count + 4, count]
             .into_iter()
-            .find_map(|n| generate_series_as(skill, random.random(), mode, n, None).ok())
+            .find_map(|n| generate_series_as(skill, random.random(), mode, n, format).ok())
             .map_or_else(
                 || {
                     let available = distinct_count(skill).max(1);
-                    generate_series_as(skill, random.random(), mode, count.min(available), None)
+                    generate_series_as(skill, random.random(), mode, count.min(available), format)
                 },
                 Ok,
             )?;
@@ -213,8 +250,23 @@ fn compose(
     Ok(questions)
 }
 
-/// The 15 questions of an exam (SUB001414) from the weighted skills.
-pub fn compose_exam(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<ComposedQuestion>> {
+/// The skills playable with or without the voice.
+fn playable_skills<'a>(skills: &[(&'a Skill, u32)], listening: Listening) -> Vec<(&'a Skill, u32)> {
+    skills
+        .iter()
+        .copied()
+        .filter(|(skill, _)| playable(skill, listening))
+        .collect()
+}
+
+/// The 15 questions of an exam (SUB001414) from the weighted skills; without the voice, only
+/// questions that can be answered without hearing the word (SUB026704).
+pub fn compose_exam(
+    skills: &[(&Skill, u32)],
+    seed: u64,
+    listening: Listening,
+) -> Result<Vec<ComposedQuestion>> {
+    let skills = &playable_skills(skills, listening)[..];
     if skills.is_empty() {
         return Err(Error::SeriesRequest("No skill for an exam.".to_owned()));
     }
@@ -223,7 +275,7 @@ pub fn compose_exam(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<ComposedQ
     let weights: Vec<u32> = skills.iter().map(|(_, w)| *w).collect();
     let counts = plan_questions(&weights, EXAM_LENGTH, &mut random);
     let list: Vec<&Skill> = skills.iter().map(|(s, _)| *s).collect();
-    compose(&list, &counts, seed, false)
+    compose(&list, &counts, seed, false, listening)
 }
 
 /// Skills in a weighted random order: the heavier a skill, the likelier it comes early.
@@ -265,8 +317,13 @@ pub fn plan_placement(weights: &[u32], random: &mut impl Rng) -> Vec<usize> {
 }
 
 /// The questions of a level assessment from the weighted skills of the grade (same skills and
-/// weights as an exam): 2 or 3 per skill, 30 at most.
-pub fn compose_placement(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<ComposedQuestion>> {
+/// weights as an exam): 2 or 3 per skill, 30 at most; without the voice, as [`compose_exam`].
+pub fn compose_placement(
+    skills: &[(&Skill, u32)],
+    seed: u64,
+    listening: Listening,
+) -> Result<Vec<ComposedQuestion>> {
+    let skills = &playable_skills(skills, listening)[..];
     if skills.is_empty() {
         return Err(Error::SeriesRequest(
             "No skill for a level assessment.".to_owned(),
@@ -277,12 +334,22 @@ pub fn compose_placement(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<Comp
     let weights: Vec<u32> = skills.iter().map(|(_, w)| *w).collect();
     let counts = plan_placement(&weights, &mut random);
     let list: Vec<&Skill> = skills.iter().map(|(s, _)| *s).collect();
-    compose(&list, &counts, seed, false)
+    compose(&list, &counts, seed, false, listening)
 }
 
 /// The questions of a timed challenge (SUB001415): the skills already mastered, in equal shares,
-/// picked answers when the skill allows them (faster).
-pub fn compose_timed(skills: &[&Skill], seed: u64) -> Result<Vec<ComposedQuestion>> {
+/// picked answers when the skill allows them (faster); without the voice, as [`compose_exam`].
+pub fn compose_timed(
+    skills: &[&Skill],
+    seed: u64,
+    listening: Listening,
+) -> Result<Vec<ComposedQuestion>> {
+    let skills: Vec<&Skill> = skills
+        .iter()
+        .copied()
+        .filter(|skill| playable(skill, listening))
+        .collect();
+    let skills = &skills[..];
     if skills.is_empty() {
         return Err(Error::SeriesRequest(
             "No skill mastered enough for a timed challenge.".to_owned(),
@@ -303,6 +370,7 @@ pub fn compose_timed(skills: &[&Skill], seed: u64) -> Result<Vec<ComposedQuestio
             &counts,
             seed.wrapping_add(round * 7919),
             true,
+            listening,
         )?);
     }
     questions.truncate(TIMED_LENGTH);
@@ -338,7 +406,8 @@ mod tests {
             assert!(
                 counts
                     .iter()
-                    .all(|&c| c == 0 || (PLACEMENT_MIN_PER_SKILL..=PLACEMENT_MAX_PER_SKILL).contains(&c)),
+                    .all(|&c| c == 0
+                        || (PLACEMENT_MIN_PER_SKILL..=PLACEMENT_MAX_PER_SKILL).contains(&c)),
                 "{skill_count}: {counts:?}"
             );
             // Three questions per skill while 30 allows it, otherwise as many thirds as fit.

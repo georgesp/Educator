@@ -37,11 +37,7 @@ pub fn draw(
 }
 
 fn spoken_word(entry: &SkillWord, blank: Option<(String, String)>) -> SpokenWord {
-    SpokenWord {
-        word: entry.word.text.clone(),
-        example: entry.word.example.clone(),
-        blank,
-    }
+    SpokenWord::of(&entry.word, blank)
 }
 
 /// A worked grapheme of the word, at random (`None` for a skill of whole words).
@@ -374,6 +370,8 @@ mod tests {
                 frequency: 1,
                 category: "nom".to_owned(),
                 example: None,
+                article: None,
+                pronunciation: None,
                 source: "Tests".to_owned(),
             },
             worked: (0..graphemes.len()).collect(),

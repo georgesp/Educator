@@ -16,6 +16,7 @@ export type Skills = Types.SkillsResponse;
 export type Skill = Types.SkillResponse;
 export type Series = Types.SeriesResponse;
 export type SkillFamily = Types.SkillFamily;
+export type SkillCategory = Types.SkillCategory;
 export type Exercise = Types.ExerciseResponse;
 export type Token = Types.TokenResponse;
 export type Picture = Types.PictureResponse;

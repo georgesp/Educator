@@ -159,7 +159,13 @@ fn an_abandoned_placement_is_left_out_of_every_reading_and_a_finished_one_counts
     f.sessions.add_session(&open).unwrap();
     for (index, right) in [true, false, true].into_iter().enumerate() {
         f.sessions
-            .add_answer(&answer(open.id, index as u32, "a", right, now + 100 + index as i64))
+            .add_answer(&answer(
+                open.id,
+                index as u32,
+                "a",
+                right,
+                now + 100 + index as i64,
+            ))
             .unwrap();
     }
     // A finished one, later.
@@ -187,11 +193,20 @@ fn an_abandoned_placement_is_left_out_of_every_reading_and_a_finished_one_counts
     assert!(f.sessions.session(open.id).unwrap().unwrap().abandoned);
     assert_eq!(3, f.sessions.answers(open.id).unwrap().len());
     let sessions = f.sessions.profile_sessions(f.profile.id).unwrap();
-    assert_eq!(vec![done.id], sessions.iter().map(|s| s.id).collect::<Vec<_>>());
+    assert_eq!(
+        vec![done.id],
+        sessions.iter().map(|s| s.id).collect::<Vec<_>>()
+    );
     let answers = f.sessions.profile_answers(f.profile.id).unwrap();
-    assert_eq!(vec![done.id], answers.iter().map(|a| a.session_id).collect::<Vec<_>>());
+    assert_eq!(
+        vec![done.id],
+        answers.iter().map(|a| a.session_id).collect::<Vec<_>>()
+    );
     assert_eq!(1, f.sessions.answer_count(f.profile.id, "a").unwrap());
-    assert_eq!(vec![true], f.sessions.recent_results(f.profile.id, "a", 20).unwrap());
+    assert_eq!(
+        vec![true],
+        f.sessions.recent_results(f.profile.id, "a", 20).unwrap()
+    );
 }
 
 #[test]

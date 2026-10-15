@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import type { Grade, Lesson, Profile, SeriesSummary } from "../api/client";
 import { playSound } from "../audio/sounds";
-import { stopSpeech, useSpeech, useVoiceWhile } from "../audio/useSpeech";
+import { stopSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
 import { queryKeys, useSkills } from "../app/queries";
 import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
@@ -69,7 +69,6 @@ function LessonPlayer({ lesson, profile, back }: { lesson: Lesson; profile: Prof
   const api = useApi();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const speak = useSpeech();
   const move = useMove();
   const grade: Grade = profile.grade;
   const [phase, setPhase] = useState<Phase>(() =>
@@ -100,7 +99,6 @@ function LessonPlayer({ lesson, profile, back }: { lesson: Lesson; profile: Prof
     void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
     const perfect = summary.correctCount === summary.exerciseCount;
     playSound(perfect ? "celebration" : "finished");
-    void speak(fr.lessons.finishedSpoken(summary.correctCount, summary.exerciseCount));
   };
 
   // « Je m'entraîne »: the exercises of each skill of the lesson, the main one first (answer mode
@@ -199,7 +197,7 @@ function SlideView({ lesson, index, completed, onComplete, onPrevious, onNext, m
           <h2 id={`slide-${index}`} className="lesson-slide-title">
             {slide.title}
           </h2>
-          <SpeakButton text={slide.speech} autoPlay label={fr.lessons.replay} />
+          <SpeakButton text={slide.speech} label={fr.lessons.replay} />
         </div>
         {index === 0 && <Mascot situation="LessonStart" title={lesson.title} size={96} />}
         <p className="lesson-slide-text">{slide.text}</p>

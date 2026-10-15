@@ -548,6 +548,9 @@ pub struct QuizQuestion {
     pub choices: Vec<Answer>,
     /// Shown and read after the answer, right or wrong.
     pub explanation: String,
+    /// A word to write: the word of the bank when it is one (its article, pronunciation and
+    /// sentence), resolved when the content is loaded.
+    pub word: Option<crate::spelling::Word>,
 }
 
 /// A reference consulted to write the lesson.
@@ -620,10 +623,9 @@ impl Lesson {
                     help: None,
                     key: format!("{}-{index}", self.id),
                     calculation: None,
-                    word: typed_word.map(|word| SpokenWord {
-                        word,
-                        example: None,
-                        blank: None,
+                    word: typed_word.map(|word| match &question.word {
+                        Some(bank) => SpokenWord::of(bank, None),
+                        None => SpokenWord::plain(word),
                     }),
                 }
             })
@@ -900,6 +902,7 @@ mod tests {
                 answer: Answer::Number(37),
                 choices: Vec::new(),
                 explanation: "28 + 10 = 38, puis 38 − 1 = 37.".into(),
+                word: None,
             }],
             sources: Vec::new(),
         };

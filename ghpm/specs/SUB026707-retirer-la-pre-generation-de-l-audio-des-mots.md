@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB026707 — Retirer la pré-génération de l'audio des mots
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -29,5 +29,16 @@ En tant que développeur, je veux un seul chemin pour la voix, sans étape de bu
 
 ## Critères d'acceptation
 
-- [ ] Plus aucune référence à l'audio pré-généré dans le code, les scripts et la documentation (recherche `generate-word-audio`, `audio/words`).
-- [ ] L'installeur ne contient plus `content/audio`.
+- [x] Plus aucune référence à l'audio pré-généré dans le code, les scripts et la documentation (recherche `generate-word-audio`, `audio/words`).
+- [x] L'installeur ne contient plus `content/audio`.
+
+## Implémentation (2026-10-15)
+
+- Supprimés : `crates/educator-content/examples/generate_word_audio.rs`, `scripts/generate-word-audio.sh` / `.ps1`,
+  le dossier `content/audio/` et sa ligne dans `.gitignore`, `word_audio_file`, `WORD_AUDIO_FOLDER`,
+  `WORD_AUDIO_MANIFEST`, la recherche de fichiers pré-générés dans `services.rs`.
+- `WORD_AUDIO_SPEED` / `EXAMPLE_AUDIO_SPEED` remplacées par `speech::speed::WORDS` (SUB026708).
+- Mis à jour : README, `CLAUDE.md`, ADR 0002 (renvoi vers l'ADR 0004), fiche SUB001404 (note de remplacement),
+  fiche SUB023803 (plus de WAV à exclure du paquet mobile).
+- Recherche `generate-word-audio`, `audio/words` : ne reste que dans l'historique (fiches du lot 2bis, SUB001404,
+  ADR 0004).

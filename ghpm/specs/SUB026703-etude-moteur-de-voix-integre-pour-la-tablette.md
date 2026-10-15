@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB026703 — Étude — moteur de voix intégré pour la tablette
-status: Todo
+status: In progress
 size: S
 estimate:
 startDate:
@@ -37,4 +37,13 @@ Sur iOS, une application ne peut pas lancer Piper comme processus annexe. La voi
 ## Critères d'acceptation
 
 - [ ] Prototype mesuré : temps de synthèse d'un mot et d'une phrase, mémoire, taille ajoutée.
-- [ ] Question de licence espeak-ng / App Store documentée avec ses sources.
+- [x] Question de licence espeak-ng / App Store documentée avec ses sources.
+
+## Implémentation (2026-10-15)
+
+- Étude documentaire : `docs/adr/0005-voix-sur-tablette.md` (options, licence espeak-ng / App Store avec sources,
+  recommandation : voix du système au lot tablette 1, sherpa-onnx ensuite).
+- Prototype sherpa-onnx mesuré dans l'environnement de Claude (Linux x64) avec la voix `siwis-medium` : même rendu
+  et mêmes temps que Piper ; données espeak-ng du français réduites à 0,8 Mo.
+- Reste : prototype mesuré **sur iPad** (temps d'un mot et d'une phrase, mémoire, taille ajoutée), écoute de
+  `fr_FR-siwis-low` ; fiche(s) à créer dans le lot tablette.

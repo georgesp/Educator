@@ -43,7 +43,7 @@ function PlacementIntro({ profile }: { profile: Profile }) {
     <main className="screen">
       <header className="screen-header">
         <h1 className="title">{fr.placement.title}</h1>
-        <SpeakButton text={fr.placement.spoken(seconds)} autoPlay />
+        <SpeakButton text={fr.placement.spoken(seconds)} />
       </header>
       <div className="placement-intro">
         <p className="notice">{fr.placement.explain(seconds)}</p>

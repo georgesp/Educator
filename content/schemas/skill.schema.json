@@ -272,6 +272,16 @@
       },
       "description": "problem : types de problèmes (gabarits de content/problems) et taille des nombres."
     },
+    "theme": {
+      "enum": [
+        "lettersAndSounds",
+        "spellingRules",
+        "silentLetters",
+        "agreement",
+        "wordsToKnow"
+      ],
+      "description": "spelling seulement (obligatoire) : thème affiché à l'enfant, avec sa couleur et son symbole. lettersAndSounds : les lettres et les sons ; spellingRules : les petites règles (m devant m, b, p ; g, gu, ge) ; silentLetters : les lettres muettes ; agreement : les accords (pluriel…) ; wordsToKnow : les mots à connaître."
+    },
     "words": {
       "type": "object",
       "additionalProperties": false,
@@ -482,6 +492,25 @@
         "required": [
           "problems"
         ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "spelling"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "theme"
+        ]
+      },
+      "else": {
+        "properties": {
+          "theme": false
+        }
       }
     }
   ]

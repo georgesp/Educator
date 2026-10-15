@@ -51,7 +51,9 @@ async function mockApi(page: Page, calls: string[]) {
               revisionFrom: null,
               answerModes: ["Keyboard", "Choice"],
               family: "Spelling",
+              category: "LettersAndSounds",
               spellingFormats: ["Dictation", "MissingLetters", "ChooseSpelling"],
+              listeningFormats: ["Dictation", "ChooseSpelling"],
               mastery: null,
             },
           ],
@@ -81,7 +83,7 @@ async function mockApi(page: Page, calls: string[]) {
             choices: null,
             prompt: "Dictée",
             spokenPrompt: "",
-            word: { before: null, after: null, missing: null, hasExample: true },
+            word: { before: null, after: null, missing: null, hasExample: true, article: null },
           })),
         };
       }
@@ -166,6 +168,8 @@ test("a CP child does a dictation of 10 words with the mouse only (fixed seed), 
   const keyboard = page.getByRole("group", { name: "Clavier des lettres" });
   for (const [i, word] of WORDS.entries()) {
     await expect(page.getByLabel("Écris le mot")).toBeVisible();
+    // Nothing is read by itself: the child clicks to hear the word.
+    await page.getByRole("button", { name: "Écouter le mot" }).click();
     // The 10th word is written without its accent: « ecoute ».
     const written = i === 9 ? "ecoute" : word;
     for (const letter of written) {
@@ -184,8 +188,8 @@ test("a CP child does a dictation of 10 words with the mouse only (fixed seed), 
 
   await expect(page.getByRole("heading", { name: "Série terminée !" })).toBeVisible();
   await expect(page.getByText("9 bonnes réponses sur 10")).toBeVisible();
-  // Each word was read by the voice (French exercises).
-  expect(calls.filter((c) => c === "speak_series_word").length).toBeGreaterThanOrEqual(10);
+  // Each word was read by the voice on click, once (French exercises).
+  expect(calls.filter((c) => c === "speak_series_word").length).toBe(10);
 });
 
 test("the exam of spelling ends with the strong points", async ({ page }) => {

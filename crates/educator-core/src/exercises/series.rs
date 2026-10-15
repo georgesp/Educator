@@ -1,5 +1,6 @@
 use super::exam::{
-    compose_exam, compose_placement, compose_timed, exam_skills, TIMED_DURATIONS, TIMED_MIN_MASTERY,
+    compose_exam, compose_placement, compose_timed, exam_skills, Listening, TIMED_DURATIONS,
+    TIMED_MIN_MASTERY,
 };
 use super::{generate_series_as, Answer, Exercise, Picture, DEFAULT_LENGTH};
 use crate::clock::{uuid_v7, Clock};
@@ -15,6 +16,7 @@ use crate::spelling::SpellingCorrection;
 use crate::{Error, Result};
 use std::collections::{HashMap, VecDeque};
 use std::fmt;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard};
 use uuid::Uuid;
 
@@ -215,6 +217,8 @@ pub struct SeriesService {
     random: Arc<dyn RandomSource>,
     clock: Arc<dyn Clock>,
     in_progress: Mutex<InProgress>,
+    /// Whether the voice can read the words (SUB026704); available unless said otherwise.
+    listening: AtomicBool,
 }
 
 impl fmt::Debug for SeriesService {
@@ -242,6 +246,28 @@ impl SeriesService {
             random,
             clock,
             in_progress: Mutex::new(InProgress::default()),
+            listening: AtomicBool::new(true),
+        }
+    }
+
+    /// Without the voice, the exams, level assessments and timed challenges ask no question where
+    /// the word is only heard (SUB026704).
+    pub fn with_listening(self, listening: Listening) -> Self {
+        self.set_listening(listening);
+        self
+    }
+
+    /// The voice found or lost (a failed warm-up, SUB026704).
+    pub fn set_listening(&self, listening: Listening) {
+        self.listening
+            .store(listening == Listening::Available, Ordering::SeqCst);
+    }
+
+    fn listening(&self) -> Listening {
+        if self.listening.load(Ordering::SeqCst) {
+            Listening::Available
+        } else {
+            Listening::Unavailable
         }
     }
 
@@ -337,7 +363,7 @@ impl SeriesService {
         let (_, offered) = self.skills.offered_or_fallback(subject, profile.grade);
         let skills = exam_skills(&offered, current_period);
         let seed = self.seed_or_random(seed);
-        let questions = compose_exam(&skills, u64::from(seed))?;
+        let questions = compose_exam(&skills, u64::from(seed), self.listening())?;
         self.open(
             profile_id,
             NewSeries {
@@ -379,7 +405,7 @@ impl SeriesService {
         let (_, offered) = self.skills.offered_or_fallback(subject, profile.grade);
         let skills = exam_skills(&offered, current_period);
         let seed = self.seed_or_random(seed);
-        let questions = compose_placement(&skills, u64::from(seed))?;
+        let questions = compose_placement(&skills, u64::from(seed), self.listening())?;
         self.open(
             profile_id,
             NewSeries {
@@ -402,13 +428,9 @@ impl SeriesService {
     /// Whether a profile finished the level assessment of a subject (an abandoned one does not
     /// count).
     pub fn placement_done(&self, profile_id: Uuid, subject: Subject) -> Result<bool> {
-        Ok(self
-            .sessions
-            .profile_sessions(profile_id)?
-            .iter()
-            .any(|s| {
-                s.session_type == SessionType::Placement && s.subject == subject && !s.abandoned
-            }))
+        Ok(self.sessions.profile_sessions(profile_id)?.iter().any(|s| {
+            s.session_type == SessionType::Placement && s.subject == subject && !s.abandoned
+        }))
     }
 
     /// Whether the level assessment of a subject can be taken: not done yet, and the profile's
@@ -460,7 +482,7 @@ impl SeriesService {
         let ids = self.timed_skills(profile_id, subject)?;
         let skills: Vec<&Skill> = ids.iter().filter_map(|id| self.skills.find(id)).collect();
         let seed = self.seed_or_random(seed);
-        let questions = compose_timed(&skills, u64::from(seed))?;
+        let questions = compose_timed(&skills, u64::from(seed), self.listening())?;
         self.open(
             profile_id,
             NewSeries {
@@ -588,6 +610,21 @@ impl SeriesService {
             .get(index)
             .cloned()
             .ok_or_else(|| Error::SeriesRequest(format!("No exercise {index} in this series.")))
+    }
+
+    /// What to prepare for the voice from exercise `from` of a series in progress: the next words
+    /// and their sentences (SUB026705).
+    pub fn readings_ahead(
+        &self,
+        series_id: Uuid,
+        from: usize,
+    ) -> Result<Vec<crate::speech::Reading>> {
+        let state = self.lock();
+        let series = state
+            .series
+            .get(&series_id)
+            .ok_or(Error::SeriesNotFound(series_id))?;
+        Ok(crate::speech::readings_ahead(&series.exercises, from))
     }
 
     /// `duration_ms`: time taken by the child, measured by the front.

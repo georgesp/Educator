@@ -19,6 +19,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le renard est roux.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -40,6 +41,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je m'assois au bord de l'eau.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -60,6 +62,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le léopard a des taches.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -81,6 +84,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Je bois un jus de pomme.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -102,6 +106,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Mon bras est fort.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -123,6 +128,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Il y a un tas de feuilles.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -144,6 +150,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "La pomme est un fruit.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -165,6 +172,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Je mange un biscuit.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -186,6 +194,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "La moto fait du bruit.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -213,6 +222,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Les canards nagent sur l'étang.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -234,6 +244,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le drap de mon lit est blanc.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -255,6 +266,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le cheval part au galop.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -276,6 +288,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Quel est le prix de ce jouet ?",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -309,6 +322,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Tu as le choix.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -336,6 +350,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le tronc de l'arbre est épais.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -357,6 +372,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "J'aime l'avocat avec du citron.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -378,6 +394,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le plat est très chaud.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -411,6 +428,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le marchand vend des fruits.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -471,6 +489,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Je tape du pied.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -525,6 +544,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le crapaud saute dans l'herbe.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -546,6 +566,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "une",
       "example": "La brebis donne de la laine.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -567,6 +588,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le facteur apporte un colis.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -588,6 +610,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "C'est l'heure du repos.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -615,6 +638,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Papa range son outil.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     }

@@ -68,3 +68,42 @@ fn normalize_cases() {
         assert_eq!(spoken, normalize(text), "{text}");
     }
 }
+
+/// SUB026705: the words of a series are prepared a few at a time (a timed challenge has 90), each
+/// word then its sentence.
+#[test]
+fn the_readings_ahead_are_the_next_words_then_their_sentences() {
+    use educator_core::exercises::{Answer, Exercise, Input};
+    use educator_core::skills::ExerciseFormat;
+    use educator_core::speech::{readings_ahead, speed, WORDS_AHEAD};
+    use educator_core::spelling::SpokenWord;
+
+    let exercise = |index: usize| Exercise {
+        index,
+        format: ExerciseFormat::Dictation,
+        question: None,
+        statement: Vec::new(),
+        picture: None,
+        input: Input::Spelling { max_length: 12 },
+        expected: Answer::Spelling(format!("mot{index}")),
+        choices: None,
+        spoken: String::new(),
+        explanation: String::new(),
+        help: None,
+        key: index.to_string(),
+        calculation: None,
+        word: Some(SpokenWord {
+            example: Some(format!("Le mot{index} est là.")),
+            ..SpokenWord::plain(format!("mot{index}"))
+        }),
+    };
+    let exercises: Vec<Exercise> = (0..40).map(exercise).collect();
+
+    let all = readings_ahead(&exercises, 0);
+    assert_eq!(2 * WORDS_AHEAD, all.len());
+    assert_eq!("mot0,", all[0].text);
+    assert_eq!("Le mot0 est là.", all[1].text);
+    assert!(all.iter().all(|r| r.speed == speed::WORDS));
+    assert_eq!("mot5,", readings_ahead(&exercises, 5)[0].text);
+    assert_eq!(2, readings_ahead(&exercises, 39).len());
+}

@@ -29,7 +29,7 @@ function SubjectChoice({ kind }: SubjectScreenProps) {
           ← {fr.series.menu}
         </button>
         <h1 className="title">{title}</h1>
-        <SpeakButton text={spoken} autoPlay />
+        <SpeakButton text={spoken} />
       </header>
       <div className="mode-choice">
         <div className="screen-instruction">

@@ -29,6 +29,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le robot sait danser.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -49,6 +50,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "J'achète un kilo de pommes.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -80,6 +82,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "une",
       "example": "Nous prenons une photo.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -100,6 +103,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je joue du piano.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -126,6 +130,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je porte mon cartable sur le dos.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -184,6 +189,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "L'abricot est orange et sucré.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -216,6 +222,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "L'escargot avance doucement.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -242,6 +249,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Ce haricot est tout vert.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -268,6 +276,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le cheval a un sabot.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -288,6 +297,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Je bois un bol de cacao.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -319,6 +329,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le roseau pousse au bord de l'eau.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -344,6 +355,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "Mon auto est rouge.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -442,6 +454,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "Je corrige ma faute.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -462,6 +475,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "Le perroquet est sur son épaule.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -525,6 +539,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "J'aime la sauce tomate.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -561,6 +576,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "Papa fait cuire une saucisse.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -581,6 +597,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "En automne, les feuilles tombent.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -601,6 +618,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je prends l'autobus.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -621,6 +639,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "L'astronaute va dans l'espace.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -653,6 +672,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Nous mangeons au restaurant.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -673,6 +693,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "La taupe creuse sous la terre.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -771,6 +792,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "L'artichaut est un légume.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -797,6 +819,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le saule pousse près de la rivière.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -823,6 +846,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "une",
       "example": "C'est l'heure de la pause.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -849,6 +873,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "L'auteur a écrit ce livre.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -870,6 +895,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Le bateau vogue sur la mer.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -897,6 +923,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "Le gâteau au chocolat est délicieux.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -918,6 +945,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "J'ai reçu un joli cadeau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -939,6 +967,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je remplis mon seau de sable.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -981,6 +1010,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "une",
       "example": "Je bois de l'eau fraîche.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -1002,6 +1032,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le veau suit sa maman la vache.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1029,6 +1060,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "L'agneau est tout blanc.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1050,6 +1082,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Ferme le rideau, s'il te plaît.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -1071,6 +1104,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Papa travaille à son bureau.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -1092,6 +1126,7 @@
       ],
       "frequency": 1,
       "category": "nom",
+      "article": "un",
       "example": "La maîtresse écrit au tableau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1125,6 +1160,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je peins avec un pinceau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1152,6 +1188,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je mange un morceau de pain.",
       "source": "Liste de fréquence lexicale (eduscol, É. Brunet)"
     },
@@ -1179,6 +1216,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Papa coupe le pain avec le couteau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1199,6 +1237,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "L'anneau est en or.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -1220,6 +1259,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le drapeau flotte au vent.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1247,6 +1287,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le berger garde son troupeau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1268,6 +1309,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Papi tape sur le clou avec un marteau.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1289,6 +1331,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le panneau indique la route.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1315,6 +1358,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Je joue avec un cerceau.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -1341,6 +1385,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "Le bébé dort dans son berceau.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -1362,6 +1407,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Le corbeau est un oiseau noir.",
       "source": "Mot courant du vocabulaire de l'enfant (CP)"
     },
@@ -1382,6 +1428,7 @@
       ],
       "frequency": 2,
       "category": "nom",
+      "article": "un",
       "example": "Je porte le plateau du goûter.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     },
@@ -1402,6 +1449,7 @@
       ],
       "frequency": 3,
       "category": "nom",
+      "article": "un",
       "example": "L'eau du ruisseau est claire.",
       "source": "Mot courant du vocabulaire de l'enfant (CE1)"
     }

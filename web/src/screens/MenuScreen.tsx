@@ -1,4 +1,4 @@
-import { useEffect, useRef, type KeyboardEvent, type ReactNode } from "react";
+import { useRef, type KeyboardEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 import type { Profile } from "../api/client";
 import { useSpeech } from "../audio/useSpeech";
@@ -21,8 +21,6 @@ const ENTRIES: Entry[] = [
   { key: "options", label: fr.menu.options, hint: fr.menu.optionsHint, icon: <GearIcon />, to: "/options" },
 ];
 
-const HOVER_READ_DELAY_MS = 600;
-
 /** Home menu (SUB000104): vertical menu on the left, the profile panel on the right. */
 export function MenuScreen() {
   return <RequireProfile>{(profile) => <Menu profile={profile} />}</RequireProfile>;
@@ -32,12 +30,9 @@ function Menu({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
   const speak = useSpeech();
   const items = useRef<(HTMLButtonElement | null)[]>([]);
-  const hoverTimer = useRef<number | undefined>(undefined);
   // The level assessment stays offered until it is done (or the child leaves it for later).
   const placement = usePlacementStatus(profile.id);
   const placementToDo = placement.data?.subjects.some((s) => s.available) ?? false;
-  // No reading after leaving the screen.
-  useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
 
   const activate = (entry: Entry) => {
     if (entry.to) {
@@ -60,17 +55,12 @@ function Menu({ profile }: { profile: Profile }) {
     items.current[next]?.focus();
   };
 
-  const readOnHover = (entry: Entry) => {
-    window.clearTimeout(hoverTimer.current);
-    hoverTimer.current = window.setTimeout(() => void speak(entry.to ? entry.label : `${entry.label}. ${fr.menu.soonSpoken}`), HOVER_READ_DELAY_MS);
-  };
-
   return (
     <main className="menu-screen">
       <nav className="menu-nav" aria-label={fr.app.title} onKeyDown={onKeyDown}>
         <div className="menu-heading">
           <h1 className="title">{fr.menu.greeting(profile.name)}</h1>
-          <SpeakButton text={fr.menu.spoken(profile.name)} autoPlay compact />
+          <SpeakButton text={fr.menu.spoken(profile.name)} compact />
         </div>
         {placementToDo && (
           <BigButton
@@ -96,8 +86,6 @@ function Menu({ profile }: { profile: Profile }) {
             locked={!entry.to}
             autoFocus={index === 0}
             onClick={() => activate(entry)}
-            onMouseEnter={() => readOnHover(entry)}
-            onMouseLeave={() => window.clearTimeout(hoverTimer.current)}
           />
         ))}
       </nav>

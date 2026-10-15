@@ -27,7 +27,7 @@ function Tables() {
           ← {fr.common.back}
         </button>
         <h1 className="title">{fr.tables.title}</h1>
-        <SpeakButton text={fr.tables.spoken} autoPlay />
+        <SpeakButton text={fr.tables.spoken} />
       </header>
 
       <div className="table-choice" role="group" aria-label={fr.tables.choose}>

@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import type { AnswerPayload, Exercise, Series, SeriesAnswer } from "../api/client";
@@ -27,7 +27,7 @@ const dictation: Omit<Exercise, "index"> = {
   choices: null,
   prompt: "Dictée",
   spokenPrompt: "",
-  word: { before: null, after: null, missing: null, hasExample: true },
+  word: { before: null, after: null, missing: null, hasExample: true, article: "un" },
 };
 
 /** « bateau » written « batô »: b, a, t right, ô instead of e, a, u missing. */
@@ -60,10 +60,18 @@ describe("SeriesScreen — spelling", () => {
 
     expect(await screen.findByLabelText("Écris le mot")).toBeInTheDocument();
     expect(api.startSeries).toHaveBeenCalledWith("p-lea", "ce1-son-o-au-eau", "Keyboard", "Dictation");
-    // The word is read at once (the voice is on for French), and can be heard again, alone or in its sentence.
-    await waitFor(() => expect(api.speakSeriesWord).toHaveBeenCalledWith("s", 0, false));
+    // Nothing is read by itself (decision of 2026-10-15): the word is heard on click, alone or in
+    // its sentence; the instruction has its speaker too.
+    expect(api.speakSeriesWord).not.toHaveBeenCalled();
+    expect(api.speak).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "Écouter le mot" }));
+    expect(api.speakSeriesWord).toHaveBeenCalledWith("s", 0, false, false);
+    await user.click(screen.getByRole("button", { name: "Écouter la consigne" }));
+    expect(api.speak).toHaveBeenCalledWith("Écoute bien le mot, puis écris-le.");
     await user.click(screen.getByRole("button", { name: "Le mot dans une phrase" }));
-    expect(api.speakSeriesWord).toHaveBeenCalledWith("s", 0, true);
+    expect(api.speakSeriesWord).toHaveBeenCalledWith("s", 0, true, false);
+    // The noun's article is shown before the box (SUB026706): the child writes the noun only.
+    expect(screen.getByText("un", { selector: ".spelling-article" })).toBeInTheDocument();
 
     // Mouse only: b, a, t, then the accented ô.
     const keyboard = screen.getByRole("group", { name: "Clavier des lettres" });
@@ -78,6 +86,21 @@ describe("SeriesScreen — spelling", () => {
     expect(screen.getByTitle("Il fallait « e » au lieu de « ô »")).toHaveClass("word-letter-wrong");
     expect(screen.getAllByTitle(/Il manque/)).toHaveLength(2);
     expect(screen.getByText("bateau", { selector: ".word-right-text" })).toBeInTheDocument();
+  });
+
+  it("« Plus lentement » reads the word very slowly, with the mouse or the keyboard (SUB026702)", async () => {
+    const api = fakeApi({ startSeries: vi.fn(async () => spellingSeries(dictation)) });
+    renderApp(api, "/serie/ce1-son-o-au-eau/Keyboard?format=Dictation");
+    const user = userEvent.setup();
+
+    const slow = await screen.findByRole("button", { name: "Plus lentement" });
+    await user.click(slow);
+    expect(api.speakSeriesWord).toHaveBeenLastCalledWith("s", 0, false, true);
+
+    vi.mocked(api.speakSeriesWord).mockClear();
+    slow.focus();
+    await user.keyboard("{Enter}");
+    expect(api.speakSeriesWord).toHaveBeenCalledWith("s", 0, false, true);
   });
 
   it("the physical keyboard works too, Enter validates", async () => {
@@ -97,7 +120,7 @@ describe("SeriesScreen — spelling", () => {
       question: "Choisis les lettres qui manquent.",
       input: { kind: "pick" },
       prompt: "des chat_",
-      word: { before: "des chat", after: "", missing: 1, hasExample: false },
+      word: { before: "des chat", after: "", missing: 1, hasExample: false, article: null },
       choices: ["s", "", "x"].map((value) => ({ label: value, answer: { kind: "text" as const, value } })),
     };
     const answerSeries = vi.fn(async () => ({ ...wrongAnswer, expected: { kind: "text" as const, value: "s" }, expectedLabel: "s" }));
@@ -118,7 +141,7 @@ describe("SeriesScreen — spelling", () => {
       ...dictation,
       question: "Écris les lettres qui manquent.",
       prompt: "bat_",
-      word: { before: "bat", after: "", missing: 3, hasExample: false },
+      word: { before: "bat", after: "", missing: 3, hasExample: false, article: null },
     };
     renderApp(fakeApi({ startSeries: vi.fn(async () => spellingSeries(typed)) }), "/serie/ce1-son-o-au-eau/Keyboard");
 

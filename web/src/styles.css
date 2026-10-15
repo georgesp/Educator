@@ -21,6 +21,18 @@
   --checker-light: #ffffff;
   --firework-gold: #f2b705;
   --firework-blue: #1f6fd1;
+  /* Families of the exercises and lessons (one color per rank, math and spelling alike): background
+     and symbol, contrast AA. */
+  --family-1: #1f6fd1;
+  --family-1-text: #ffffff;
+  --family-2: #f28c28;
+  --family-2-text: #1a1a1f;
+  --family-3: #7a3fc4;
+  --family-3-text: #ffffff;
+  --family-4: #22804a;
+  --family-4-text: #ffffff;
+  --family-5: #f2b705;
+  --family-5-text: #1a1a1f;
 
   --font-body: "Lexend", ui-rounded, "Segoe UI", system-ui, sans-serif;
   --font-display: "Barlow Condensed", "Lexend", system-ui, sans-serif;
@@ -423,6 +435,115 @@ body {
   font-size: 16px;
 }
 
+/* Family of an exercise or a lesson: a colored band with its symbol, on the left of the card. */
+.family-1 {
+  --family-bg: var(--family-1);
+  --family-fg: var(--family-1-text);
+}
+.family-2 {
+  --family-bg: var(--family-2);
+  --family-fg: var(--family-2-text);
+}
+.family-3 {
+  --family-bg: var(--family-3);
+  --family-fg: var(--family-3-text);
+}
+.family-4 {
+  --family-bg: var(--family-4);
+  --family-fg: var(--family-4-text);
+}
+.family-5 {
+  --family-bg: var(--family-5);
+  --family-fg: var(--family-5-text);
+}
+
+.big-button-with-family {
+  padding-left: 0;
+}
+
+.big-button-family {
+  align-self: stretch;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  margin: -14px 0;
+  padding: 0 10px 0 calc(var(--slant) + 4px);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 26px;
+  white-space: nowrap;
+  background: var(--family-bg);
+  color: var(--family-fg);
+}
+
+.skill-list-compact .big-button-family {
+  font-size: 22px;
+  min-width: 68px;
+}
+
+.family-operator {
+  font-size: 150%;
+  line-height: 1;
+}
+
+/* Filter of the families shown on a screen: « Tout », then one button per family. */
+.family-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.family-filter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 16px 6px 8px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.family-filter-all {
+  padding: 6px 18px;
+  font-weight: 800;
+}
+
+/* The family shown: a white button with a thick outline, like the cards of the moment. */
+.family-filter-button[aria-pressed="true"] {
+  background: var(--surface-strong);
+  box-shadow: inset 0 0 0 3px var(--border);
+  font-weight: 800;
+}
+
+.family-filter-button:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
+.family-symbol {
+  display: inline-block;
+  min-width: 44px;
+  padding: 2px 10px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: 20px;
+  background: var(--family-bg);
+  color: var(--family-fg);
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
 /* Profiles. */
 .profile-grid {
   list-style: none;
@@ -759,6 +880,17 @@ body {
 
 .skill-list-compact .big-button-label {
   font-size: 21px;
+}
+
+/* « En ce moment »: a red marker before the title (the cards themselves carry the family colors). */
+.skill-section-current .section-title::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 0.7em;
+  margin-right: 10px;
+  background: var(--primary);
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
 }
 
 .mode-choice {
@@ -1631,6 +1763,18 @@ body {
 
 .spelling-around {
   white-space: pre;
+}
+
+/* The article of a noun, before the box (« un [______] », SUB026706): not to be written. */
+.spelling-article {
+  margin-right: 0.3em;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.word-listen .button svg {
+  vertical-align: middle;
+  margin-right: 6px;
 }
 
 .spelling-input {

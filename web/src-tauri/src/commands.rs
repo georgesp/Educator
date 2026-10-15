@@ -165,7 +165,10 @@ pub async fn start_placement(
     profile_id: String,
     subject: Subject,
 ) -> CommandResult<SeriesResponse> {
-    run(state, move |s| s.start_placement(&profile_id, subject, None)).await
+    run(state, move |s| {
+        s.start_placement(&profile_id, subject, None)
+    })
+    .await
 }
 
 /// What the timed challenge offers to a profile (SUB001415).
@@ -220,30 +223,38 @@ pub async fn get_mascot_phrase(
     .await
 }
 
-/// WAV of the word of a spelling exercise in progress (`example`: in its short sentence).
+/// WAV of the word of a spelling exercise in progress (`example`: in its short sentence; `slow`:
+/// « Plus lentement », SUB026702).
 #[tauri::command]
 pub async fn speak_series_word(
     state: State<'_, Arc<AppState>>,
     series_id: String,
     index: u32,
     example: Option<bool>,
+    slow: Option<bool>,
 ) -> CommandResult<Response> {
     run(state, move |s| {
-        s.speak_series_word(&series_id, index, example.unwrap_or(false))
-            .map(Response::new)
+        s.speak_series_word(
+            &series_id,
+            index,
+            example.unwrap_or(false),
+            slow.unwrap_or(false),
+        )
+        .map(Response::new)
     })
     .await
 }
 
-/// WAV of a word of the bank (`example`: in its short sentence).
+/// WAV of a word of the bank (`example`: in its short sentence; `slow`: read very slowly).
 #[tauri::command]
 pub async fn speak_word(
     state: State<'_, Arc<AppState>>,
     word: String,
     example: Option<bool>,
+    slow: Option<bool>,
 ) -> CommandResult<Response> {
     run(state, move |s| {
-        s.speak_word(&word, example.unwrap_or(false))
+        s.speak_word(&word, example.unwrap_or(false), slow.unwrap_or(false))
             .map(Response::new)
     })
     .await

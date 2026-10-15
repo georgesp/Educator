@@ -7,6 +7,7 @@
   "title": "Les mots invariables",
   "instruction": "Écoute bien le petit mot, puis écris-le.",
   "operation": "spelling",
+  "theme": "wordsToKnow",
   "words": {
     "grades": [
       "CE1"

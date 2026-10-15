@@ -190,8 +190,8 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       skillsGrade: "CP",
       currentPeriod: 1,
       skills: [
-        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", spellingFormats: [], mastery: null },
-        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", spellingFormats: [], mastery: 75 },
+        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
+        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 75 },
       ],
     }),
     getCharacters: vi.fn().mockResolvedValue([
@@ -278,7 +278,7 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       grade: "CP",
       lessonsGrade: "CP",
       currentPeriod: 1,
-      lessons: [{ id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4 }],
+      lessons: [{ id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract" }],
     }),
     getLesson: vi.fn().mockResolvedValue(shortLesson),
     saveLessonProgress: vi.fn().mockResolvedValue(undefined),

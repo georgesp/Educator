@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "words.schema.json",
   "title": "Banque de mots Educator",
-  "description": "Mots des compétences d'orthographe (SUB001402), regroupés par son ou par thème. Un mot n'apparaît qu'une fois dans toute la banque. L'audio pré-généré (SUB001404) est nommé d'après le mot (scripts/generate-word-audio.sh).",
+  "description": "Mots des compétences d'orthographe (SUB001402), regroupés par son ou par thème. Un mot n'apparaît qu'une fois dans toute la banque. Les mots sont lus par la voix en direct (ADR 0004) : un nom avec son article (« un stylo. »), les autres mots suivis d'une virgule (« beau, »).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -112,22 +112,53 @@
             "groupe-nominal"
           ]
         },
+        "article": {
+          "enum": [
+            "un",
+            "une"
+          ],
+          "description": "Obligatoire pour un nom, interdit sinon : l'article avec lequel le nom est lu (« un stylo. ») et affiché devant la case de réponse. Jamais « le » ni « l' » (élision)."
+        },
         "example": {
           "type": "string",
           "minLength": 1,
-          "description": "Phrase courte contenant le mot, lue après lui pour lever les ambiguïtés (« vert », « verre », « ver »)."
+          "description": "Phrase courte contenant le mot, lue après lui pour lever les ambiguïtés. Obligatoire pour un homophone (content/spelling/homophones.json, ou deux mots de la banque lus de la même façon) : « vert », « verre », « ver »."
         },
-        "audio": {
+        "pronunciation": {
           "type": "string",
-          "pattern": "^[a-z0-9-]+\\.wav$",
-          "description": "Nom du fichier audio pré-généré ; calculé d'après le mot quand il est absent."
+          "minLength": 1,
+          "pattern": "^\\S+( \\S+)*$",
+          "description": "Facultatif : le texte lu par la voix à la place du mot quand elle le prononce mal (« fils » → « fisse »). Le mot affiché et attendu ne change pas."
         },
         "source": {
           "type": "string",
           "minLength": 1,
           "description": "D'où vient le mot (liste de fréquence lexicale d'eduscol, vocabulaire courant)."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "category": {
+                "const": "nom"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "article"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "article"
+              ]
+            }
+          }
+        }
+      ]
     }
   }
 }

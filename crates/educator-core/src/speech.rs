@@ -1,13 +1,28 @@
-//! Speech: the text read by the voice (SUB000111) and the speech engine trait (Piper, SUB006006,
-//! implemented in `educator-content` on the desktop).
+//! Speech: the text read by the voice (SUB000111), the speech engine trait (Piper, SUB006006,
+//! implemented in `educator-content` on the desktop) and the preparation of the words of a series
+//! ahead of the child (SUB026705).
+
+mod preparation;
+
+pub use preparation::{readings_ahead, Reading, SpeechPreparer, MAX_PREPARED_SERIES, WORDS_AHEAD};
 
 use crate::Result;
 
-/// Speaking rate bounds.
+/// Speaking rates (1 = normal).
 pub mod speed {
     pub const MIN: f64 = 0.5;
     pub const NORMAL: f64 = 1.0;
     pub const MAX: f64 = 1.5;
+
+    /// Instructions and feedback: slightly slow for children who are learning to read.
+    pub const INSTRUCTIONS: f64 = 0.9;
+
+    /// A word to write and its example sentence, at the same speed so that the word sounds the
+    /// same alone and in the sentence (decision of 2026-10-14, SUB026708).
+    pub const WORDS: f64 = 0.85;
+
+    /// « Plus lentement »: the word read very slowly (SUB026702).
+    pub const SLOW: f64 = 0.5;
 }
 
 /// State of the speech engine, shown in the status bar.
@@ -49,8 +64,8 @@ pub trait SpeechSynthesizer: Send + Sync {
     /// [`crate::Error::SpeechUnavailable`] when the engine or the voice is missing, or the engine failed.
     fn synthesize(&self, text: &str, speed: f64) -> Result<Vec<u8>>;
 
-    /// Starts the engine ahead of the first request (loads the voice model), at the speed the
-    /// application will use first (Piper restarts when the speed changes). Never fails.
+    /// Starts the engine ahead of the first request (loads the voice model) at a speed the
+    /// application uses all the time, and keeps it ready (Piper: one process per speed). Never fails.
     fn warm_up(&self, speed: f64);
 }
 
