@@ -1,24 +1,25 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4-ws
+rev: 2026-10-15T19:43:40Z
 url: https://github.com/georgesp/Educator/issues/276
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: US0276 — Lot tablette 3 — Synchronisation des profils et des statistiques (Wi-Fi local)
+title: US0276 — Lot tablette 2 — Synchronisation des profils et des statistiques (Wi-Fi local)
 status: Todo
 size: XL
 estimate:
 startDate:
 endDate:
 parent:
-order: 5000
+order: 3570
 ---
 
 Source : demande de Georges du 2026-10-14 — partager les statistiques entre l'ordinateur et la tablette, en gardant les données **hébergées en local** (pas de cloud). Solution retenue : **synchronisation sur le réseau local (Wi-Fi), appairage par QR code**.
 
-- **Lot** : tablette 3 — Synchronisation ordinateur ↔ tablette
+- **Lot** : tablette 2 — Synchronisation ordinateur ↔ tablette
 - **Prérequis** : lot tablette 1 (application tablette qui tourne, données et cycle de vie sur mobile) ; lot 3 pour l'espace parent (barrière « adulte », statistiques) ; lot 2 (séances et réponses enregistrées).
 - **Indépendant du** lot tablette 2 (stylet) : les deux peuvent avancer dans n'importe quel ordre.
 

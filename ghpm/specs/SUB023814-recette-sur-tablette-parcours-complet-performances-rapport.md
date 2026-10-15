@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEOo
+rev: 2026-10-14T11:29:22Z
 url: https://github.com/georgesp/Educator/issues/253
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023814 — Recette sur tablette (parcours complet, performances, rapport)"
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -35,3 +36,20 @@ Toutes les autres fiches du lot.
 
 - [ ] Rapport de recette rédigé, sans défaut bloquant ouvert.
 - [ ] Parcours du critère d'acceptation du lot déroulé entièrement sur la tablette, sans réseau.
+
+## Implémentation (2026-10-15)
+
+- Checklist de recette (19 lignes : écrans, exercices, leçons, examen, défi chrono, voix, hors ligne, rotation, fermeture forcée, mesures, écoute des mots CP–CE1) dans `docs/tablette.md`, étape 11, avec classement bloquant / gênant / cosmétique.
+- Défaut connu à confirmer à la recette : la sauvegarde des profils (espace parent) passe par le dialogue de fichier du bureau, absent sur l'iPad.
+
+## Corrections après relecture (2026-10-15)
+
+- Sauvegarde des profils : pas de boîte de dialogue de fichiers sur l'iPad pour l'instant ; l'espace parents affiche « La sauvegarde dans un fichier n'est pas encore possible sur l'iPad… » à la place des boutons (`isIpad()` dans `app/device.ts`, tests Vitest).
+- À vérifier sur l'iPad : espace parents › Sauvegarde des profils : le message, sans bouton ; sur le Mac : les deux boutons, inchangés.
+
+## Tests à faire (revue)
+
+1. Installer une version autonome (`docs/tablette.md`, étape 10), passer l'iPad en mode avion.
+2. Dérouler les 19 lignes de la checklist (`docs/tablette.md`, étape 11) ; chronométrer le démarrage à froid ; relever taille installée et mémoire.
+3. Copier le tableau rempli dans une section « Recette » de cette fiche ; pour chaque défaut bloquant ou gênant, une fiche ou une correction.
+4. Écoute des mots CP–CE1 : noter les mots mal prononcés par Thomas.

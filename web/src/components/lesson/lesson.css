@@ -446,8 +446,17 @@
   cursor: pointer;
 }
 
-.line-hit:hover {
-  fill: color-mix(in srgb, var(--primary) 12%, transparent);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .line-hit:hover {
+    fill: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
+}
+
+@media (hover: none) {
+  .line-hit:active {
+    fill: color-mix(in srgb, var(--primary) 12%, transparent);
+  }
 }
 
 .line-hit[aria-disabled="true"] {
@@ -706,9 +715,19 @@
   cursor: pointer;
 }
 
-.lesson-digit:hover:not(:disabled),
-.lesson-choice:hover:not(:disabled) {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .lesson-digit:hover:not(:disabled),
+  .lesson-choice:hover:not(:disabled) {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .lesson-digit:active:not(:disabled),
+  .lesson-choice:active:not(:disabled) {
+    border-color: var(--primary);
+  }
 }
 
 .lesson-digit:focus-visible,
@@ -916,8 +935,17 @@
   cursor: pointer;
 }
 
-.lesson-chain-pick:hover:not(:disabled) {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .lesson-chain-pick:hover:not(:disabled) {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .lesson-chain-pick:active:not(:disabled) {
+    border-color: var(--primary);
+  }
 }
 
 .lesson-chain-pick:focus-visible {
@@ -1083,8 +1111,17 @@
   cursor: pointer;
 }
 
-.order-car-button:hover {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .order-car-button:hover {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .order-car-button:active {
+    border-color: var(--primary);
+  }
 }
 
 .order-car-button:focus-visible {
@@ -1233,10 +1270,24 @@
   cursor: pointer;
 }
 
-.grid-cut-hit:hover,
 .grid-cut-hit:focus-visible {
   fill: color-mix(in srgb, var(--firework-gold) 55%, transparent);
   outline: none;
+}
+
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .grid-cut-hit:hover {
+    fill: color-mix(in srgb, var(--firework-gold) 55%, transparent);
+    outline: none;
+  }
+}
+
+@media (hover: none) {
+  .grid-cut-hit:active {
+    fill: color-mix(in srgb, var(--firework-gold) 55%, transparent);
+    outline: none;
+  }
 }
 
 .grid-empty {
@@ -1395,8 +1446,17 @@
   cursor: pointer;
 }
 
-.object-button:hover:not(:disabled) {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .object-button:hover:not(:disabled) {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .object-button:active:not(:disabled) {
+    border-color: var(--primary);
+  }
 }
 
 .object-button:focus-visible {
@@ -1484,8 +1544,17 @@ button.parity-number {
   cursor: pointer;
 }
 
-button.parity-number:hover {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  button.parity-number:hover {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  button.parity-number:active {
+    border-color: var(--primary);
+  }
 }
 
 .parity-selected {
@@ -1527,8 +1596,17 @@ button.parity-number:hover {
   color: var(--text);
 }
 
-.parity-garage:hover:not(:disabled) {
-  border-color: var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .parity-garage:hover:not(:disabled) {
+    border-color: var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .parity-garage:active:not(:disabled) {
+    border-color: var(--primary);
+  }
 }
 
 .parity-garage-name {
@@ -1597,8 +1675,17 @@ button.parity-number:hover {
   cursor: pointer;
 }
 
-.ten-place-button:hover {
-  box-shadow: inset 0 0 0 3px var(--primary);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .ten-place-button:hover {
+    box-shadow: inset 0 0 0 3px var(--primary);
+  }
+}
+
+@media (hover: none) {
+  .ten-place-button:active {
+    box-shadow: inset 0 0 0 3px var(--primary);
+  }
 }
 
 .ten-place-button:focus-visible {
@@ -1664,12 +1751,30 @@ button.parity-number:hover {
   cursor: pointer;
 }
 
-.fraction-part-button:hover {
-  fill: color-mix(in srgb, var(--primary) 35%, var(--surface-strong));
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .fraction-part-button:hover {
+    fill: color-mix(in srgb, var(--primary) 35%, var(--surface-strong));
+  }
 }
 
-.fraction-part-button.fraction-part-red:hover {
-  fill: var(--primary-strong);
+@media (hover: none) {
+  .fraction-part-button:active {
+    fill: color-mix(in srgb, var(--primary) 35%, var(--surface-strong));
+  }
+}
+
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .fraction-part-button.fraction-part-red:hover {
+    fill: var(--primary-strong);
+  }
+}
+
+@media (hover: none) {
+  .fraction-part-button.fraction-part-red:active {
+    fill: var(--primary-strong);
+  }
 }
 
 .fraction-part-button:focus-visible {
@@ -1828,10 +1933,24 @@ button.parity-number:hover {
   cursor: pointer;
 }
 
-.bar-slot:hover,
 .bar-slot:focus-visible {
   outline: 4px solid var(--text);
   outline-offset: 2px;
+}
+
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .bar-slot:hover {
+    outline: 4px solid var(--text);
+    outline-offset: 2px;
+  }
+}
+
+@media (hover: none) {
+  .bar-slot:active {
+    outline: 4px solid var(--text);
+    outline-offset: 2px;
+  }
 }
 
 .bar-solution {
@@ -1943,8 +2062,17 @@ button.parity-number:hover {
   cursor: pointer;
 }
 
-.letter-tile:hover:not(:disabled) {
-  transform: translateY(-3px);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .letter-tile:hover:not(:disabled) {
+    transform: translateY(-3px);
+  }
+}
+
+@media (hover: none) {
+  .letter-tile:active:not(:disabled) {
+    transform: translateY(-3px);
+  }
 }
 
 .letter-tile-used {

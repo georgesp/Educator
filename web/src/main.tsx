@@ -13,6 +13,10 @@ import "@fontsource/opendyslexic/700.css";
 import App from "./App";
 import "./styles.css";
 
+// Safari on the iPad applies `:active` only to pages that listen to touches (SUB023811): without
+// this empty listener, a pressed button would give no feedback under the finger.
+document.addEventListener("touchstart", () => {}, { passive: true });
+
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
     <App />

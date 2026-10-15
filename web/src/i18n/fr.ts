@@ -670,6 +670,8 @@ export const fr = {
     backup: "Sauvegarde des profils",
     backupHint:
       "Enregistrez tous les profils (points, progrès, avatars, réglages) dans un fichier, par exemple avant de changer d'ordinateur. Restaurer un fichier remplace les profils de cet ordinateur.",
+    backupOnIpad:
+      "La sauvegarde dans un fichier n'est pas encore possible sur l'iPad. Elle arrivera avec la synchronisation entre l'ordinateur et la tablette.",
     backupExport: "Enregistrer une sauvegarde",
     backupImport: "Restaurer une sauvegarde",
     backupDone: (profiles: number, path: string) => `Sauvegarde enregistrée (${profiles} profil${profiles > 1 ? "s" : ""}) : ${path}`,

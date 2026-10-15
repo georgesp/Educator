@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDB8
-rev: 2026-10-15T13:35:13Z
+rev: 2026-10-15T15:35:12Z
 url: https://github.com/georgesp/Educator/issues/240
 type: Issue
 repository: georgesp/Educator
@@ -37,3 +37,9 @@ En tant que Georges, je veux savoir précisément ce qu'il faut (matériel, comp
 
 - [x] ADR 0006 rédigé et validé par Georges.
 - [x] La liste des fiches iOS / Android du lot est ajustée selon les plateformes retenues (iPad seul : SUB023807 et SUB023905 mises de côté ; SUB023804, SUB023812, SUB023813 limitées à iOS).
+
+## Implémentation (2026-10-15)
+
+- `docs/adr/0006-application-tablette.md` (acceptée) : iPad seul (pas d'iPhone, Android mis de côté), iPad Air 13 pouces M2 sous iPadOS 27, paysage seul, iPadOS 17 minimum, Mac M1 Pro (macOS 27.0.1, Xcode 27.0), Apple ID gratuit, même dépôt, saisie par les claviers de l'application, risques.
+- `docs/tablette.md` : préparation du Mac et de l'iPad pas à pas, dépannage (signature, `libc`, confiance, réseau local, simulateur Device Hub).
+- Fiches du lot ajustées : SUB023807 et SUB023905 mises de côté ; SUB023802, 03, 04, 12, 13 limitées à iOS.

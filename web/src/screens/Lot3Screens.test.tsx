@@ -196,6 +196,20 @@ describe("parents' settings and backup (SUB001512)", () => {
     expect(api.importBackup).toHaveBeenCalled();
     expect(await screen.findByText("Sauvegarde restaurée : 1 profil.")).toBeInTheDocument();
   });
+
+  it("on the iPad, says the backup is not possible there yet (SUB023814)", async () => {
+    // Only the user agent changes: the rest of the navigator stays the one of the tests.
+    Object.defineProperty(navigator, "userAgent", { value: "Mozilla/5.0 (iPad; CPU OS 18_0 like Mac OS X)", configurable: true });
+    try {
+      unlockParentSpace();
+      renderApp(fakeApi(), "/parent/espace");
+
+      expect(await screen.findByText(/pas encore possible sur l'iPad/)).toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Enregistrer une sauvegarde" })).not.toBeInTheDocument();
+    } finally {
+      delete (navigator as { userAgent?: string }).userAgent;
+    }
+  });
 });
 
 describe("timed challenge chosen by the parents (SUB001512)", () => {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { answerInputMode } from "../../app/device";
 import { fr } from "../../i18n/fr";
 import { LetterKeyboard } from "./LetterKeyboard";
 
@@ -66,6 +67,8 @@ export function SpellingAnswer({
       autoCapitalize="off"
       autoCorrect="off"
       spellCheck={false}
+      inputMode={answerInputMode("text")}
+      enterKeyHint="done"
       lang="fr"
       maxLength={maxLength}
       value={value}

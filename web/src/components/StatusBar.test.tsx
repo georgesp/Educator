@@ -21,9 +21,9 @@ function renderWithSpeech(speech: SpeechStatusResponse) {
 
 describe("StatusBar", () => {
   it("names the voice when it is ready", async () => {
-    renderWithSpeech({ isAvailable: true, voice: "Thomas (default)", problem: null, voiceToInstall: false });
+    renderWithSpeech({ isAvailable: true, voice: "Thomas", problem: null, voiceToInstall: false });
 
-    expect(await screen.findByText("Voix : Thomas (default)")).toBeInTheDocument();
+    expect(await screen.findByText("Voix : Thomas")).toBeInTheDocument();
   });
 
   it("tells the parent where to install a French voice on the iPad", async () => {

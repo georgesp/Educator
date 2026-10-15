@@ -157,7 +157,7 @@ et `speak_word`, chaîne complète cœur → Swift → WAV → front).
 | `AVSpeechSynthesizer.write` | **Fiable** : toutes les synthèses réussies, échantillons PCM convertis en WAV 16 bits mono par le Rust |
 | Format | 22 050 Hz, 16 bits, mono (37 Ko pour « un stylo. », 0,87 s) |
 | Temps jusqu'au WAV reçu par le front | **300 à 335 ms** (Piper sur le bureau : ≈ 170 à 200 ms) ; masqué pour les dictées par la préparation des mots (ADR 0004) |
-| Voix choisie | « Thomas (default) », seule voix `fr-FR` installée ; la meilleure qualité installée est prise d'office (premium, puis améliorée) |
+| Voix choisie | « Thomas » (qualité « default »), seule voix `fr-FR` installée ; la meilleure qualité installée est prise d'office (premium, puis améliorée) |
 | Mode silencieux | Voix **entendue** grâce à la session audio `.playback` (le WAV joué par la vue web suit cette session) |
 | Vitesse lente (0,5, `AVSpeechUtteranceDefaultSpeechRate` × vitesse) | Jugée bonne par Georges |
 | Mot seul (« Le mot : jaune. » coupé) | Thomas ne marque presque pas de pause après les deux-points : la coupe du cœur (pause ≥ 150 ms) ne la trouvait pas. Le plugin lit le texte en **SSML avec une pause de 400 ms après chaque deux-points** (`COLON_PAUSE_MS`), repli sur le texte brut si le SSML est refusé : **coupe entendue correcte** |

@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { ApiError, type Profile, type ProfileStatistics, type SkillStatistics } from "../api/client";
 import { useApi } from "../app/BackendContext";
+import { isIpad } from "../app/device";
 import { isParentSpaceUnlocked, lockParentSpace, parentOrigin } from "../app/parentAccess";
 import { useProfileSession } from "../app/ProfileContext";
 import { queryKeys, useParentProfile, useProfiles } from "../app/queries";
@@ -637,9 +638,24 @@ function ChildSettings({ profile }: { profile: Profile }) {
 
 /**
  * Backup and restore of every profile (SUB001512), to keep them safe or to move to another computer.
- * A restore replaces the profiles of this computer: asked twice.
+ * A restore replaces the profiles of this computer: asked twice. The iPad has no file dialog yet
+ * (SUB023814): the section only says so there.
  */
 function BackupSection() {
+  if (isIpad()) {
+    return (
+      <section className="parent-section" aria-labelledby="parent-backup">
+        <h2 id="parent-backup" className="section-title">
+          {fr.parent.backup}
+        </h2>
+        <p className="parent-hint">{fr.parent.backupOnIpad}</p>
+      </section>
+    );
+  }
+  return <BackupActions />;
+}
+
+function BackupActions() {
   const api = useApi();
   const queryClient = useQueryClient();
   const { setProfileId } = useProfileSession();

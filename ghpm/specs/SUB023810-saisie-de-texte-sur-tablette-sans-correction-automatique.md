@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsD9U
+rev: 2026-10-14T11:29:11Z
 url: https://github.com/georgesp/Educator/issues/249
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023810 — Saisie de texte sur tablette sans correction automatique
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -36,3 +37,18 @@ Sur tablette, le clavier à l'écran peut corriger, compléter ou mettre en maju
 - [ ] Sur la tablette de test : saisie de « élève », « garçon », « où » sans correction ni majuscule automatique, avec le clavier du système ou le clavier accentué.
 - [ ] Test Vitest : les attributs sont présents sur chaque champ d'orthographe.
 - [ ] Les exercices de mathématiques (pavé numérique) ne sont pas affectés.
+
+## Implémentation (2026-10-15)
+
+- **Décision** : sur écran tactile, les champs de réponse (calcul `SeriesScreen`, quiz `LessonQuiz`, orthographe `SpellingAnswer`) ont `inputMode="none"` (`web/src/app/device.ts`) : le clavier du système ne s'ouvre pas ; l'enfant écrit avec `NumberPad` et `LetterKeyboard` (AZERTY, rangée d'accents « é è ê à â ù û ç ë ï î ô œ »). Aucune correction ni majuscule automatique possible, aucun clavier qui masque le champ.
+- Champ d'orthographe : `autocorrect`, `autocapitalize`, `spellcheck`, `autocomplete` désactivés, `enterkeyhint="done"` (test `SpellingAnswer.test.tsx`) ; `inputMode` testé (`device.test.ts`).
+- À l'ordinateur : clavier physique inchangé (`numeric` / `text`).
+- Saisie toujours normalisée et validée par le Rust (aucune logique dans le front).
+
+## Tests à faire (revue)
+
+1. iPad : toucher le champ de réponse d'une série de calcul, d'un quiz de leçon et d'une dictée → le clavier de l'iPad ne s'ouvre jamais ; seuls le pavé numérique ou le clavier de lettres de l'application servent.
+2. Dictée : écrire « élève », « garçon », « où » avec le clavier de l'application (rangée des accents) → mots saisis tels quels, sans majuscule ni correction ; validation acceptée.
+3. Mathématiques : pavé numérique inchangé (chiffres, effacer, valider).
+4. Bureau : le clavier physique marche toujours dans les champs (calcul, dictée).
+5. `npm test` → `device.test.ts` (2) et `SpellingAnswer.test.tsx` (2) verts.

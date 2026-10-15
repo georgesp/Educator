@@ -6,6 +6,7 @@ import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer
 import { playSound } from "../audio/sounds";
 import { playVoice, stopSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
+import { answerInputMode } from "../app/device";
 import { invalidateProgress } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
 import { Feedback } from "../components/child/Feedback";
@@ -344,7 +345,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       }}
       className={slots === 1 ? "answer" : "answer answer-small"}
       aria-label={label}
-      inputMode="numeric"
+      inputMode={answerInputMode("numeric")}
       autoComplete="off"
       maxLength={MAX_ANSWER_LENGTH}
       value={value(slot)}

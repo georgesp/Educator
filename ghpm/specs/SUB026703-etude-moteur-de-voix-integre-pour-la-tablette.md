@@ -48,3 +48,8 @@ Sur iOS, une application ne peut pas lancer Piper comme processus annexe. La voi
   et mêmes temps que Piper ; données espeak-ng du français réduites à 0,8 Mo.
 - Reste : prototype mesuré **sur iPad** (temps d'un mot et d'une phrase, mémoire, taille ajoutée), écoute de
   `fr_FR-siwis-low` ; fiche(s) à créer dans le lot tablette.
+
+## Suite (2026-10-15, lot tablette 1)
+
+- La partie « tablette » est traitée par le lot tablette 1 avec la **voix du système** (SUB023804, ADR 0005) : mesurée sur l'iPad, contrat WAV retenu. US0238 prévoit de clôturer cette étude une fois le lot lancé.
+- Non fait : le prototype sherpa-onnx sur iPad (temps, mémoire, taille) et l'écoute de `fr_FR-siwis-low`, utiles seulement si la voix Piper est voulue sur la tablette (fiche à créer alors).

@@ -58,9 +58,8 @@ impl<B: VoiceBridge> SpeechSynthesizer for SystemVoiceSynthesizer<B> {
     fn status(&self) -> SpeechEngineStatus {
         match self.bridge.voices() {
             Ok(voices) => match voices.chosen {
-                Some(voice) => {
-                    SpeechEngineStatus::available(format!("{} ({})", voice.name, voice.quality))
-                }
+                // The name only: the quality (« default »…) is English, the status bar shows French.
+                Some(voice) => SpeechEngineStatus::available(voice.name),
                 None => SpeechEngineStatus::voice_missing(
                     "No French (France) voice is installed on the iPad.",
                 ),
@@ -151,7 +150,7 @@ mod tests {
         let status = voice.status();
 
         assert!(status.is_available);
-        assert_eq!(Some("Thomas (default)".to_owned()), status.voice);
+        assert_eq!(Some("Thomas".to_owned()), status.voice);
         assert!(!status.voice_to_install);
     }
 

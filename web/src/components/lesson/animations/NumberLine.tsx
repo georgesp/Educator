@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { useId, useState, type KeyboardEvent } from "react";
 import type { Jump } from "../../../api/client";
+import { isTouchScreen } from "../../../app/device";
 import { fr, signed } from "../../../i18n/fr";
 import { useMove, useSteps } from "../useSteps";
 import { CarShape } from "./Cards";
@@ -188,7 +189,8 @@ export function NumberLine({ from, to, step, start, jumps, interactive, hoverVal
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => pick(v)}
               onKeyDown={(e) => onKey(e, v)}
-              onMouseEnter={() => setHovered(v)}
+              // The preview follows a mouse only: after a tap it would stay stuck on a touch screen (SUB023809).
+              onMouseEnter={() => !isTouchScreen() && setHovered(v)}
               onMouseLeave={() => setHovered((h) => (h === v ? null : h))}
               onFocus={() => setHovered(v)}
               onBlur={() => setHovered((h) => (h === v ? null : h))}

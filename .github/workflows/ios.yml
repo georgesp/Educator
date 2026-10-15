@@ -1,0 +1,46 @@
+name: iOS
+
+# The iPad version (lot tablette 1, ADR 0006): the Rust side, the Tauri shell and the Swift plugin of
+# the system voice compile for the iPad. macOS minutes cost more: only when what goes into the iPad
+# app changes (SUB023812). The front is already tested by ci.yml, including an iPad viewport.
+on:
+  push:
+    paths:
+      - "crates/**"
+      - "plugins/**"
+      - "web/src-tauri/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/ios.yml"
+  pull_request:
+    paths:
+      - "crates/**"
+      - "plugins/**"
+      - "web/src-tauri/**"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/ios.yml"
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ipad:
+    name: Rust for the iPad (aarch64-apple-ios)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ios
+      # The Tauri application embeds the built front: an empty dist is enough to compile it.
+      - name: Placeholder front build
+        run: mkdir -p web/dist && echo '<!doctype html>' > web/dist/index.html
+      # Compiles the workspace for the iPad, Swift plugin included (built by its build script), without
+      # linking the app nor signing: no Apple account needed.
+      - run: cargo clippy --workspace --target aarch64-apple-ios -- -D warnings

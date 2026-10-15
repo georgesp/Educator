@@ -61,11 +61,15 @@ rustup target list --installed   # doit lister aarch64-apple-ios et aarch64-appl
    grep -m1 DEVELOPMENT_TEAM web/src-tauri/gen/apple/educator-shell.xcodeproj/project.pbxproj
    ```
 
-4. Le donner à Tauri (sur le Mac, pas dans le dépôt) :
+4. Le donner à Tauri, pour les commandes `npm run tauri ios …` (variable sur le Mac) :
 
    ```bash
    echo 'export APPLE_DEVELOPMENT_TEAM=ZZLNHZ749W' >> ~/.zshrc && source ~/.zshrc
    ```
+
+   L'identifiant d'équipe n'est pas un secret (il figure dans toute application signée) : il reste aussi écrit dans
+   `project.pbxproj`, versionné avec `gen/apple`. Sur un autre Mac ou avec un autre Apple ID, choisir sa propre équipe
+   à l'étape 3, ce qui le remplace.
 
 Limites du compte gratuit : l'application installée expire au bout de **7 jours** (elle ne s'ouvre plus ; il suffit
 de la réinstaller depuis le Mac, les profils et résultats des enfants restent sur l'iPad) ; pas de TestFlight.
@@ -113,6 +117,65 @@ Attendu : Educator s'ouvre sur l'iPad, en paysage, sur l'écran « Qui joue ? »
 
 Au bout de 7 jours, Educator ne s'ouvre plus sur l'iPad : rebrancher l'iPad et relancer l'étape 7. Les données
 (profils, résultats) sont conservées.
+
+## 9. Icônes de l'application
+
+Les icônes de l'iPad (et du bureau) sont générées depuis une seule source, à refaire seulement si l'icône change :
+
+```bash
+cd web
+npm run tauri -- icon src-tauri/icons/icon-source.svg --ios-color "#FF7A45"
+```
+
+Attendu : `src-tauri/icons/` et `src-tauri/gen/apple/Assets.xcassets/AppIcon.appiconset/` mis à jour (icône orange au
+« + », sans coins transparents sur l'iPad). Commiter les deux dossiers.
+
+## 10. Installer une version pour les enfants (sans le Mac allumé)
+
+En développement, l'iPad charge l'interface depuis le Mac (étape 7). Pour une version autonome :
+
+```bash
+cd web
+npm run tauri ios build
+```
+
+Attendu : `src-tauri/gen/apple/build/arm64/Educator.ipa` (≈ 5 Mo). L'installer : Xcode › Window › Devices and
+Simulators › l'iPad › « + » sous *Installed Apps* › choisir le `.ipa` (ou glisser le fichier).
+
+**Mise à jour** : même procédure, la nouvelle version s'installe par-dessus l'ancienne ; les profils et résultats
+(dossier `Library/Application Support/Educator` de l'application) sont conservés. Ne jamais supprimer l'application de
+l'iPad pour la mettre à jour : cela effacerait ses données. Avec le compte gratuit, réinstaller au moins tous les
+7 jours (étape 8).
+
+## 11. Recette sur l'iPad (SUB023814)
+
+À dérouler sur l'iPad de test avec une version installée à l'étape 10, **Wi-Fi coupé** (mode avion), en paysage.
+Noter pour chaque ligne : OK, ou le défaut et son niveau (**bloquant** / **gênant** / **cosmétique**).
+
+| # | Écran / parcours | Ce qu'on vérifie |
+|---|---|---|
+| 1 | Démarrage à froid | Temps jusqu'à « Qui joue ? » (chronomètre) ; barre d'état « Voix : Thomas » |
+| 2 | Profils | Créer, modifier (personnage, accessoires), supprimer un profil ; clavier du système pour le prénom |
+| 3 | Menu, sujets, carte de progression | Rien de tronqué, pas de défilement horizontal, zones sûres (barre d'état, barre d'accueil) |
+| 4 | Série de calcul au pavé numérique | Le clavier du système ne s'ouvre jamais ; boutons qui répondent du premier coup |
+| 5 | Série en QCM | Tuiles qui réagissent à l'appui, sans survol « collé » |
+| 6 | Dictée | « Écouter le mot » : mot seul, sans « Le mot : » ; « Plus lentement » ; saisie « élève », « garçon », « où » au clavier de l'application |
+| 7 | Mots à trous, « Choisis la bonne écriture » | Saisie et écoute |
+| 8 | Leçons et animations | Animations fluides, glisser-déposer des lettres au doigt, droite graduée sans aperçu collé |
+| 9 | Quiz de leçon | Saisie au pavé numérique |
+| 10 | Examen (avec chrono par question) | Passer en arrière-plan 30 s pendant une question : le temps est en pause au retour |
+| 11 | Défi chrono | Passer en arrière-plan plus longtemps que le défi : au retour, résultats affichés sans erreur |
+| 12 | Mascotte, badges, récompenses, avatar | Affichage et animations |
+| 13 | Options, espace parent (barrière adulte, statistiques, sauvegarde) | Sauvegarde : le dialogue de fichier n'existe que sur l'ordinateur, noter le comportement |
+| 14 | Voix | Consigne et mot lus en moins de 0,5 s ; mode silencieux : voix entendue ; arrêt en arrière-plan ; appel FaceTime pendant une série puis reprise |
+| 15 | Hors ligne | Tout ce qui précède en mode avion |
+| 16 | Rotation | L'écran reste en paysage |
+| 17 | Fermeture forcée pendant une série | Relance sur « Qui joue ? », points déjà gagnés conservés, aucun message culpabilisant |
+| 18 | Mesures | Taille installée (Réglages › Général › Stockage de l'iPad), mémoire (Xcode › Debug Navigator), latence de la voix |
+| 19 | Écoute des mots CP–CE1 | Liste des mots mal prononcés par la voix de l'iPad (pour la banque de mots) |
+
+Rapport : copier ce tableau rempli dans la fiche SUB023814 (section « Recette »), avec une fiche ou une correction
+pour chaque défaut bloquant ou gênant.
 
 ## Dépannage
 

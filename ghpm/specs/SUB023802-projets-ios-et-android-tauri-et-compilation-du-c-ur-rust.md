@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDKY
-rev: 2026-10-15T13:35:14Z
+rev: 2026-10-15T15:35:14Z
 url: https://github.com/georgesp/Educator/issues/241
 type: Issue
 repository: georgesp/Educator
@@ -39,3 +39,12 @@ Fiche 01 (plateformes retenues).
 - [x] Même chose sur la tablette physique.
 - [x] `cargo test --workspace` reste vert sur macOS (et `clippy` sans avertissement).
 - [x] La barre d'état indique que la voix est indisponible (en attendant les fiches voix), sans erreur.
+
+## Implémentation (2026-10-15)
+
+- `tauri ios init` : projet Xcode `web/src-tauri/gen/apple` commité (`project.yml` fait foi) ; `.gitignore` n'ignore plus que `gen/schemas/` et `gen/apple/assets/` (copie de `content/` faite au build).
+- iPad seulement (`TARGETED_DEVICE_FAMILY = 2`) et paysage seul (`project.yml`, `Info.plist`, `project.pbxproj`) ; `bundle.iOS.minimumSystemVersion` = 17.0 dans `tauri.conf.json`.
+- Permissions séparées : `capabilities/default.json` (`core:default`, partout) et `capabilities/desktop.json` (`window-state`, `dialog`, bureau seulement).
+- Signature : équipe « Personal Team » choisie dans Xcode, identifiant passé par la variable `APPLE_DEVELOPMENT_TEAM` (hors dépôt).
+- `libc` bloquée à 0.2.189 dans `Cargo.lock` : la 0.2.190 réserve `mach_task_self` à macOS et casse `num_threads` (via `time`, `tauri-plugin-log`) pour iOS (ADR 0006, risques).
+- `CLAUDE.md` : commandes iOS et dossier `gen/apple`.

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
+import { usePageVisible } from "../../app/visibility";
 import { fr } from "../../i18n/fr";
 
 type TimerBarProps = {
@@ -19,10 +20,23 @@ export function TimerBar({ seconds, rightCount, onOver }: TimerBarProps) {
   const over = useRef(onOver);
   over.current = onOver;
 
+  // The challenge lasts `seconds` of real time, as the core counts it (it refuses answers after the
+  // end). Back from the background (iPad, SUB023811), a challenge whose time is over ends at once,
+  // with its results, instead of waiting for a timer that was suspended.
+  const endsAt = useRef(Date.now() + seconds * 1000);
+  const visible = usePageVisible();
+
   useEffect(() => {
+    endsAt.current = Date.now() + seconds * 1000;
     const timer = window.setTimeout(() => over.current(), seconds * 1000);
     return () => window.clearTimeout(timer);
   }, [seconds]);
+
+  useEffect(() => {
+    if (visible && Date.now() >= endsAt.current) {
+      over.current();
+    }
+  }, [visible]);
 
   return (
     <div className="timer">

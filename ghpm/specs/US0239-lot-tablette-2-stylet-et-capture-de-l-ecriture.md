@@ -1,12 +1,13 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsC8w
+rev: 2026-10-15T19:43:23Z
 url: https://github.com/georgesp/Educator/issues/239
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: US0239 — Lot tablette 2 — Stylet et capture de l'écriture
+title: US0239 — Lot tablette 3 — Stylet et capture de l'écriture
 status: Todo
 size: XL
 estimate:
@@ -18,7 +19,7 @@ order: 4000
 
 Source : demande de Georges du 2026-10-14 ; étude de faisabilité du stylet du même jour.
 
-- **Lot** : tablette 2 — Stylet et capture de l'écriture
+- **Lot** : tablette 3 — Stylet et capture de l'écriture
 - **Prérequis** : lot tablette 1 (application sur tablette, saisie sans correction automatique) ; lot 2 (dictée, mots à trous).
 - **Lot suivant** : à définir (selon les résultats de l'étude).
 

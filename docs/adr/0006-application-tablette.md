@@ -70,6 +70,8 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
   réinstaller depuis le Mac ; les données de l'application restent en place) ; pas de TestFlight ; nombre
   d'applications installées et d'identifiants limité. Educator n'a besoin d'aucune capacité réservée aux comptes
   payants (iCloud, notifications…).
+- L'identifiant d'équipe (`DEVELOPMENT_TEAM`) n'est pas un secret : il est écrit dans `project.pbxproj` (versionné
+  avec `gen/apple`) et donné aussi à Tauri par la variable `APPLE_DEVELOPMENT_TEAM` (`docs/tablette.md`, étape 4).
 - Le **mode développeur** doit être activé sur l'iPad (Réglages › Confidentialité et sécurité › Mode développeur).
 - Passage au compte payant (99 € par an) à décider quand l'iPad servira tous les jours aux enfants ou pour
   TestFlight ; publication sur l'App Store hors périmètre (lot packaging).
@@ -90,16 +92,61 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
 ### Saisie : les claviers de l'application
 
 - Les exercices ont déjà leurs claviers à l'écran : `NumberPad` (nombres) et `LetterKeyboard` (AZERTY, accents, œ).
-- Proposition pour la fiche 10 : sur l'iPad, le clavier du système ne s'ouvre pas sur les champs de réponse
-  (`inputMode="none"` ou champ en lecture seule) ; l'enfant n'utilise que les claviers de l'application. Plus de
-  correction automatique ni de clavier qui masque le champ de réponse.
+- **Retenu (SUB023810)** : sur un écran tactile (`(pointer: coarse)`, `web/src/app/device.ts`), les champs de réponse
+  (calcul, quiz de leçon, orthographe) ont `inputMode="none"` : le clavier du système ne s'ouvre pas, l'enfant
+  n'utilise que les claviers de l'application. Plus de correction automatique ni de clavier qui masque le champ ;
+  accents par `LetterKeyboard`. Le champ d'orthographe garde aussi `autocorrect`, `autocapitalize`, `spellcheck`
+  désactivés. Rien ne change à l'ordinateur.
 - Les champs de texte libre (nom d'un profil, espace parent) gardent le clavier du système, sans correction
   automatique ni majuscule automatique.
 
 ### Voix
 
-- Voix du système (`AVSpeechSynthesizer`), comme décidé dans US0238 et l'ADR 0005 (option A). La fiche 04 choisit le
-  contrat (WAV renvoyé au front comme aujourd'hui, ou lecture directe).
+- Voix du système (`AVSpeechSynthesizer`), comme décidé dans US0238 et l'ADR 0005 (option A). Contrat WAV retenu
+  (fiche 04) : plugin `tauri-plugin-system-voice`.
+- Session audio `.playback` (la voix s'entend en mode silencieux) avec `.duckOthers` : une musique lancée sur l'iPad
+  baisse pendant qu'Educator parle, puis reprend, au lieu d'être coupée.
+- La voix peut être installée pendant que l'application tourne : l'état de la voix est relu à chaque demande de la
+  barre d'état, et les examens suivent (questions d'écoute proposées ou non).
+
+### Écran et tactile (SUB023808, SUB023809)
+
+- `viewport-fit=cover`, zones sûres par `env(safe-area-inset-*)` (`.layout`, boutons placés dans les coins) ; zoom
+  par pincement et double-tap désactivés (`maximum-scale=1`, `user-scalable=no`, `touch-action: manipulation`).
+- Sur écran tactile : pas de sélection de texte, de menu contextuel, de surbrillance au toucher ni de rebond de la
+  page (les champs restent sélectionnables).
+- Les effets de survol ne s'appliquent qu'avec une souris (`@media (hover: hover)`) ; au doigt, le même aspect pendant
+  l'appui (`:active`, `@media (hover: none)`). L'aperçu au survol de la droite graduée ne suit que la souris.
+- Safari n'applique `:active` qu'aux pages qui écoutent le toucher : un écouteur `touchstart` vide (`main.tsx`) le
+  rend actif.
+- Cibles tactiles d'au moins 44 points (recommandation d'Apple) ; la bande « couper ici » de la grille de voitures a
+  été agrandie (38 unités, ≈ 44 points affichée).
+- Rendu bureau inchangé : `env()` vaut 0 et les règles tactiles ne s'appliquent pas à la souris.
+
+### Cycle de vie (SUB023811)
+
+- **Séries en cours non persistées** : sur l'iPad, le front et le cœur vivent dans le même processus ; si iPadOS
+  ferme l'application, les deux repartent ensemble sur « Qui joue ? ». Les réponses déjà données sont enregistrées
+  (`Session`, `Answer`) ; persister les séries coûterait une migration et une reprise d'état pour un cas rare. Une
+  série introuvable répond 404 (tests existants), affichée par le message bienveillant habituel.
+- **Arrière-plan** : la voix s'arrête ; le temps d'une question (examen, évaluation) est mis en pause ; le défi chrono
+  compte le temps réel comme le cœur (qui refuse les réponses après la fin) : de retour, un défi terminé s'arrête
+  aussitôt avec ses résultats.
+- **Aussi sur l'ordinateur** (accepté le 2026-10-15) : la même règle s'applique quand la fenêtre est réduite ou
+  cachée (`visibilitychange`) : la voix s'arrête et le temps d'une question est mis en pause.
+- **Veille de l'écran** : réglage normal de l'iPad (pas de maintien allumé) ; à revoir à la recette si une dictée est
+  coupée par la mise en veille.
+- **Base** : SQLite en WAL résiste à une fermeture brutale (reprise du journal à l'ouverture suivante).
+
+### Sauvegarde des profils (SUB023814)
+
+- Pas encore sur l'iPad (pas de boîte de dialogue de fichiers branchée) : l'espace parents le dit à la place des
+  boutons. Elle viendra avec la synchronisation entre l'ordinateur et la tablette.
+
+### Icône et écran de lancement (SUB023813)
+
+- Source unique `web/src-tauri/icons/icon-source.svg` (1 024 px, dessinée d'après `icon.png`) ; icônes iOS sur fond
+  orange (`--ios-color`), sans transparence. Écran de lancement blanc (fond du thème), aussi en mode sombre.
 
 ### Taille de l'application
 
@@ -126,7 +173,7 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
 | Fenêtres redimensionnables d'iPadOS 26+ | Écran trop petit, mise en page cassée | Fiche 08 : taille minimale ou message « Agrandis la fenêtre » |
 | Voix française absente ou de qualité basique | Dictée peu claire | Fiche 05 : état de la voix et message au parent (voix « améliorée » à télécharger dans les réglages) |
 | Application suspendue ou tuée par iPadOS | Série perdue | Fiche 11 : reprise ou abandon propre |
-| Mises à jour de Xcode et d'iPadOS chaque année | Build cassé | Versions notées dans `docs/tablette.md`, CI iOS (fiche 12) |
+| Mises à jour de Xcode et d'iPadOS chaque année | Build cassé | Versions notées dans `docs/tablette.md`, CI iOS (fiche 12, à valider à son premier passage sur GitHub) |
 | `libc` 0.2.190 réserve `mach_task_self` à macOS : `num_threads` 0.1.7 (via `time`, `tauri-plugin-log`) ne compile plus pour iOS | Build iPad cassé | `libc` bloquée à 0.2.189 dans `Cargo.lock` (2026-10-15) ; ne pas lancer `cargo update` sans `-p` ; lever le blocage quand `libc` ou `num_threads` corrige |
 
 ## Conséquences sur les fiches du lot

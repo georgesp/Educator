@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512">
+  <!-- Educator icon, source of `tauri icon` at 1024 px (iPad icons, SUB023813): drawn after icon.png. -->
+  <rect x="32" y="32" width="448" height="448" rx="99" fill="#FF7A45"/>
+  <circle cx="256" cy="256" r="150" fill="#FFF8EC"/>
+  <rect x="241" y="166" width="30" height="180" rx="15" fill="#2B2140"/>
+  <rect x="166" y="241" width="180" height="30" rx="15" fill="#2B2140"/>
+</svg>

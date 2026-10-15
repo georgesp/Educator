@@ -23,6 +23,19 @@ export default defineConfig({
         launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined },
       },
     },
+    {
+      // The iPad of the tablet lot (ADR 0006): iPad Air 13 inches in landscape, touch screen (SUB023808, SUB023812).
+      name: "ipad-landscape",
+      testMatch: /lot1\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1366, height: 1024 },
+        deviceScaleFactor: 2,
+        hasTouch: true,
+        isMobile: true,
+        launchOptions: { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined },
+      },
+    },
   ],
   webServer: {
     command: "npx vite --port 4173 --strictPort",

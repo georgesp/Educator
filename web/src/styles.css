@@ -223,8 +223,17 @@ body {
     background-color 0.1s ease;
 }
 
-.button:hover:not(:disabled) {
-  transform: translateX(4px);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .button:hover:not(:disabled) {
+    transform: translateX(4px);
+  }
+}
+
+@media (hover: none) {
+  .button:active:not(:disabled) {
+    transform: translateX(4px);
+  }
 }
 
 .button:active:not(:disabled) {
@@ -459,8 +468,17 @@ body {
     background-color 0.1s ease;
 }
 
-.big-button:hover:not([aria-disabled="true"]) {
-  transform: translateX(6px);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .big-button:hover:not([aria-disabled="true"]) {
+    transform: translateX(6px);
+  }
+}
+
+@media (hover: none) {
+  .big-button:active:not([aria-disabled="true"]) {
+    transform: translateX(6px);
+  }
 }
 
 .big-button:active:not([aria-disabled="true"]) {
@@ -661,8 +679,17 @@ body {
   transition: transform 0.1s ease;
 }
 
-.profile-card:hover {
-  transform: translateY(-4px);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .profile-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (hover: none) {
+  .profile-card:active {
+    transform: translateY(-4px);
+  }
 }
 
 .profile-card-new {
@@ -1201,8 +1228,17 @@ body {
   transition: transform 0.1s ease;
 }
 
-.choice-tile:hover:not(:disabled) {
-  transform: translateY(-3px);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .choice-tile:hover:not(:disabled) {
+    transform: translateY(-3px);
+  }
+}
+
+@media (hover: none) {
+  .choice-tile:active:not(:disabled) {
+    transform: translateY(-3px);
+  }
 }
 
 .choice-tile:disabled {
@@ -1688,8 +1724,17 @@ body {
   cursor: pointer;
 }
 
-.tick-target:hover {
-  fill: rgb(215 38 43 / 0.12);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .tick-target:hover {
+    fill: rgb(215 38 43 / 0.12);
+  }
+}
+
+@media (hover: none) {
+  .tick-target:active {
+    fill: rgb(215 38 43 / 0.12);
+  }
 }
 
 .tick-right .tick-line {
@@ -2670,9 +2715,21 @@ body {
   cursor: pointer;
 }
 
-.parent-spark-button:hover,
 .parent-spark-button[aria-expanded="true"] {
   border-color: var(--border);
+}
+
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .parent-spark-button:hover {
+    border-color: var(--border);
+  }
+}
+
+@media (hover: none) {
+  .parent-spark-button:active {
+    border-color: var(--border);
+  }
 }
 
 .sparkline {
@@ -2913,8 +2970,17 @@ body {
   transition: transform 0.12s ease;
 }
 
-.profile-panel-avatar:hover {
-  transform: scale(1.04);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .profile-panel-avatar:hover {
+    transform: scale(1.04);
+  }
+}
+
+@media (hover: none) {
+  .profile-panel-avatar:active {
+    transform: scale(1.04);
+  }
 }
 
 .profile-panel-avatar:focus-visible {
@@ -3415,8 +3481,17 @@ body {
   transition: transform 0.12s ease;
 }
 
-.map-step:hover {
-  transform: scale(1.08);
+/* Hover only with a mouse; on a touch screen the same look while pressed (SUB023809). */
+@media (hover: hover) {
+  .map-step:hover {
+    transform: scale(1.08);
+  }
+}
+
+@media (hover: none) {
+  .map-step:active {
+    transform: scale(1.08);
+  }
 }
 
 .map-step:focus-visible {
@@ -3663,4 +3738,58 @@ body {
 
 .profile-link svg {
   flex: none;
+}
+
+/* ── Tablet: iPad in landscape (lot tablette 1, ADR 0006) ───────────────────────────────────
+   Safe areas (status bar, home indicator) with `viewport-fit=cover` (SUB023808): `env()` is 0 on
+   the desktop, so the desktop layout does not move. Touch screens (SUB023809): no text selection,
+   callout, tap highlight, double-tap zoom or page bounce on the interface; fields stay selectable. */
+.layout {
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px)
+    env(safe-area-inset-left, 0px);
+}
+
+.back {
+  top: calc(24px + env(safe-area-inset-top, 0px));
+  left: calc(24px + env(safe-area-inset-left, 0px));
+}
+
+.sound-toggle {
+  top: calc(28px + env(safe-area-inset-top, 0px));
+  right: calc(24px + env(safe-area-inset-right, 0px));
+}
+
+.break-reminder {
+  right: calc(24px + env(safe-area-inset-right, 0px));
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (pointer: coarse) {
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
+
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  label {
+    touch-action: manipulation;
+  }
 }

@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDYw
-rev: 2026-10-15T13:35:16Z
+rev: 2026-10-15T18:20:47Z
 url: https://github.com/georgesp/Educator/issues/243
 type: Issue
 repository: georgesp/Educator
@@ -43,3 +43,9 @@ Aujourd'hui le contrat est : le Rust renvoie des **octets WAV** (`SpeechSynthesi
 - [x] Lecture du WAV par le front après l'appel asynchrone vérifiée dans la vue web de l'iPad (risque noté dans l'ADR 0006) : jouée.
 - [x] Écoute de contrôle par Georges (qualité, vitesse 0,5×) notée dans l'ADR.
 - [x] `AVSpeechSynthesizer.write` essayé en natif (WAV fiable ?) : décide entre le contrat WAV et la lecture native. **Contrat WAV retenu** (ADR 0005).
+
+## Implémentation (2026-10-15)
+
+- Page de développement `#/dev/voix` (`web/src/screens/VoiceLabScreen.tsx`, route `dev/voix` seulement en développement) : voix de l'API Web, WAV joué après un délai, puis voix native par le cœur (section 5).
+- Mesures et décision dans l'ADR 0005 : premier son de la voix du système en 4 à 39 ms ; WAV joué après un appel asynchrone ; `AVSpeechSynthesizer.write` fiable, WAV reçu en 300 à 335 ms ; voix entendue en mode silencieux (session `.playback`) ; **contrat WAV retenu**, lecture native écartée.
+- À retirer en fin de lot : la page `#/dev/voix` et sa route.

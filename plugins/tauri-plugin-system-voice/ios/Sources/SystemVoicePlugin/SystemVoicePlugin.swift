@@ -160,10 +160,12 @@ class SystemVoicePlugin: Plugin {
   }
 
   /// Instructions and dictations are heard even when the iPad is in silent mode (ADR 0005), like
-  /// the sound of a video. The WAV played by the WebView follows this session.
+  /// the sound of a video. The WAV played by the WebView follows this session. Another app's sound
+  /// (music, podcast) is lowered while the voice reads, not stopped (`.duckOthers`).
   private func activateAudioSession() {
     do {
-      try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [])
+      try AVAudioSession.sharedInstance().setCategory(
+        .playback, mode: .spokenAudio, options: [.duckOthers])
       try AVAudioSession.sharedInstance().setActive(true)
     } catch {
       NSLog("Educator system voice: audio session not set: \(error)")

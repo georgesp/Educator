@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDSo
-rev: 2026-10-15T13:35:15Z
+rev: 2026-10-15T18:20:47Z
 url: https://github.com/georgesp/Educator/issues/242
 type: Issue
 repository: georgesp/Educator
@@ -40,3 +40,9 @@ Fiche 02.
 - [x] Le contenu est chargé en entier : aucun « Invalid content skipped » dans les logs, compétences et personnages présents.
 - [x] Taille de l'application mesurée et notée dans l'ADR 0006 (`.ipa` 4,9 Mo, application installée 11 Mo).
 - [x] Test automatique de la résolution des chemins (sans Tauri) dans `educator-data` (`crates/educator-data/tests/paths.rs`).
+
+## Implémentation (2026-10-15)
+
+- `crates/educator-data/src/paths.rs` : l'iPad range ses données dans `<conteneur>/Library/Application Support/Educator/` (fermeture au lancement corrigée : `~/.config` n'est pas inscriptible sur iOS) ; résolution en fonction pure `data_directory_for(Platform, variables)`, 7 tests (`crates/educator-data/tests/paths.rs`).
+- Contenu trouvé dans le paquet iOS (`assets/content`), base et logs dans le dossier de données ; persistance vérifiée par Georges sur l'iPad.
+- Taille (version finale) : `.ipa` 4,9 Mo, application installée 11 Mo (exécutable 8,0 Mo, contenu 3,0 Mo), notée dans l'ADR 0006.

@@ -210,6 +210,9 @@ impl Services {
 
     pub fn status(&self) -> StatusResponse {
         let speech = self.speech.status();
+        // The voice can come or go after start-up (a French voice installed on the iPad while the
+        // application runs, SUB023805): the exams follow, as the status bar does.
+        self.series.set_listening(listening_from(&speech));
         StatusResponse {
             version: env!("CARGO_PKG_VERSION").to_owned(),
             database: DatabaseStatusResponse { is_ready: true },
@@ -1107,7 +1110,11 @@ fn adjusted(readings: Vec<speech::Reading>, voice: VoiceSpeed) -> Vec<speech::Re
 }
 
 fn listening_of(speech: &dyn SpeechSynthesizer) -> Listening {
-    if speech.status().is_available {
+    listening_from(&speech.status())
+}
+
+fn listening_from(status: &speech::SpeechEngineStatus) -> Listening {
+    if status.is_available {
         Listening::Available
     } else {
         Listening::Unavailable

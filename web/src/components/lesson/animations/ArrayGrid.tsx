@@ -22,6 +22,9 @@ type ArrayGridProps = {
 const CELL_W = 58;
 const CELL_H = 34;
 const PAD = 8;
+// Height of the band that cuts between two rows: about 44 points under the finger once the grid is
+// drawn 1.15 times larger (SUB023811). Two bands overlap a little, each keeping its own line.
+const CUT_HIT = 38;
 
 type CarsProps = {
   rows: number;
@@ -66,9 +69,9 @@ function Cars({ rows, cols, splitAt = null, leaving = 0, onCut, cutAt = null, la
           <rect
             key={`cut-${r}`}
             x={0}
-            y={PAD + (r + 1) * CELL_H - 8}
+            y={PAD + (r + 1) * CELL_H - CUT_HIT / 2}
             width={width + 40}
-            height={16}
+            height={CUT_HIT}
             className="grid-cut-hit"
             role="button"
             tabIndex={0}

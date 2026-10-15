@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsC4w
-rev: 2026-10-15T13:35:22Z
+rev: 2026-10-15T19:44:26Z
 url: https://github.com/georgesp/Educator/issues/238
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "US0238 — Lot tablette 1 — Application tablette (iso-fonctionnelle, voix de la tablette)"
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
@@ -46,6 +46,12 @@ Détail et raisons : `docs/adr/0006-application-tablette.md` ; préparation du M
 - Orientation : **paysage seul**.
 - Mac : MacBook Pro M1 Pro, macOS Golden Gate 27.0.1, Xcode 27.0.
 - Compte : **Apple ID gratuit** pour commencer (installation valable 7 jours, pas de TestFlight) ; compte Apple Developer payant à décider avant un usage quotidien par les enfants.
+
+## Avancement (2026-10-15)
+
+- Terminées : SUB023801 (étude, ADR 0006), SUB023802 (projet iOS), SUB023803 (données, contenu, taille 4,9 Mo), SUB023804 (étude de la voix : contrat WAV, ADR 0005).
+- En revue : SUB023805 (plugin de voix), SUB023806 (voix iOS), SUB023808 (écrans, zones sûres), SUB023809 (tactile), SUB023810 (saisie sans clavier du système), SUB023811 (cycle de vie), SUB023812 (CI iOS), SUB023813 (icônes, installation, mise à jour), SUB023814 (recette : checklist prête dans `docs/tablette.md`, à dérouler sur l'iPad). Chaque fiche a sa section « Tests à faire (revue) ».
+- Mise de côté : SUB023807 (voix Android).
 
 ## Hors périmètre
 

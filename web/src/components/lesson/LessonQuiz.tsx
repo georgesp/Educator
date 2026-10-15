@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { AnswerPayload, Lesson, Series, SeriesAnswer, SeriesSummary } from "../../api/client";
 import { playVoice } from "../../audio/useSpeech";
 import { useApi } from "../../app/BackendContext";
+import { answerInputMode } from "../../app/device";
 import { invalidateProgress } from "../../app/queries";
 import { fr } from "../../i18n/fr";
 import { ChoiceGrid } from "../child/ChoiceGrid";
@@ -190,7 +191,7 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
             ref={input}
             className={answered ? `answer ${answered.outcome.correct ? "slot-right" : "slot-wrong"}` : "answer"}
             aria-label={fr.series.answerLabel}
-            inputMode="numeric"
+            inputMode={answerInputMode("numeric")}
             autoComplete="off"
             maxLength={MAX_ANSWER_LENGTH}
             value={value}

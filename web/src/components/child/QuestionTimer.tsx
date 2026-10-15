@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { usePageVisible } from "../../app/visibility";
 import { fr } from "../../i18n/fr";
 
 type QuestionTimerProps = {
@@ -23,9 +24,12 @@ export function QuestionTimer({ seconds, running, onOver }: QuestionTimerProps) 
   const over = useRef(onOver);
   over.current = onOver;
   const [remaining, setRemaining] = useState(seconds * 1000);
+  // Paused while the application is in the background (a call, another app: SUB023811).
+  const visible = usePageVisible();
+  const counting = running && visible;
 
   useEffect(() => {
-    if (!running) {
+    if (!counting) {
       return;
     }
 
@@ -41,7 +45,7 @@ export function QuestionTimer({ seconds, running, onOver }: QuestionTimerProps) 
       }
     }, TICK_MS);
     return () => window.clearInterval(timer);
-  }, [running]);
+  }, [counting]);
 
   const secondsLeft = Math.ceil(remaining / 1000);
   const low = secondsLeft <= LOW_SECONDS;
