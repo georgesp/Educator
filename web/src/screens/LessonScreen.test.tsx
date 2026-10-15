@@ -35,7 +35,7 @@ describe("LessonsScreen", () => {
     // A single family: no filter to show.
     expect(screen.queryByRole("group", { name: "Choisis une famille" })).not.toBeInTheDocument();
     await user.click(lesson);
-    expect(api.listLessons).toHaveBeenCalledWith("CP", "Math");
+    expect(api.listLessons).toHaveBeenCalledWith("CP", "Math", "p-lea");
     expect(screen.queryByText(/En attendant, voici celles du CE1/)).not.toBeInTheDocument();
     await waitFor(() => expect(router.state.location.pathname).toBe("/lecons/maths/ce1-add-9-19-29"));
   });

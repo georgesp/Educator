@@ -37,11 +37,17 @@ embarqué : la taille de l'application ne dépend plus du nombre de mots.
   première consonne (« stylo » entendu « sylo ») ; l'article règle le problème et donne le genre. Champ `article`
   (« un » ou « une », jamais « le » ni « l' » à cause de l'élision) obligatoire pour la catégorie `nom` ; l'enfant
   n'écrit que le nom, l'article est affiché devant la case (« un [______] »).
-- **Les autres mots sont lus suivis d'une virgule** : « beau, », « très, » (décision du 2026-10-15, qui remplace
-  le point choisi le 2026-10-14). Suivi d'un point, un mot court est souvent mal rendu par la voix : « beau. » est
-  entendu « beu » à chaque lecture (voyelle mesurée : 2e formant ≈ 1 600 Hz, celui d'un [ø], contre ≈ 950 Hz avec la
-  virgule, l'exclamation ou les deux-points ; la phonétique d'espeak-ng, `bˈo`, est pourtant juste). Georges a
-  choisi la virgule à l'écoute.
+- **Les autres mots sont lus dans « Le mot : jaune. », coupé à la pause du deux-points** : l'enfant n'entend
+  que « jaune » (décision du 2026-10-15, qui remplace le point du 2026-10-14 puis la virgule du matin même).
+  Seul, un mot court est rendu de façon instable par la voix, et la bonne ponctuation dépend du mot : « beau. » est
+  entendu « beu » mais « beau, » est juste, « jaune, » est entendu « jeuné » mais « jaune. » est juste (voyelle
+  mesurée sur des dizaines de lectures ; la phonétique d'espeak-ng, `bˈo`, `ʒˈon`, est pourtant juste). Dans la
+  petite phrase, le mot est rendu juste environ 9 fois sur 10, contre 7 sur 10 seul avec la meilleure ponctuation.
+  Une ponctuation placée avant le mot ne sert à rien : espeak-ng la retire. La coupe
+  (`educator_core::speech::keep_after_first_pause`) cherche le premier silence d'au moins 150 ms après le début de
+  la parole (la pause du deux-points dure 230 à 530 ms, la tenue d'une consonne comme le « t » de « auto » 60 à
+  110 ms) et garde 120 ms de silence avant le mot ; un fichier sans telle pause est gardé entier. Validé à
+  l'écoute par Georges.
 - **Les homophones ont toujours leur phrase** : un mot de `content/spelling/homophones.json` (liste tenue à la
   main), ou un mot dont la `pronunciation` est celle d'un autre mot de la banque, sans `example` est refusé au
   chargement.
@@ -118,8 +124,14 @@ Environnement de développement de Claude (Linux x64, 2 cœurs, voix siwis-mediu
 - synthèse d'un calcul après préchauffage : 100 à 420 ms selon la charge ;
 - mémoire d'un processus Piper : ≈ 105 Mo (RSS).
 
-**À mesurer sur le Mac de Georges (Rosetta)** et à reporter ici : `cargo test -p educator-content --test speech
-piper_ -- --nocapture` (délais de la dictée), mémoire totale des processus `piper` dans le Moniteur d'activité.
+Mac de Georges (Apple Silicon, Piper sous Rosetta), 2026-10-15, d'après les logs et `ps` :
+
+- deux processus prêts au démarrage (consignes et mots) en 0,5 à 1,8 s ; aucun redémarrage ensuite ; le processus
+  lent démarre au premier clic sur « Plus lentement » (voix chargée en 0,28 s) et s'arrête 2 min après ;
+- synthèse d'un mot ou d'une phrase : ≈ 50 à 120 ms ; préparation des mots d'une série : ≈ 0,8 s ; mot entendu
+  aussitôt après le clic ;
+- mémoire : au plus 3 processus, 300 à 360 Mo au total (≈ 100 à 120 Mo chacun), 2 processus (≈ 210 à 240 Mo)
+  hors écoute lente.
 
 ## Conséquences
 

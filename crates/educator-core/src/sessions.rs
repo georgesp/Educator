@@ -27,15 +27,18 @@ pub enum SessionType {
     /// The level assessment taken once per subject after the creation of a profile. Only a
     /// finished one counts: an abandoned one is left out of the statistics and the masteries.
     Placement,
+    /// « Mes révisions » (SUB001509): the mistakes of the review queue due today.
+    Review,
 }
 
 impl SessionType {
-    pub const ALL: [SessionType; 5] = [
+    pub const ALL: [SessionType; 6] = [
         SessionType::Exercise,
         SessionType::Exam,
         SessionType::Timed,
         SessionType::LessonQuiz,
         SessionType::Placement,
+        SessionType::Review,
     ];
 
     /// Stored name.
@@ -46,6 +49,7 @@ impl SessionType {
             SessionType::Timed => "Timed",
             SessionType::LessonQuiz => "LessonQuiz",
             SessionType::Placement => "Placement",
+            SessionType::Review => "Review",
         }
     }
 }

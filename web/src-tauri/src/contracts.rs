@@ -17,8 +17,10 @@ use educator_core::statistics;
 use serde::{Deserialize, Serialize};
 
 mod figures;
+mod motivation;
 
 pub use figures::*;
+pub use motivation::*;
 
 // ── Enums ────────────────────────────────────────────────────────────────────────────────────
 
@@ -149,6 +151,7 @@ pub enum SessionType {
     Timed,
     LessonQuiz,
     Placement,
+    Review,
 }
 
 impl From<sessions::SessionType> for SessionType {
@@ -159,6 +162,7 @@ impl From<sessions::SessionType> for SessionType {
             sessions::SessionType::Timed => SessionType::Timed,
             sessions::SessionType::LessonQuiz => SessionType::LessonQuiz,
             sessions::SessionType::Placement => SessionType::Placement,
+            sessions::SessionType::Review => SessionType::Review,
         }
     }
 }
@@ -264,6 +268,8 @@ pub struct SkillResponse {
     pub listening_formats: Vec<SpellingFormat>,
     /// Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
     pub mastery: Option<u8>,
+    /// Best stars of the profile on the skill (0 to 3, SUB001502).
+    pub stars: u8,
 }
 
 /// Family of a skill: the front shows « Mes tables » next to the multiplications.
@@ -334,6 +340,7 @@ impl SkillResponse {
         offered: &skills::OfferedSkill<'_>,
         current_period: u8,
         mastery: Option<u8>,
+        stars: u8,
     ) -> Self {
         let skill = offered.skill;
         Self {
@@ -358,6 +365,7 @@ impl SkillResponse {
                 .filter_map(|f| SpellingFormat::from_format(*f))
                 .collect(),
             mastery,
+            stars,
         }
     }
 }
@@ -393,6 +401,8 @@ pub struct ProfileResponse {
     pub name: String,
     pub grade: Grade,
     pub character_id: String,
+    /// The accessories worn by the avatar (SUB001504).
+    pub accessories: Vec<WornAccessoryResponse>,
     pub points: i32,
     /// Seconds given per question of the level assessment.
     pub placement_seconds: u32,
@@ -409,6 +419,7 @@ impl From<&Profile> for ProfileResponse {
             name: profile.name.clone(),
             grade: profile.grade.into(),
             character_id: profile.character_id.clone(),
+            accessories: profile.accessories.iter().map(Into::into).collect(),
             points: profile.points,
             placement_seconds: profile.placement_seconds,
             exam_seconds: profile.exam_seconds,
@@ -1020,6 +1031,8 @@ pub struct SeriesSummaryResponse {
     pub new_record: bool,
     /// Lesson quiz (SUB001411): fewer than half right answers, « Revoir la leçon » comes first.
     pub review_lesson: bool,
+    /// Stars, level, goal of the day, badges and accessories brought by the session (lot 3).
+    pub rewards: Option<SessionRewardsResponse>,
 }
 
 /// The results of a series on one skill.
@@ -1184,6 +1197,7 @@ impl SeriesSummaryResponse {
             previous_best: summary.previous_best,
             new_record: summary.new_record,
             review_lesson: summary.review_lesson,
+            rewards: None,
             mascot_situation: mascot::Situation::after_series(
                 summary.correct_count,
                 summary.exercise_count,
@@ -1270,11 +1284,20 @@ pub struct LessonSummaryResponse {
     pub duration_minutes: u8,
     /// Family of the main skill of the lesson (its first one), `null` when it is not loaded.
     pub category: Option<SkillCategory>,
+    /// Best stars of the profile on the quiz of the lesson (0 to 3, SUB001502).
+    pub stars: u8,
+    /// The main skill of the lesson (its first one): the progress map links it (SUB001506).
+    pub skill_id: Option<String>,
 }
 
 impl LessonSummaryResponse {
     /// `main_skill`: the first skill of the lesson, which gives its family.
-    pub fn new(lesson: &Lesson, current_period: u8, main_skill: Option<&skills::Skill>) -> Self {
+    pub fn new(
+        lesson: &Lesson,
+        current_period: u8,
+        main_skill: Option<&skills::Skill>,
+        stars: u8,
+    ) -> Self {
         Self {
             id: lesson.id.clone(),
             title: lesson.title.clone(),
@@ -1282,6 +1305,8 @@ impl LessonSummaryResponse {
             is_current_period: lesson.period == current_period,
             duration_minutes: lesson.duration_minutes,
             category: main_skill.map(|s| s.category().into()),
+            stars,
+            skill_id: lesson.skill_ids.first().cloned(),
         }
     }
 }

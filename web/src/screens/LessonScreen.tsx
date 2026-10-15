@@ -6,11 +6,12 @@ import type { Grade, Lesson, Profile, SeriesSummary } from "../api/client";
 import { playSound } from "../audio/sounds";
 import { stopSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
-import { queryKeys, useSkills } from "../app/queries";
+import { invalidateProgress, useSkills } from "../app/queries";
 import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
 
 import { BigButton } from "../components/child/BigButton";
 import { Mascot } from "../components/child/Mascot";
+import { RewardsPanel } from "../components/child/Rewards";
 import { RaceTrack } from "../components/child/RaceTrack";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { BookIcon, PencilIcon } from "../components/icons";
@@ -96,7 +97,7 @@ function LessonPlayer({ lesson, profile, back }: { lesson: Lesson; profile: Prof
   const finish = (summary: SeriesSummary) => {
     setPhase({ kind: "finished", summary });
     api.saveLessonProgress(profile.id, lesson.id, null).catch(() => undefined);
-    void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+    void invalidateProgress(queryClient);
     const perfect = summary.correctCount === summary.exerciseCount;
     playSound(perfect ? "celebration" : "finished");
   };
@@ -250,6 +251,7 @@ function LessonSummary({ summary, skillIds, practiceLabel, onPractice, onReview 
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
       {summary.correctCount === summary.exerciseCount && <p className="summary-perfect">{fr.series.allRight}</p>}
       <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
+      <RewardsPanel rewards={summary.rewards} />
       {review && <p className="notice">{fr.lessons.review}</p>}
       <div className="lesson-summary-actions">{review ? [reviewButton, ...practiceButtons] : [...practiceButtons, reviewButton]}</div>
     </section>

@@ -29,10 +29,13 @@ log.workspace = true
 uuid.workspace = true
 chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
 
-# Desktop only: one window per computer (the database is shared) and remembered window size.
+# Desktop only: one window per computer (the database is shared), remembered window size and the
+# file dialogs of the backup.
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-single-instance = "2"
 tauri-plugin-window-state = "2"
+# Where the parents save or open a backup of the profiles (SUB001512).
+tauri-plugin-dialog = "2"
 
 [dev-dependencies]
 # TypeScript types of the commands, written to web/src/api/types.ts by `cargo test` (npm run api:generate).

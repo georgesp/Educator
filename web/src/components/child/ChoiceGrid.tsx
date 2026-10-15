@@ -13,7 +13,9 @@ type ChoiceGridProps = {
 
 /** Two to four answers in large tiles. */
 export function ChoiceGrid({ labels, onPick, picked = null, expected = null, disabled = false, label }: ChoiceGridProps) {
-  const long = labels.some((l) => l.length > 8);
+  // Words take the word layout as soon as they are longer than « oui » / « non »: in the large number
+  // tiles, a 7-letter word (« souvent ») no longer fits.
+  const long = labels.some((l) => (/\p{L}/u.test(l) && l.length > 3) || l.length > 8);
   return (
     <div className={long ? "choice-grid choice-grid-words" : "choice-grid"} role="group" aria-label={label}>
       {labels.map((text, index) => {

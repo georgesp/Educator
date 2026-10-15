@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001505 — Écran de personnalisation de l'avatar
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -30,5 +30,14 @@ En tant qu'enfant, je veux essayer mes accessoires sur mon personnage afin de ch
 
 ## Critères d'acceptation
 
-- [ ] Sauvegarde immédiate, sans bouton Valider.
-- [ ] Utilisable à la souris seule.
+- [x] Sauvegarde immédiate, sans bouton Valider.
+- [x] Utilisable à la souris seule.
+
+## Réalisation
+
+- Écran **Mon avatar** (`/avatar`) : clic sur l'avatar du menu (pastille « Habiller »).
+- Aperçu en grand ; onglets **Accessoires** / **Personnage** ; emplacements Tête, Yeux, Cou, Compagnon ; une tuile par accessoire montrant l'avatar qui le porte ; « Rien » pour vider l'emplacement, un second clic retire l'accessoire porté.
+- Accessoire verrouillé : grisé avec un cadenas ; un clic affiche la condition (« Atteins le niveau 5 », « Gagne le badge « 10 séries sans faute » »).
+- Pastilles de couleur sous la grille pour l'accessoire porté dans l'emplacement.
+- Chaque clic est enregistré tout de suite (commande `update_avatar`, refusée par le cœur pour un accessoire verrouillé ou deux accessoires au même emplacement) ; l'écran revient à l'état enregistré en cas d'erreur.
+- Changement de personnage de base toujours possible, sans perdre les accessoires.

@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/adaptive.schema.json",
+  "raiseAbove": 85,
+  "lowerBelow": 60,
+  "minAnswers": 10
+}

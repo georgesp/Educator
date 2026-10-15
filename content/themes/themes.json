@@ -1,0 +1,15 @@
+{
+  "$schema": "../schemas/themes.schema.json",
+  "themes": [
+    {
+      "id": "sport",
+      "name": "Grand Prix",
+      "description": "Voitures de course, damier et rouge piste."
+    },
+    {
+      "id": "cosmos",
+      "name": "Cosmos",
+      "description": "Planètes, étoiles et fusée, sur un ciel clair."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import type { Grade, Profile, Subject } from "../api/client";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
+import type { Grade, Profile, Subject, WornAccessory } from "../api/client";
 import { useApi } from "./BackendContext";
 import { useProfileSession } from "./ProfileContext";
 
@@ -14,7 +14,29 @@ export const queryKeys = {
   placement: (profileId: string) => ["placement", profileId] as const,
   /** Statistics of a profile in the parents' space. */
   statistics: (profileId: string) => ["profile-statistics", profileId] as const,
+  /** Lot 3: level, goal of the day, badges, reviews due (the menu). */
+  overview: (profileId: string) => ["profile-overview", profileId] as const,
+  badges: (profileId: string) => ["badges", profileId] as const,
+  accessories: (profileId: string) => ["accessories", profileId] as const,
+  avatarSvg: (characterId: string, accessories: readonly WornAccessory[]) =>
+    ["avatar-svg", characterId, accessories.map((a) => `${a.accessoryId}:${a.colorId}`).join(",")] as const,
+  advice: (profileId: string, subject: Subject) => ["advice", profileId, subject] as const,
+  settings: (profileId: string) => ["profile-settings", profileId] as const,
+  settingsOptions: ["settings-options"] as const,
+  lessons: (grade: Grade, subject: Subject, profileId?: string) => ["lessons", grade, subject, profileId ?? null] as const,
 };
+
+/**
+ * After a session: the points, the level, the stars, the goal of the day, the badges, the
+ * accessories and the advice may have changed.
+ */
+export function invalidateProgress(queryClient: QueryClient): Promise<void> {
+  return Promise.all(
+    [["profiles"], ["profile-overview"], ["skills"], ["lessons"], ["badges"], ["accessories"], ["advice"]].map((queryKey) =>
+      queryClient.invalidateQueries({ queryKey }),
+    ),
+  ).then(() => undefined);
+}
 
 export function useProfiles() {
   const api = useApi();
@@ -67,4 +89,37 @@ export function useVoiceAvailable(): boolean {
 export function useParentProfile() {
   const api = useApi();
   return useQuery({ queryKey: queryKeys.parentProfile, queryFn: () => api.getParentProfile() });
+}
+
+/** Level, goal of the day, badges and reviews due of a profile; always read again. */
+export function useProfileOverview(profileId: string | undefined) {
+  const api = useApi();
+  return useQuery({
+    queryKey: queryKeys.overview(profileId ?? ""),
+    queryFn: () => api.getProfileOverview(profileId!),
+    enabled: profileId !== undefined,
+    staleTime: 0,
+  });
+}
+
+/** The settings of a child (sounds, voice, text, theme, goal of the day…). */
+export function useProfileSettings(profileId: string | null | undefined) {
+  const api = useApi();
+  return useQuery({
+    queryKey: queryKeys.settings(profileId ?? ""),
+    queryFn: () => api.getProfileSettings(profileId!),
+    enabled: !!profileId,
+  });
+}
+
+/** Themes, goals and durations offered by the settings. */
+export function useSettingsOptions() {
+  const api = useApi();
+  return useQuery({ queryKey: queryKeys.settingsOptions, queryFn: () => api.getSettingsOptions(), staleTime: Infinity });
+}
+
+/** Lessons of a subject offered to a grade, with the profile's stars when given. */
+export function useLessons(grade: Grade, subject: Subject, profileId?: string) {
+  const api = useApi();
+  return useQuery({ queryKey: queryKeys.lessons(grade, subject, profileId), queryFn: () => api.listLessons(grade, subject, profileId) });
 }

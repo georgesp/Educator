@@ -1,7 +1,11 @@
 /*
- * Theme "sport" (direction S1 · Grand Prix, chosen on 2026-10-11): white, racing red, graphite.
- * Every color and font goes through a variable: an extra theme only redefines the variables in its own
- * [data-theme="…"] block (theme personalization, lot 3). The sport theme is also the default (:root).
+ * Themes (SUB000105, SUB001513). Every color, font and pattern goes through a variable: a theme only
+ * redefines the variables in its own [data-theme="…"] block, the screens never name a color. The list of
+ * the themes is content (content/themes/themes.json); a test checks that each one has its block, every
+ * variable, and an AA contrast between its texts and their backgrounds.
+ *
+ * Theme "sport" (direction S1 · Grand Prix, chosen on 2026-10-11): white, racing red, graphite. It is
+ * also the default (:root).
  */
 :root,
 [data-theme="sport"] {
@@ -33,11 +37,102 @@
   --family-4-text: #ffffff;
   --family-5: #f2b705;
   --family-5-text: #1a1a1f;
+  /* Stars, level, goal of the day (lot 3). */
+  --star: #f2b705;
+  --star-empty: #c9c9d1;
+  --gauge: #d7262b;
+  --gauge-track: #e2e2e7;
+  /* Progress of a series: the track, its markers, the window of the vehicle. */
+  --track: #3a3a42;
+  --track-marker: #6b6b75;
+  --track-right: #7bd389;
+  --vehicle-window: #bfe3f5;
+  /* The patterns of the theme: the strip at the top of every screen and the finish of the track. */
+  --strip: linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%) 0 0 / 16px 16px,
+    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%) 8px 8px / 16px 16px, var(--checker-light);
+  --finish: linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%) 0 0 / 14px 14px,
+    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%) 7px 7px / 14px 14px, var(--checker-light);
 
   --font-body: "Lexend", ui-rounded, "Segoe UI", system-ui, sans-serif;
   --font-display: "Barlow Condensed", "Lexend", system-ui, sans-serif;
+  --display-style: italic;
+  --display-case: uppercase;
   --slant: 12px;
   --radius: 14px;
+  /* Slanted "racing" buttons: the parallelogram is a clip-path, so the text stays upright. */
+  --button-shape: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  --tag-shape: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+/*
+ * Theme "Cosmos" (SUB001513): a light sky, planets and a rocket. Rounded buttons, the rounded Fredoka
+ * font, upright titles.
+ */
+[data-theme="cosmos"] {
+  --bg: #f7f8ff;
+  --surface: #eceefc;
+  --surface-strong: #ffffff;
+  --text: #1d1b3a;
+  --muted: #55537a;
+  --primary: #5b3fd1;
+  --primary-strong: #4527b8;
+  --primary-text: #ffffff;
+  --border: #1d1b3a;
+  --disabled: #686688;
+  --correct: #1d7a45;
+  --incorrect: #a3410a;
+  --checker-dark: #1d1b3a;
+  --checker-light: #ffffff;
+  --firework-gold: #f5b82e;
+  --firework-blue: #3a8dde;
+  --family-1: #2f74d0;
+  --family-1-text: #ffffff;
+  --family-2: #f08a3c;
+  --family-2-text: #1d1b3a;
+  --family-3: #8a3fc8;
+  --family-3-text: #ffffff;
+  --family-4: #16735b;
+  --family-4-text: #ffffff;
+  --family-5: #f5c330;
+  --family-5-text: #1d1b3a;
+  --star: #f5b82e;
+  --star-empty: #cfcde3;
+  --gauge: #5b3fd1;
+  --gauge-track: #dfdcf5;
+  --track: #2b2860;
+  --track-marker: #6d6aa3;
+  --track-right: #8ee3b1;
+  --vehicle-window: #cdeefd;
+  /* A night strip with stars and planets; the finish is a dotted moon. */
+  --strip: radial-gradient(circle at 12px 8px, #ffe27a 0 2px, transparent 3px) 0 0 / 46px 16px,
+    radial-gradient(circle at 34px 6px, #ffffff 0 1.5px, transparent 2.5px) 0 0 / 46px 16px,
+    radial-gradient(circle at 23px 11px, #b9a8ff 0 1px, transparent 2px) 0 0 / 46px 16px, #2b2860;
+  --finish: radial-gradient(circle at 30% 35%, #d9d6f2 0 5px, transparent 6px) 0 0 / 20px 20px, #f4f1ff;
+
+  --font-body: "Lexend", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-display: "Fredoka", "Lexend", ui-rounded, system-ui, sans-serif;
+  --display-style: normal;
+  --display-case: none;
+  --slant: 0px;
+  --radius: 18px;
+  --button-shape: inset(0 round 18px);
+  --tag-shape: inset(0 round 8px);
+}
+
+/* Font adapted to dyslexia (SUB001512), over the fonts of any theme. */
+:root[data-font="dyslexia"] {
+  --font-body: "OpenDyslexic", "Lexend", system-ui, sans-serif;
+  --font-display: "OpenDyslexic", "Lexend", system-ui, sans-serif;
+  --display-style: normal;
+}
+
+/* Size of the text (SUB001512): the whole interface is zoomed. */
+:root[data-text-size="large"] body {
+  zoom: 1.12;
+}
+
+:root[data-text-size="larger"] body {
+  zoom: 1.25;
 }
 
 :root {
@@ -69,14 +164,7 @@ body {
   display: block;
   height: 16px;
   flex: none;
-  background-color: var(--checker-light);
-  background-image:
-    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%),
-    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%);
-  background-size: 16px 16px;
-  background-position:
-    0 0,
-    8px 8px;
+  background: var(--strip);
 }
 
 .centered {
@@ -93,11 +181,11 @@ body {
 .title {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 64px;
   line-height: 0.95;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .message {
@@ -125,7 +213,7 @@ body {
   font-size: 24px;
   font-weight: 800;
   border: none;
-  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  clip-path: var(--button-shape);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -157,9 +245,9 @@ body {
 
 .button-primary {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-size: 30px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   background: var(--primary);
   color: var(--primary-text);
 }
@@ -295,10 +383,10 @@ body {
 .section-title {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 30px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .sound-toggle,
@@ -364,7 +452,7 @@ body {
   color: var(--text);
   background: var(--surface);
   border: none;
-  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  clip-path: var(--button-shape);
   cursor: pointer;
   transition:
     transform 0.1s ease,
@@ -409,7 +497,7 @@ body {
 
 .big-button-number {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 30px;
   opacity: 0.8;
@@ -471,7 +559,7 @@ body {
   margin: -14px 0;
   padding: 0 10px 0 calc(var(--slant) + 4px);
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 26px;
   white-space: nowrap;
@@ -536,12 +624,12 @@ body {
   padding: 2px 10px;
   text-align: center;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 20px;
   background: var(--family-bg);
   color: var(--family-fg);
-  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  clip-path: var(--tag-shape);
 }
 
 /* Profiles. */
@@ -802,10 +890,10 @@ body {
 
 .profile-panel-title {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 40px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .profile-panel-name a {
@@ -890,7 +978,7 @@ body {
   height: 0.7em;
   margin-right: 10px;
   background: var(--primary);
-  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  clip-path: var(--tag-shape);
 }
 
 .mode-choice {
@@ -940,16 +1028,16 @@ body {
 
 .series-title {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 32px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .race-track {
   position: relative;
   height: 56px;
-  background: #3a3a42;
+  background: var(--track);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -966,12 +1054,12 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #6b6b75;
+  background: var(--track-marker);
   justify-self: center;
 }
 
 .race-marker-right {
-  background: #7bd389;
+  background: var(--track-right);
 }
 
 .race-marker-wrong {
@@ -984,14 +1072,7 @@ body {
   right: 0;
   bottom: 0;
   width: 40px;
-  background-color: var(--checker-light);
-  background-image:
-    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%),
-    linear-gradient(45deg, var(--checker-dark) 25%, transparent 25%, transparent 75%, var(--checker-dark) 75%);
-  background-size: 14px 14px;
-  background-position:
-    0 0,
-    7px 7px;
+  background: var(--finish);
 }
 
 .race-car {
@@ -1215,7 +1296,7 @@ body {
 .summary-points {
   margin: 8px 0 12px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-size: 64px;
   font-weight: 800;
   color: var(--primary-strong);
@@ -2786,4 +2867,800 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* ── Lot 3: patterns of the themes ─────────────────────────────────────────────────────────── */
+
+/* Only the vehicle of the current theme is drawn (the sport car when no theme is set). */
+.theme-vehicle {
+  display: none;
+}
+
+:root:not([data-theme]) .theme-vehicle[data-for="sport"],
+[data-theme="sport"] .theme-vehicle[data-for="sport"],
+[data-theme="cosmos"] .theme-vehicle[data-for="cosmos"] {
+  display: inline;
+}
+
+/* ── Stars (SUB001502) ─────────────────────────────────────────────────────────────────────── */
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  vertical-align: middle;
+}
+
+.star path {
+  fill: var(--star-empty);
+}
+
+.star-won path {
+  fill: var(--star);
+  stroke: var(--text);
+  stroke-width: 1.2;
+}
+
+.big-button-stars {
+  margin-top: 4px;
+}
+
+/* ── Menu: avatar, level, goal of the day (SUB001501, SUB001505, SUB001507) ───────────────────── */
+
+.profile-panel-avatar {
+  position: relative;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.12s ease;
+}
+
+.profile-panel-avatar:hover {
+  transform: scale(1.04);
+}
+
+.profile-panel-avatar:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 4px;
+}
+
+.profile-panel-avatar-hint {
+  position: absolute;
+  bottom: -14px;
+  padding: 2px 12px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary-text);
+  background: var(--primary);
+  border-radius: 999px;
+}
+
+.level-gauge {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface-strong);
+  border-radius: 10px;
+}
+
+.level-gauge-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.level-gauge-level {
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: 800;
+  font-size: 26px;
+  text-transform: var(--display-case);
+}
+
+.level-gauge-next {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.level-gauge-bar {
+  height: 14px;
+  background: var(--gauge-track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.level-gauge-fill {
+  display: block;
+  height: 100%;
+  background: var(--gauge);
+  border-radius: 999px;
+}
+
+.daily-goal {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface-strong);
+  border-radius: 10px;
+}
+
+.daily-goal-reached {
+  box-shadow: inset 0 0 0 3px var(--correct);
+}
+
+.daily-goal-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+}
+
+.daily-goal-text {
+  margin: 4px 0 8px;
+  font-size: 16px;
+}
+
+.daily-goal-steps {
+  display: flex;
+  gap: 6px;
+}
+
+.daily-goal-step {
+  flex: 1;
+  height: 10px;
+  background: var(--gauge-track);
+  border-radius: 999px;
+}
+
+.daily-goal-step-done {
+  background: var(--correct);
+}
+
+.daily-goal-streak {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.profile-links {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.profile-link {
+  min-height: 48px;
+  padding: 6px 12px;
+  font-size: 17px;
+  white-space: nowrap;
+  background: var(--surface-strong);
+}
+
+/* Lot 3: the panel holds the level, the goal and the links too; it stays within 1024 × 700. */
+.profile-panel {
+  gap: 12px;
+  padding: 20px 24px;
+}
+
+.profile-panel .profile-panel-avatar {
+  width: 148px;
+  height: 148px;
+  margin-bottom: 6px;
+}
+
+.profile-panel .profile-panel-name {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 12px;
+}
+
+.profile-panel .profile-panel-title {
+  width: 100%;
+  text-align: center;
+}
+
+.profile-panel .profile-stat {
+  padding: 8px 14px;
+}
+
+.profile-panel .profile-stat dd {
+  font-size: 22px;
+}
+
+/* ── End of a session: what it brought ─────────────────────────────────────────────────────── */
+
+.rewards-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.rewards-stars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rewards-note,
+.rewards-unlocked,
+.rewards-goal {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rewards-level-up {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: 800;
+  font-size: 32px;
+  text-transform: var(--display-case);
+  color: var(--primary-text);
+  background: var(--primary);
+  border-radius: var(--radius);
+}
+
+.rewards-badges {
+  text-align: center;
+}
+
+.rewards-badges-title {
+  margin: 0 0 8px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.rewards-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.rewards-badge-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  max-width: 160px;
+  font-weight: 600;
+}
+
+/* ── Badges (SUB001503) ───────────────────────────────────────────────────────────────────── */
+
+.badges-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.badge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  text-align: center;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.badge-card-earned {
+  background: var(--surface-strong);
+  box-shadow: inset 0 0 0 3px var(--border);
+}
+
+.badge-title {
+  font-weight: 800;
+}
+
+.badge-condition,
+.badge-date {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.badge-icon-locked {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+/* ── Avatar (SUB001505) ───────────────────────────────────────────────────────────────────── */
+
+.avatar-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.avatar-preview {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 50% 50% var(--radius) var(--radius);
+}
+
+.avatar-choices {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.avatar-tabs,
+.avatar-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.avatar-tab {
+  min-height: 52px;
+  padding: 8px 22px;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+  background: var(--surface);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.avatar-tab[aria-selected="true"] {
+  color: var(--primary-text);
+  background: var(--primary);
+}
+
+.avatar-tab:focus-visible,
+.avatar-choice:focus-visible,
+.avatar-color:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: 10px;
+}
+
+.avatar-choice {
+  position: relative;
+  width: 100%;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 3px solid var(--surface);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.avatar-choice[aria-pressed="true"] {
+  border-color: var(--border);
+  box-shadow: 0 0 0 3px var(--primary);
+}
+
+.avatar-choice-none {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.avatar-choice-name {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.avatar-choice-locked img {
+  filter: grayscale(1);
+  opacity: 0.45;
+}
+
+.avatar-lock {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  padding: 4px;
+  color: var(--primary-text);
+  background: var(--text);
+  border-radius: 50%;
+}
+
+.avatar-locked-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.avatar-color {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--surface-strong);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--border);
+  cursor: pointer;
+}
+
+.avatar-color[aria-pressed="true"] {
+  box-shadow: 0 0 0 5px var(--border);
+}
+
+@media (max-width: 900px) {
+  .avatar-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ── Progress map (SUB001506) ─────────────────────────────────────────────────────────────── */
+
+.map-subjects {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.map-board {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 8px auto 0;
+}
+
+.map-road {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.map-road path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-road-edge {
+  stroke: var(--surface);
+  stroke-width: 30;
+}
+
+.map-road-line {
+  stroke: var(--track-marker);
+  stroke-width: 4;
+  stroke-dasharray: 2 12;
+}
+
+.map-steps {
+  position: absolute;
+  inset: 0;
+}
+
+.map-step-slot {
+  position: absolute;
+  width: calc(100% / 6);
+  transform: translate(-50%, -48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.map-period {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-108%);
+  padding: 1px 8px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  color: var(--primary-text);
+  background: var(--text);
+  border-radius: 999px;
+}
+
+.map-step {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 4px solid var(--surface-strong);
+  border-radius: 50%;
+  background: var(--surface-strong);
+  box-shadow: 0 0 0 2px var(--border);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.map-step:hover {
+  transform: scale(1.08);
+}
+
+.map-step:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 4px;
+}
+
+.map-step-family {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--family-fg);
+  background: var(--family-bg);
+}
+
+.map-step-current {
+  box-shadow:
+    0 0 0 4px var(--border),
+    0 0 0 10px var(--gauge-track);
+}
+
+.map-step-future .map-step-family {
+  opacity: 0.5;
+}
+
+.map-step-chosen {
+  box-shadow:
+    0 0 0 4px var(--primary),
+    0 0 0 10px var(--gauge-track);
+}
+
+.map-step-title,
+.map-step-soon,
+.map-step-stars {
+  position: relative;
+  padding: 0 4px;
+  background: var(--bg);
+  border-radius: 6px;
+}
+
+.map-step-title {
+  max-width: 150px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.15;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.map-step-soon {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.map-detail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.map-detail .actions {
+  margin-left: auto;
+}
+
+/* ── Advice and reviews (SUB001508, SUB001509) ───────────────────────────────────────────── */
+
+.skills-helpers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.advice-card,
+.reviews-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.advice-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.advice-reason {
+  margin: 0;
+  font-size: 17px;
+}
+
+/* ── Options and parents' space (SUB001512, SUB001513) ────────────────────────────────────── */
+
+.option-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.option-choice-legend {
+  min-width: 220px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.option-choice-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theme-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.theme-card {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 10px;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: var(--surface);
+  border: 3px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.theme-card[aria-pressed="true"] {
+  background: var(--surface-strong);
+  border-color: var(--border);
+}
+
+.theme-card:focus-visible {
+  outline: 4px solid var(--text);
+  outline-offset: 3px;
+}
+
+.theme-card-name {
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.theme-card-description {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* A small menu drawn with the variables of its own theme. */
+.theme-thumbnail {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 10px 10px;
+  overflow: hidden;
+  background: var(--bg);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.theme-thumbnail-strip {
+  height: 8px;
+  margin: 0 -10px 2px;
+  background: var(--strip);
+}
+
+.theme-thumbnail-title {
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: 800;
+  font-size: 18px;
+  text-transform: var(--display-case);
+  color: var(--text);
+}
+
+.theme-thumbnail-button {
+  height: 16px;
+  width: 70%;
+  background: var(--surface);
+  clip-path: var(--button-shape);
+}
+
+.theme-thumbnail-primary {
+  background: var(--primary);
+}
+
+.actions-start {
+  justify-content: flex-start;
+}
+
+/* The gentle reminder of a break: in a corner, never blocking. */
+.break-reminder {
+  position: fixed;
+  right: 24px;
+  bottom: 56px;
+  z-index: 20;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  background: var(--surface-strong);
+  border-radius: var(--radius);
+  box-shadow:
+    0 0 0 3px var(--border),
+    0 12px 32px rgb(0 0 0 / 0.18);
+}
+
+.break-reminder p {
+  margin: 0;
+}
+
+.break-reminder-title {
+  font-family: var(--font-display);
+  font-style: var(--display-style);
+  font-weight: 800;
+  font-size: 24px;
+}
+
+.profile-link svg {
+  flex: none;
 }

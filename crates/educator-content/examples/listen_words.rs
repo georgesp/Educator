@@ -170,7 +170,8 @@ fn main() {
                 cache.forget(&reading.text, reading.speed);
             }
             let name = file_name(n + 1, &word.text, suffix);
-            match cache.synthesize(&reading.text, reading.speed) {
+            // As the child hears it: a word without its article is cut after « Le mot : ».
+            match reading.synthesize(&cache) {
                 Ok(wav) => {
                     std::fs::write(out.join(&name), wav).expect("write the audio");
                     files.push(name);

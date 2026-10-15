@@ -252,10 +252,16 @@ pub async fn speak_word(
     word: String,
     example: Option<bool>,
     slow: Option<bool>,
+    voice_speed: Option<VoiceSpeedName>,
 ) -> CommandResult<Response> {
     run(state, move |s| {
-        s.speak_word(&word, example.unwrap_or(false), slow.unwrap_or(false))
-            .map(Response::new)
+        s.speak_word(
+            &word,
+            example.unwrap_or(false),
+            slow.unwrap_or(false),
+            voice_speed.map(Into::into).unwrap_or_default(),
+        )
+        .map(Response::new)
     })
     .await
 }
@@ -282,9 +288,14 @@ pub async fn list_lessons(
     state: State<'_, Arc<AppState>>,
     grade: Grade,
     subject: Option<Subject>,
+    profile_id: Option<String>,
 ) -> CommandResult<LessonsResponse> {
     run(state, move |s| {
-        Ok(s.lessons(grade, subject.unwrap_or(Subject::Math)))
+        s.lessons(
+            grade,
+            subject.unwrap_or(Subject::Math),
+            profile_id.as_deref(),
+        )
     })
     .await
 }
@@ -329,8 +340,17 @@ pub async fn speak(
     state: State<'_, Arc<AppState>>,
     text: String,
     speed: Option<f64>,
+    voice_speed: Option<VoiceSpeedName>,
 ) -> CommandResult<Response> {
-    run(state, move |s| s.speak(&text, speed).map(Response::new)).await
+    run(state, move |s| {
+        s.speak(
+            &text,
+            speed,
+            voice_speed.map(Into::into).unwrap_or_default(),
+        )
+        .map(Response::new)
+    })
+    .await
 }
 
 /// The « adult » gate of the parents' space (SUB001510), drawn again at every call.
@@ -374,4 +394,120 @@ pub async fn update_parent_profile(
     changes: UpdateParentProfileRequest,
 ) -> CommandResult<ParentProfileResponse> {
     run(state, move |s| s.update_parent_profile(changes)).await
+}
+
+// ── Lot 3: motivation, settings, backup ─────────────────────────────────────────────────────
+
+/// Level, goal of the day, badges and reviews due of a profile (the menu).
+#[tauri::command]
+pub async fn get_profile_overview(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<ProfileOverviewResponse> {
+    run(state, move |s| s.profile_overview(&profile_id)).await
+}
+
+/// Every badge, earned or not (SUB001503).
+#[tauri::command]
+pub async fn get_badges(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<Vec<BadgeResponse>> {
+    run(state, move |s| s.badges(&profile_id)).await
+}
+
+/// Every accessory, unlocked or not (SUB001505).
+#[tauri::command]
+pub async fn get_accessories(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<Vec<AccessoryResponse>> {
+    run(state, move |s| s.accessories(&profile_id)).await
+}
+
+/// Dresses the avatar of a profile (saved at once).
+#[tauri::command]
+pub async fn update_avatar(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+    request: UpdateAvatarRequest,
+) -> CommandResult<ProfileResponse> {
+    run(state, move |s| s.update_avatar(&profile_id, request)).await
+}
+
+/// An avatar as one SVG.
+#[tauri::command]
+pub async fn get_avatar_svg(
+    state: State<'_, Arc<AppState>>,
+    character_id: String,
+    accessories: Vec<WornAccessoryResponse>,
+) -> CommandResult<String> {
+    run(state, move |s| s.avatar_svg(&character_id, &accessories)).await
+}
+
+/// « Je te conseille… » for a subject (SUB001508).
+#[tauri::command]
+pub async fn get_advice(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+    subject: Subject,
+) -> CommandResult<Option<AdviceResponse>> {
+    run(state, move |s| s.advice(&profile_id, subject)).await
+}
+
+/// « Mes révisions » of a subject (SUB001509).
+#[tauri::command]
+pub async fn start_review(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+    subject: Subject,
+) -> CommandResult<SeriesResponse> {
+    run(state, move |s| s.start_review(&profile_id, subject, None)).await
+}
+
+/// The settings of a child (SUB001512).
+#[tauri::command]
+pub async fn get_profile_settings(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<ProfileSettingsResponse> {
+    run(state, move |s| s.profile_settings(&profile_id)).await
+}
+
+#[tauri::command]
+pub async fn update_profile_settings(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+    changes: UpdateProfileSettingsRequest,
+) -> CommandResult<ProfileSettingsResponse> {
+    run(state, move |s| {
+        s.update_profile_settings(&profile_id, changes)
+    })
+    .await
+}
+
+/// Themes, goals and durations offered by the settings.
+#[tauri::command]
+pub async fn get_settings_options(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<SettingsOptionsResponse> {
+    run(state, |s| Ok(s.settings_options())).await
+}
+
+/// Writes every profile to the backup file chosen by the parents.
+#[tauri::command]
+pub async fn export_backup(
+    state: State<'_, Arc<AppState>>,
+    path: String,
+) -> CommandResult<BackupResponse> {
+    run(state, move |s| s.export_backup(&path)).await
+}
+
+/// Replaces every profile by those of a backup file.
+#[tauri::command]
+pub async fn import_backup(
+    state: State<'_, Arc<AppState>>,
+    path: String,
+) -> CommandResult<BackupResponse> {
+    run(state, move |s| s.import_backup(&path)).await
 }

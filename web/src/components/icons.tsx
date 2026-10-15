@@ -125,3 +125,50 @@ export const TortoiseIcon = (p: IconProps) => (
     <path d="M5 16v3M13 16v3" />
   </Icon>
 );
+
+export const MapIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" />
+    <path d="M9 4v14M15 6v14" />
+  </Icon>
+);
+
+export const MedalIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M8 2l2.5 6M16 2l-2.5 6" />
+    <circle cx="12" cy="15" r="6" />
+    <path d="M12 12.5l.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z" />
+  </Icon>
+);
+
+export const RepeatIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 12a8 8 0 0 1 14-5.3L20 8" />
+    <path d="M20 3v5h-5" />
+    <path d="M20 12a8 8 0 0 1-14 5.3L4 16" />
+    <path d="M4 21v-5h5" />
+  </Icon>
+);
+
+export const TargetIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <circle cx="12" cy="12" r="5" />
+    <circle cx="12" cy="12" r="1.5" />
+  </Icon>
+);
+
+export const DownloadIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3v12M7 10l5 5 5-5" />
+    <path d="M4 19h16" />
+  </Icon>
+);
+
+export const UploadIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 15V3M7 8l5-5 5 5" />
+    <path d="M4 19h16" />
+  </Icon>
+);
+

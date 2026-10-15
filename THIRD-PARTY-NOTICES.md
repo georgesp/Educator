@@ -37,6 +37,9 @@ disponible aux adresses ci-dessus ; le texte de la licence GPL-3.0 sera joint au
 | React, React DOM, React Router, TanStack Query, Motion | MIT |
 | Tauri et ses plugins | MIT ou Apache-2.0 |
 | Polices Lexend et Barlow Condensed (`@fontsource/lexend`, `@fontsource/barlow-condensed`, embarquées dans le front) | SIL Open Font License 1.1 |
+| Police Fredoka du thème Cosmos (`@fontsource/fredoka`, embarquée dans le front) | SIL Open Font License 1.1 |
+| Police OpenDyslexic, option « police adaptée à la dyslexie » (`@fontsource/opendyslexic`, embarquée dans le front ; © Abbie Gonzalez, nom de police réservé « OpenDyslexic ») | SIL Open Font License 1.1 |
+| `@tauri-apps/plugin-dialog` / `tauri-plugin-dialog` (fenêtres d'enregistrement et d'ouverture de la sauvegarde) | MIT ou Apache-2.0 |
 | Vite, Vitest, Playwright, TypeScript (développement uniquement) | MIT / Apache-2.0 |
 
 La liste exhaustive des dépendances transitives sera générée au lot packaging.

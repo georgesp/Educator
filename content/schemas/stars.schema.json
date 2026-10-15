@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "stars.schema.json",
+  "title": "Seuils des étoiles",
+  "description": "1 étoile pour une série terminée, 2 et 3 étoiles à partir de ces pourcentages de bonnes réponses.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["twoStars", "threeStars"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "twoStars": { "type": "integer", "minimum": 1, "maximum": 99 },
+    "threeStars": { "type": "integer", "minimum": 2, "maximum": 100 }
+  }
+}

@@ -1,5 +1,6 @@
 use educator_core::clock::{unix_ms, Clock, ManualClock, SystemClock};
 use educator_core::profiles::{Profile, ProfileStore};
+use educator_core::rewards::accessories::WornAccessory;
 use educator_core::settings::AppSettingsStore;
 use educator_core::{Error, Grade};
 use educator_data::{
@@ -45,7 +46,12 @@ fn new_database_applies_the_initial_migration_without_backup() {
 
     assert!(db.path.is_file());
     assert_eq!(
-        vec!["0001_initial", "0002_sessions", "0003_question_timers"],
+        vec![
+            "0001_initial",
+            "0002_sessions",
+            "0003_question_timers",
+            "0004_motivation"
+        ],
         report.applied_migrations
     );
     assert_eq!(None, report.backup_path);
@@ -108,7 +114,12 @@ fn database_of_the_dotnet_version_is_adopted_with_its_profiles() {
     let (database, report) = open(&db.path, Arc::new(SystemClock));
 
     assert_eq!(
-        vec!["0001_initial", "0002_sessions", "0003_question_timers"],
+        vec![
+            "0001_initial",
+            "0002_sessions",
+            "0003_question_timers",
+            "0004_motivation"
+        ],
         report.applied_migrations
     );
     let profiles = SqliteProfileStore::new(database).list().unwrap();
@@ -195,6 +206,7 @@ fn new_profile(name: &str, grade: Grade, last_used: i64) -> Profile {
         name: name.to_owned(),
         grade,
         character_id: "lion".to_owned(),
+        accessories: Vec::new(),
         points: 0,
         placement_seconds: 20,
         exam_seconds: 0,
@@ -294,6 +306,7 @@ fn update_changes_name_grade_character_and_last_use_not_points() {
             name: "Léana".to_owned(),
             grade: Grade::CE1,
             character_id: "ours".to_owned(),
+            accessories: Vec::new(),
             points: 999,
             last_used_at: clock.now_ms(),
             ..lea.clone()
@@ -368,4 +381,118 @@ fn delete_removes_the_profile() {
     assert!(store.delete(lea.id).unwrap());
     assert!(!store.delete(lea.id).unwrap());
     assert_eq!(None, store.get(lea.id).unwrap());
+}
+
+/// SUB001504: a database of lot 2 keeps its profiles; each avatar is its character, without
+/// accessory.
+#[test]
+fn profiles_of_lot_2_become_avatars_without_loss() {
+    let db = temporary();
+    std::fs::create_dir_all(db.path.parent().unwrap()).unwrap();
+    let connection = rusqlite::Connection::open(&db.path).unwrap();
+    for (_, sql) in &MIGRATIONS[..3] {
+        connection.execute_batch(sql).unwrap();
+    }
+    connection
+        .execute_batch(
+            r#"PRAGMA user_version = 3;
+            INSERT INTO "Profile" ("Id", "Name", "NormalizedName", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt")
+            VALUES ('0199D1F2-0000-7000-8000-000000000001', 'Léa', 'LÉA', 'CE1', 'renard', 830, 1, 2, 3);"#,
+        )
+        .unwrap();
+    drop(connection);
+
+    let (database, report) = open(&db.path, Arc::new(SystemClock));
+
+    assert_eq!(vec!["0004_motivation"], report.applied_migrations);
+    assert!(report.backup_path.is_some());
+    let store = SqliteProfileStore::new(database);
+    let lea = store.list().unwrap().remove(0);
+    assert_eq!(
+        ("renard", 830, 0),
+        (lea.character_id.as_str(), lea.points, lea.accessories.len())
+    );
+    assert_eq!(
+        r#"Text("{\"character\":\"renard\",\"accessories\":[]}")"#,
+        scalar(&db.path, r#"SELECT "Avatar" FROM "Profile""#)
+    );
+}
+
+#[test]
+fn the_accessories_of_an_avatar_are_stored() {
+    let db = temporary();
+    let (store, _) = profiles(&db);
+    let mut lea = store.add(&new_profile("Léa", Grade::CP, start())).unwrap();
+    lea.character_id = "lapin".to_owned();
+    lea.accessories = vec![
+        WornAccessory::new("casquette", "bleu"),
+        WornAccessory::new("chaton", "gris"),
+    ];
+
+    let saved = store.update(&lea).unwrap().unwrap();
+
+    assert_eq!(lea.accessories, saved.accessories);
+    assert_eq!("lapin", saved.character_id);
+    assert_eq!(
+        lea.accessories,
+        store.get(lea.id).unwrap().unwrap().accessories
+    );
+}
+
+/// SUB001512: a backup restored into another database gives back every row.
+#[test]
+fn a_backup_round_trip_loses_nothing() {
+    use educator_data::backup::{export, restore};
+    let source = temporary();
+    let (database, _) = open(&source.path, Arc::new(SystemClock));
+    let store = SqliteProfileStore::new(Arc::clone(&database));
+    let mut lea = store.add(&new_profile("Léa", Grade::CE1, start())).unwrap();
+    lea.accessories = vec![WornAccessory::new("couronne", "or")];
+    store.update(&lea).unwrap();
+    store.add_points(lea.id, 450).unwrap();
+    store.add(&new_profile("Tom", Grade::CP, start())).unwrap();
+    SqliteAppSettingsStore::new(Arc::clone(&database))
+        .set("ParentProfile.Name", "Papa et Maman")
+        .unwrap();
+    {
+        use educator_core::profile_settings::ProfileSettingsStore;
+        educator_data::SqliteProfileSettingsStore::new(Arc::clone(&database))
+            .set_profile_setting(lea.id, "theme", "cosmos")
+            .unwrap();
+    }
+    let text = export(&database).unwrap();
+
+    let target = temporary();
+    let (copy, _) = open(&target.path, Arc::new(SystemClock));
+    SqliteProfileStore::new(Arc::clone(&copy))
+        .add(&new_profile("Ancien", Grade::CM1, start()))
+        .unwrap();
+    let report = restore(&copy, &text).unwrap();
+
+    assert_eq!(2, report.profiles);
+    assert!(report.safety_copy.is_file());
+    let without_date = |t: &str| {
+        let mut v: serde_json::Value = serde_json::from_str(t).unwrap();
+        v["exportedAt"] = serde_json::Value::Null;
+        v
+    };
+    assert_eq!(without_date(&text), without_date(&export(&copy).unwrap()));
+    let restored = SqliteProfileStore::new(copy).get(lea.id).unwrap().unwrap();
+    assert_eq!(
+        (450, lea.accessories.clone()),
+        (restored.points, restored.accessories)
+    );
+}
+
+#[test]
+fn a_file_that_is_not_a_backup_is_refused() {
+    let db = temporary();
+    let (database, _) = open(&db.path, Arc::new(SystemClock));
+    assert!(educator_data::backup::restore(&database, "{}").is_err());
+    assert!(educator_data::backup::restore(&database, "pas du json").is_err());
+    assert!(educator_data::backup::restore(
+        &database,
+        r#"{"application":"Educator","format":1,"schemaVersion":99,"tables":{}}"#
+    )
+    .is_err());
 }

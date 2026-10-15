@@ -8,7 +8,7 @@ export type Subject = "Math" | "Spelling";
 
 export type SpellingFormat = "Dictation" | "MissingLetters" | "ChooseSpelling";
 
-export type SessionType = "Exercise" | "Exam" | "Timed" | "LessonQuiz" | "Placement";
+export type SessionType = "Exercise" | "Exam" | "Timed" | "LessonQuiz" | "Placement" | "Review";
 
 export type CharacterKind = "Animal" | "Child";
 
@@ -75,7 +75,11 @@ listeningFormats: Array<SpellingFormat>,
 /**
  * Mastery of the skill by the profile (0 to 100, SUB001401), when it was practised.
  */
-mastery: number | null, };
+mastery: number | null, 
+/**
+ * Best stars of the profile on the skill (0 to 3, SUB001502).
+ */
+stars: number, };
 
 export type SkillFamily = "Calculation" | "Multiplication" | "Numeration" | "DoubleHalf" | "Fraction" | "Problem" | "Spelling";
 
@@ -83,7 +87,11 @@ export type SkillCategory = "Numbers" | "AddSubtract" | "Multiply" | "FractionsH
 
 export type CharacterResponse = { id: string, name: string, kind: CharacterKind, };
 
-export type ProfileResponse = { id: string, name: string, grade: Grade, characterId: string, points: number, 
+export type ProfileResponse = { id: string, name: string, grade: Grade, characterId: string, 
+/**
+ * The accessories worn by the avatar (SUB001504).
+ */
+accessories: Array<WornAccessoryResponse>, points: number, 
 /**
  * Seconds given per question of the level assessment.
  */
@@ -258,7 +266,11 @@ newRecord: boolean,
 /**
  * Lesson quiz (SUB001411): fewer than half right answers, « Revoir la leçon » comes first.
  */
-reviewLesson: boolean, };
+reviewLesson: boolean, 
+/**
+ * Stars, level, goal of the day, badges and accessories brought by the session (lot 3).
+ */
+rewards: SessionRewardsResponse | null, };
 
 export type SkillResultResponse = { skillId: string, title: string, correctCount: number, questionCount: number, 
 /**
@@ -346,7 +358,15 @@ isCurrentPeriod: boolean, durationMinutes: number,
 /**
  * Family of the main skill of the lesson (its first one), `null` when it is not loaded.
  */
-category: SkillCategory | null, };
+category: SkillCategory | null, 
+/**
+ * Best stars of the profile on the quiz of the lesson (0 to 3, SUB001502).
+ */
+stars: number, 
+/**
+ * The main skill of the lesson (its first one): the progress map links it (SUB001506).
+ */
+skillId: string | null, };
 
 export type LessonResponse = { id: string, title: string, subject: Subject, grade: Grade, 
 /**
@@ -805,6 +825,124 @@ export type FrequentMistakeResponse = { skillId: string, skillTitle: string,
  * The question as written, `?` for the answer.
  */
 prompt: string, expected: string, mistakeCount: number, attemptCount: number, usualAnswer: string, lastAt: string, };
+
+export type LevelResponse = { level: number, points: number, 
+/**
+ * Points from which the current level was reached.
+ */
+levelStart: number, 
+/**
+ * Points from which the next level is reached.
+ */
+nextLevelAt: number, 
+/**
+ * Way done to the next level, 0 to 100.
+ */
+percent: number, };
+
+export type DailyGoalResponse = { 
+/**
+ * Series asked today; 0 when the parents turned the goal off.
+ */
+target: number, done: number, reached: boolean, 
+/**
+ * Days in a row the goal was reached.
+ */
+streak: number, bonusPoints: number, };
+
+export type ProfileOverviewResponse = { level: LevelResponse, goal: DailyGoalResponse, badgesEarned: number, badgesTotal: number, 
+/**
+ * Items of « Mes révisions » due today, by subject (SUB001509).
+ */
+reviews: Array<ReviewCountResponse>, };
+
+export type ReviewCountResponse = { subject: Subject, due: number, };
+
+export type BadgeResponse = { id: string, title: string, 
+/**
+ * The condition said simply (shown under a badge to win).
+ */
+description: string, 
+/**
+ * SVG source of the icon.
+ */
+icon: string, earned: boolean, 
+/**
+ * ISO 8601 instant in UTC.
+ */
+earnedAt: string | null, };
+
+export type AccessorySlotName = "Head" | "Eyes" | "Neck" | "Companion";
+
+export type WornAccessoryResponse = { accessoryId: string, colorId: string, };
+
+export type AccessoryColorResponse = { id: string, name: string, 
+/**
+ * `#RRGGBB`, for the color button.
+ */
+main: string, };
+
+export type UnlockResponse = { level: number | null, badgeId: string | null, badgeTitle: string | null, };
+
+export type AccessoryResponse = { id: string, name: string, slot: AccessorySlotName, colors: Array<AccessoryColorResponse>, unlocked: boolean, unlock: UnlockResponse, };
+
+export type UpdateAvatarRequest = { characterId?: string, accessories: Array<WornAccessoryResponse>, };
+
+export type SessionRewardsResponse = { 
+/**
+ * Stars of this series or quiz; `null` for an exam, a challenge, revisions.
+ */
+stars: number | null, previousBestStars: number, levelBefore: LevelResponse, level: LevelResponse, goal: DailyGoalResponse, 
+/**
+ * Bonus of the goal of the day given now (0 otherwise).
+ */
+goalBonus: number, newBadges: Array<BadgeResponse>, newAccessories: Array<AccessoryResponse>, };
+
+export type AdviceReasonName = "Start" | "Continue" | "Consolidate" | "Next";
+
+export type AdviceResponse = { skillId: string, title: string, reason: AdviceReasonName, 
+/**
+ * Consolidate: the title of the skill it prepares.
+ */
+prepares: string | null, };
+
+export type VoiceSpeedName = "Slower" | "Normal" | "Faster";
+
+export type TextSizeName = "Normal" | "Large" | "Larger";
+
+export type ProfileSettingsResponse = { sound: boolean, mascot: boolean, voiceSpeed: VoiceSpeedName, textSize: TextSizeName, dyslexiaFont: boolean, theme: string, 
+/**
+ * Series a day; 0: no goal.
+ */
+dailyGoal: number, timedEnabled: boolean, 
+/**
+ * Duration of the timed challenge; 0: the child chooses.
+ */
+timedSeconds: number, 
+/**
+ * Advised length of a session before a break reminder; 0: none.
+ */
+sessionMinutes: number, };
+
+export type UpdateProfileSettingsRequest = { sound?: boolean, mascot?: boolean, voiceSpeed?: VoiceSpeedName, textSize?: TextSizeName, dyslexiaFont?: boolean, theme?: string, dailyGoal?: number, timedEnabled?: boolean, timedSeconds?: number, sessionMinutes?: number, };
+
+export type ThemeResponse = { id: string, name: string, description: string, };
+
+export type SettingsOptionsResponse = { themes: Array<ThemeResponse>, goalChoices: Array<number>, 
+/**
+ * Durations of the timed challenge the parents may fix (0: the child chooses).
+ */
+timedChoices: Array<number>, sessionChoices: Array<number>, };
+
+export type BackupResponse = { 
+/**
+ * Profiles in the file.
+ */
+profiles: number, 
+/**
+ * Where the file was written or read.
+ */
+path: string, };
 
 export type CommandError = { status: number, title: string, detail: string | null, 
 /**

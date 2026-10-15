@@ -1,11 +1,12 @@
 use crate::database::{storage, Database};
 use educator_core::profiles::{Profile, ProfileStore, NAME_TAKEN};
+use educator_core::rewards::accessories::WornAccessory;
 use educator_core::{Error, Grade, Result};
 use rusqlite::{Connection, OptionalExtension, Row};
 use std::sync::Arc;
 use uuid::Uuid;
 
-const COLUMNS: &str = r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds""#;
+const COLUMNS: &str = r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds", "Avatar""#;
 
 /// [`ProfileStore`] backed by the `Profile` table.
 #[derive(Debug, Clone)]
@@ -26,6 +27,41 @@ pub(crate) fn id_text(id: Uuid) -> String {
         .to_owned()
 }
 
+/// The avatar as stored (`Avatar`, SUB001504): `{"character": "lion", "accessories": [{"id":
+/// "casquette", "color": "red"}]}`. `CharacterId` keeps the character too.
+pub(crate) fn avatar_json(profile: &Profile) -> String {
+    serde_json::json!({
+        "character": profile.character_id,
+        "accessories": profile
+            .accessories
+            .iter()
+            .map(|a| serde_json::json!({ "id": a.accessory_id, "color": a.color_id }))
+            .collect::<Vec<_>>(),
+    })
+    .to_string()
+}
+
+/// The accessories of a stored avatar; none when the text is empty or unreadable.
+fn accessories_of(avatar: &str) -> Vec<WornAccessory> {
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(avatar) else {
+        return Vec::new();
+    };
+    value["accessories"]
+        .as_array()
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|item| {
+                    Some(WornAccessory::new(
+                        item["id"].as_str()?,
+                        item["color"].as_str()?,
+                    ))
+                })
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
 fn read(row: &Row<'_>) -> rusqlite::Result<Profile> {
     let id: String = row.get(0)?;
     let grade: String = row.get(2)?;
@@ -39,6 +75,7 @@ fn read(row: &Row<'_>) -> rusqlite::Result<Profile> {
             .parse::<Grade>()
             .map_err(|e| invalid(2, Box::new(e)))?,
         character_id: row.get(3)?,
+        accessories: accessories_of(&row.get::<_, String>(10)?),
         points: row.get(4)?,
         created_at: row.get(5)?,
         updated_at: row.get(6)?,
@@ -110,8 +147,8 @@ impl ProfileStore for SqliteProfileStore {
         let connection = self.database.connection();
         connection
             .execute(
-                r#"INSERT INTO "Profile" ("Id", "Name", "NormalizedName", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds")
-                   VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7, ?8, ?9, ?10)"#,
+                r#"INSERT INTO "Profile" ("Id", "Name", "NormalizedName", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds", "Avatar")
+                   VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7, ?8, ?9, ?10, ?11)"#,
                 rusqlite::params![
                     id_text(profile.id),
                     profile.name,
@@ -123,6 +160,7 @@ impl ProfileStore for SqliteProfileStore {
                     profile.last_used_at,
                     profile.placement_seconds,
                     profile.exam_seconds,
+                    avatar_json(profile),
                 ],
             )
             .map_err(write_error)?;
@@ -141,6 +179,7 @@ impl ProfileStore for SqliteProfileStore {
         let changed = current.name != profile.name
             || current.grade != profile.grade
             || current.character_id != profile.character_id
+            || current.accessories != profile.accessories
             || current.last_used_at != profile.last_used_at
             || current.placement_seconds != profile.placement_seconds
             || current.exam_seconds != profile.exam_seconds;
@@ -148,7 +187,8 @@ impl ProfileStore for SqliteProfileStore {
             connection
                 .execute(
                     r#"UPDATE "Profile" SET "Name" = ?2, "NormalizedName" = ?3, "Grade" = ?4, "CharacterId" = ?5,
-                       "LastUsedAt" = ?6, "UpdatedAt" = ?7, "PlacementSeconds" = ?8, "ExamSeconds" = ?9
+                       "LastUsedAt" = ?6, "UpdatedAt" = ?7, "PlacementSeconds" = ?8, "ExamSeconds" = ?9,
+                       "Avatar" = ?10
                        WHERE "Id" = ?1"#,
                     rusqlite::params![
                         id_text(profile.id),
@@ -160,6 +200,7 @@ impl ProfileStore for SqliteProfileStore {
                         now,
                         profile.placement_seconds,
                         profile.exam_seconds,
+                        avatar_json(profile),
                     ],
                 )
                 .map_err(write_error)?;

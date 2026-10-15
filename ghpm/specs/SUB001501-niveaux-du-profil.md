@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001501 — Niveaux du profil
-status: Todo
+status: In Review
 size: S
 estimate:
 startDate:
@@ -29,5 +29,12 @@ En tant qu'enfant, je veux monter de niveau en gagnant des points afin de voir q
 
 ## Critères d'acceptation
 
-- [ ] Barème en fichier de contenu.
-- [ ] Niveau recalculé correctement pour les profils existants à la migration.
+- [x] Barème en fichier de contenu.
+- [x] Niveau recalculé correctement pour les profils existants à la migration.
+
+## Réalisation
+
+- Barème dans `content/rewards/levels.json` (schéma `levels.schema.json`) : niveau 2 à 100 points, 3 à 250, 4 à 450, 5 à 700, 6 à 1 000… jusqu'au niveau 20 à 21 000 points, puis un niveau tous les 3 000 points (le barème ne s'arrête jamais). Un fichier invalide est signalé et le barème par défaut s'applique.
+- Le niveau **n'est jamais stocké** : `educator-core::rewards::levels::LevelScale` le calcule à partir des points, qui ne baissent jamais. Un profil existant a donc tout de suite le bon niveau, sans migration, et les accessoires de son niveau sont débloqués à sa première ouverture (`RewardsService::overview`).
+- Menu : jauge « Niveau N · encore X points » sous les points (commande `get_profile_overview`).
+- Fin de série : « Tu passes au niveau N ! » animé, avec les accessoires débloqués (« Nouveau pour ton avatar : … »).

@@ -6,6 +6,7 @@ use crate::exercises::exam::{
     DEFAULT_EXAM_SECONDS, DEFAULT_PLACEMENT_SECONDS, EXAM_SECONDS, PLACEMENT_SECONDS,
 };
 use crate::random::RandomSource;
+use crate::rewards::accessories::WornAccessory;
 use crate::{Error, Grade, Result};
 use std::fmt;
 use std::sync::Arc;
@@ -18,8 +19,10 @@ pub struct Profile {
     pub id: Uuid,
     pub name: String,
     pub grade: Grade,
-    /// Id from `characters.json`; becomes the avatar configuration in lot 3.
+    /// Id from `characters.json`: the base of the avatar.
     pub character_id: String,
+    /// The accessories worn by the avatar (SUB001504), one per slot.
+    pub accessories: Vec<WornAccessory>,
     pub points: i32,
     /// Seconds given for each question of the level assessment ([`PLACEMENT_SECONDS`]).
     pub placement_seconds: u32,
@@ -57,8 +60,8 @@ pub trait ProfileStore: Send + Sync {
     /// lost against another request) is an [`Error::ProfileValidation`] on `name`.
     fn add(&self, profile: &Profile) -> Result<Profile>;
 
-    /// Saves name, grade, character and last use (never the points); returns the stored profile,
-    /// or `None` when unknown.
+    /// Saves name, grade, avatar (character and accessories), timers and last use (never the
+    /// points); returns the stored profile, or `None` when unknown.
     fn update(&self, profile: &Profile) -> Result<Option<Profile>>;
 
     fn delete(&self, id: Uuid) -> Result<bool>;
@@ -136,6 +139,7 @@ impl ProfileService {
             name: clean_name,
             grade,
             character_id: character,
+            accessories: Vec::new(),
             points: 0,
             placement_seconds: DEFAULT_PLACEMENT_SECONDS,
             exam_seconds: DEFAULT_EXAM_SECONDS,

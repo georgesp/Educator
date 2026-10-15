@@ -64,7 +64,7 @@ pub fn load_points(path: &Path) -> Loaded<PointsRules> {
     })
 }
 
-fn load<T, F: DeserializeOwned>(
+pub(crate) fn load<T, F: DeserializeOwned>(
     path: &Path,
     fallback: T,
     convert: impl FnOnce(F) -> Result<T, String>,

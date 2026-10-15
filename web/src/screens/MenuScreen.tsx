@@ -2,12 +2,13 @@ import { useRef, type KeyboardEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 import type { Profile } from "../api/client";
 import { useSpeech } from "../audio/useSpeech";
-import { usePlacementStatus } from "../app/queries";
+import { usePlacementStatus, useProfileOverview } from "../app/queries";
+import { ProfileAvatar } from "../components/child/AvatarImage";
 import { BigButton } from "../components/child/BigButton";
-import { CharacterImage } from "../components/child/CharacterImage";
 import { PointsBadge } from "../components/child/PointsBadge";
+import { DailyGoalCard, LevelGauge } from "../components/child/Rewards";
 import { SpeakButton } from "../components/child/SpeakButton";
-import { BookIcon, FlagIcon, GearIcon, LockIcon, PencilIcon } from "../components/icons";
+import { BookIcon, FlagIcon, GearIcon, LockIcon, MapIcon, MedalIcon, PencilIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
@@ -33,6 +34,8 @@ function Menu({ profile }: { profile: Profile }) {
   // The level assessment stays offered until it is done (or the child leaves it for later).
   const placement = usePlacementStatus(profile.id);
   const placementToDo = placement.data?.subjects.some((s) => s.available) ?? false;
+  // Lot 3: level, goal of the day, badges.
+  const overview = useProfileOverview(profile.id).data;
 
   const activate = (entry: Entry) => {
     if (entry.to) {
@@ -91,9 +94,12 @@ function Menu({ profile }: { profile: Profile }) {
       </nav>
 
       <aside className="profile-panel" aria-label={profile.name}>
-        <div className="profile-panel-avatar">
-          <CharacterImage id={profile.characterId} size={136} />
-        </div>
+        <Link className="profile-panel-avatar" to="/avatar" aria-label={fr.avatar.open}>
+          <ProfileAvatar profile={profile} size={124} />
+          <span className="profile-panel-avatar-hint" aria-hidden="true">
+            {fr.avatar.dress}
+          </span>
+        </Link>
         <div className="profile-panel-name">
           <span className="profile-panel-title">{profile.name}</span>
           <Link to="/">{fr.menu.changeProfile}</Link>
@@ -114,9 +120,15 @@ function Menu({ profile }: { profile: Profile }) {
             </dd>
           </div>
         </dl>
-        <div className="profile-level">
-          <span className="profile-level-label">{fr.menu.level}</span>
-          <span className="profile-level-soon">{fr.menu.levelSoon}</span>
+        {overview && <LevelGauge level={overview.level} />}
+        {overview && <DailyGoalCard goal={overview.goal} />}
+        <div className="profile-links">
+          <Link className="button profile-link" to="/carte">
+            <MapIcon size={22} /> {fr.menu.map}
+          </Link>
+          <Link className="button profile-link" to="/badges">
+            <MedalIcon size={22} /> {overview ? fr.menu.badgesCount(overview.badgesEarned, overview.badgesTotal) : fr.menu.badges}
+          </Link>
         </div>
       </aside>
     </main>

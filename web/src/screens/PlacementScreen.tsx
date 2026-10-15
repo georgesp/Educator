@@ -6,6 +6,7 @@ import { usePlacementStatus } from "../app/queries";
 import { SUBJECT_SLUGS, SUBJECTS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { Mascot } from "../components/child/Mascot";
+import { RewardsPanel } from "../components/child/Rewards";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { FlagIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
@@ -102,6 +103,7 @@ function PlacementSummary({ profile, summary, subject }: { profile: Profile; sum
       <Mascot situation="ExamEnd" />
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
       <p className="message">{fr.placement.thanks}</p>
+      <RewardsPanel rewards={summary.rewards} />
       <ExamResults summary={summary} subject={subject} />
       <div className="actions">
         <button type="button" className="button" onClick={() => void navigate("/menu")}>

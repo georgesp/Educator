@@ -3,10 +3,12 @@ import { motion } from "motion/react";
 import { useNavigate, useParams } from "react-router";
 import type { Profile, SeriesSummary, SkillResult, Subject } from "../api/client";
 import { useApi } from "../app/BackendContext";
+import { useProfileSettings } from "../app/queries";
 import { SUBJECT_SLUGS, SUBJECTS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { Fireworks } from "../components/child/Fireworks";
 import { Mascot } from "../components/child/Mascot";
+import { RewardsPanel } from "../components/child/Rewards";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { BookIcon, FlagIcon, PencilIcon, TimerIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
@@ -15,11 +17,13 @@ import { SeriesRun } from "./SeriesScreen";
 
 /** Examen (SUB001414, SUB001415): the review of a subject, or the timed challenge. */
 export function ExamScreen() {
-  return <RequireProfile>{() => <ExamChoice />}</RequireProfile>;
+  return <RequireProfile>{(profile) => <ExamChoice profile={profile} />}</RequireProfile>;
 }
 
-function ExamChoice() {
+function ExamChoice({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
+  // The parents may turn the timed challenge off (SUB001512).
+  const timedEnabled = useProfileSettings(profile.id).data?.timedEnabled ?? true;
   return (
     <main className="screen">
       <header className="screen-header">
@@ -45,6 +49,7 @@ function ExamChoice() {
             />
           ))}
         </section>
+        {timedEnabled && (
         <section className="mode-choice" aria-labelledby="exam-timed">
           <h2 id="exam-timed" className="section-title">
             {fr.exam.timed} · {fr.exam.timedHint}
@@ -53,6 +58,7 @@ function ExamChoice() {
             <BigButton key={subject} label={fr.exam.timedOf[subject]} icon={<TimerIcon />} onClick={() => void navigate(`/defi/${SUBJECT_SLUGS[subject]}`)} />
           ))}
         </section>
+        )}
       </div>
     </main>
   );
@@ -147,6 +153,7 @@ export function ExamSummary({ summary, subject, onAgain }: { summary: SeriesSumm
       {perfect && <Fireworks label={fr.series.allRight} />}
       {perfect && <p className="summary-perfect">{fr.series.allRight}</p>}
       <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
+      <RewardsPanel rewards={summary.rewards} />
       <ExamResults summary={summary} subject={subject} />
       <div className="actions">
         <button type="button" className="button" onClick={() => void navigate("/menu")}>
@@ -170,7 +177,10 @@ function TimedSetup({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
   const subject = subjectOfSlug(useParams().subject);
   const challenge = useQuery({ queryKey: ["timed", profile.id, subject], queryFn: () => api.getTimedChallenge(profile.id, subject), staleTime: 0 });
+  // The duration may be fixed by the parents (SUB001512): only that one is offered.
+  const fixed = useProfileSettings(profile.id).data?.timedSeconds ?? 0;
   const data = challenge.data;
+  const durations = data?.durations.filter((d) => fixed === 0 || d.seconds === fixed) ?? [];
   return (
     <main className="screen">
       <header className="screen-header">
@@ -195,14 +205,14 @@ function TimedSetup({ profile }: { profile: Profile }) {
             <SpeakButton text={fr.exam.chooseDurationSpoken} compact />
           </div>
           <div className="timed-durations">
-            {data.durations.map((d, i) => (
+            {durations.map((d, i) => (
               <BigButton
                 key={d.seconds}
                 label={fr.exam.duration(d.seconds)}
                 hint={fr.exam.best(d.best)}
                 number={String(i + 1).padStart(2, "0")}
-                variant={d.seconds === data.defaultSeconds ? "primary" : "default"}
-                autoFocus={d.seconds === data.defaultSeconds}
+                variant={d.seconds === data.defaultSeconds || durations.length === 1 ? "primary" : "default"}
+                autoFocus={d.seconds === data.defaultSeconds || durations.length === 1}
                 onClick={() => void navigate(`/defi/${SUBJECT_SLUGS[subject]}/${d.seconds}`)}
               />
             ))}
@@ -249,6 +259,7 @@ function TimedSummary({ summary, onAgain }: { summary: SeriesSummary; onAgain():
       {record && <p className="new-record">{fr.exam.newRecord}</p>}
       {!record && previous !== null && <p className="message">{fr.exam.best(previous)}</p>}
       <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
+      <RewardsPanel rewards={summary.rewards} />
       <div className="actions">
         <button type="button" className="button" onClick={() => void navigate("/menu")}>
           {fr.series.menu}

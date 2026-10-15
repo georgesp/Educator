@@ -1,0 +1,5 @@
+{
+  "$schema": "../schemas/stars.schema.json",
+  "twoStars": 70,
+  "threeStars": 90
+}

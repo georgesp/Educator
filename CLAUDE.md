@@ -41,6 +41,8 @@ Educator/
 │   ├── educator-content/   # Chargement / validation du contenu (JSON, SVG) + Piper (bureau)
 │   └── educator-data/      # SQLite : base, migrations, profils, réglages
 ├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, banque de mots, sons, homophones, leçons, mascotte, personnages, calendrier, points) + schémas JSON
+│                           # Lot 3 : rewards/ (niveaux, étoiles, objectif du jour, badges + icônes), accessories/ (accessoires d'avatar + planche),
+│                           # progress/ (seuils de la difficulté adaptative, intervalles des révisions), themes/ (liste des thèmes)
 ├── web/                    # Front React + application Tauri (src-tauri/), voir web/README.md
 │   └── src/api/types.ts    # Types des commandes, générés depuis web/src-tauri/src/contracts.rs
 ├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, listen-words.sh / .ps1
@@ -73,6 +75,9 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
 - Le **contenu** (règles, mots, leçons, barèmes) vit dans des fichiers validés par schéma JSON : une règle mal écrite
   doit faire échouer les tests, jamais planter devant l'enfant.
 - Pas de bibliothèque de composants généraliste : composants enfant maison (gros boutons, lisibilité, animations).
+- Thèmes (SUB001513) : aucune couleur, police ni forme en dur dans les composants ; tout passe par les variables des
+  blocs `[data-theme="…"]` de `web/src/styles.css`. Un nouveau thème s'ajoute à `content/themes/themes.json` et
+  redéfinit toutes les variables du thème `sport` (vérifié, avec le contraste AA, par `web/src/themes.test.ts`).
 
 ## Règles pédagogiques à respecter
 
@@ -98,6 +103,15 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
   profil calculées par `educator-core::statistics` à partir des séances et réponses enregistrées),
   `get_parent_profile` / `update_parent_profile` (carte des parents de l'écran « Qui joue ? » : nom et personnage,
   créée par défaut, stockée dans `AppSetting` par `educator-core::parent_profile` ; ce n'est pas un profil enfant).
+- Lot 3 (motivation, réglages) : `get_profile_overview` (niveau, objectif du jour, badges, révisions dues : menu),
+  `get_badges`, `get_accessories`, `update_avatar` (enregistré à chaque clic, accessoire verrouillé refusé),
+  `get_avatar_svg` (avatar composé par `educator-core::rewards::accessories::compose_avatar`), `get_advice`
+  (« Je te conseille… », `educator-core::adaptive`), `start_review` (« Mes révisions », `educator-core::reviews`),
+  `get_profile_settings` / `update_profile_settings` / `get_settings_options` (réglages de chaque enfant,
+  `educator-core::profile_settings`), `export_backup` / `import_backup` (sauvegarde de tous les profils dans un fichier
+  choisi avec `tauri-plugin-dialog`, `educator-data::backup`). La fin de chaque séance (`SeriesSummaryResponse.rewards`)
+  porte les étoiles, le niveau, l'objectif du jour, les badges et accessoires gagnés (`educator-core::rewards`).
+  `speak` et `speak_word` reçoivent la vitesse de voix choisie par l'enfant (`voiceSpeed`).
 - Côté front : `web/src/api/ui.ts` (`UiApi`, injectée par `BackendContext`, simulée dans les tests).
 - Après toute modification d'un contrat : `cd web && npm run api:generate`, puis commiter `web/src/api/types.ts`
   (le test `bindings::types_ts_is_up_to_date` le vérifie).
@@ -111,7 +125,7 @@ démarrage ; écoute lente 0,5 arrêtée après 2 min sans demande), avec un cac
 (`SpeechCache`, éviction des moins récemment lus).
 
 - Mots d'orthographe lus **en direct**, sans fichier pré-généré : un nom avec son article (« un stylo. »), les autres
-  mots suivis d'une virgule (« beau, ») ; mot et phrase à la même vitesse ; champ `pronunciation` pour corriger une
+  mots lus dans « Le mot : jaune. », coupé à la pause du deux-points (l'enfant n'entend que « jaune ») ; mot et phrase à la même vitesse ; champ `pronunciation` pour corriger une
   prononciation ; un homophone a toujours sa phrase. Les mots d'une série sont préparés en arrière-plan
   (`educator_core::speech::SpeechPreparer`) : la demande de l'enfant passe avant, jamais deux synthèses du même mot.
 - Sans voix, la dictée et « Choisis la bonne écriture » sont grisées ; les examens n'ont que des questions jouables
@@ -147,9 +161,13 @@ Conventions :
 - `CreatedAt` / `UpdatedAt` renseignés par les stores à partir du `Clock` injecté ; `UpdatedAt` ne bouge que si une
   colonne change.
 - Une base créée par l'ancienne version .NET est reprise avec ses profils (ADR 0003).
-- Statistiques (lot 2, migration `0002_sessions`) : `Session` (une par série, examen, défi ou quiz de leçon),
-  `Answer` (une par réponse, avec sa durée), `SkillMastery` (20 dernières réponses par compétence),
+- Statistiques (lot 2, migration `0002_sessions`) : `Session` (une par série, examen, défi, quiz de leçon ou
+  révision), `Answer` (une par réponse, avec sa durée), `SkillMastery` (20 dernières réponses par compétence),
   `LessonProgress` (slide où une leçon a été laissée). Tout est supprimé avec le profil.
+- Lot 3 (migration `0004_motivation`) : `Profile.Avatar` (JSON : personnage + accessoires portés et leur couleur ;
+  `CharacterId` garde le personnage), `EarnedBadge`, `UnlockedAccessory`, `DailyGoalDay` (jours où l'objectif est
+  atteint, bonus donné une fois), `ReviewItem` (file de révision espacée), `ProfileSetting` (réglages de chaque enfant).
+  Le niveau et les étoiles ne sont pas stockés : ils sont recalculés à partir des points et des séances.
 
 ## Commandes
 
@@ -165,6 +183,7 @@ cd web && npm install
 cd web && npm run tauri dev            # application complète
 cd web && npm run api:generate         # après une modification des contrats
 scripts/listen-words.sh --sample 50    # écoute de contrôle des mots (après ajout ou modification de mots)
+EDUCATOR_WRITE_PLANCHE=1 cargo test -p educator-content --test accessories   # régénère content/accessories/planche.html
 cd web && npm run build && npm test && npm run test:e2e
 ```
 

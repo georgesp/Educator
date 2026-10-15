@@ -1,0 +1,772 @@
+{
+  "$schema": "../schemas/accessories.schema.json",
+  "comment": "Accessoires de l'avatar (SUB001504). Chaque SVG utilise var(--acc) et var(--acc-light) pour sa couleur ; « anchor » est le point du dessin posé sur le point d'ancrage du personnage (headTop, eyes, neck) ou, pour un compagnon, au pied de l'avatar.",
+  "colors": [
+    {
+      "id": "rouge",
+      "name": "Rouge",
+      "main": "#D7262B",
+      "light": "#F07A7D"
+    },
+    {
+      "id": "bleu",
+      "name": "Bleu",
+      "main": "#2F6FD0",
+      "light": "#8DB4EE"
+    },
+    {
+      "id": "vert",
+      "name": "Vert",
+      "main": "#2E9E5B",
+      "light": "#8FD4AA"
+    },
+    {
+      "id": "jaune",
+      "name": "Jaune",
+      "main": "#F2B705",
+      "light": "#FBE08A"
+    },
+    {
+      "id": "violet",
+      "name": "Violet",
+      "main": "#7B4FC9",
+      "light": "#C2A8EC"
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "main": "#F28C28",
+      "light": "#F9C38E"
+    },
+    {
+      "id": "rose",
+      "name": "Rose",
+      "main": "#F06FA4",
+      "light": "#F9C1D8"
+    },
+    {
+      "id": "turquoise",
+      "name": "Turquoise",
+      "main": "#159A9C",
+      "light": "#7FD3D4"
+    },
+    {
+      "id": "noir",
+      "name": "Noir",
+      "main": "#2E2A2B",
+      "light": "#77727A"
+    },
+    {
+      "id": "or",
+      "name": "Or",
+      "main": "#E0A526",
+      "light": "#F7DC8C"
+    },
+    {
+      "id": "marron",
+      "name": "Marron",
+      "main": "#8C5A3C",
+      "light": "#C99A78"
+    },
+    {
+      "id": "gris",
+      "name": "Gris",
+      "main": "#8E8B96",
+      "light": "#CFCCD6"
+    },
+    {
+      "id": "creme",
+      "name": "Crème",
+      "main": "#F3E3C3",
+      "light": "#FFFFFF"
+    },
+    {
+      "id": "blanc",
+      "name": "Blanc",
+      "main": "#F4F5F8",
+      "light": "#FFFFFF"
+    }
+  ],
+  "accessories": [
+    {
+      "id": "casquette",
+      "name": "Casquette",
+      "slot": "head",
+      "file": "casquette.svg",
+      "anchor": {
+        "x": 62,
+        "y": 30
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "vert",
+        "jaune",
+        "violet",
+        "orange",
+        "turquoise",
+        "noir"
+      ],
+      "unlock": {
+        "level": 1
+      }
+    },
+    {
+      "id": "noeud",
+      "name": "Nœud",
+      "slot": "head",
+      "file": "noeud.svg",
+      "anchor": {
+        "x": -6,
+        "y": 16
+      },
+      "colors": [
+        "rouge",
+        "rose",
+        "bleu",
+        "jaune",
+        "violet",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 2
+      }
+    },
+    {
+      "id": "bonnet",
+      "name": "Bonnet à pompon",
+      "slot": "head",
+      "file": "bonnet.svg",
+      "anchor": {
+        "x": 66,
+        "y": 62
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "vert",
+        "violet",
+        "orange",
+        "rose",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 4
+      }
+    },
+    {
+      "id": "chapeau-fete",
+      "name": "Chapeau de fête",
+      "slot": "head",
+      "file": "chapeau-fete.svg",
+      "anchor": {
+        "x": 42,
+        "y": 70
+      },
+      "colors": [
+        "bleu",
+        "rose",
+        "vert",
+        "jaune",
+        "violet",
+        "orange"
+      ],
+      "unlock": {
+        "level": 6
+      }
+    },
+    {
+      "id": "toque-chef",
+      "name": "Toque de chef",
+      "slot": "head",
+      "file": "toque-chef.svg",
+      "anchor": {
+        "x": 60,
+        "y": 68
+      },
+      "colors": [
+        "blanc",
+        "creme",
+        "rose",
+        "bleu",
+        "jaune"
+      ],
+      "unlock": {
+        "level": 8
+      }
+    },
+    {
+      "id": "casque-pompier",
+      "name": "Casque de pompier",
+      "slot": "head",
+      "file": "casque-pompier.svg",
+      "anchor": {
+        "x": 78,
+        "y": 40
+      },
+      "colors": [
+        "rouge",
+        "jaune",
+        "noir",
+        "gris"
+      ],
+      "unlock": {
+        "level": 10
+      }
+    },
+    {
+      "id": "chapeau-cowboy",
+      "name": "Chapeau de cow-boy",
+      "slot": "head",
+      "file": "chapeau-cowboy.svg",
+      "anchor": {
+        "x": 84,
+        "y": 46
+      },
+      "colors": [
+        "marron",
+        "noir",
+        "creme",
+        "rouge"
+      ],
+      "unlock": {
+        "level": 11
+      }
+    },
+    {
+      "id": "casque-pilote",
+      "name": "Casque de pilote",
+      "slot": "head",
+      "file": "casque-pilote.svg",
+      "anchor": {
+        "x": 74,
+        "y": 38
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "jaune",
+        "vert",
+        "noir",
+        "orange"
+      ],
+      "unlock": {
+        "level": 13
+      }
+    },
+    {
+      "id": "chapeau-pirate",
+      "name": "Chapeau de pirate",
+      "slot": "head",
+      "file": "chapeau-pirate.svg",
+      "anchor": {
+        "x": 80,
+        "y": 44
+      },
+      "colors": [
+        "noir",
+        "marron",
+        "rouge",
+        "bleu",
+        "violet"
+      ],
+      "unlock": {
+        "level": 14
+      }
+    },
+    {
+      "id": "chapeau-magicien",
+      "name": "Chapeau de magicien",
+      "slot": "head",
+      "file": "chapeau-magicien.svg",
+      "anchor": {
+        "x": 70,
+        "y": 70
+      },
+      "colors": [
+        "violet",
+        "bleu",
+        "noir",
+        "turquoise",
+        "rouge"
+      ],
+      "unlock": {
+        "level": 16
+      }
+    },
+    {
+      "id": "casque-cosmonaute",
+      "name": "Casque de cosmonaute",
+      "slot": "head",
+      "file": "casque-cosmonaute.svg",
+      "anchor": {
+        "x": 98,
+        "y": 38
+      },
+      "colors": [
+        "blanc",
+        "gris",
+        "bleu",
+        "orange",
+        "violet",
+        "rouge"
+      ],
+      "unlock": {
+        "level": 18
+      }
+    },
+    {
+      "id": "couronne",
+      "name": "Couronne",
+      "slot": "head",
+      "file": "couronne.svg",
+      "anchor": {
+        "x": 56,
+        "y": 42
+      },
+      "colors": [
+        "or",
+        "rouge",
+        "violet",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 20
+      }
+    },
+    {
+      "id": "lunettes-rondes",
+      "name": "Lunettes rondes",
+      "slot": "eyes",
+      "file": "lunettes-rondes.svg",
+      "anchor": {
+        "x": 56,
+        "y": 22
+      },
+      "colors": [
+        "noir",
+        "rouge",
+        "bleu",
+        "violet",
+        "vert",
+        "rose",
+        "or"
+      ],
+      "unlock": {
+        "level": 1
+      }
+    },
+    {
+      "id": "lunettes-soleil",
+      "name": "Lunettes de soleil",
+      "slot": "eyes",
+      "file": "lunettes-soleil.svg",
+      "anchor": {
+        "x": 60,
+        "y": 22
+      },
+      "colors": [
+        "noir",
+        "rouge",
+        "bleu",
+        "violet",
+        "vert",
+        "rose",
+        "or"
+      ],
+      "unlock": {
+        "level": 5
+      }
+    },
+    {
+      "id": "lunettes-coeur",
+      "name": "Lunettes cœur",
+      "slot": "eyes",
+      "file": "lunettes-coeur.svg",
+      "anchor": {
+        "x": 62,
+        "y": 24
+      },
+      "colors": [
+        "rose",
+        "rouge",
+        "violet",
+        "bleu",
+        "jaune",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 9
+      }
+    },
+    {
+      "id": "lunettes-pilote",
+      "name": "Lunettes de pilote",
+      "slot": "eyes",
+      "file": "lunettes-pilote.svg",
+      "anchor": {
+        "x": 74,
+        "y": 26
+      },
+      "colors": [
+        "marron",
+        "noir",
+        "rouge",
+        "bleu",
+        "vert"
+      ],
+      "unlock": {
+        "level": 13
+      }
+    },
+    {
+      "id": "masque",
+      "name": "Masque de héros",
+      "slot": "eyes",
+      "file": "masque.svg",
+      "anchor": {
+        "x": 66,
+        "y": 22
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "noir",
+        "vert",
+        "violet"
+      ],
+      "unlock": {
+        "level": 15
+      }
+    },
+    {
+      "id": "lunettes-plongee",
+      "name": "Lunettes de plongée",
+      "slot": "eyes",
+      "file": "lunettes-plongee.svg",
+      "anchor": {
+        "x": 76,
+        "y": 34
+      },
+      "colors": [
+        "orange",
+        "jaune",
+        "bleu",
+        "rose",
+        "vert",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 16
+      }
+    },
+    {
+      "id": "lunettes-etoiles",
+      "name": "Lunettes étoiles",
+      "slot": "eyes",
+      "file": "lunettes-etoiles.svg",
+      "anchor": {
+        "x": 62,
+        "y": 26
+      },
+      "colors": [
+        "jaune",
+        "rose",
+        "violet",
+        "bleu",
+        "or"
+      ],
+      "unlock": {
+        "level": 17
+      }
+    },
+    {
+      "id": "echarpe",
+      "name": "Écharpe",
+      "slot": "neck",
+      "file": "echarpe.svg",
+      "anchor": {
+        "x": 56,
+        "y": 14
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "vert",
+        "jaune",
+        "violet",
+        "orange",
+        "rose",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 1
+      }
+    },
+    {
+      "id": "cravate",
+      "name": "Cravate",
+      "slot": "neck",
+      "file": "cravate.svg",
+      "anchor": {
+        "x": 20,
+        "y": 8
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "vert",
+        "violet",
+        "noir",
+        "jaune"
+      ],
+      "unlock": {
+        "level": 5
+      }
+    },
+    {
+      "id": "noeud-papillon",
+      "name": "Nœud papillon",
+      "slot": "neck",
+      "file": "noeud-papillon.svg",
+      "anchor": {
+        "x": 38,
+        "y": 10
+      },
+      "colors": [
+        "rouge",
+        "noir",
+        "bleu",
+        "violet",
+        "jaune",
+        "vert"
+      ],
+      "unlock": {
+        "level": 7
+      }
+    },
+    {
+      "id": "collier-fleurs",
+      "name": "Collier de fleurs",
+      "slot": "neck",
+      "file": "collier-fleurs.svg",
+      "anchor": {
+        "x": 56,
+        "y": 8
+      },
+      "colors": [
+        "rose",
+        "jaune",
+        "violet",
+        "rouge",
+        "orange",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 11
+      }
+    },
+    {
+      "id": "medaille",
+      "name": "Médaille",
+      "slot": "neck",
+      "file": "medaille.svg",
+      "anchor": {
+        "x": 36,
+        "y": 6
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "vert",
+        "violet",
+        "turquoise"
+      ],
+      "unlock": {
+        "badge": "dix-series"
+      }
+    },
+    {
+      "id": "cape",
+      "name": "Cape",
+      "slot": "neck",
+      "layer": "back",
+      "file": "cape.svg",
+      "anchor": {
+        "x": 118,
+        "y": 6
+      },
+      "colors": [
+        "rouge",
+        "bleu",
+        "violet",
+        "vert",
+        "noir",
+        "or"
+      ],
+      "unlock": {
+        "badge": "sept-jours"
+      }
+    },
+    {
+      "id": "poussin",
+      "name": "Poussin",
+      "slot": "companion",
+      "file": "poussin.svg",
+      "anchor": {
+        "x": 39.2,
+        "y": 75.6
+      },
+      "colors": [
+        "jaune",
+        "creme",
+        "orange"
+      ],
+      "unlock": {
+        "level": 3
+      }
+    },
+    {
+      "id": "chaton",
+      "name": "Chaton",
+      "slot": "companion",
+      "file": "chaton.svg",
+      "anchor": {
+        "x": 44.8,
+        "y": 86.8
+      },
+      "colors": [
+        "orange",
+        "gris",
+        "noir",
+        "marron",
+        "creme"
+      ],
+      "unlock": {
+        "level": 7
+      }
+    },
+    {
+      "id": "lapin",
+      "name": "Lapin",
+      "slot": "companion",
+      "file": "lapin.svg",
+      "anchor": {
+        "x": 44.8,
+        "y": 95.2
+      },
+      "colors": [
+        "blanc",
+        "gris",
+        "marron",
+        "creme",
+        "noir"
+      ],
+      "unlock": {
+        "level": 9
+      }
+    },
+    {
+      "id": "chiot",
+      "name": "Chiot",
+      "slot": "companion",
+      "file": "chiot.svg",
+      "anchor": {
+        "x": 46.2,
+        "y": 86.8
+      },
+      "colors": [
+        "marron",
+        "creme",
+        "gris",
+        "noir",
+        "orange"
+      ],
+      "unlock": {
+        "level": 12
+      }
+    },
+    {
+      "id": "hibou",
+      "name": "Hibou",
+      "slot": "companion",
+      "file": "hibou.svg",
+      "anchor": {
+        "x": 42.0,
+        "y": 89.6
+      },
+      "colors": [
+        "marron",
+        "gris",
+        "violet",
+        "bleu",
+        "creme"
+      ],
+      "unlock": {
+        "level": 14
+      }
+    },
+    {
+      "id": "dinosaure",
+      "name": "Dinosaure",
+      "slot": "companion",
+      "file": "dinosaure.svg",
+      "anchor": {
+        "x": 49.0,
+        "y": 89.6
+      },
+      "colors": [
+        "vert",
+        "orange",
+        "violet",
+        "bleu",
+        "rouge",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 17
+      }
+    },
+    {
+      "id": "robot",
+      "name": "Petit robot",
+      "slot": "companion",
+      "file": "robot.svg",
+      "anchor": {
+        "x": 42.0,
+        "y": 95.2
+      },
+      "colors": [
+        "bleu",
+        "gris",
+        "rouge",
+        "vert",
+        "turquoise"
+      ],
+      "unlock": {
+        "level": 18
+      }
+    },
+    {
+      "id": "dragon",
+      "name": "Dragon",
+      "slot": "companion",
+      "file": "dragon.svg",
+      "anchor": {
+        "x": 44.8,
+        "y": 96.6
+      },
+      "colors": [
+        "violet",
+        "vert",
+        "rouge",
+        "bleu",
+        "orange",
+        "or"
+      ],
+      "unlock": {
+        "level": 19
+      }
+    }
+  ]
+}

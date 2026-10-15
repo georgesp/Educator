@@ -1,15 +1,22 @@
+import { useProfileSession } from "../app/ProfileContext";
+import { useUpdateSettings } from "../app/ProfileSettingsEffect";
 import { setMuted, useMuted } from "../audio/sounds";
 import { stopSpeech } from "../audio/useSpeech";
 import { fr } from "../i18n/fr";
 import { MutedIcon, SpeakerIcon } from "./icons";
 
-/** Mutes the feedback sounds (setting kept in this computer until the Options of lot 3). */
+/** Mutes the sounds and the voice; with a child chosen, kept in its settings (SUB001512). */
 export function SoundToggle() {
   const muted = useMuted();
+  const { profileId } = useProfileSession();
+  const update = useUpdateSettings(profileId);
   const toggle = () => {
     setMuted(!muted);
     if (!muted) {
       stopSpeech();
+    }
+    if (profileId) {
+      update.mutate({ sound: muted });
     }
   };
 

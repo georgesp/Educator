@@ -155,6 +155,17 @@ impl CharacterCatalog for Characters {
     fn svg(&self, id: &str) -> Option<&str> {
         self.svgs.get(id).map(String::as_str)
     }
+
+    fn anchors(&self, id: &str) -> Option<educator_core::characters::CharacterAnchors> {
+        let point = |p: AnchorPoint| educator_core::characters::Point::new(p.x, p.y);
+        self.definitions.iter().find(|d| d.info.id == id).map(|d| {
+            educator_core::characters::CharacterAnchors {
+                head_top: point(d.anchors.head_top),
+                eyes: point(d.anchors.eyes),
+                neck: point(d.anchors.neck),
+            }
+        })
+    }
 }
 
 /// Checks one SVG file: well-formed, 256 × 256 viewBox, named groups, no script or external

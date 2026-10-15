@@ -2,7 +2,20 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { vi } from "vitest";
-import type { AnswerPayload, Exercise, Lesson, Profile, ProfileStatistics, Series, SeriesSummary, Subject, Token } from "../api/client";
+import type {
+  AnswerPayload,
+  Exercise,
+  Lesson,
+  Profile,
+  ProfileOverview,
+  ProfileSettings,
+  ProfileStatistics,
+  Series,
+  SeriesSummary,
+  Subject,
+  Token,
+  WornAccessory,
+} from "../api/client";
 import type { UiApi } from "../api/ui";
 import { BackendProvider } from "../app/BackendContext";
 import { ProfileProvider } from "../app/ProfileContext";
@@ -13,6 +26,7 @@ export const lea: Profile = {
   name: "Léa",
   grade: "CP",
   characterId: "lion",
+  accessories: [],
   points: 120,
   placementSeconds: 20,
   examSeconds: 0,
@@ -129,6 +143,7 @@ export function summaryOf(correctCount: number, exerciseCount: number, pointsEar
     previousBest: null,
     newRecord: false,
     reviewLesson: exerciseCount > 0 && correctCount * 2 < exerciseCount,
+    rewards: null,
   };
 }
 
@@ -179,6 +194,36 @@ export function emptyStatistics(profileId: string): ProfileStatistics {
   };
 }
 
+/** Settings of a child as the core creates them. */
+export function defaultSettings(): ProfileSettings {
+  return {
+    sound: true,
+    mascot: true,
+    voiceSpeed: "Normal",
+    textSize: "Normal",
+    dyslexiaFont: false,
+    theme: "sport",
+    dailyGoal: 3,
+    timedEnabled: true,
+    timedSeconds: 0,
+    sessionMinutes: 0,
+  };
+}
+
+/** The menu's panel of a profile with 120 points: level 2, a goal of 3 series, nothing to review. */
+export function overview(): ProfileOverview {
+  return {
+    level: { level: 2, points: 120, levelStart: 100, nextLevelAt: 250, percent: 13 },
+    goal: { target: 3, done: 1, reached: false, streak: 0, bonusPoints: 30 },
+    badgesEarned: 1,
+    badgesTotal: 23,
+    reviews: [
+      { subject: "Math", due: 0 },
+      { subject: "Spelling", due: 0 },
+    ],
+  };
+}
+
 /** A fake UI API: every call is a vi.fn, overridable per test. Speech fails (no voice in tests). */
 export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
   const expected = [7, 4];
@@ -190,8 +235,8 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       skillsGrade: "CP",
       currentPeriod: 1,
       skills: [
-        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null },
-        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 75 },
+        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null, stars: 0 },
+        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 75, stars: 2 },
       ],
     }),
     getCharacters: vi.fn().mockResolvedValue([
@@ -278,7 +323,9 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       grade: "CP",
       lessonsGrade: "CP",
       currentPeriod: 1,
-      lessons: [{ id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract" }],
+      lessons: [
+        { id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract", stars: 0, skillId: "ce1-add-9-19-29" },
+      ],
     }),
     getLesson: vi.fn().mockResolvedValue(shortLesson),
     saveLessonProgress: vi.fn().mockResolvedValue(undefined),
@@ -300,6 +347,31 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
     getProfileStatistics: vi.fn(async (profileId: string) => emptyStatistics(profileId)),
     getParentProfile: vi.fn().mockResolvedValue({ name: "Parents", characterId: "ours" }),
     updateParentProfile: vi.fn(async (changes: { name?: string; characterId?: string }) => ({ name: changes.name ?? "Parents", characterId: changes.characterId ?? "ours" })),
+    getProfileOverview: vi.fn().mockResolvedValue(overview()),
+    getBadges: vi.fn().mockResolvedValue([]),
+    getAccessories: vi.fn().mockResolvedValue([]),
+    updateAvatar: vi.fn(async (id: string, request: { characterId?: string; accessories: WornAccessory[] }) => ({
+      ...lea,
+      id,
+      characterId: request.characterId ?? lea.characterId,
+      accessories: request.accessories,
+    })),
+    getAvatarSvg: vi.fn().mockResolvedValue("<svg xmlns='http://www.w3.org/2000/svg'/>"),
+    getAdvice: vi.fn().mockResolvedValue(null),
+    startReview: vi.fn(async (_p: string, subject: Subject) => ({ ...twoExercises, sessionType: "Review" as const, subject, skillId: null })),
+    getProfileSettings: vi.fn().mockResolvedValue(defaultSettings()),
+    updateProfileSettings: vi.fn(async (_p: string, changes: Partial<ProfileSettings>) => ({ ...defaultSettings(), ...changes })),
+    getSettingsOptions: vi.fn().mockResolvedValue({
+      themes: [
+        { id: "sport", name: "Grand Prix", description: "Voitures de course." },
+        { id: "cosmos", name: "Cosmos", description: "Planètes et fusée." },
+      ],
+      goalChoices: [0, 1, 2, 3, 4, 5, 6],
+      timedChoices: [0, 60, 120, 180],
+      sessionChoices: [0, 15, 20, 30, 45],
+    }),
+    exportBackup: vi.fn().mockResolvedValue({ profiles: 1, path: "/tmp/2026-10-15_educator-sauvegarde.json" }),
+    importBackup: vi.fn().mockResolvedValue({ profiles: 1, path: "/tmp/2026-10-15_educator-sauvegarde.json" }),
     ...overrides,
   } as UiApi;
 }

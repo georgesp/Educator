@@ -89,6 +89,25 @@ export type DayActivity = Types.DayActivityResponse;
 export type WeekActivity = Types.WeekActivityResponse;
 export type MasteryState = Types.MasteryStateName;
 export type Trend = Types.TrendName;
+export type Level = Types.LevelResponse;
+export type DailyGoal = Types.DailyGoalResponse;
+export type ProfileOverview = Types.ProfileOverviewResponse;
+export type Badge = Types.BadgeResponse;
+export type AccessorySlot = Types.AccessorySlotName;
+export type WornAccessory = Types.WornAccessoryResponse;
+export type Accessory = Types.AccessoryResponse;
+export type AccessoryColor = Types.AccessoryColorResponse;
+export type UpdateAvatar = Types.UpdateAvatarRequest;
+export type SessionRewards = Types.SessionRewardsResponse;
+export type Advice = Types.AdviceResponse;
+export type AdviceReason = Types.AdviceReasonName;
+export type VoiceSpeed = Types.VoiceSpeedName;
+export type TextSize = Types.TextSizeName;
+export type ProfileSettings = Types.ProfileSettingsResponse;
+export type UpdateProfileSettings = Types.UpdateProfileSettingsRequest;
+export type Theme = Types.ThemeResponse;
+export type SettingsOptions = Types.SettingsOptionsResponse;
+export type Backup = Types.BackupResponse;
 
 /**
  * Error returned by a command. `status` keeps the meaning of the former HTTP API (400 invalid input,

@@ -3,7 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 /** The words of a dictation replayed with the fixed seed 42 (CP, « le son [ou] »). */
 const WORDS = ["loup", "poule", "roue", "cou", "jour", "soupe", "route", "mouton", "bijou", "écoute"];
 
-const profile = { id: "p1", name: "Léa", grade: "CP", characterId: "lion", points: 0, placementSeconds: 20, examSeconds: 0, lastUsedAt: "2026-10-11T08:00:00.000Z" };
+const profile = { id: "p1", name: "Léa", grade: "CP", characterId: "lion", accessories: [], points: 0, placementSeconds: 20, examSeconds: 0, lastUsedAt: "2026-10-11T08:00:00.000Z" };
 
 /** The child's word letter by letter against the expected one (same alignment as the core, for the cases of the test). */
 function correction(expected: string, given: string) {

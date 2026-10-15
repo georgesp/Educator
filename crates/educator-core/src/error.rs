@@ -22,6 +22,11 @@ pub enum Error {
     #[error("{0}")]
     SeriesRequest(String),
 
+    /// A request that cannot be honoured outside a series (an accessory still locked, an unknown
+    /// setting…): a mistake of the front, never shown to the child.
+    #[error("{0}")]
+    InvalidRequest(String),
+
     /// A skill that cannot produce a series (rule too narrow): a content error.
     #[error("{0}")]
     InvalidSkill(String),

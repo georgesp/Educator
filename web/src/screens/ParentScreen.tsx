@@ -6,8 +6,12 @@ import { useApi } from "../app/BackendContext";
 import { isParentSpaceUnlocked, lockParentSpace, parentOrigin } from "../app/parentAccess";
 import { useProfileSession } from "../app/ProfileContext";
 import { queryKeys, useParentProfile, useProfiles } from "../app/queries";
+import { ProfileAvatar } from "../components/child/AvatarImage";
 import { CharacterImage } from "../components/child/CharacterImage";
-import { DiceIcon, TrashIcon } from "../components/icons";
+import { DiceIcon, DownloadIcon, TrashIcon, UploadIcon } from "../components/icons";
+import { useUpdateSettings } from "../app/ProfileSettingsEffect";
+import { useProfileSettings, useSettingsOptions } from "../app/queries";
+import { Choice } from "./OptionsScreen";
 import { BarChart, LineChart, Sparkline } from "../components/parent/Charts";
 import { fr } from "../i18n/fr";
 
@@ -62,7 +66,7 @@ function ParentSpace() {
               className="parent-child-tab"
               onClick={() => setChosen(profile.id)}
             >
-              <CharacterImage id={profile.characterId} size={40} />
+              <ProfileAvatar profile={profile} size={40} />
               {fr.parent.childTab(profile.name, fr.grades[profile.grade])}
             </button>
           ))}
@@ -71,6 +75,7 @@ function ParentSpace() {
 
       {selected && (
         <section id="child-panel" role="tabpanel" aria-labelledby={`child-tab-${selected.id}`} className="parent-panel">
+          <ChildSettings key={`settings-${selected.id}`} profile={selected} />
           <ChildStatistics key={selected.id} profile={selected} />
         </section>
       )}
@@ -78,6 +83,8 @@ function ParentSpace() {
       {list.length > 0 && <ManageProfiles profiles={list} onDeleted={(id) => chosen === id && setChosen(null)} />}
 
       <ParentCardEditor />
+
+      <BackupSection />
     </main>
   );
 }
@@ -402,7 +409,7 @@ function ManageProfiles({ profiles, onDeleted }: { profiles: Profile[]; onDelete
       <ul className="plain-list options-profiles">
         {profiles.map((profile) => (
           <li key={profile.id} className="options-profile">
-            <CharacterImage id={profile.characterId} size={48} />
+            <ProfileAvatar profile={profile} size={48} />
             <span className="options-profile-name">
               {profile.name} · {fr.grades[profile.grade]}
             </span>
@@ -574,6 +581,122 @@ function ParentCardEditor() {
           )}
         </form>
       </div>
+    </section>
+  );
+}
+
+/**
+ * The settings the parents choose for a child (SUB001510, SUB001512): the goal of the day, the timed
+ * challenge and its duration, the advised length of a session.
+ */
+function ChildSettings({ profile }: { profile: Profile }) {
+  const settings = useProfileSettings(profile.id).data;
+  const options = useSettingsOptions().data;
+  const update = useUpdateSettings(profile.id);
+  if (!settings || !options) {
+    return null;
+  }
+
+  return (
+    <section className="parent-section" aria-labelledby="parent-settings">
+      <h2 id="parent-settings" className="section-title">
+        {fr.parent.settings(profile.name)}
+      </h2>
+      <Choice
+        legend={fr.parent.dailyGoal}
+        values={options.goalChoices}
+        selected={settings.dailyGoal}
+        label={(n) => fr.parent.dailyGoalValue(n)}
+        onChoose={(dailyGoal) => update.mutate({ dailyGoal })}
+      />
+      <label className="option-switch">
+        <input type="checkbox" checked={settings.timedEnabled} onChange={() => update.mutate({ timedEnabled: !settings.timedEnabled })} />
+        <span>{fr.parent.timedEnabled}</span>
+      </label>
+      {settings.timedEnabled && (
+        <Choice
+          legend={fr.parent.timedDuration}
+          values={options.timedChoices}
+          selected={settings.timedSeconds}
+          label={(s) => (s === 0 ? fr.parent.timedChildChooses : fr.exam.duration(s))}
+          onChoose={(timedSeconds) => update.mutate({ timedSeconds })}
+        />
+      )}
+      <Choice
+        legend={fr.parent.sessionLength}
+        values={options.sessionChoices}
+        selected={settings.sessionMinutes}
+        label={(m) => fr.parent.sessionLengthValue(m)}
+        onChoose={(sessionMinutes) => update.mutate({ sessionMinutes })}
+      />
+      <p className="parent-hint">{fr.parent.sessionLengthHint}</p>
+      {update.isError && <p className="form-error">{fr.app.error}</p>}
+    </section>
+  );
+}
+
+/**
+ * Backup and restore of every profile (SUB001512), to keep them safe or to move to another computer.
+ * A restore replaces the profiles of this computer: asked twice.
+ */
+function BackupSection() {
+  const api = useApi();
+  const queryClient = useQueryClient();
+  const { setProfileId } = useProfileSession();
+  const [confirm, setConfirm] = useState(false);
+  const exported = useMutation({ mutationFn: () => api.exportBackup() });
+  const imported = useMutation({
+    mutationFn: () => api.importBackup(),
+    onSuccess: async (result) => {
+      setConfirm(false);
+      if (result) {
+        setProfileId(null);
+        await queryClient.invalidateQueries();
+      }
+    },
+  });
+  const message = (error: unknown) => (error instanceof ApiError && error.status === 400 ? fr.parent.backupBadFile : fr.app.error);
+
+  return (
+    <section className="parent-section" aria-labelledby="parent-backup">
+      <h2 id="parent-backup" className="section-title">
+        {fr.parent.backup}
+      </h2>
+      <p className="parent-hint">{fr.parent.backupHint}</p>
+      <div className="actions actions-start">
+        <button type="button" className="button" onClick={() => exported.mutate()} disabled={exported.isPending}>
+          <DownloadIcon size={22} /> {fr.parent.backupExport}
+        </button>
+        <button type="button" className="button" onClick={() => setConfirm(true)} disabled={imported.isPending}>
+          <UploadIcon size={22} /> {fr.parent.backupImport}
+        </button>
+      </div>
+      {exported.data && (
+        <p className="parent-hint" role="status">
+          {fr.parent.backupDone(exported.data.profiles, exported.data.path)}
+        </p>
+      )}
+      {exported.isError && <p className="form-error">{message(exported.error)}</p>}
+      {confirm && (
+        <div className="quit-confirm" role="alertdialog" aria-labelledby="restore-question">
+          <p id="restore-question">{fr.parent.restoreQuestion}</p>
+          <p className="message">{fr.parent.restoreWarning}</p>
+          <div className="actions">
+            <button type="button" className="button" onClick={() => setConfirm(false)} autoFocus>
+              {fr.parent.keep}
+            </button>
+            <button type="button" className="button button-danger" onClick={() => imported.mutate()} disabled={imported.isPending}>
+              {fr.parent.restoreChoose}
+            </button>
+          </div>
+        </div>
+      )}
+      {imported.data && (
+        <p className="parent-hint" role="status">
+          {fr.parent.restoreDone(imported.data.profiles)}
+        </p>
+      )}
+      {imported.isError && <p className="form-error">{message(imported.error)}</p>}
     </section>
   );
 }

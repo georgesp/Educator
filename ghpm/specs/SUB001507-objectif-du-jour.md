@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001507 — Objectif du jour
-status: Todo
+status: In Review
 size: S
 estimate:
 startDate:
@@ -29,5 +29,15 @@ En tant qu'enfant, je veux un petit objectif chaque jour afin de prendre l'habit
 
 ## Critères d'acceptation
 
-- [ ] Objectif paramétrable dans les Options parent.
-- [ ] Passage de jour basé sur la date locale.
+- [x] Objectif paramétrable dans les Options parent.
+- [x] Passage de jour basé sur la date locale.
+
+## Réalisation
+
+- Objectif par défaut dans `content/rewards/daily-goal.json` : 3 séries, 30 points bonus.
+- Compte toutes les séances terminées du jour (séries, quiz de leçon, bilans, défis, révisions ; ni une série abandonnée ni l'évaluation de niveau).
+- Le jour où l'objectif est atteint, le bonus est ajouté une seule fois (table `DailyGoalDay`, une ligne par jour atteint) et annoncé en fin de séance (« Objectif du jour atteint : + 30 points ! »).
+- Jours d'affilée : jours consécutifs atteints jusqu'à aujourd'hui (ou hier tant qu'aujourd'hui n'est pas atteint). Un jour manqué remet simplement le compteur à zéro, sans aucun message.
+- Menu : carte « Objectif du jour » (« 2 séries sur 3 », barres, « 4 jours d'affilée »), cachée quand les parents ont choisi « Aucun ».
+- Espace parent → réglages de l'enfant : objectif de 0 (aucun) à 6 séries.
+- Jours calculés avec la date locale de l'ordinateur (même fonction que les statistiques, passée au cœur par `Services::start`).

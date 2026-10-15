@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001503 — Badges
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -29,5 +29,13 @@ En tant qu'enfant, je veux gagner des badges sur les notions que je maîtrise af
 
 ## Critères d'acceptation
 
-- [ ] Une vingtaine de badges initiaux (maths et orthographe, régularité).
-- [ ] Tests du moteur de conditions.
+- [x] Une vingtaine de badges initiaux (maths et orthographe, régularité).
+- [x] Tests du moteur de conditions.
+
+## Réalisation
+
+- 23 badges dans `content/rewards/badges.json` (schéma `badges.schema.json`) : 9 de maths, 5 d'orthographe, 9 de régularité et d'effort. Icônes SVG dans `content/rewards/badges/` (médaille du style des personnages ; bleue pour les maths, violette pour l'orthographe, jaune pour la régularité), planche de contrôle `content/rewards/planche-badges.html`.
+- Conditions : `skillMastery` (une des compétences maîtrisée à X %, au moins 10 réponses), `categoryMastery` (N compétences d'une famille), `seriesCompleted`, `perfectSeries`, `activeDays`, `goalStreak`, `lessonsFinished`, `stars`, `level`. Une compétence inconnue rend le badge invalide (signalé, ignoré).
+- Moteur `educator-core::rewards::badges` : les faits du profil (`BadgeFacts`) sont relus dans les séances, les maîtrises et les jours d'objectif à la fin de chaque séance ; un badge gagné est gardé pour toujours (table `EarnedBadge`), même si la maîtrise baisse ensuite.
+- Écran **Mes badges** (`/badges`, depuis le menu) : badges gagnés en couleur avec leur date, badges à gagner en gris avec leur condition dite simplement. Les nouveaux badges s'affichent à la fin de la séance.
+- Tests : `crates/educator-core/tests/rewards.rs`, `there_are_about_twenty_badges_of_every_kind` (contenu).

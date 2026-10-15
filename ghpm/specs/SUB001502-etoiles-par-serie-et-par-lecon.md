@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001502 — Étoiles par série et par leçon
-status: Todo
+status: In Review
 size: S
 estimate:
 startDate:
@@ -28,5 +28,12 @@ En tant qu'enfant, je veux gagner jusqu'à 3 étoiles par série afin d'avoir en
 
 ## Critères d'acceptation
 
-- [ ] Étoiles affichées dans la liste des compétences et des leçons.
-- [ ] Seuils en fichier de contenu.
+- [x] Étoiles affichées dans la liste des compétences et des leçons.
+- [x] Seuils en fichier de contenu.
+
+## Réalisation
+
+- Seuils dans `content/rewards/stars.json` (70 % et 90 %), lus par `educator-core::rewards::stars::StarRules`.
+- Le meilleur résultat n'est pas stocké à part : il est relu dans les séances enregistrées (`BestStars`), par compétence (séries d'exercices terminées) et par leçon (quiz terminé). Un examen, un défi chrono, une évaluation ou « Mes révisions » ne donnent pas d'étoiles.
+- `SkillResponse.stars` et `LessonSummaryResponse.stars` (0 à 3) : étoiles sous chaque carte des écrans Exercices et Leçons, et sur la carte de progression.
+- Fin de série et de quiz : les étoiles gagnées, et « Plus d'étoiles que la dernière fois ! » quand le record de la compétence est battu.

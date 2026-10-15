@@ -1,5 +1,7 @@
-import { createHashRouter, type RouteObject } from "react-router";
+import { createHashRouter, Navigate, type RouteObject } from "react-router";
 import { Layout } from "../components/Layout";
+import { AvatarScreen } from "../screens/AvatarScreen";
+import { BadgesScreen } from "../screens/BadgesScreen";
 import { ComponentsDemoScreen } from "../screens/ComponentsDemoScreen";
 import { EditProfileScreen } from "../screens/EditProfileScreen";
 import { ExamRunScreen, ExamScreen, TimedRunScreen, TimedSetupScreen } from "../screens/ExamScreen";
@@ -12,6 +14,8 @@ import { PlacementRunScreen, PlacementScreen } from "../screens/PlacementScreen"
 import { ParentGateScreen } from "../screens/ParentGateScreen";
 import { ParentScreen } from "../screens/ParentScreen";
 import { ProfilesScreen } from "../screens/ProfilesScreen";
+import { ProgressMapScreen } from "../screens/ProgressMapScreen";
+import { ReviewScreen } from "../screens/ReviewScreen";
 import { SeriesScreen } from "../screens/SeriesScreen";
 import { SkillsScreen } from "../screens/SkillsScreen";
 import { SubjectScreen } from "../screens/SubjectScreen";
@@ -39,6 +43,12 @@ export const screenRoutes: RouteObject[] = [
   { path: "lecons", element: <SubjectScreen kind="lessons" /> },
   { path: "lecons/:subject", element: <LessonsScreen /> },
   { path: "lecons/:subject/:lessonId", element: <LessonScreen /> },
+  // Lot 3: avatar, badges, progress map, reviews.
+  { path: "avatar", element: <AvatarScreen /> },
+  { path: "badges", element: <BadgesScreen /> },
+  { path: "carte", element: <Navigate to="/carte/maths" replace /> },
+  { path: "carte/:subject", element: <ProgressMapScreen /> },
+  { path: "revisions/:subject", element: <ReviewScreen /> },
   // Development only: every child component on one page (SUB000105).
   ...(import.meta.env.DEV ? [{ path: "dev/composants", element: <ComponentsDemoScreen /> }] : []),
 ];

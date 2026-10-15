@@ -47,7 +47,8 @@ pub fn run() {
                 let _ = window.set_focus();
             }
         }))
-        .plugin(tauri_plugin_window_state::Builder::default().build());
+        .plugin(tauri_plugin_window_state::Builder::default().build())
+        .plugin(tauri_plugin_dialog::init());
 
     let state = Arc::new(AppState::default());
     builder
@@ -105,6 +106,18 @@ pub fn run() {
             commands::get_profile_statistics,
             commands::get_parent_profile,
             commands::update_parent_profile,
+            commands::get_profile_overview,
+            commands::get_badges,
+            commands::get_accessories,
+            commands::update_avatar,
+            commands::get_avatar_svg,
+            commands::get_advice,
+            commands::start_review,
+            commands::get_profile_settings,
+            commands::update_profile_settings,
+            commands::get_settings_options,
+            commands::export_backup,
+            commands::import_backup,
         ])
         .run(tauri::generate_context!())
         .expect("error while running the application");

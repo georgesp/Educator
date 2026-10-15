@@ -1,8 +1,9 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * Settings kept on this computer until the Options of lot 3 (SUB001512): the mascot can be hidden
- * (SUB001417). Stored in localStorage, read safely: without storage, the default applies.
+ * The mascot hidden or shown (SUB001417). Since lot 3 it is a setting of each child (SUB001512), applied
+ * by `ProfileSettingsEffect`; localStorage only keeps the last value for the screens without a child.
+ * Read safely: without storage, the default applies.
  */
 const MASCOT_HIDDEN_KEY = "educator.mascot.hidden";
 

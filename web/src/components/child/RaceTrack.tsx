@@ -9,7 +9,7 @@ type RaceTrackProps = {
   label: string;
 };
 
-/** Progress of a series: a car drives along the track to the checkered flag, one marker per exercise. */
+/** Progress of a series: the vehicle of the theme drives along the track to the finish, one marker per exercise. */
 export function RaceTrack({ done, total, results, label }: RaceTrackProps) {
   const progress = total === 0 ? 0 : done / total;
   return (
@@ -30,10 +30,20 @@ export function RaceTrack({ done, total, results, label }: RaceTrackProps) {
         animate={{ left: `calc(${progress * 100}% * 0.9)` }}
         transition={{ type: "spring", stiffness: 120, damping: 18 }}
       >
-        <path d="M2 17l4-6h14l7-5h10l9 7v4z" fill="var(--primary)" />
-        <path d="M28 7h8l4 4H24z" fill="#BFE3F5" />
-        <circle cx="12" cy="18" r="4.5" fill="var(--text)" />
-        <circle cx="37" cy="18" r="4.5" fill="var(--text)" />
+        {/* Each theme shows its own vehicle (SUB001513): the race car, the rocket of the Cosmos theme. */}
+        <g className="theme-vehicle" data-for="sport">
+          <path d="M2 17l4-6h14l7-5h10l9 7v4z" fill="var(--primary)" />
+          <path d="M28 7h8l4 4H24z" fill="var(--vehicle-window)" />
+          <circle cx="12" cy="18" r="4.5" fill="var(--text)" />
+          <circle cx="37" cy="18" r="4.5" fill="var(--text)" />
+        </g>
+        <g className="theme-vehicle" data-for="cosmos">
+          <path d="M4 9l-4-4h8l5 4zM4 15l-4 4h8l5-4z" fill="var(--primary-strong)" />
+          <path d="M2 12l-2-2.5v5z" fill="var(--firework-gold)" />
+          <path d="M8 6h26c7 0 12 3 14 6-2 3-7 6-14 6H8z" fill="var(--primary)" />
+          <circle cx="32" cy="12" r="3.5" fill="var(--vehicle-window)" />
+          <path d="M8 6v12" stroke="var(--primary-strong)" strokeWidth="2" />
+        </g>
       </motion.svg>
     </div>
   );

@@ -76,6 +76,18 @@ fn every_file_matches_its_json_schema() {
             "characters.schema.json",
         ),
         ("characters", Some("palette.json"), "palette.schema.json"),
+        ("rewards", Some("levels.json"), "levels.schema.json"),
+        ("rewards", Some("stars.json"), "stars.schema.json"),
+        ("rewards", Some("daily-goal.json"), "daily-goal.schema.json"),
+        ("rewards", Some("badges.json"), "badges.schema.json"),
+        (
+            "accessories",
+            Some("accessories.json"),
+            "accessories.schema.json",
+        ),
+        ("progress", Some("adaptive.json"), "adaptive.schema.json"),
+        ("progress", Some("reviews.json"), "reviews.schema.json"),
+        ("themes", Some("themes.json"), "themes.schema.json"),
     ];
     for (folder, file, schema_name) in cases {
         let schema: serde_json::Value = read_json(&content_dir().join("schemas").join(schema_name));
@@ -645,7 +657,7 @@ fn a_word_is_read_with_its_article_or_its_pronunciation() {
     assert_eq!("un stylo.", bank.find("stylo").unwrap().reading());
     assert_eq!("un fisse.", bank.find("fils").unwrap().reading());
     assert_eq!("fils", bank.find("fils").unwrap().text);
-    assert_eq!("très,", bank.find("très").unwrap().reading());
+    assert_eq!("Le mot : très.", bank.find("très").unwrap().reading());
 }
 
 /// SUB026706: a noun without its article, an article other than « un » / « une », an article on
@@ -725,4 +737,49 @@ fn a_homophone_without_its_sentence_is_refused() {
             read_alike.problems
         );
     }
+}
+
+/// SUB001503: about twenty badges, in mathematics, spelling and regularity.
+#[test]
+fn there_are_about_twenty_badges_of_every_kind() {
+    use educator_core::rewards::badges::BadgeCondition;
+    let badges = &content().badges;
+    assert!(badges.len() >= 20, "{}", badges.len());
+    let skill_subject = |condition: &BadgeCondition| match condition {
+        BadgeCondition::SkillMastery { skills, .. } => {
+            content().skills.find(&skills[0]).map(|s| s.subject)
+        }
+        BadgeCondition::CategoryMastery { category, .. } => content()
+            .skills
+            .all()
+            .iter()
+            .find(|s| s.category() == *category)
+            .map(|s| s.subject),
+        _ => None,
+    };
+    let math = badges
+        .iter()
+        .filter(|b| skill_subject(&b.condition) == Some(Subject::Math))
+        .count();
+    let spelling = badges
+        .iter()
+        .filter(|b| skill_subject(&b.condition) == Some(Subject::Spelling))
+        .count();
+    let regularity = badges.len() - math - spelling;
+    assert!(
+        math >= 5 && spelling >= 4 && regularity >= 5,
+        "{math} {spelling} {regularity}"
+    );
+}
+
+/// SUB001501 / SUB001502 / SUB001507 / SUB001508 / SUB001509: the scales come from their files.
+#[test]
+fn reward_and_progress_scales_come_from_their_files() {
+    let content = content();
+    assert_eq!(2, content.rewards.levels.level_of(100));
+    assert_eq!(70, content.rewards.stars.two_stars);
+    assert_eq!(3, content.rewards.goal.default_series);
+    assert_eq!(85, content.adaptive.raise_above);
+    assert_eq!(vec![1, 3, 7, 14], content.reviews.intervals);
+    assert!(content.themes.iter().any(|t| t.id == "sport"));
 }

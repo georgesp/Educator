@@ -5,6 +5,7 @@ import { ApiError, type Grade, type Profile } from "../api/client";
 import { useApi } from "../app/BackendContext";
 import { queryKeys, useCharacters, useProfiles } from "../app/queries";
 import { EXAM_SECONDS, PLACEMENT_SECONDS } from "../app/timers";
+import { AvatarImage } from "../components/child/AvatarImage";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { DiceIcon } from "../components/icons";
@@ -160,7 +161,7 @@ function EditProfile({ profile, back }: { profile: Profile; back: string }) {
         </div>
 
         <div className="create-character">
-          <CharacterImage id={characterId} size={208} alt={characters.data?.find((c) => c.id === characterId)?.name ?? ""} />
+          <AvatarImage characterId={characterId} accessories={profile.accessories} size={208} alt={characters.data?.find((c) => c.id === characterId)?.name ?? ""} />
           <button type="button" className="button" onClick={() => draw.mutate()} disabled={draw.isPending}>
             <DiceIcon size={24} />
             {fr.profiles.randomCharacter}

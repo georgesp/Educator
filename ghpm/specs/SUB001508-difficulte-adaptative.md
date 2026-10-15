@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001508 — Difficulté adaptative
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -30,5 +30,13 @@ En tant qu'enfant, je veux des exercices ni trop faciles ni trop difficiles afin
 
 ## Critères d'acceptation
 
-- [ ] Algorithme testé sur des historiques simulés.
-- [ ] L'enfant n'est jamais bloqué : toutes les compétences restent accessibles.
+- [x] Algorithme testé sur des historiques simulés.
+- [x] L'enfant n'est jamais bloqué : toutes les compétences restent accessibles.
+
+## Réalisation
+
+- Seuils dans `content/progress/adaptive.json` : 85 % pour passer à la suite, 60 % pour revenir en arrière, 10 réponses avant de bouger le conseil.
+- `educator-core::adaptive::advise` : point de départ = compétences de la classe à la période en cours ; une compétence pas encore assez pratiquée est conseillée (« C'est le moment de découvrir », « Continue ») ; sous 60 %, la compétence d'avant dans la même famille (« Pour bien réussir « X », revois d'abord : ») ; au-dessus de 85 %, la compétence suivante de la période puis la première de la période suivante non maîtrisée (« Bravo, tu es prêt pour la suite »). Rien n'est conseillé quand tout est maîtrisé.
+- Écran Exercices : carte « Je te conseille… » au-dessus des filtres (commande `get_advice`) ; l'enfant garde le choix, toutes les compétences restent dans la liste.
+- Tests sur des historiques de réponses simulés : `crates/educator-core/tests/adaptive.rs`.
+- Les « paramètres plus difficiles » d'une même compétence ne sont pas proposés : le conseil passe d'une compétence à l'autre (les compétences sont déjà graduées par période).

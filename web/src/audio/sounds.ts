@@ -2,8 +2,9 @@ import { useSyncExternalStore } from "react";
 
 /**
  * Short feedback sounds, synthesized with the Web Audio API: no audio file to ship, no licence to track.
- * Gentle for a mistake (two soft notes), never a buzzer. Can be muted (stored in localStorage until the
- * Options of lot 3).
+ * Gentle for a mistake (two soft notes), never a buzzer. Can be muted: a setting of each child since lot 3
+ * (SUB001512, applied by `ProfileSettingsEffect`), localStorage keeping the last value for the screens
+ * without a child.
  */
 export type SoundName = "correct" | "incorrect" | "finished" | "celebration";
 

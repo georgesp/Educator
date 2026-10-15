@@ -5,6 +5,7 @@ import { ApiError, type Character, type Grade, type Profile } from "../api/clien
 import { useApi } from "../app/BackendContext";
 import { useProfileSession } from "../app/ProfileContext";
 import { queryKeys, useParentProfile, useProfiles } from "../app/queries";
+import { ProfileAvatar } from "../components/child/AvatarImage";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { DiceIcon, LockIcon, PencilIcon, PlusIcon } from "../components/icons";
@@ -113,7 +114,7 @@ function ProfileCard({ profile }: { profile: Profile }) {
 
   return (
     <button type="button" className="profile-card" onClick={() => select.mutate()} disabled={select.isPending} aria-label={fr.profiles.choose(profile.name)}>
-      <CharacterImage id={profile.characterId} size={144} />
+      <ProfileAvatar profile={profile} size={144} />
       <span className="profile-name">{profile.name}</span>
       <span className="profile-grade">{fr.grades[profile.grade]}</span>
     </button>

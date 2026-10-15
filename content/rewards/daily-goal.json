@@ -1,0 +1,5 @@
+{
+  "$schema": "../schemas/daily-goal.schema.json",
+  "defaultSeries": 3,
+  "bonusPoints": 30
+}

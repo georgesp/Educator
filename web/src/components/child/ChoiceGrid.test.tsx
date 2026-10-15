@@ -31,4 +31,15 @@ describe("ChoiceGrid", () => {
     expect(screen.getByRole("button", { name: "3/4" })).toHaveTextContent("34");
     expect(document.querySelectorAll(".fraction-top")).toHaveLength(2);
   });
+
+  it("uses the word layout for spelling words, and keeps the large tiles for numbers and « oui » / « non »", () => {
+    const { container, rerender } = render(<ChoiceGrid labels={["souvenx", "souvent", "souvens"]} onPick={vi.fn()} label="Choisis" />);
+    expect(container.querySelector(".choice-grid")).toHaveClass("choice-grid-words");
+
+    rerender(<ChoiceGrid labels={["11", "12", "13", "22"]} onPick={vi.fn()} label="Choisis" />);
+    expect(container.querySelector(".choice-grid")).not.toHaveClass("choice-grid-words");
+
+    rerender(<ChoiceGrid labels={["oui", "non"]} onPick={vi.fn()} label="Choisis" />);
+    expect(container.querySelector(".choice-grid")).not.toHaveClass("choice-grid-words");
+  });
 });

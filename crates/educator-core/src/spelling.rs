@@ -203,16 +203,20 @@ impl std::str::FromStr for Article {
     }
 }
 
-/// The text read for a word alone (decision of 2026-10-14, SUB026706): a noun with its article
-/// (« un stylo. » — alone at the start of a reading, a noun often loses its first consonant), any
-/// other word followed by a comma (« beau, »: decision of 2026-10-15 — followed by a period, a short
-/// word is often read wrong, « beau. » sounds « beu »). `pronunciation` replaces the word when the voice
-/// reads it wrong (« fils » → « fisse »).
+/// What the voice says before a word that is not a noun: only what follows its pause is heard.
+pub const WORD_CARRIER: &str = "Le mot :";
+
+/// The text read for a word alone (decisions of 2026-10-14 and 2026-10-15, SUB026706): a noun with
+/// its article (« un stylo. » — alone at the start of a reading, a noun often loses its first
+/// consonant); any other word in a carrier, « Le mot : jaune. », cut at the pause of the colon
+/// ([`crate::speech::keep_after_first_pause`]): alone, a short word is rendered unsteadily whatever
+/// its punctuation (« beau. » heard « beu », « jaune, » heard « jeuné »). `pronunciation` replaces
+/// the word when the voice reads it wrong (« fils » → « fisse »).
 pub fn word_reading(text: &str, article: Option<Article>, pronunciation: Option<&str>) -> String {
     let said = pronunciation.unwrap_or(text);
     match article {
         Some(article) => format!("{} {said}.", article.as_str()),
-        None => format!("{said},"),
+        None => format!("{WORD_CARRIER} {said}."),
     }
 }
 
@@ -353,7 +357,7 @@ impl SpokenWord {
         }
     }
 
-    /// A word that is not in the bank (a lesson quiz): read followed by a comma.
+    /// A word that is not in the bank (a lesson quiz): read in the carrier, « Le mot : hibou. ».
     pub fn plain(word: impl Into<String>) -> Self {
         let word = word.into();
         Self {
@@ -378,7 +382,12 @@ impl SpokenWord {
         } else {
             crate::speech::speed::WORDS
         };
-        Some(crate::speech::Reading::new(text, speed))
+        // A word without its article is read in its carrier, cut at the pause (not its sentence).
+        Some(if !example && self.article.is_none() {
+            crate::speech::Reading::after_pause(text, speed)
+        } else {
+            crate::speech::Reading::new(text, speed)
+        })
     }
 
     /// Missing letters: how many letters the blank hides; the child sees as many dashes
@@ -531,7 +540,7 @@ mod tests {
     }
 
     #[test]
-    fn a_noun_is_read_with_its_article_any_other_word_with_a_comma() {
+    fn a_noun_is_read_with_its_article_any_other_word_in_its_carrier() {
         let mut stylo = word("stylo", &[]);
         assert_eq!("un stylo.", stylo.reading());
         stylo.article = Some(Article::Une);
@@ -540,7 +549,13 @@ mod tests {
         let mut tres = word("très", &[]);
         tres.article = None;
         tres.category = "adverbe".to_owned();
-        assert_eq!("très,", tres.reading());
+        assert_eq!("Le mot : très.", tres.reading());
+        assert!(
+            SpokenWord::of(&tres, None)
+                .speech(false, false)
+                .unwrap()
+                .after_pause
+        );
         let mut fils = word("fils", &[]);
         fils.pronunciation = Some("fisse".to_owned());
         assert_eq!("un fisse.", fils.reading());
@@ -565,7 +580,9 @@ mod tests {
         );
         assert_eq!(("un stylo.", 0.5), (slow.text.as_str(), slow.speed));
         assert!(SpokenWord::plain("hibou").speech(true, false).is_none());
-        assert_eq!("hibou,", SpokenWord::plain("hibou").reading);
+        assert_eq!("Le mot : hibou.", SpokenWord::plain("hibou").reading);
+        assert!(!alone.after_pause, "a noun is read with its article, whole");
+        assert!(!sentence.after_pause);
     }
 
     fn word(text: &str, graphemes: &[(&str, &str, usize)]) -> Word {

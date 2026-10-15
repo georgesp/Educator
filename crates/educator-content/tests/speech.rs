@@ -568,3 +568,30 @@ fn a_piper_that_cannot_start_is_reported_unavailable() {
     assert_eq!(Some("fr_FR-siwis-medium".to_owned()), status.voice);
     assert!(status.problem.is_some());
 }
+
+/// Decision of 2026-10-15 with the real engine: « Le mot : jaune. » cut at the pause of the colon
+/// keeps the word only — about the length of the word, far shorter than the whole reading.
+#[test]
+fn piper_word_in_its_carrier_is_cut_at_the_colon() {
+    use educator_core::speech::Reading;
+
+    let Some(synthesizer) = installed_piper() else {
+        return;
+    };
+    for word in ["jaune", "beau", "auto", "très"] {
+        let text = format!("Le mot : {word}.");
+        let whole = synthesizer.synthesize(&text, 0.85).unwrap();
+        let cut = Reading::after_pause(text, 0.85)
+            .synthesize(&synthesizer)
+            .unwrap();
+        let alone = synthesizer.synthesize(&format!("{word}."), 0.85).unwrap();
+        eprintln!(
+            "{word}: whole {} bytes, cut {} bytes, the word alone {} bytes",
+            whole.len(),
+            cut.len(),
+            alone.len()
+        );
+        assert!(cut.len() < whole.len() * 3 / 4, "{word}: not cut");
+        assert!(cut.len() > alone.len() / 2, "{word}: too short");
+    }
+}

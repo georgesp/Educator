@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "daily-goal.schema.json",
+  "title": "Objectif du jour",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["defaultSeries", "bonusPoints"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "defaultSeries": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6,
+      "description": "Séries par jour tant que les parents n'ont rien choisi."
+    },
+    "bonusPoints": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Points bonus le jour où l'objectif est atteint."
+    }
+  }
+}

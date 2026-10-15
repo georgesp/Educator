@@ -31,13 +31,13 @@
   margin: 0;
   padding: 4px 26px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 36px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   color: var(--primary-text);
   background: var(--primary);
-  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  clip-path: var(--button-shape);
 }
 
 .lesson-slide .speak-button {
@@ -121,12 +121,12 @@
 .lesson-title-card-title {
   margin: 8px 0 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 76px;
   line-height: 0.95;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .lesson-title-card-subtitle {
@@ -153,10 +153,10 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 34px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   color: var(--primary-strong);
 }
 
@@ -170,7 +170,7 @@
 .lesson-recap-example {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 52px;
 }
@@ -194,7 +194,7 @@
   min-width: 96px;
   padding: 4px 14px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 56px;
   text-align: center;
@@ -283,10 +283,10 @@
 
 .lesson-match-heading {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 26px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   color: var(--muted);
 }
 
@@ -486,7 +486,7 @@
 .lesson-quiz-question {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 64px;
   text-align: center;
@@ -530,7 +530,7 @@
 .lesson-quiz .answer {
   width: 2.6em;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 72px;
 }
@@ -562,13 +562,13 @@
 .lesson-written-method {
   padding: 2px 18px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 26px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   color: var(--primary-text);
   background: var(--text);
-  clip-path: polygon(var(--slant) 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+  clip-path: var(--button-shape);
 }
 
 .written-grid {
@@ -588,7 +588,7 @@
   align-items: flex-end;
   justify-content: center;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   line-height: 1;
 }
@@ -738,7 +738,7 @@
   gap: 16px;
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 64px;
 }
@@ -791,7 +791,7 @@
 .equation-family-line {
   padding: 4px 18px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 40px;
   background: var(--surface);
@@ -849,7 +849,7 @@
   justify-content: center;
   gap: 8px 32px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 40px;
 }
@@ -991,7 +991,7 @@
 .compare-digit {
   width: 52px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 68px;
   line-height: 1.05;
@@ -1040,7 +1040,7 @@
   min-width: 72px;
   padding: 0 8px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 40px;
   text-align: center;
@@ -1114,7 +1114,7 @@
 
 .order-rank {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 26px;
   color: var(--checker-light);
@@ -1145,7 +1145,7 @@
   padding: 6px 12px;
   font-size: 22px;
   font-weight: 800;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
   color: var(--primary-text);
   background: var(--text);
   border-radius: 8px;
@@ -1158,7 +1158,7 @@
 .place-digit {
   height: 96px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 76px;
   text-align: center;
@@ -1184,7 +1184,7 @@
 
 .place-big {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 52px;
 }
@@ -1250,7 +1250,7 @@
 .grid-product {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 44px;
 }
@@ -1471,7 +1471,7 @@
   padding: 6px 16px;
   font: inherit;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 40px;
   color: var(--text);
@@ -1533,10 +1533,10 @@ button.parity-number:hover {
 
 .parity-garage-name {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 34px;
-  text-transform: uppercase;
+  text-transform: var(--display-case);
 }
 
 .parity-garage-numbers {
@@ -1622,7 +1622,7 @@ button.parity-number:hover {
 
 .friend-pair figcaption {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 32px;
 }
@@ -1689,7 +1689,7 @@ button.parity-number:hover {
   align-items: center;
   min-width: 80px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 48px;
   line-height: 1;
@@ -1754,7 +1754,7 @@ button.parity-number:hover {
   gap: 6px;
   border: 3px solid var(--text);
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 36px;
 }
@@ -1789,7 +1789,7 @@ button.parity-number:hover {
   align-items: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 36px;
 }
@@ -1837,7 +1837,7 @@ button.parity-number:hover {
 .bar-solution {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: var(--display-style);
   font-weight: 800;
   font-size: 48px;
 }

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "adaptive.schema.json",
+  "title": "Seuils de la difficulté adaptative",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["raiseAbove", "lowerBelow", "minAnswers"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "raiseAbove": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Maîtrise (%) à partir de laquelle on conseille la compétence suivante."
+    },
+    "lowerBelow": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 99,
+      "description": "Maîtrise (%) sous laquelle on conseille de revenir à la compétence précédente."
+    },
+    "minAnswers": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Réponses nécessaires avant que la maîtrise change le conseil."
+    }
+  }
+}

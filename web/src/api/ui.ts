@@ -1,6 +1,17 @@
 import { invoke } from "@tauri-apps/api/core";
+import { currentVoiceSpeed } from "../app/voiceSpeed";
 import {
   toApiError,
+  type Accessory,
+  type Advice,
+  type Backup,
+  type Badge,
+  type ProfileOverview,
+  type ProfileSettings,
+  type SettingsOptions,
+  type UpdateAvatar,
+  type UpdateProfileSettings,
+  type WornAccessory,
   type AnswerMode,
   type AnswerPayload,
   type Character,
@@ -63,8 +74,8 @@ export type UiApi = {
   startTimed(profileId: string, subject: Subject, seconds: number): Promise<Series>;
   /** « Mes tables »: the multiplication table of a number from 0 to 10. */
   getMultiplicationTable(number: number): Promise<MultiplicationTable>;
-  /** Lessons of a subject for a grade (those of CE1 when the grade has none yet). */
-  listLessons(grade: Grade, subject?: Subject): Promise<Lessons>;
+  /** Lessons of a subject for a grade (those of CE1 when the grade has none yet), with the profile's stars when given. */
+  listLessons(grade: Grade, subject?: Subject, profileId?: string): Promise<Lessons>;
   /** A lesson, with the slide where the profile left it (`resumeSlide`) when `profileId` is given. */
   getLesson(id: string, profileId?: string): Promise<Lesson>;
   /** Keeps the slide where the profile is in a lesson (`null`: the lesson is finished). */
@@ -94,6 +105,29 @@ export type UiApi = {
   getParentProfile(): Promise<ParentProfile>;
   /** Changes the name or the character of the parents' card. */
   updateParentProfile(changes: UpdateParentProfile): Promise<ParentProfile>;
+  /** Level, goal of the day, badges and reviews due of a profile (lot 3). */
+  getProfileOverview(profileId: string): Promise<ProfileOverview>;
+  /** Every badge, earned or not (SUB001503). */
+  getBadges(profileId: string): Promise<Badge[]>;
+  /** Every accessory, unlocked or not (SUB001505). */
+  getAccessories(profileId: string): Promise<Accessory[]>;
+  /** Dresses the avatar (saved at once); a locked accessory is refused. */
+  updateAvatar(profileId: string, request: UpdateAvatar): Promise<Profile>;
+  /** An avatar (character and accessories) as one SVG. */
+  getAvatarSvg(characterId: string, accessories: WornAccessory[]): Promise<string>;
+  /** « Je te conseille… » for a subject (SUB001508); null when there is nothing to advise. */
+  getAdvice(profileId: string, subject: Subject): Promise<Advice | null>;
+  /** « Mes révisions » of a subject (SUB001509). */
+  startReview(profileId: string, subject: Subject): Promise<Series>;
+  /** The settings of a child (SUB001512). */
+  getProfileSettings(profileId: string): Promise<ProfileSettings>;
+  updateProfileSettings(profileId: string, changes: UpdateProfileSettings): Promise<ProfileSettings>;
+  /** Themes, goals and durations offered by the settings. */
+  getSettingsOptions(): Promise<SettingsOptions>;
+  /** Asks where to save the backup, then writes it; null when the parents cancel. */
+  exportBackup(): Promise<Backup | null>;
+  /** Asks for a backup file, then restores it (replaces every profile); null when the parents cancel. */
+  importBackup(): Promise<Backup | null>;
 };
 
 /** Calls a Tauri command (src-tauri/src/commands.rs); a rejection becomes an ApiError. */
@@ -133,20 +167,48 @@ export function createUiApi(): UiApi {
     getTimedChallenge: (profileId, subject) => call("get_timed_challenge", { profileId, subject }),
     startTimed: (profileId, subject, seconds) => call("start_timed", { profileId, subject, seconds }),
     getMultiplicationTable: (number) => call("get_multiplication_table", { number }),
-    listLessons: (grade, subject) => call("list_lessons", { grade, subject: subject ?? null }),
+    listLessons: (grade, subject, profileId) => call("list_lessons", { grade, subject: subject ?? null, profileId: profileId ?? null }),
     getLesson: (id, profileId) => call("get_lesson", { id, profileId: profileId ?? null }),
     saveLessonProgress: (profileId, lessonId, slide) => call("save_lesson_progress", { profileId, lessonId, slide }),
     startLessonQuiz: (profileId, lessonId) => call("start_lesson_quiz", { profileId, lessonId }),
     getMascot: () => call("get_mascot"),
     getMascotPhrase: (situation, title) => call("get_mascot_phrase", { situation, title: title ?? null }),
-    speak: (text, speed) => wavOf("speak", { text, speed: speed ?? null }),
+    speak: (text, speed) => wavOf("speak", { text, speed: speed ?? null, voiceSpeed: currentVoiceSpeed() }),
     speakSeriesWord: (seriesId, index, example, slow) =>
       wavOf("speak_series_word", { seriesId, index, example: example ?? false, slow: slow ?? false }),
-    speakWord: (word, example, slow) => wavOf("speak_word", { word, example: example ?? false, slow: slow ?? false }),
+    speakWord: (word, example, slow) =>
+      wavOf("speak_word", { word, example: example ?? false, slow: slow ?? false, voiceSpeed: currentVoiceSpeed() }),
     getParentGate: () => call("get_parent_gate"),
     checkParentGate: (id, answer) => call("check_parent_gate", { id, answer }),
     getProfileStatistics: (profileId) => call("get_profile_statistics", { profileId }),
     getParentProfile: () => call("get_parent_profile"),
     updateParentProfile: (changes) => call("update_parent_profile", { changes }),
+    getProfileOverview: (profileId) => call("get_profile_overview", { profileId }),
+    getBadges: (profileId) => call("get_badges", { profileId }),
+    getAccessories: (profileId) => call("get_accessories", { profileId }),
+    updateAvatar: (profileId, request) => call("update_avatar", { profileId, request }),
+    getAvatarSvg: (characterId, accessories) => call("get_avatar_svg", { characterId, accessories }),
+    getAdvice: (profileId, subject) => call("get_advice", { profileId, subject }),
+    startReview: (profileId, subject) => call("start_review", { profileId, subject }),
+    getProfileSettings: (profileId) => call("get_profile_settings", { profileId }),
+    updateProfileSettings: (profileId, changes) => call("update_profile_settings", { profileId, changes }),
+    getSettingsOptions: () => call("get_settings_options"),
+    exportBackup: async () => {
+      const { save } = await import("@tauri-apps/plugin-dialog");
+      const path = await save({ defaultPath: backupFileName(), filters: [{ name: "Sauvegarde Educator", extensions: ["json"] }] });
+      return path ? call<Backup>("export_backup", { path }) : null;
+    },
+    importBackup: async () => {
+      const { open } = await import("@tauri-apps/plugin-dialog");
+      const path = await open({ multiple: false, directory: false, filters: [{ name: "Sauvegarde Educator", extensions: ["json"] }] });
+      return typeof path === "string" ? call<Backup>("import_backup", { path }) : null;
+    },
   };
+}
+
+/** `2026-10-15_educator-sauvegarde.json`: the date first, as every file of the family. */
+function backupFileName(): string {
+  const now = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_educator-sauvegarde.json`;
 }

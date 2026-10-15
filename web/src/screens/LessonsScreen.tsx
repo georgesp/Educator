@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
-import type { Grade, LessonSummary, Profile, Subject } from "../api/client";
-import { useApi } from "../app/BackendContext";
+import type { LessonSummary, Profile } from "../api/client";
+import { useLessons } from "../app/queries";
 import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { FamilyFilter, useFamilyFilter } from "../components/child/Family";
@@ -9,14 +8,6 @@ import { SpeakButton } from "../components/child/SpeakButton";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 import "../components/lesson/lesson.css";
-
-export const lessonsQueryKey = (grade: Grade, subject: Subject) => ["lessons", grade, subject] as const;
-
-/** Lessons of a subject offered to a grade (the core falls back to CE1 for the grades without lessons yet). */
-export function useLessons(grade: Grade, subject: Subject) {
-  const api = useApi();
-  return useQuery({ queryKey: lessonsQueryKey(grade, subject), queryFn: () => api.listLessons(grade, subject) });
-}
 
 /**
  * Lessons → Mathematics or Spelling (SUB001410): the lessons of the profile's grade, the current period first.
@@ -30,7 +21,7 @@ export function LessonsScreen() {
 function LessonList({ profile }: { profile: Profile }) {
   const navigate = useNavigate();
   const subject = subjectOfSlug(useParams().subject);
-  const lessons = useLessons(profile.grade, subject);
+  const lessons = useLessons(profile.grade, subject, profile.id);
   const data = lessons.data;
   const usesFallback = data !== undefined && data.lessonsGrade !== data.grade;
   const categories = data?.lessons.map((l) => l.category) ?? [];
@@ -69,6 +60,7 @@ function LessonList({ profile }: { profile: Profile }) {
                 label={lesson.title}
                 hint={fr.lessons.hint(lesson.period, lesson.durationMinutes)}
                 category={lesson.category}
+                stars={lesson.stars}
                 variant="outline"
                 onClick={() => open(lesson)}
               />
@@ -84,7 +76,14 @@ function LessonList({ profile }: { profile: Profile }) {
           </h2>
           <div className="skill-list skill-list-compact">
             {others.map((lesson) => (
-              <BigButton key={lesson.id} label={lesson.title} hint={fr.lessons.hint(lesson.period, lesson.durationMinutes)} category={lesson.category} onClick={() => open(lesson)} />
+              <BigButton
+                key={lesson.id}
+                label={lesson.title}
+                hint={fr.lessons.hint(lesson.period, lesson.durationMinutes)}
+                category={lesson.category}
+                stars={lesson.stars}
+                onClick={() => open(lesson)}
+              />
             ))}
           </div>
         </section>

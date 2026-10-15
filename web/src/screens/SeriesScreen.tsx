@@ -6,7 +6,7 @@ import type { AnswerMode, AnswerPayload, Exercise, Profile, Series, SeriesAnswer
 import { playSound } from "../audio/sounds";
 import { playVoice, stopSpeech, useVoiceWhile } from "../audio/useSpeech";
 import { useApi } from "../app/BackendContext";
-import { queryKeys } from "../app/queries";
+import { invalidateProgress } from "../app/queries";
 import { ChoiceGrid } from "../components/child/ChoiceGrid";
 import { Feedback } from "../components/child/Feedback";
 import { Fireworks } from "../components/child/Fireworks";
@@ -25,6 +25,7 @@ import { WordCorrection } from "../components/spelling/WordCorrection";
 import { QuestionTimer } from "../components/child/QuestionTimer";
 import { TimerBar } from "../components/child/TimerBar";
 import { Mascot } from "../components/child/Mascot";
+import { RewardsPanel } from "../components/child/Rewards";
 import { fr } from "../i18n/fr";
 
 /** Pause on a right answer before the next exercise comes by itself. */
@@ -104,6 +105,8 @@ function instructionOf(series: Series): string {
       return fr.exam.timedInstruction;
     case "Placement":
       return fr.placement.instruction;
+    case "Review":
+      return fr.reviews.instruction;
     default:
       return series.instruction;
   }
@@ -199,7 +202,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
     // Everything right: fireworks, a fanfare and « Bravo, tout est juste ! » (SUB000114).
     const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
     playSound(perfect ? "celebration" : "finished");
-    void queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+    void invalidateProgress(queryClient);
   };
 
   const goNext = (outcome: SeriesAnswer) => {
@@ -257,7 +260,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
   const abandon = useMutation({
     mutationFn: () => api.abandonSeries(series!.seriesId),
     onSettled: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
+      await invalidateProgress(queryClient);
       await navigate("/menu");
     },
   });
@@ -629,7 +632,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
   );
 }
 
-function Summary({ summary, onAgain, onMenu }: { summary: SeriesSummary; onAgain(): void; onMenu(): void }) {
+export function Summary({ summary, onAgain, onMenu, againLabel = fr.series.again }: { summary: SeriesSummary; onAgain(): void; onMenu(): void; againLabel?: string }) {
   const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
   return (
     <motion.section className="summary" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
@@ -646,12 +649,13 @@ function Summary({ summary, onAgain, onMenu }: { summary: SeriesSummary; onAgain
       >
         {fr.series.pointsEarned(summary.pointsEarned)}
       </motion.p>
+      <RewardsPanel rewards={summary.rewards} />
       <div className="actions">
         <button type="button" className="button" onClick={onMenu}>
           {fr.series.menu}
         </button>
         <button type="button" className="button button-primary" onClick={onAgain} autoFocus>
-          {fr.series.again}
+          {againLabel}
         </button>
       </div>
     </motion.section>

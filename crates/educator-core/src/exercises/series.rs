@@ -8,6 +8,7 @@ use crate::lessons::Lesson;
 use crate::points::PointsRules;
 use crate::profiles::{Profile, ProfileStore};
 use crate::random::RandomSource;
+use crate::reviews::{review_exercise, ReviewOrigin, ReviewQueue};
 use crate::sessions::{
     update_masteries, AnswerRecord, SessionEnd, SessionRecord, SessionStore, SessionType,
 };
@@ -55,6 +56,8 @@ pub struct Series {
     pub lesson_id: Option<String>,
     /// When the series started (UTC Unix milliseconds).
     pub started_at: i64,
+    /// « Mes révisions »: the review item of each exercise (SUB001509); empty otherwise.
+    pub review_items: Vec<Uuid>,
     answers: Vec<Option<bool>>,
     closed: bool,
 }
@@ -118,6 +121,14 @@ pub struct AnswerOutcome {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SeriesSummary {
+    pub series_id: Uuid,
+    pub session_type: SessionType,
+    pub subject: Subject,
+    /// The skill of a series of exercises (the main skill of a quiz).
+    pub skill_id: Option<String>,
+    pub lesson_id: Option<String>,
+    /// Left before the end.
+    pub abandoned: bool,
     pub correct_count: usize,
     pub exercise_count: usize,
     /// Points earned by this series.
@@ -196,6 +207,8 @@ pub struct NewSeries {
     pub skill_ids: Vec<String>,
     pub time_limit_seconds: Option<u32>,
     pub question_seconds: Option<u32>,
+    /// « Mes révisions »: the review item of each exercise.
+    pub review_items: Vec<Uuid>,
 }
 
 #[derive(Default)]
@@ -219,6 +232,8 @@ pub struct SeriesService {
     in_progress: Mutex<InProgress>,
     /// Whether the voice can read the words (SUB026704); available unless said otherwise.
     listening: AtomicBool,
+    /// The review queue fed by the mistakes (SUB001509), when there is one.
+    reviews: Option<Arc<ReviewQueue>>,
 }
 
 impl fmt::Debug for SeriesService {
@@ -247,7 +262,18 @@ impl SeriesService {
             clock,
             in_progress: Mutex::new(InProgress::default()),
             listening: AtomicBool::new(true),
+            reviews: None,
         }
+    }
+
+    /// The mistakes go to the review queue, and « Mes révisions » can be started (SUB001509).
+    pub fn with_reviews(mut self, reviews: Arc<ReviewQueue>) -> Self {
+        self.reviews = Some(reviews);
+        self
+    }
+
+    pub fn reviews(&self) -> Option<&Arc<ReviewQueue>> {
+        self.reviews.as_ref()
     }
 
     /// Without the voice, the exams, level assessments and timed challenges ask no question where
@@ -346,6 +372,7 @@ impl SeriesService {
                 exercises,
                 time_limit_seconds: None,
                 question_seconds: None,
+                review_items: Vec::new(),
             },
         )
     }
@@ -381,6 +408,7 @@ impl SeriesService {
                 time_limit_seconds: None,
                 // The timer chosen in the profile; 0 is no timer.
                 question_seconds: Some(profile.exam_seconds).filter(|s| *s > 0),
+                review_items: Vec::new(),
             },
         )
     }
@@ -421,6 +449,7 @@ impl SeriesService {
                 exercises: questions.into_iter().map(|q| q.exercise).collect(),
                 time_limit_seconds: None,
                 question_seconds: Some(profile.placement_seconds),
+                review_items: Vec::new(),
             },
         )
     }
@@ -498,6 +527,7 @@ impl SeriesService {
                 exercises: questions.into_iter().map(|q| q.exercise).collect(),
                 time_limit_seconds: Some(seconds),
                 question_seconds: None,
+                review_items: Vec::new(),
             },
         )
     }
@@ -525,6 +555,70 @@ impl SeriesService {
                 exercises,
                 time_limit_seconds: None,
                 question_seconds: None,
+                review_items: Vec::new(),
+            },
+        )
+    }
+
+    /// « Mes révisions » of a subject (SUB001509): the items of the review queue due today, the most
+    /// late first, [`crate::reviews::ReviewRules::series_length`] at most.
+    pub fn start_review(
+        &self,
+        profile_id: Uuid,
+        subject: Subject,
+        seed: Option<u32>,
+    ) -> Result<Series> {
+        self.profile(profile_id)?;
+        let queue = self
+            .reviews
+            .as_ref()
+            .ok_or_else(|| Error::SeriesRequest("No review queue.".to_owned()))?;
+        let in_subject = |skill_id: &str| {
+            self.skills
+                .find(skill_id)
+                .is_some_and(|s| s.subject == subject)
+        };
+        let seed = self.seed_or_random(seed);
+        let mut exercises = Vec::new();
+        let mut skill_ids = Vec::new();
+        let mut items = Vec::new();
+        for item in queue.due(profile_id, &in_subject)? {
+            if exercises.len() >= queue.rules().series_length {
+                break;
+            }
+            let Some(skill) = self.skills.find(&item.skill_id) else {
+                continue;
+            };
+            let draw_seed = u64::from(seed) + exercises.len() as u64;
+            // An item that cannot be played now (no voice for a word) waits for another day.
+            let Ok(mut exercise) = review_exercise(skill, &item, draw_seed, self.listening())
+            else {
+                continue;
+            };
+            exercise.index = exercises.len();
+            exercises.push(exercise);
+            skill_ids.push(skill.id.clone());
+            items.push(item.id);
+        }
+        if exercises.is_empty() {
+            return Err(Error::SeriesRequest("Nothing to review today.".to_owned()));
+        }
+        self.open(
+            profile_id,
+            NewSeries {
+                session_type: SessionType::Review,
+                subject,
+                skill_id: None,
+                lesson_id: None,
+                instruction: String::new(),
+                answer_mode: AnswerMode::Keyboard,
+                format: None,
+                seed,
+                exercises,
+                skill_ids,
+                time_limit_seconds: None,
+                question_seconds: None,
+                review_items: items,
             },
         )
     }
@@ -550,6 +644,7 @@ impl SeriesService {
             question_seconds: new.question_seconds,
             lesson_id: new.lesson_id,
             started_at: now,
+            review_items: new.review_items,
             closed: false,
         };
         self.sessions.add_session(&SessionRecord {
@@ -562,7 +657,10 @@ impl SeriesService {
             lesson_id: series.lesson_id.clone(),
             // An exam, an assessment and a timed challenge mix typed and picked answers.
             answer_mode: match series.session_type {
-                SessionType::Exam | SessionType::Timed | SessionType::Placement => None,
+                SessionType::Exam
+                | SessionType::Timed
+                | SessionType::Placement
+                | SessionType::Review => None,
                 _ => Some(series.answer_mode),
             },
             format: series.format,
@@ -636,7 +734,7 @@ impl SeriesService {
         duration_ms: Option<u32>,
     ) -> Result<AnswerOutcome> {
         let now = self.clock.now_ms();
-        let (exercise, correct, completed, profile_id, skill_id) = {
+        let (exercise, correct, completed, profile_id, skill_id, review) = {
             let mut state = self.lock();
             let series = state
                 .series
@@ -648,12 +746,27 @@ impl SeriesService {
                 }
             }
             let (exercise, correct, completed) = series.record(index, answer)?;
+            let review = match series.session_type {
+                SessionType::Review => {
+                    ReviewHook::Answered(series.review_items.get(index).copied())
+                }
+                // An assessment says where the child stands: its mistakes are not to review.
+                SessionType::Placement => ReviewHook::None,
+                SessionType::Exercise => ReviewHook::Mistake(Some(ReviewOrigin {
+                    seed: series.seed,
+                    answer_mode: series.answer_mode,
+                    format: series.format,
+                    index: count(index),
+                })),
+                _ => ReviewHook::Mistake(None),
+            };
             (
                 exercise,
                 correct,
                 completed,
                 series.profile_id,
                 series.skill_ids[index].clone(),
+                review,
             )
         };
 
@@ -661,7 +774,7 @@ impl SeriesService {
             id: uuid_v7(now),
             session_id: series_id,
             index: count(index),
-            skill_id,
+            skill_id: skill_id.clone(),
             prompt: exercise.prompt(),
             expected: exercise.expected_label(),
             given: answer.label(),
@@ -669,6 +782,16 @@ impl SeriesService {
             duration_ms,
             answered_at: now,
         })?;
+
+        if let Some(queue) = &self.reviews {
+            match review {
+                ReviewHook::Answered(Some(item)) => queue.record_review(item, correct)?,
+                ReviewHook::Mistake(origin) if !correct => {
+                    queue.record_mistake(profile_id, &skill_id, &exercise, origin)?;
+                }
+                _ => {}
+            }
+        }
 
         let summary = if completed {
             Some(self.close(series_id, profile_id, false)?)
@@ -833,6 +956,12 @@ impl SeriesService {
             && question_count > 0
             && correct_count * 2 < question_count;
         Ok(SeriesSummary {
+            series_id,
+            session_type: series.session_type,
+            subject: series.subject,
+            skill_id: series.skill_id.clone(),
+            lesson_id: series.lesson_id.clone(),
+            abandoned,
             correct_count,
             exercise_count: question_count,
             points_earned: earned,
@@ -848,6 +977,15 @@ impl SeriesService {
     fn lock(&self) -> MutexGuard<'_, InProgress> {
         self.in_progress.lock().unwrap_or_else(|e| e.into_inner())
     }
+}
+
+/// What an answer does to the review queue.
+enum ReviewHook {
+    None,
+    /// A wrong answer is queued, rebuilt from its origin when given.
+    Mistake(Option<ReviewOrigin>),
+    /// « Mes révisions »: the item of the exercise moves on or comes back.
+    Answered(Option<Uuid>),
 }
 
 fn count(value: usize) -> u32 {

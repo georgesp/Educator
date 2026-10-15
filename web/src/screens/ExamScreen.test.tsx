@@ -18,6 +18,7 @@ const examSummary: SeriesSummary = {
   previousBest: null,
   newRecord: false,
   reviewLesson: false,
+  rewards: null,
 };
 
 describe("ExamScreen (SUB001414, SUB001415)", () => {

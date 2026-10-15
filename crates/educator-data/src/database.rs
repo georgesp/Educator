@@ -113,7 +113,17 @@ impl Database {
 
 /// `VACUUM INTO` produces a consistent copy, WAL content included: `<db>.backup-yyyyMMdd-HHmmss`.
 fn backup(connection: &Connection, path: &Path, now_ms: i64) -> Result<PathBuf> {
-    let backup_path = PathBuf::from(format!("{}.backup-{}", path.display(), stamp(now_ms)));
+    copy_to(connection, path, "backup", now_ms)
+}
+
+/// A consistent copy of the database next to it: `<db>.<label>-yyyyMMdd-HHmmss`.
+pub(crate) fn copy_to(
+    connection: &Connection,
+    path: &Path,
+    label: &str,
+    now_ms: i64,
+) -> Result<PathBuf> {
+    let backup_path = PathBuf::from(format!("{}.{label}-{}", path.display(), stamp(now_ms)));
     connection
         .execute("VACUUM INTO ?1", [backup_path.to_string_lossy().as_ref()])
         .map_err(|e| storage(format!("Backup before migration: {e}")))?;

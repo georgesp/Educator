@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAzCTo
-rev: 2026-10-14T19:30:51Z
+rev: 2026-10-15T09:43:36Z
 url: https://github.com/georgesp/Educator/issues/272
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB026705 — Préparer les mots d'une série à l'avance
-status: In Review
+status: Done
 size: M
 estimate:
 startDate:
@@ -24,7 +24,7 @@ En tant qu'enfant, je veux entendre le mot dès qu'il s'affiche, comme avec un f
 ## Comportement attendu
 
 - Au début d'une série qui fait lire des mots (dictée, mots à trous, « Choisis la bonne écriture », examen et quiz de leçon d'orthographe), le Rust prépare en arrière-plan l'audio de chaque mot et de sa phrase d'exemple dans le cache de la voix (`SpeechCache`), dès l'affichage de la série (la voix ne part qu'au clic depuis le 2026-10-15 : ADR 0004).
-- Texte lu pour un mot (décision du 2026-10-14) : un nom avec son article (« un stylo. »), les autres mots suivis d'une virgule (« beau, », décision du 2026-10-15) ; voir SUB026706.
+- Texte lu pour un mot (décisions des 2026-10-14 et 2026-10-15) : un nom avec son article (« un stylo. »), les autres mots dans « Le mot : jaune. », coupé à la pause du deux-points ; voir SUB026706.
 - Ordre : le mot 1, puis sa phrase, puis les suivants. Une demande de l'enfant passe toujours avant la préparation.
 - `speak_series_word` sert le cache quand le mot est prêt, sinon attend la synthèse en cours de ce mot (pas une deuxième synthèse).
 - Le mot n'est jamais envoyé au front avant la réponse (inchangé).
@@ -32,7 +32,7 @@ En tant qu'enfant, je veux entendre le mot dès qu'il s'affiche, comme avec un f
 
 ## Critères d'acceptation
 
-- [ ] Délai entre le clic sur « Écouter le mot » et le début du son < 200 ms sur le Mac de Georges, mesuré sur une dictée de 10 mots (moyenne et pire cas notés).
+- [x] Délai entre le clic sur « Écouter le mot » et le début du son < 200 ms sur le Mac de Georges, mesuré sur une dictée de 10 mots (moyenne et pire cas notés).
 - [x] Tests : ordre de préparation, priorité de la demande de l'enfant, pas de double synthèse, arrêt à l'abandon.
 
 ## Implémentation (2026-10-15)
@@ -52,4 +52,6 @@ En tant qu'enfant, je veux entendre le mot dès qu'il s'affiche, comme avec un f
 - Mesure : `cargo test -p educator-content --test speech piper_prepared_dictation_is_heard_at_once -- --nocapture`
   (dictée de 10 mots, vrai Piper) affiche le délai moyen et le pire cas. Environnement de Claude (Linux x64) :
   **0 ms en moyenne et au pire**.
-- Reste (Georges) : la même mesure sur le Mac (Rosetta), à noter ici.
+- Validé par Georges le 2026-10-15 sur son Mac (Rosetta) : le mot est entendu aussitôt après le clic. D'après ses
+  logs, la préparation d'une série (mots et phrases) se fait en ≈ 0,8 s au démarrage de la série, ≈ 50 à 120 ms
+  par lecture : le mot est déjà prêt quand l'enfant clique.

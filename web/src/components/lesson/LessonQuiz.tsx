@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { AnswerPayload, Lesson, Series, SeriesAnswer, SeriesSummary } from "../../api/client";
 import { playVoice } from "../../audio/useSpeech";
 import { useApi } from "../../app/BackendContext";
-import { queryKeys } from "../../app/queries";
+import { invalidateProgress } from "../../app/queries";
 import { fr } from "../../i18n/fr";
 import { ChoiceGrid } from "../child/ChoiceGrid";
 import { Feedback } from "../child/Feedback";
@@ -50,7 +50,7 @@ export function LessonQuiz({ lesson, profileId, onFinished }: LessonQuizProps) {
         open.current = null;
         void api
           .abandonSeries(seriesId)
-          .then(() => queryClient.invalidateQueries({ queryKey: queryKeys.profiles }))
+          .then(() => invalidateProgress(queryClient))
           .catch(() => undefined);
       }
     },

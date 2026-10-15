@@ -47,6 +47,9 @@ pub fn readings_ahead(exercises: &[Exercise], from: usize) -> Vec<Reading> {
 pub struct Reading {
     pub text: String,
     pub speed: f64,
+    /// Only what follows the first pause is heard: a word read in its carrier, « Le mot : jaune. »
+    /// ([`super::wav::keep_after_first_pause`]).
+    pub after_pause: bool,
 }
 
 impl Reading {
@@ -59,13 +62,34 @@ impl Reading {
         Self {
             text: text.into(),
             speed,
+            after_pause: false,
         }
+    }
+
+    /// A reading of which only what follows the first pause is heard.
+    pub fn after_pause(text: impl Into<String>, speed: f64) -> Self {
+        Self {
+            after_pause: true,
+            ..Self::new(text, speed)
+        }
+    }
+
+    /// The WAV of the reading: synthesized by `engine`, cut at its first pause when it asks for it.
+    pub fn synthesize(&self, engine: &dyn SpeechSynthesizer) -> Result<Vec<u8>> {
+        let wav = engine.synthesize(&self.text, self.speed)?;
+        Ok(if self.after_pause {
+            super::wav::keep_after_first_pause(&wav)
+        } else {
+            wav
+        })
     }
 }
 
 impl PartialEq for Reading {
     fn eq(&self, other: &Self) -> bool {
-        self.text == other.text && self.speed.to_bits() == other.speed.to_bits()
+        self.text == other.text
+            && self.speed.to_bits() == other.speed.to_bits()
+            && self.after_pause == other.after_pause
     }
 }
 
@@ -75,6 +99,7 @@ impl Hash for Reading {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.text.hash(state);
         self.speed.to_bits().hash(state);
+        self.after_pause.hash(state);
     }
 }
 
@@ -211,7 +236,7 @@ impl SpeechPreparer {
             .retain(|(owner, r)| !(*owner == series && r == reading));
         let synthesis = Synthesis::start(&self.shared, state, reading, true);
 
-        let outcome = self.engine.synthesize(&reading.text, reading.speed);
+        let outcome = reading.synthesize(self.engine.as_ref());
         if let Ok(wav) = &outcome {
             self.shared
                 .lock()
@@ -271,7 +296,7 @@ fn work(engine: &dyn SpeechSynthesizer, shared: &Shared) {
         };
         let synthesis = Synthesis::start(shared, state, &reading, false);
 
-        let outcome = engine.synthesize(&reading.text, reading.speed);
+        let outcome = reading.synthesize(engine);
         // A failure is not kept: the child's request tries again and reports it.
         if let Ok(wav) = outcome {
             shared.lock().store(series, reading.clone(), wav);

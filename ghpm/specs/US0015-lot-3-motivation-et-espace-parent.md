@@ -1,7 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WJs
-rev: 2026-10-10T19:39:23Z
+rev: 2026-10-14T19:30:47Z
 url: https://github.com/georgesp/Educator/issues/15
 type: Issue
 repository: georgesp/Educator
@@ -34,4 +34,4 @@ Donner envie de progresser (niveaux, étoiles, badges, avatar personnalisable av
 ## Critères d'acceptation
 
 - [ ] Toutes les sous-issues sont terminées.
-- [ ] Les personnages SVG du lot 1 sont remplacés par des avatars personnalisables sans perte pour les profils existants.
+- [x] Les personnages SVG du lot 1 sont remplacés par des avatars personnalisables sans perte pour les profils existants.

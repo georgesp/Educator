@@ -1,0 +1,279 @@
+{
+  "$schema": "../schemas/badges.schema.json",
+  "badges": [
+    {
+      "id": "complements-10",
+      "title": "Champion des compléments à 10",
+      "description": "Réussis presque tout aux compléments à la dizaine.",
+      "icon": "badges/complements-10.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-complement-next-ten"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "as-des-additions",
+      "title": "As des additions",
+      "description": "Réussis presque tout aux additions jusqu’à 10 ou aux tables d’addition.",
+      "icon": "badges/as-des-additions.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-add-sum-10",
+          "cp-add-tables",
+          "ce1-add-tables"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "roi-des-soustractions",
+      "title": "Roi des soustractions",
+      "description": "Réussis presque tout à une série de soustractions.",
+      "icon": "badges/roi-des-soustractions.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-sub-within-10",
+          "cp-sub-within-20",
+          "ce1-sub-small",
+          "ce1-sub-2-digits"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "pro-du-9",
+      "title": "Pro du + 9",
+      "description": "Réussis presque tout à « Ajouter 9 » ou « Ajouter 9, 19 ou 29 ».",
+      "icon": "badges/pro-du-9.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-add-9",
+          "ce1-add-9-19-29"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "tables-2-5-10",
+      "title": "Maître des tables de 2, 5 et 10",
+      "description": "Réussis presque tout aux tables de 2, 5 et 10.",
+      "icon": "badges/tables-2-5-10.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "ce1-mul-tables-2-5-10"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "tables-3-4",
+      "title": "Maître des tables de 3 et 4",
+      "description": "Réussis presque tout aux tables de 3 et 4.",
+      "icon": "badges/tables-3-4.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "ce1-mul-tables-3-4"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "explorateur-des-nombres",
+      "title": "Explorateur des nombres",
+      "description": "Maîtrise 3 exercices sur les nombres.",
+      "icon": "badges/explorateur-des-nombres.svg",
+      "condition": {
+        "type": "categoryMastery",
+        "category": "numbers",
+        "count": 3,
+        "minScore": 80
+      }
+    },
+    {
+      "id": "expert-des-fractions",
+      "title": "Expert des fractions",
+      "description": "Maîtrise 2 exercices de fractions, doubles ou moitiés.",
+      "icon": "badges/expert-des-fractions.svg",
+      "condition": {
+        "type": "categoryMastery",
+        "category": "fractionsHalves",
+        "count": 2,
+        "minScore": 80
+      }
+    },
+    {
+      "id": "detective-des-problemes",
+      "title": "Détective des problèmes",
+      "description": "Réussis presque tout à une série de problèmes.",
+      "icon": "badges/detective-des-problemes.svg",
+      "condition": {
+        "type": "categoryMastery",
+        "category": "problems",
+        "count": 1,
+        "minScore": 90
+      }
+    },
+    {
+      "id": "oreille-d-or",
+      "title": "Oreille d’or",
+      "description": "Maîtrise 3 exercices sur les sons.",
+      "icon": "badges/oreille-d-or.svg",
+      "condition": {
+        "type": "categoryMastery",
+        "category": "lettersAndSounds",
+        "count": 3,
+        "minScore": 90
+      }
+    },
+    {
+      "id": "champion-des-voyelles",
+      "title": "Champion des voyelles",
+      "description": "Réussis presque tout aux voyelles.",
+      "icon": "badges/champion-des-voyelles.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-voyelles"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "chasseur-de-lettres-muettes",
+      "title": "Chasseur de lettres muettes",
+      "description": "Réussis presque tout aux lettres muettes.",
+      "icon": "badges/chasseur-de-lettres-muettes.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "cp-lettres-muettes",
+          "ce1-lettres-muettes"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "as-du-pluriel",
+      "title": "As du pluriel",
+      "description": "Réussis presque tout au pluriel des noms.",
+      "icon": "badges/as-du-pluriel.svg",
+      "condition": {
+        "type": "skillMastery",
+        "skills": [
+          "ce1-pluriel-s"
+        ],
+        "minScore": 90
+      }
+    },
+    {
+      "id": "mots-a-connaitre",
+      "title": "Gardien des mots",
+      "description": "Réussis presque tout aux petits mots à connaître ou aux mots invariables.",
+      "icon": "badges/mots-a-connaitre.svg",
+      "condition": {
+        "type": "categoryMastery",
+        "category": "wordsToKnow",
+        "count": 1,
+        "minScore": 90
+      }
+    },
+    {
+      "id": "premier-tour",
+      "title": "Premier tour de piste",
+      "description": "Termine ta première série.",
+      "icon": "badges/premier-tour.svg",
+      "condition": {
+        "type": "seriesCompleted",
+        "count": 1
+      }
+    },
+    {
+      "id": "dix-series",
+      "title": "10 séries terminées",
+      "description": "Termine 10 séries d’exercices.",
+      "icon": "badges/dix-series.svg",
+      "condition": {
+        "type": "seriesCompleted",
+        "count": 10
+      }
+    },
+    {
+      "id": "vingt-cinq-series",
+      "title": "25 séries terminées",
+      "description": "Termine 25 séries d’exercices.",
+      "icon": "badges/vingt-cinq-series.svg",
+      "condition": {
+        "type": "seriesCompleted",
+        "count": 25
+      }
+    },
+    {
+      "id": "sans-faute",
+      "title": "10 séries sans faute",
+      "description": "Termine 10 séries sans aucune erreur.",
+      "icon": "badges/sans-faute.svg",
+      "condition": {
+        "type": "perfectSeries",
+        "count": 10
+      }
+    },
+    {
+      "id": "sept-jours",
+      "title": "7 jours d’entraînement",
+      "description": "Entraîne-toi pendant 7 jours différents.",
+      "icon": "badges/sept-jours.svg",
+      "condition": {
+        "type": "activeDays",
+        "count": 7
+      }
+    },
+    {
+      "id": "objectif-tenu",
+      "title": "Objectif tenu 5 jours de suite",
+      "description": "Atteins ton objectif du jour 5 jours d’affilée.",
+      "icon": "badges/objectif-tenu.svg",
+      "condition": {
+        "type": "goalStreak",
+        "days": 5
+      }
+    },
+    {
+      "id": "lecteur-assidu",
+      "title": "Lecteur assidu",
+      "description": "Termine le quiz de 5 leçons.",
+      "icon": "badges/lecteur-assidu.svg",
+      "condition": {
+        "type": "lessonsFinished",
+        "count": 5
+      }
+    },
+    {
+      "id": "trente-etoiles",
+      "title": "30 étoiles",
+      "description": "Gagne 30 étoiles en tout.",
+      "icon": "badges/trente-etoiles.svg",
+      "condition": {
+        "type": "stars",
+        "count": 30
+      }
+    },
+    {
+      "id": "niveau-5",
+      "title": "Niveau 5",
+      "description": "Atteins le niveau 5.",
+      "icon": "badges/niveau-5.svg",
+      "condition": {
+        "type": "level",
+        "level": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "../schemas/levels.schema.json",
+  "comment": "Points cumulés à partir desquels chaque niveau est atteint (niveau 1 : 0 point, niveau 2 : 100 points…). Au-delà du dernier, un niveau de plus tous les stepAfterLast points.",
+  "levels": [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000, 13000, 15500, 18000, 21000],
+  "stepAfterLast": 3000
+}

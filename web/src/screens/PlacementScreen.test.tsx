@@ -34,6 +34,7 @@ const summary: SeriesSummary = {
   previousBest: null,
   newRecord: false,
   reviewLesson: false,
+  rewards: null,
 };
 
 describe("PlacementScreen (SUB001418)", () => {

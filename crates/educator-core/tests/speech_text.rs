@@ -101,9 +101,10 @@ fn the_readings_ahead_are_the_next_words_then_their_sentences() {
 
     let all = readings_ahead(&exercises, 0);
     assert_eq!(2 * WORDS_AHEAD, all.len());
-    assert_eq!("mot0,", all[0].text);
+    assert_eq!("Le mot : mot0.", all[0].text);
+    assert!(all[0].after_pause && !all[1].after_pause);
     assert_eq!("Le mot0 est là.", all[1].text);
     assert!(all.iter().all(|r| r.speed == speed::WORDS));
-    assert_eq!("mot5,", readings_ahead(&exercises, 5)[0].text);
+    assert_eq!("Le mot : mot5.", readings_ahead(&exercises, 5)[0].text);
     assert_eq!(2, readings_ahead(&exercises, 39).len());
 }

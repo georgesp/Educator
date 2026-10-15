@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAzCi0
-rev: 2026-10-14T19:30:50Z
+rev: 2026-10-15T09:32:49Z
 url: https://github.com/georgesp/Educator/issues/275
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB026708 — Une voix Piper prête pour chaque vitesse
-status: In Review
+status: Done
 size: M
 estimate:
 startDate:
@@ -32,8 +32,8 @@ En tant qu'enfant, je veux entendre la consigne puis le mot à écrire sans atte
 ## Critères d'acceptation
 
 - [x] Le mot et sa phrase sont lus à la même vitesse (0,85) ; test.
-- [ ] Plus aucun redémarrage de Piper lors du passage consigne → mot → consigne (vérifié dans les logs).
-- [ ] Mémoire totale mesurée et notée dans la fiche (macOS, Rosetta).
+- [x] Plus aucun redémarrage de Piper lors du passage consigne → mot → consigne (vérifié dans les logs).
+- [x] Mémoire totale mesurée et notée dans la fiche (macOS, Rosetta).
 - [x] Tests : plusieurs vitesses servies sans redémarrage ; arrêt après inactivité (horloge injectée) ; relance après un plantage.
 
 ## Implémentation (2026-10-15)
@@ -50,5 +50,11 @@ En tant qu'enfant, je veux entendre la consigne puis le mot à écrire sans atte
   installé : `piper_serves_several_speeds_without_restarting` (3 processus pour 3 vitesses, aucun redémarrage).
   Test de la vitesse du mot et de sa phrase : `the_word_and_its_sentence_are_read_at_the_same_speed` (`educator-core`).
 - Mémoire mesurée dans l'environnement de Claude (Linux x64) : ≈ 105 Mo par processus.
-- Reste (Georges) : vérifier dans les logs l'absence de « Piper started » au passage consigne → mot → consigne, et
-  mesurer la mémoire totale des processus `piper` sur le Mac (Moniteur d'activité).
+- Logs du Mac de Georges (Rosetta), 2026-10-15, séance de 09:10 à 09:35 : « Piper started » deux fois au
+  démarrage (vitesses 1,11 et 1,18, prêtes en 0,5 à 1,8 s), puis plus aucun redémarrage de ces deux processus ; le
+  processus lent (2) démarre au premier clic sur « Plus lentement » (voix chargée en 0,28 s) et s'arrête 120 s après
+  sa dernière demande (« Piper stopped after 120 s without a request »), comme prévu. Synthèse d'un mot ou d'une
+  phrase : ≈ 50 à 120 ms.
+- Mémoire mesurée sur le Mac de Georges (Rosetta), 2026-10-15, pendant une série avec « Plus lentement » : au plus
+  3 processus `piper`, **300 à 360 Mo au total** (≈ 100 à 120 Mo chacun) ; 2 processus (≈ 210 à 240 Mo) quand
+  l'écoute lente est arrêtée.

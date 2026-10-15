@@ -1,10 +1,13 @@
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
 import type { Profile, Skill } from "../api/client";
-import { useSkills, useVoiceAvailable } from "../app/queries";
+import { useApi } from "../app/BackendContext";
+import { queryKeys, useProfileOverview, useSkills, useVoiceAvailable } from "../app/queries";
 import { SUBJECT_SLUGS, subjectOfSlug } from "../app/subjects";
 import { BigButton } from "../components/child/BigButton";
 import { FamilyFilter, useFamilyFilter } from "../components/child/Family";
 import { SpeakButton } from "../components/child/SpeakButton";
+import { RepeatIcon } from "../components/icons";
 import { RequireProfile } from "../components/RequireProfile";
 import { fr } from "../i18n/fr";
 
@@ -18,6 +21,7 @@ export function SkillsScreen() {
 }
 
 function Skills({ profile }: { profile: Profile }) {
+  const api = useApi();
   const navigate = useNavigate();
   const subject = subjectOfSlug(useParams().subject);
   const slug = SUBJECT_SLUGS[subject];
@@ -45,6 +49,11 @@ function Skills({ profile }: { profile: Profile }) {
         : `/exercices/${slug}/${encodeURIComponent(skill.id)}`,
     );
   const hint = (skill: Skill, text: string) => (skill.mastery === null ? text : `${text} · ${fr.skills.mastery(skill.mastery)}`);
+  // « Je te conseille… » (SUB001508): an advice of the core, the child keeps the choice.
+  const advice = useQuery({ queryKey: queryKeys.advice(profile.id, subject), queryFn: () => api.getAdvice(profile.id, subject), staleTime: 0 }).data;
+  const advised = advice ? data?.skills.find((s) => s.id === advice.skillId) : undefined;
+  // « Mes révisions » (SUB001509): the mistakes to see again today.
+  const reviews = useProfileOverview(profile.id).data?.reviews.find((r) => r.subject === subject)?.due ?? 0;
   // « Mes tables » next to the multiplications (SUB000119).
   const hasTables = data?.skills.some((s) => s.family === "Multiplication") ?? false;
 
@@ -63,6 +72,29 @@ function Skills({ profile }: { profile: Profile }) {
         )}
       </header>
 
+      {(advised || reviews > 0) && (
+        <div className="skills-helpers">
+          {advice && advised && (
+            <section className="advice-card" aria-labelledby="advice-title">
+              <h2 id="advice-title" className="advice-title">
+                {fr.advice.title}
+              </h2>
+              <p className="advice-reason">{fr.advice.reasons[advice.reason](advice.prepares)}</p>
+              <BigButton label={advice.title} category={advised.category} stars={advised.stars} variant="primary" onClick={() => open(advised)} />
+            </section>
+          )}
+          {reviews > 0 && (
+            <section className="reviews-card" aria-labelledby="reviews-title">
+              <h2 id="reviews-title" className="advice-title">
+                {fr.reviews.title}
+              </h2>
+              <p className="advice-reason">{fr.reviews.due(reviews)}</p>
+              <BigButton label={fr.reviews.start} icon={<RepeatIcon />} variant="outline" onClick={() => void navigate(`/revisions/${slug}`)} />
+            </section>
+          )}
+        </div>
+      )}
+
       {data && <FamilyFilter categories={categories} selected={family} onSelect={setFamily} />}
       {skills.isError && <p className="message">{fr.app.error}</p>}
       {usesFallback && <p className="notice">{fr.skills.noSkills}</p>}
@@ -75,7 +107,15 @@ function Skills({ profile }: { profile: Profile }) {
           </h2>
           <div className="skill-list">
             {current.map((skill) => (
-              <BigButton key={skill.id} label={skill.title} hint={hint(skill, fr.skills.period(skill.period))} category={skill.category} variant="outline" onClick={() => open(skill)} />
+              <BigButton
+                key={skill.id}
+                label={skill.title}
+                hint={hint(skill, fr.skills.period(skill.period))}
+                category={skill.category}
+                stars={skill.stars}
+                variant="outline"
+                onClick={() => open(skill)}
+              />
             ))}
           </div>
         </section>
@@ -94,6 +134,7 @@ function Skills({ profile }: { profile: Profile }) {
                 hint={hint(skill, fr.skills.revisionFrom(skill.revisionFrom ?? ""))}
                 number={skill.revisionFrom ?? undefined}
                 category={skill.category}
+                stars={skill.stars}
                 onClick={() => open(skill)}
               />
             ))}
@@ -108,7 +149,14 @@ function Skills({ profile }: { profile: Profile }) {
           </h2>
           <div className="skill-list skill-list-compact">
             {others.map((skill) => (
-              <BigButton key={skill.id} label={skill.title} hint={hint(skill, fr.skills.period(skill.period))} category={skill.category} onClick={() => open(skill)} />
+              <BigButton
+                key={skill.id}
+                label={skill.title}
+                hint={hint(skill, fr.skills.period(skill.period))}
+                category={skill.category}
+                stars={skill.stars}
+                onClick={() => open(skill)}
+              />
             ))}
           </div>
         </section>

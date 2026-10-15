@@ -6,6 +6,7 @@
 //! The traits are synchronous: SQLite and Piper are blocking, the Tauri commands run them on
 //! worker threads.
 
+pub mod adaptive;
 pub mod characters;
 pub mod clock;
 mod error;
@@ -17,8 +18,11 @@ pub mod numbers;
 pub mod parent_gate;
 pub mod parent_profile;
 pub mod points;
+pub mod profile_settings;
 pub mod profiles;
 pub mod random;
+pub mod reviews;
+pub mod rewards;
 pub mod sessions;
 pub mod settings;
 pub mod skills;

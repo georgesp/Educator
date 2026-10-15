@@ -4,8 +4,10 @@
 
 use crate::contracts::*;
 use educator_content::{EducatorContent, WordBank};
+use educator_core::adaptive::{advise, AdaptiveRules};
 use educator_core::characters::CharacterCatalog;
 use educator_core::clock::Clock;
+use educator_core::exercises::exam::TIMED_DURATIONS as TIMED_CHOICES;
 use educator_core::exercises::exam::{Listening, DEFAULT_TIMED_DURATION, TIMED_DURATIONS};
 use educator_core::exercises::Series;
 use educator_core::exercises::SeriesSummary;
@@ -14,16 +16,25 @@ use educator_core::lessons::LessonCatalog;
 use educator_core::mascot::{Expression, MascotService};
 use educator_core::parent_gate::ParentGateKeeper;
 use educator_core::parent_profile::ParentProfileService;
+use educator_core::profile_settings::SESSION_MINUTES;
+use educator_core::profile_settings::{ProfileSettingsService, VoiceSpeed};
 use educator_core::profiles::ProfileService;
 use educator_core::random::RandomSource;
+use educator_core::reviews::ReviewQueue;
+use educator_core::rewards::accessories::WornAccessory;
+use educator_core::rewards::daily_goal::GOAL_CHOICES;
+use educator_core::rewards::{DateOf, RewardsDependencies, RewardsService};
 use educator_core::sessions::{close_open_sessions, SessionStore};
 use educator_core::settings::AppSettingsStore;
 use educator_core::skills::{Date, SchoolCalendar, SkillCatalog};
 use educator_core::speech::{self, SpeechPreparer, SpeechSynthesizer};
 use educator_core::spelling::SpokenWord;
-use educator_core::statistics::{profile_statistics, utc_date_of, LocalCalendar};
+use educator_core::statistics::{profile_statistics, LocalCalendar};
 use educator_core::Error;
-use educator_data::{Database, SqliteAppSettingsStore, SqliteProfileStore, SqliteSessionStore};
+use educator_data::{
+    Database, SqliteAppSettingsStore, SqliteProfileSettingsStore, SqliteProfileStore,
+    SqliteReviewStore, SqliteRewardStore, SqliteSessionStore,
+};
 use std::fmt;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -56,12 +67,19 @@ pub struct Services {
     preparer: SpeechPreparer,
     /// Local date of the computer (school period of today).
     today: Box<dyn Fn() -> Date + Send + Sync>,
-    /// Local date of an instant (days of the statistics); UTC until [`Services::with_local_date`].
-    local_date: Box<dyn Fn(i64) -> Date + Send + Sync>,
+    /// Local date of an instant (days of the statistics, goal of the day, reviews).
+    local_date: DateOf,
     /// The parents' gate waiting for its answer (SUB001510).
     parent_gates: ParentGateKeeper,
     /// The parents' card of the profile choice.
     parent_profile: ParentProfileService,
+    /// Lot 3: levels, stars, badges, accessories, goal of the day.
+    rewards: RewardsService,
+    reviews: Arc<ReviewQueue>,
+    settings: Arc<ProfileSettingsService>,
+    adaptive: AdaptiveRules,
+    themes: Vec<educator_core::profile_settings::Theme>,
+    database: Arc<Database>,
 }
 
 impl fmt::Debug for Services {
@@ -78,6 +96,7 @@ impl Services {
         random: Arc<dyn RandomSource>,
         clock: Arc<dyn Clock>,
         today: Box<dyn Fn() -> Date + Send + Sync>,
+        local_date: DateOf,
     ) -> Result<Services, String> {
         let content = EducatorContent::load(&locations.content_directory);
         for problem in &content.problems {
@@ -103,7 +122,19 @@ impl Services {
         let store = Arc::new(SqliteProfileStore::new(Arc::clone(&database)));
         let sessions: Arc<dyn SessionStore> =
             Arc::new(SqliteSessionStore::new(Arc::clone(&database)));
-        let settings: Arc<dyn AppSettingsStore> = Arc::new(SqliteAppSettingsStore::new(database));
+        let settings: Arc<dyn AppSettingsStore> =
+            Arc::new(SqliteAppSettingsStore::new(Arc::clone(&database)));
+        let profile_settings = Arc::new(ProfileSettingsService::new(
+            Arc::new(SqliteProfileSettingsStore::new(Arc::clone(&database))),
+            content.rewards.goal,
+            content.themes.iter().map(|t| t.id.clone()).collect(),
+        ));
+        let reviews = Arc::new(ReviewQueue::new(
+            Arc::new(SqliteReviewStore::new(Arc::clone(&database))),
+            content.reviews.clone(),
+            Arc::clone(&clock),
+            Arc::clone(&local_date),
+        ));
         // A series does not survive the application: what was left open is closed as abandoned.
         let closed =
             close_open_sessions(sessions.as_ref(), clock.now_ms()).map_err(|e| e.to_string())?;
@@ -114,7 +145,28 @@ impl Services {
         let skills: Arc<dyn SkillCatalog> = Arc::new(content.skills);
         let characters: Arc<dyn CharacterCatalog> = Arc::new(content.characters);
         let lessons: Arc<dyn LessonCatalog> = Arc::new(content.lessons);
+        let rewards = RewardsService::new(
+            content.rewards.clone(),
+            content.badges,
+            content.accessories,
+            RewardsDependencies {
+                skills: Arc::clone(&skills),
+                characters: Arc::clone(&characters),
+                profiles: store.clone(),
+                sessions: Arc::clone(&sessions),
+                store: Arc::new(SqliteRewardStore::new(Arc::clone(&database))),
+                settings: Arc::clone(&profile_settings),
+                clock: Arc::clone(&clock),
+                date_of: Arc::clone(&local_date),
+            },
+        );
         Ok(Services {
+            rewards,
+            reviews: Arc::clone(&reviews),
+            settings: profile_settings,
+            adaptive: content.adaptive,
+            themes: content.themes,
+            database,
             profiles: ProfileService::new(
                 store.clone(),
                 Arc::clone(&characters),
@@ -134,8 +186,9 @@ impl Services {
                 random,
                 clock,
             )
-            .with_listening(listening_of(speech.as_ref())),
-            local_date: Box::new(utc_date_of),
+            .with_listening(listening_of(speech.as_ref()))
+            .with_reviews(reviews),
+            local_date,
             skills,
             words: content.words,
             sessions,
@@ -153,12 +206,6 @@ impl Services {
     pub fn refresh_listening(&self) {
         self.series
             .set_listening(listening_of(self.speech.as_ref()));
-    }
-
-    /// The local date of an instant, for the days of the statistics (the time zone of the computer).
-    pub fn with_local_date(mut self, local_date: Box<dyn Fn(i64) -> Date + Send + Sync>) -> Self {
-        self.local_date = local_date;
-        self
     }
 
     pub fn status(&self) -> StatusResponse {
@@ -185,12 +232,15 @@ impl Services {
         let (skills_grade, offered) = self
             .skills
             .offered_or_fallback(subject.into(), grade.into());
-        let masteries = match profile_id {
-            Some(id) => self
-                .sessions
-                .masteries(profile_id_of(id)?)
-                .map_err(unexpected)?,
-            None => Vec::new(),
+        let (masteries, stars) = match profile_id {
+            Some(id) => {
+                let id = profile_id_of(id)?;
+                (
+                    self.sessions.masteries(id).map_err(unexpected)?,
+                    self.rewards.best_stars(id).map_err(unexpected)?,
+                )
+            }
+            None => (Vec::new(), Default::default()),
         };
         let mastery = |skill_id: &str| {
             masteries
@@ -205,7 +255,14 @@ impl Services {
             current_period,
             skills: offered
                 .iter()
-                .map(|o| SkillResponse::offered(o, current_period, mastery(&o.skill.id)))
+                .map(|o| {
+                    SkillResponse::offered(
+                        o,
+                        current_period,
+                        mastery(&o.skill.id),
+                        stars.skill(&o.skill.id),
+                    )
+                })
                 .collect(),
         })
     }
@@ -346,7 +403,10 @@ impl Services {
             explanation: outcome.explanation,
             help: outcome.help.as_ref().map(Into::into),
             correction: outcome.correction.as_ref().map(Into::into),
-            summary: outcome.summary.as_ref().map(|s| self.summary(s)),
+            summary: outcome
+                .summary
+                .as_ref()
+                .map(|s| self.summary_with_rewards(s)),
         })
     }
 
@@ -470,7 +530,7 @@ impl Services {
             .finish(id)
             .map_err(|e| series_error(e, "Series already over"))?;
         self.preparer.release(id);
-        Ok(self.summary(&summary))
+        Ok(self.summary_with_rewards(&summary))
     }
 
     /// The mascot and her pictures; `None` when the content has no valid mascot.
@@ -523,11 +583,49 @@ impl Services {
         })
     }
 
+    /// The summary and what the session brought (lot 3): stars, level, goal of the day, badges,
+    /// accessories. A failure of the rewards never hides the summary.
+    fn summary_with_rewards(&self, summary: &SeriesSummary) -> SeriesSummaryResponse {
+        let mut response = self.summary(summary);
+        let Some(profile_id) = self
+            .sessions
+            .session(summary.series_id)
+            .ok()
+            .flatten()
+            .map(|s| s.profile_id)
+        else {
+            return response;
+        };
+        match self.rewards.after_session(profile_id, summary) {
+            Ok(rewards) => {
+                response.profile_points = rewards.profile_points;
+                response.rewards = Some(SessionRewardsResponse::new(
+                    &rewards,
+                    self.rewards.accessory_catalog(),
+                    self.rewards.badge_list(),
+                ));
+            }
+            Err(e) => log::error!("Rewards of session {}: {e}", summary.series_id),
+        }
+        response
+    }
+
+    /// The speed of the voice chosen by a profile (normal when unknown).
+    fn voice_speed(&self, profile_id: Uuid) -> VoiceSpeed {
+        self.settings
+            .get(profile_id)
+            .map(|s| s.voice_speed)
+            .unwrap_or_default()
+    }
+
     /// The series as sent to the front, its words being prepared in the background: each word,
-    /// then its sentence (SUB026705).
+    /// then its sentence (SUB026705), at the speed chosen by the child.
     fn prepared(&self, series: &Series) -> SeriesResponse {
-        self.preparer
-            .prepare(series.id, speech::readings_ahead(&series.exercises, 0));
+        let voice = self.voice_speed(series.profile_id);
+        self.preparer.prepare(
+            series.id,
+            adjusted(speech::readings_ahead(&series.exercises, 0), voice),
+        );
         series.into()
     }
 
@@ -549,11 +647,19 @@ impl Services {
         let word = exercise.word.ok_or_else(|| {
             CommandError::new(400, "No word", "This exercise has no word to read.")
         })?;
-        let reading = word_speech(&word, example, slow)?;
+        let voice = self
+            .sessions
+            .session(id)
+            .ok()
+            .flatten()
+            .map(|s| self.voice_speed(s.profile_id))
+            .unwrap_or_default();
+        let mut reading = word_speech(&word, example, slow)?;
+        reading.speed = voice.apply(reading.speed);
         let wav = self.preparer.read(id, &reading).map_err(speech_error)?;
         // The child goes on: the following words are prepared in turn.
         if let Ok(ahead) = self.series.readings_ahead(id, index as usize + 1) {
-            self.preparer.prepare(id, ahead);
+            self.preparer.prepare(id, adjusted(ahead, voice));
         }
         Ok(wav)
     }
@@ -564,6 +670,7 @@ impl Services {
         word: &str,
         example: bool,
         slow: bool,
+        voice: VoiceSpeed,
     ) -> Result<Vec<u8>, CommandError> {
         let found = self.words.find(word).ok_or_else(|| {
             CommandError::new(
@@ -574,7 +681,7 @@ impl Services {
         })?;
         let reading = word_speech(&SpokenWord::of(found, None), example, slow)?;
         self.speech
-            .synthesize(&reading.text, reading.speed)
+            .synthesize(&reading.text, voice.apply(reading.speed))
             .map_err(speech_error)
     }
 
@@ -604,19 +711,31 @@ impl Services {
             .series
             .abandon(id)
             .map_err(|e| series_error(e, "Series already over"))?;
-        Ok(self.summary(&summary))
+        Ok(self.summary_with_rewards(&summary))
     }
 
     /// The lessons of a grade (SUB001410). They follow the exercises: a grade without skills yet
     /// gets the CE1 lessons, like it gets the CE1 skills, so that « Je m'entraîne » always finds the
     /// skill of the lesson; a grade with skills but no lesson yet gets an empty list.
-    pub fn lessons(&self, grade: Grade, subject: Subject) -> LessonsResponse {
+    pub fn lessons(
+        &self,
+        grade: Grade,
+        subject: Subject,
+        profile_id: Option<&str>,
+    ) -> Result<LessonsResponse, CommandError> {
+        let stars = match profile_id {
+            Some(id) => self
+                .rewards
+                .best_stars(profile_id_of(id)?)
+                .map_err(unexpected)?,
+            None => Default::default(),
+        };
         let current_period = self.calendar.period_of((self.today)());
         let (lessons_grade, _) = self
             .skills
             .offered_or_fallback(subject.into(), grade.into());
         let lessons = self.lessons.for_grade(subject.into(), lessons_grade);
-        LessonsResponse {
+        Ok(LessonsResponse {
             subject,
             grade,
             lessons_grade: lessons_grade.into(),
@@ -625,10 +744,10 @@ impl Services {
                 .iter()
                 .map(|l| {
                     let main_skill = l.skill_ids.first().and_then(|id| self.skills.find(id));
-                    LessonSummaryResponse::new(l, current_period, main_skill)
+                    LessonSummaryResponse::new(l, current_period, main_skill, stars.lesson(&l.id))
                 })
                 .collect(),
-        }
+        })
     }
 
     /// A lesson, with the slide where the profile left it when `profile_id` is given.
@@ -749,8 +868,203 @@ impl Services {
         ))
     }
 
+    // ── Lot 3 ────────────────────────────────────────────────────────────────────────────
+
+    /// Level, goal of the day, badges and reviews due of a profile (the menu's panel).
+    pub fn profile_overview(
+        &self,
+        profile_id: &str,
+    ) -> Result<ProfileOverviewResponse, CommandError> {
+        let id = profile_id_of(profile_id)?;
+        let overview = self.rewards.overview(id).map_err(profile_error)?;
+        let mut reviews = Vec::new();
+        for subject in [Subject::Math, Subject::Spelling] {
+            let in_subject = |skill_id: &str| {
+                self.skills
+                    .find(skill_id)
+                    .is_some_and(|s| s.subject == subject.into())
+            };
+            let due = self.reviews.due(id, &in_subject).map_err(unexpected)?;
+            reviews.push(ReviewCountResponse {
+                subject,
+                due: u32::try_from(due.len()).unwrap_or(u32::MAX),
+            });
+        }
+        Ok(ProfileOverviewResponse::new(&overview, reviews))
+    }
+
+    /// Every badge, earned or not (« Mes badges », SUB001503).
+    pub fn badges(&self, profile_id: &str) -> Result<Vec<BadgeResponse>, CommandError> {
+        Ok(self
+            .rewards
+            .badges(profile_id_of(profile_id)?)
+            .map_err(profile_error)?
+            .iter()
+            .map(Into::into)
+            .collect())
+    }
+
+    /// Every accessory, unlocked or not (SUB001505).
+    pub fn accessories(&self, profile_id: &str) -> Result<Vec<AccessoryResponse>, CommandError> {
+        let states = self
+            .rewards
+            .accessories(profile_id_of(profile_id)?)
+            .map_err(profile_error)?;
+        Ok(states
+            .iter()
+            .map(|s| {
+                AccessoryResponse::of_state(
+                    s,
+                    self.rewards.accessory_catalog(),
+                    self.rewards.badge_list(),
+                )
+            })
+            .collect())
+    }
+
+    /// Dresses the avatar of a profile; saved at once.
+    pub fn update_avatar(
+        &self,
+        profile_id: &str,
+        request: UpdateAvatarRequest,
+    ) -> Result<ProfileResponse, CommandError> {
+        let worn: Vec<WornAccessory> = request.accessories.iter().map(Into::into).collect();
+        let profile = self
+            .rewards
+            .set_avatar(
+                profile_id_of(profile_id)?,
+                request.character_id.as_deref(),
+                &worn,
+            )
+            .map_err(request_error)?;
+        Ok((&profile).into())
+    }
+
+    /// An avatar as one SVG (the character and its accessories).
+    pub fn avatar_svg(
+        &self,
+        character_id: &str,
+        accessories: &[WornAccessoryResponse],
+    ) -> Result<String, CommandError> {
+        let worn: Vec<WornAccessory> = accessories.iter().map(Into::into).collect();
+        self.rewards.avatar_svg(character_id, &worn).ok_or_else(|| {
+            CommandError::new(
+                404,
+                "Unknown character",
+                format!("No character with id {character_id}."),
+            )
+        })
+    }
+
+    /// « Je te conseille… » (SUB001508) for the exercises of a subject; `None` when everything
+    /// up to the next period is mastered.
+    pub fn advice(
+        &self,
+        profile_id: &str,
+        subject: Subject,
+    ) -> Result<Option<AdviceResponse>, CommandError> {
+        let id = profile_id_of(profile_id)?;
+        let profile = self.profiles.get(id).map_err(profile_error)?;
+        let current_period = self.calendar.period_of((self.today)());
+        let (_, offered) = self
+            .skills
+            .offered_or_fallback(subject.into(), profile.grade);
+        let masteries = self.sessions.masteries(id).map_err(unexpected)?;
+        Ok(
+            advise(&self.adaptive, &offered, current_period, &masteries).map(|a| {
+                AdviceResponse::new(&a, |skill_id| {
+                    self.skills
+                        .find(skill_id)
+                        .map(|s| s.title.clone())
+                        .unwrap_or_else(|| skill_id.to_owned())
+                })
+            }),
+        )
+    }
+
+    /// « Mes révisions » of a subject (SUB001509).
+    pub fn start_review(
+        &self,
+        profile_id: &str,
+        subject: Subject,
+        seed: Option<u32>,
+    ) -> Result<SeriesResponse, CommandError> {
+        let series = self
+            .series
+            .start_review(profile_id_of(profile_id)?, subject.into(), seed)
+            .map_err(start_error)?;
+        Ok(self.prepared(&series))
+    }
+
+    /// The settings of a child (SUB001512).
+    pub fn profile_settings(
+        &self,
+        profile_id: &str,
+    ) -> Result<ProfileSettingsResponse, CommandError> {
+        let id = profile_id_of(profile_id)?;
+        self.profiles.get(id).map_err(profile_error)?;
+        Ok((&self.settings.get(id).map_err(unexpected)?).into())
+    }
+
+    pub fn update_profile_settings(
+        &self,
+        profile_id: &str,
+        changes: UpdateProfileSettingsRequest,
+    ) -> Result<ProfileSettingsResponse, CommandError> {
+        let id = profile_id_of(profile_id)?;
+        self.profiles.get(id).map_err(profile_error)?;
+        let settings = self
+            .settings
+            .update(id, &changes.pairs())
+            .map_err(request_error)?;
+        Ok((&settings).into())
+    }
+
+    /// What the settings offer: the themes, the goals, the durations.
+    pub fn settings_options(&self) -> SettingsOptionsResponse {
+        SettingsOptionsResponse {
+            themes: self.themes.iter().map(Into::into).collect(),
+            goal_choices: GOAL_CHOICES.to_vec(),
+            timed_choices: std::iter::once(0).chain(TIMED_CHOICES).collect(),
+            session_choices: SESSION_MINUTES.to_vec(),
+        }
+    }
+
+    /// Writes every profile to a backup file (SUB001512).
+    pub fn export_backup(&self, path: &str) -> Result<BackupResponse, CommandError> {
+        let text = educator_data::backup::export(&self.database).map_err(unexpected)?;
+        std::fs::write(path, text)
+            .map_err(|e| CommandError::new(500, "Backup not written", format!("{path}: {e}")))?;
+        let profiles = self.profiles.list().map_err(unexpected)?.len();
+        log::info!("Backup of {profiles} profile(s) written to {path}.");
+        Ok(BackupResponse::new(profiles, path))
+    }
+
+    /// Replaces every profile by those of a backup file (a copy of the database is kept first).
+    pub fn import_backup(&self, path: &str) -> Result<BackupResponse, CommandError> {
+        let text = std::fs::read_to_string(path)
+            .map_err(|e| CommandError::new(400, "Backup not read", format!("{path}: {e}")))?;
+        for profile in self.profiles.list().map_err(unexpected)? {
+            self.series.forget_profile(profile.id);
+        }
+        let report =
+            educator_data::backup::restore(&self.database, &text).map_err(request_error)?;
+        log::info!(
+            "Backup {path} restored: {} profile(s); previous database kept in {}.",
+            report.profiles,
+            report.safety_copy.display()
+        );
+        Ok(BackupResponse::new(report.profiles, path))
+    }
+
     /// WAV of a French text; numbers and calculation signs are read as words (« 7 + 5 » → « sept plus cinq »).
-    pub fn speak(&self, text: &str, speed: Option<f64>) -> Result<Vec<u8>, CommandError> {
+    /// `voice`: the speed chosen by the child, applied to the instructions' one.
+    pub fn speak(
+        &self,
+        text: &str,
+        speed: Option<f64>,
+        voice: VoiceSpeed,
+    ) -> Result<Vec<u8>, CommandError> {
         let text = speech::normalize(text);
         let speed = speed.unwrap_or(CHILD_SPEECH_SPEED);
         if text.is_empty()
@@ -768,8 +1082,21 @@ impl Services {
             ));
         }
 
-        self.speech.synthesize(&text, speed).map_err(speech_error)
+        self.speech
+            .synthesize(&text, voice.apply(speed))
+            .map_err(speech_error)
     }
+}
+
+/// Readings at the speed chosen by the child.
+fn adjusted(readings: Vec<speech::Reading>, voice: VoiceSpeed) -> Vec<speech::Reading> {
+    readings
+        .into_iter()
+        .map(|mut r| {
+            r.speed = voice.apply(r.speed);
+            r
+        })
+        .collect()
 }
 
 fn listening_of(speech: &dyn SpeechSynthesizer) -> Listening {
@@ -832,6 +1159,14 @@ fn profile_error(error: Error) -> CommandError {
     }
 }
 
+/// A request the core refuses (an accessory still locked, an unknown setting, a bad backup file).
+fn request_error(error: Error) -> CommandError {
+    match error {
+        Error::InvalidRequest(message) => CommandError::new(400, "Invalid request", message),
+        other => profile_error(other),
+    }
+}
+
 fn start_error(error: Error) -> CommandError {
     match error {
         Error::SeriesRequest(message) => CommandError::new(400, "Invalid series request", message),
@@ -883,6 +1218,7 @@ mod tests {
             Arc::new(ScriptedRandom::new([3])),
             Arc::new(ManualClock::new(unix_ms(2026, 10, 11, 8, 0, 0))),
             Box::new(|| Date::new(2026, 10, 11)),
+            Arc::new(educator_core::statistics::utc_date_of),
         )
         .unwrap();
         Fixture {
@@ -1589,6 +1925,7 @@ mod tests {
                 Arc::new(ScriptedRandom::new([3])),
                 Arc::new(ManualClock::new(unix_ms(2026, 10, 11, 8, 0, 0))),
                 Box::new(|| Date::new(2026, 10, 11)),
+                Arc::new(educator_core::statistics::utc_date_of),
             )
             .unwrap()
         };
@@ -1883,12 +2220,24 @@ mod tests {
     fn speech_checks_the_request_and_reports_a_missing_voice() {
         let f = fixture();
 
-        assert_eq!(400, f.services.speak("", None).unwrap_err().status);
         assert_eq!(
             400,
-            f.services.speak("Bonjour", Some(3.0)).unwrap_err().status
+            f.services
+                .speak("", None, VoiceSpeed::Normal)
+                .unwrap_err()
+                .status
         );
-        let error = f.services.speak("7 + 5", None).unwrap_err();
+        assert_eq!(
+            400,
+            f.services
+                .speak("Bonjour", Some(3.0), VoiceSpeed::Normal)
+                .unwrap_err()
+                .status
+        );
+        let error = f
+            .services
+            .speak("7 + 5", None, VoiceSpeed::Normal)
+            .unwrap_err();
         assert_eq!(503, error.status);
         assert_eq!(Some("tests".to_owned()), error.detail);
     }
@@ -2014,7 +2363,10 @@ mod tests {
 
     #[test]
     fn lessons_of_ce1_list_the_lesson_on_adding_9_19_29() {
-        let lessons = fixture().services.lessons(Grade::CE1, Subject::Math);
+        let lessons = fixture()
+            .services
+            .lessons(Grade::CE1, Subject::Math, None)
+            .unwrap();
 
         assert_eq!(Grade::CE1, lessons.lessons_grade);
         let lesson = lessons
@@ -2028,7 +2380,10 @@ mod tests {
 
     #[test]
     fn a_grade_without_skills_gets_the_ce1_lessons() {
-        let lessons = fixture().services.lessons(Grade::CM1, Subject::Math);
+        let lessons = fixture()
+            .services
+            .lessons(Grade::CM1, Subject::Math, None)
+            .unwrap();
 
         assert_eq!(Grade::CM1, lessons.grade);
         assert_eq!(Grade::CE1, lessons.lessons_grade);
@@ -2040,7 +2395,7 @@ mod tests {
     #[test]
     fn cp_gets_its_own_lessons() {
         let f = fixture();
-        let lessons = f.services.lessons(Grade::CP, Subject::Math);
+        let lessons = f.services.lessons(Grade::CP, Subject::Math, None).unwrap();
 
         assert_eq!(Grade::CP, lessons.lessons_grade);
         assert_eq!(11, lessons.lessons.len());
@@ -2058,7 +2413,12 @@ mod tests {
         let f = fixture();
         for grade in [Grade::CP, Grade::CE1, Grade::CE2, Grade::CM1, Grade::CM2] {
             let skills = f.services.skills(grade, Subject::Math, None).unwrap();
-            for summary in f.services.lessons(grade, Subject::Math).lessons {
+            for summary in f
+                .services
+                .lessons(grade, Subject::Math, None)
+                .unwrap()
+                .lessons
+            {
                 let lesson = f.services.lesson(&summary.id, None).unwrap();
                 assert!(
                     skills.skills.iter().any(|s| s.id == lesson.skill_ids[0]),
@@ -2316,11 +2676,14 @@ mod tests {
     #[test]
     fn spelling_lessons_are_listed_by_subject() {
         let f = fixture();
-        let lessons = f.services.lessons(Grade::CP, Subject::Spelling);
+        let lessons = f
+            .services
+            .lessons(Grade::CP, Subject::Spelling, None)
+            .unwrap();
         assert_eq!(Subject::Spelling, lessons.subject);
         assert!(lessons.lessons.iter().any(|l| l.id == "cp-son-ou"));
         assert!(lessons.lessons.iter().all(|l| l.id.starts_with("cp-")));
-        let math = f.services.lessons(Grade::CP, Subject::Math);
+        let math = f.services.lessons(Grade::CP, Subject::Math, None).unwrap();
         assert!(math.lessons.iter().all(|l| !l.id.contains("son")));
     }
 
@@ -2331,7 +2694,7 @@ mod tests {
         let mut summaries = Vec::new();
         for grade in [Grade::CP, Grade::CE1] {
             for subject in [Subject::Math, Subject::Spelling] {
-                summaries.extend(f.services.lessons(grade, subject).lessons);
+                summaries.extend(f.services.lessons(grade, subject, None).unwrap().lessons);
             }
         }
         for summary in summaries {
@@ -2345,10 +2708,336 @@ mod tests {
                 // The voice is unavailable in the tests: 503 means the text itself was accepted.
                 assert_eq!(
                     503,
-                    f.services.speak(&text, None).unwrap_err().status,
+                    f.services
+                        .speak(&text, None, VoiceSpeed::Normal)
+                        .unwrap_err()
+                        .status,
                     "{text}"
                 );
             }
         }
+    }
+
+    // ── Lot 3 ────────────────────────────────────────────────────────────────────────────
+
+    /// A series of `skill_id` answered wrong to the end (the core keeps the answers secret).
+    fn wrong_series(services: &Services, profile: &str, skill_id: &str) -> SeriesSummaryResponse {
+        let series = services
+            .start_series(StartSeriesRequest {
+                profile_id: profile.to_owned(),
+                skill_id: skill_id.to_owned(),
+                answer_mode: AnswerMode::Keyboard,
+                format: None,
+                seed: Some(1),
+            })
+            .unwrap();
+        let mut summary = None;
+        for index in 0..series.exercises.len() {
+            summary = services
+                .answer_series(&series.series_id, index as u32, number(-1), None)
+                .unwrap()
+                .summary;
+        }
+        summary.unwrap()
+    }
+
+    #[test]
+    fn a_finished_series_brings_its_stars_its_badge_and_its_accessories() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+
+        let summary = wrong_series(&f.services, &lea.id, "cp-add-sum-10");
+
+        let rewards = summary.rewards.expect("rewards");
+        assert_eq!(Some(1), rewards.stars, "a series finished: one star");
+        assert_eq!((1, 1), (rewards.goal.done, rewards.goal.target.min(1)));
+        assert!(rewards.new_badges.iter().any(|b| b.id == "premier-tour"));
+        let unlocked: Vec<&str> = rewards
+            .new_accessories
+            .iter()
+            .map(|a| a.id.as_str())
+            .collect();
+        assert!(unlocked.contains(&"casquette") && unlocked.contains(&"echarpe"));
+        assert!(
+            !unlocked.contains(&"medaille"),
+            "the medal comes with the badge of 10 series"
+        );
+        let skills = f
+            .services
+            .skills(Grade::CP, Subject::Math, Some(&lea.id))
+            .unwrap();
+        assert_eq!(
+            1,
+            skills
+                .skills
+                .iter()
+                .find(|s| s.id == "cp-add-sum-10")
+                .unwrap()
+                .stars
+        );
+        let overview = f.services.profile_overview(&lea.id).unwrap();
+        assert_eq!(1, overview.level.level);
+        assert_eq!(1, overview.badges_earned);
+        assert!(overview.badges_total >= 20);
+        assert!(
+            overview.reviews.iter().all(|r| r.due == 0),
+            "mistakes come back tomorrow"
+        );
+        let badges = f.services.badges(&lea.id).unwrap();
+        assert!(badges.iter().any(|b| b.id == "premier-tour" && b.earned));
+    }
+
+    #[test]
+    fn the_avatar_wears_what_is_unlocked_and_is_drawn_as_one_svg() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let locked = f
+            .services
+            .update_avatar(
+                &lea.id,
+                UpdateAvatarRequest {
+                    character_id: None,
+                    accessories: vec![WornAccessoryResponse {
+                        accessory_id: "couronne".to_owned(),
+                        color_id: "or".to_owned(),
+                    }],
+                },
+            )
+            .unwrap_err();
+        assert_eq!(400, locked.status);
+
+        let cap = WornAccessoryResponse {
+            accessory_id: "casquette".to_owned(),
+            color_id: "bleu".to_owned(),
+        };
+        let dressed = f
+            .services
+            .update_avatar(
+                &lea.id,
+                UpdateAvatarRequest {
+                    character_id: Some("lapin".to_owned()),
+                    accessories: vec![cap.clone()],
+                },
+            )
+            .unwrap();
+        assert_eq!(
+            ("lapin", vec![cap.clone()]),
+            (dressed.character_id.as_str(), dressed.accessories.clone())
+        );
+        assert_eq!(
+            vec![cap.clone()],
+            f.services.list_profiles().unwrap()[0].accessories
+        );
+        let svg = f.services.avatar_svg("lapin", &[cap]).unwrap();
+        assert!(svg.contains(r#"data-accessory="casquette""#) && svg.contains("--acc:#2F6FD0"));
+        assert_eq!(
+            404,
+            f.services.avatar_svg("dragon", &[]).unwrap_err().status
+        );
+        let accessories = f.services.accessories(&lea.id).unwrap();
+        assert!(accessories.len() >= 20);
+        let crown = accessories.iter().find(|a| a.id == "couronne").unwrap();
+        assert!(!crown.unlocked);
+        assert_eq!(Some(20), crown.unlock.level, "the crown comes last");
+        let cape = accessories.iter().find(|a| a.id == "cape").unwrap();
+        assert!(cape.unlock.badge_title.is_some());
+    }
+
+    #[test]
+    fn the_settings_of_a_child_are_checked_and_kept() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let defaults = f.services.profile_settings(&lea.id).unwrap();
+        assert_eq!(
+            ("sport", 3, true),
+            (defaults.theme.as_str(), defaults.daily_goal, defaults.sound)
+        );
+
+        let changed = f
+            .services
+            .update_profile_settings(
+                &lea.id,
+                UpdateProfileSettingsRequest {
+                    theme: Some("cosmos".to_owned()),
+                    daily_goal: Some(5),
+                    text_size: Some(TextSizeName::Large),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+        assert_eq!(
+            ("cosmos", 5, TextSizeName::Large),
+            (
+                changed.theme.as_str(),
+                changed.daily_goal,
+                changed.text_size
+            )
+        );
+        assert_eq!(5, f.services.profile_overview(&lea.id).unwrap().goal.target);
+        for bad in [
+            UpdateProfileSettingsRequest {
+                theme: Some("jungle".to_owned()),
+                ..Default::default()
+            },
+            UpdateProfileSettingsRequest {
+                daily_goal: Some(50),
+                ..Default::default()
+            },
+            UpdateProfileSettingsRequest {
+                timed_seconds: Some(45),
+                ..Default::default()
+            },
+        ] {
+            assert_eq!(
+                400,
+                f.services
+                    .update_profile_settings(&lea.id, bad)
+                    .unwrap_err()
+                    .status
+            );
+        }
+        assert_eq!(
+            "cosmos",
+            f.services.profile_settings(&lea.id).unwrap().theme
+        );
+        let options = f.services.settings_options();
+        assert!(options.themes.iter().any(|t| t.id == "cosmos"));
+    }
+
+    #[test]
+    fn an_advice_is_given_for_the_current_period() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let advice = f.services.advice(&lea.id, Subject::Math).unwrap().unwrap();
+        assert_eq!(AdviceReasonName::Start, advice.reason);
+        let skills = f.services.skills(Grade::CP, Subject::Math, None).unwrap();
+        assert!(skills
+            .skills
+            .iter()
+            .any(|s| s.id == advice.skill_id && s.is_current_period));
+    }
+
+    #[test]
+    fn a_backup_written_then_read_gives_the_profiles_back() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        wrong_series(&f.services, &lea.id, "cp-add-sum-10");
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("2026-10-15_educator-sauvegarde.json");
+        let path = path.to_str().unwrap();
+
+        assert_eq!(1, f.services.export_backup(path).unwrap().profiles);
+        f.services.delete_profile(&lea.id).unwrap();
+        assert!(f.services.list_profiles().unwrap().is_empty());
+        assert_eq!(1, f.services.import_backup(path).unwrap().profiles);
+
+        let back = f.services.list_profiles().unwrap();
+        assert_eq!(
+            vec!["Léa".to_owned()],
+            back.iter().map(|p| p.name.clone()).collect::<Vec<_>>()
+        );
+        assert_eq!(lea.id, back[0].id);
+        assert_eq!(
+            1,
+            f.services
+                .badges(&lea.id)
+                .unwrap()
+                .iter()
+                .filter(|b| b.earned)
+                .count()
+        );
+        let not_a_backup = dir.path().join("note.json");
+        std::fs::write(&not_a_backup, "{}").unwrap();
+        assert_eq!(
+            400,
+            f.services
+                .import_backup(not_a_backup.to_str().unwrap())
+                .unwrap_err()
+                .status
+        );
+    }
+
+    #[test]
+    fn the_words_missed_come_back_the_next_day_in_my_reviews() {
+        let dir = tempfile::tempdir().unwrap();
+        let clock = Arc::new(ManualClock::new(unix_ms(2026, 10, 11, 8, 0, 0)));
+        let services = Services::start(
+            &Locations {
+                content_directory: Path::new(env!("CARGO_MANIFEST_DIR")).join("../../content"),
+                database_path: dir.path().join("educator.db"),
+            },
+            Arc::new(UnavailableSpeechSynthesizer::new("tests")),
+            Arc::new(ScriptedRandom::new([3])),
+            clock.clone(),
+            Box::new(|| Date::new(2026, 10, 11)),
+            Arc::new(educator_core::statistics::utc_date_of),
+        )
+        .unwrap();
+        let lea = create(&services, "Léa");
+        let series = services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "cp-son-ou".to_owned(),
+                answer_mode: AnswerMode::Keyboard,
+                format: Some(SpellingFormat::MissingLetters),
+                seed: Some(4),
+            })
+            .unwrap();
+        let mut words = Vec::new();
+        for index in 0..3u32 {
+            let outcome = services
+                .answer_series(
+                    &series.series_id,
+                    index,
+                    AnswerPayload::Text {
+                        value: "zz".to_owned(),
+                    },
+                    None,
+                )
+                .unwrap();
+            words.push(outcome.expected_label);
+        }
+        services.abandon_series(&series.series_id).unwrap();
+        assert_eq!(
+            400,
+            services
+                .start_review(&lea.id, Subject::Spelling, Some(1))
+                .unwrap_err()
+                .status
+        );
+
+        clock.advance(86_400_000);
+        let due = services.profile_overview(&lea.id).unwrap().reviews;
+        assert_eq!(
+            3,
+            due.iter()
+                .find(|r| r.subject == Subject::Spelling)
+                .unwrap()
+                .due
+        );
+        let review = services
+            .start_review(&lea.id, Subject::Spelling, Some(1))
+            .unwrap();
+        assert_eq!(
+            (SessionType::Review, 3),
+            (review.session_type, review.exercises.len())
+        );
+        let mut asked = Vec::new();
+        for index in 0..3u32 {
+            let outcome = services
+                .answer_series(
+                    &review.series_id,
+                    index,
+                    AnswerPayload::Text {
+                        value: "zz".to_owned(),
+                    },
+                    None,
+                )
+                .unwrap();
+            asked.push(outcome.expected_label);
+        }
+        asked.sort();
+        words.sort();
+        assert_eq!(words, asked, "the same words");
     }
 }

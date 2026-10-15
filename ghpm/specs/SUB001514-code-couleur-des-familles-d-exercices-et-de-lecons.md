@@ -1,8 +1,17 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhA8GSk
+url: https://github.com/georgesp/Educator/issues/287
 type: Issue
-title: Code couleur des familles d'exercices et de leçons
+repository: georgesp/Educator
+labels: []
+# Editable
+title: SUB001514 — Code couleur des familles d'exercices et de leçons
 status: In progress
 size: M
+estimate:
+startDate:
+endDate:
 parent: "#15"
 order: 625
 ---

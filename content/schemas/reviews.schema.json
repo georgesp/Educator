@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reviews.schema.json",
+  "title": "Révision espacée des erreurs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["intervals", "seriesLength"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "intervals": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "integer", "minimum": 1 },
+      "description": "Jours avant chaque révision : après une erreur, puis après chaque révision réussie (croissants)."
+    },
+    "seriesLength": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Exercices au plus dans une série « Mes révisions »."
+    }
+  }
+}

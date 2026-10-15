@@ -47,6 +47,7 @@ fn add_profile(profiles: &SqliteProfileStore, name: &str, now: i64) -> Profile {
             name: name.to_owned(),
             grade: Grade::CE1,
             character_id: "lion".to_owned(),
+            accessories: Vec::new(),
             points: 0,
             placement_seconds: 20,
             exam_seconds: 0,

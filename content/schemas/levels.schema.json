@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "levels.schema.json",
+  "title": "Barème des niveaux",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["levels", "stepAfterLast"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "comment": { "type": "string" },
+    "levels": {
+      "type": "array",
+      "minItems": 2,
+      "prefixItems": [{ "const": 0 }],
+      "items": { "type": "integer", "minimum": 0 },
+      "description": "Points à partir desquels chaque niveau est atteint, croissants, le premier à 0."
+    },
+    "stepAfterLast": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Points entre deux niveaux après le dernier de la liste."
+    }
+  }
+}

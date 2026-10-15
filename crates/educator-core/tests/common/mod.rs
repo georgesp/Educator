@@ -334,3 +334,167 @@ impl SessionStore for InMemorySessionStore {
         Ok(())
     }
 }
+
+/// In-memory [`educator_core::rewards::RewardStore`].
+#[derive(Default)]
+pub struct InMemoryRewardStore {
+    pub badges: Mutex<Vec<(Uuid, educator_core::rewards::badges::EarnedBadge)>>,
+    pub accessories: Mutex<Vec<(Uuid, String)>>,
+    pub days: Mutex<Vec<(Uuid, educator_core::rewards::daily_goal::GoalDay)>>,
+}
+
+impl educator_core::rewards::RewardStore for InMemoryRewardStore {
+    fn earned_badges(
+        &self,
+        profile_id: Uuid,
+    ) -> Result<Vec<educator_core::rewards::badges::EarnedBadge>> {
+        Ok(self
+            .badges
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|(p, _)| *p == profile_id)
+            .map(|(_, b)| b.clone())
+            .collect())
+    }
+
+    fn add_badge(&self, profile_id: Uuid, badge_id: &str, earned_at: i64) -> Result<bool> {
+        let mut badges = self.badges.lock().unwrap();
+        if badges
+            .iter()
+            .any(|(p, b)| *p == profile_id && b.badge_id == badge_id)
+        {
+            return Ok(false);
+        }
+        badges.push((
+            profile_id,
+            educator_core::rewards::badges::EarnedBadge {
+                badge_id: badge_id.to_owned(),
+                earned_at,
+            },
+        ));
+        Ok(true)
+    }
+
+    fn unlocked_accessories(&self, profile_id: Uuid) -> Result<Vec<String>> {
+        Ok(self
+            .accessories
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|(p, _)| *p == profile_id)
+            .map(|(_, a)| a.clone())
+            .collect())
+    }
+
+    fn unlock_accessory(&self, profile_id: Uuid, accessory_id: &str, _at: i64) -> Result<bool> {
+        let mut all = self.accessories.lock().unwrap();
+        if all
+            .iter()
+            .any(|(p, a)| *p == profile_id && a == accessory_id)
+        {
+            return Ok(false);
+        }
+        all.push((profile_id, accessory_id.to_owned()));
+        Ok(true)
+    }
+
+    fn goal_days(
+        &self,
+        profile_id: Uuid,
+    ) -> Result<Vec<educator_core::rewards::daily_goal::GoalDay>> {
+        Ok(self
+            .days
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|(p, _)| *p == profile_id)
+            .map(|(_, d)| *d)
+            .collect())
+    }
+
+    fn add_goal_day(
+        &self,
+        profile_id: Uuid,
+        day: &educator_core::rewards::daily_goal::GoalDay,
+    ) -> Result<bool> {
+        let mut days = self.days.lock().unwrap();
+        if days
+            .iter()
+            .any(|(p, d)| *p == profile_id && d.day == day.day)
+        {
+            return Ok(false);
+        }
+        days.push((profile_id, *day));
+        Ok(true)
+    }
+}
+
+/// In-memory [`educator_core::reviews::ReviewStore`].
+#[derive(Default)]
+pub struct InMemoryReviewStore {
+    pub items: Mutex<Vec<educator_core::reviews::ReviewItem>>,
+}
+
+impl educator_core::reviews::ReviewStore for InMemoryReviewStore {
+    fn review_items(&self, profile_id: Uuid) -> Result<Vec<educator_core::reviews::ReviewItem>> {
+        Ok(self
+            .items
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|i| i.profile_id == profile_id)
+            .cloned()
+            .collect())
+    }
+
+    fn review_item(&self, id: Uuid) -> Result<Option<educator_core::reviews::ReviewItem>> {
+        Ok(self
+            .items
+            .lock()
+            .unwrap()
+            .iter()
+            .find(|i| i.id == id)
+            .cloned())
+    }
+
+    fn save_review_item(&self, item: &educator_core::reviews::ReviewItem) -> Result<()> {
+        let mut items = self.items.lock().unwrap();
+        items.retain(|i| i.id != item.id);
+        items.push(item.clone());
+        Ok(())
+    }
+
+    fn delete_review_item(&self, id: Uuid) -> Result<bool> {
+        let mut items = self.items.lock().unwrap();
+        let before = items.len();
+        items.retain(|i| i.id != id);
+        Ok(items.len() < before)
+    }
+}
+
+/// In-memory [`educator_core::profile_settings::ProfileSettingsStore`].
+#[derive(Default)]
+pub struct InMemoryProfileSettingsStore {
+    pub values: Mutex<Vec<(Uuid, String, String)>>,
+}
+
+impl educator_core::profile_settings::ProfileSettingsStore for InMemoryProfileSettingsStore {
+    fn profile_settings(&self, profile_id: Uuid) -> Result<Vec<(String, String)>> {
+        Ok(self
+            .values
+            .lock()
+            .unwrap()
+            .iter()
+            .filter(|(p, _, _)| *p == profile_id)
+            .map(|(_, k, v)| (k.clone(), v.clone()))
+            .collect())
+    }
+
+    fn set_profile_setting(&self, profile_id: Uuid, key: &str, value: &str) -> Result<()> {
+        let mut values = self.values.lock().unwrap();
+        values.retain(|(p, k, _)| !(*p == profile_id && k == key));
+        values.push((profile_id, key.to_owned(), value.to_owned()));
+        Ok(())
+    }
+}

@@ -96,9 +96,10 @@ pub fn start(state: Arc<AppState>, folders: Folders) {
                 Arc::new(ThreadRandom),
                 Arc::new(SystemClock),
                 Box::new(today),
+                Arc::new(local_date),
             ) {
                 Ok(services) => {
-                    let services = Arc::new(services.with_local_date(Box::new(local_date)));
+                    let services = Arc::new(services);
                     state.set(Startup::Ready(Arc::clone(&services)));
                     // The instructions and the dictated words are then read without delay: one
                     // Piper process each, kept ready (SUB026708).

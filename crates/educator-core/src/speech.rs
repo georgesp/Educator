@@ -3,8 +3,10 @@
 //! ahead of the child (SUB026705).
 
 mod preparation;
+mod wav;
 
 pub use preparation::{readings_ahead, Reading, SpeechPreparer, MAX_PREPARED_SERIES, WORDS_AHEAD};
+pub use wav::keep_after_first_pause;
 
 use crate::Result;
 
