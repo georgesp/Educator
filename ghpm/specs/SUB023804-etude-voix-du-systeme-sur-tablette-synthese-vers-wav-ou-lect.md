@@ -26,7 +26,7 @@ Aujourd'hui le contrat est : le Rust renvoie des **octets WAV** (`SpeechSynthesi
 
 ## Questions à trancher (par prototype sur tablette)
 
-- Synthèse vers un tampon audio : `AVSpeechSynthesizer.write(_:toBufferCallback:)` sur iOS (formats de tampon, comportement connu sur simulateur, voix « améliorées »), `TextToSpeech.synthesizeToFile` sur Android. Faisable et assez fiable pour reconstruire un WAV 16 bits mono ?
+- Synthèse vers un tampon audio : `AVSpeechSynthesizer.write(_:toBufferCallback:)` sur iPadOS (formats de tampon, comportement connu sur simulateur, voix « améliorées »). Faisable et assez fiable pour reconstruire un WAV 16 bits mono ?
 - Sinon : lecture directe par le système (`speak` natif) avec un contrat différent : commande « lire » plutôt que « fournir le WAV », arrêt, fin de lecture notifiée au front.
 - Vitesse : l'écoute lente (fiche « Écouter le mot plus lentement » du lot 2bis, 0,5×) est-elle naturelle avec le débit du système ?
 - Voix française : disponibilité par défaut, voix à télécharger, qualité ; que faire si elle est absente (message au parent, voir fiche 05) ?
@@ -38,5 +38,6 @@ Aujourd'hui le contrat est : le Rust renvoie des **octets WAV** (`SpeechSynthesi
 
 ## Critères d'acceptation
 
-- [ ] Prototype essayé sur iPad et/ou Android selon la fiche 01 : latence d'un mot et d'une phrase mesurée.
+- [ ] Prototype essayé sur l'iPad de test (iPad Air 13 pouces M2, iPadOS 27) : latence d'un mot et d'une phrase mesurée.
+- [ ] Lecture du WAV par le front après l'appel asynchrone vérifiée dans la vue web de l'iPad (risque noté dans l'ADR 0006).
 - [ ] Écoute de contrôle par Georges (qualité, vitesse 0,5×) notée dans l'ADR.

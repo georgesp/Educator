@@ -6,7 +6,7 @@ type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: "SUB023812 — Intégration continue mobile (compilation iOS et Android, front en viewport tablette)"
+title: "SUB023812 — Intégration continue mobile (compilation iOS, front en viewport tablette)"
 status: Todo
 size: M
 estimate:
@@ -26,8 +26,8 @@ Fiche 02.
 
 ## Comportement attendu
 
-- Dans `.github/workflows/ci.yml` (ou un fichier dédié) : `cargo check` / `cargo clippy` des crates pour `aarch64-apple-ios` (runner macOS) et `aarch64-linux-android` (NDK), ne ciblant que ce qui compile sans appareil.
-- Option : build complet de l'application Android (APK de debug) en CI ; build iOS sur simulateur, selon le coût des minutes macOS (à noter).
+- Dans `.github/workflows/ci.yml` (ou un fichier dédié) : `cargo check` / `cargo clippy` des crates pour `aarch64-apple-ios` (runner macOS), ne ciblant que ce qui compile sans appareil.
+- Option : build iOS pour le simulateur (`aarch64-apple-ios-sim`), selon le coût des minutes macOS (à noter).
 - Playwright : un parcours avec un viewport de tablette (paysage) en plus du bureau.
 - La CI existante (macOS, Windows, Linux) reste inchangée.
 

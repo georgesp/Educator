@@ -29,7 +29,7 @@ Fiche 02.
 
 - Dossier de données : `educator_data::app_data_directory()` renvoie aujourd'hui les chemins du bureau (`~/Library/Application Support/Educator/`, `%APPDATA%\Educator\`). Sur mobile, utiliser le dossier de données privé de l'application fourni par Tauri (résolution du chemin dans `web/src-tauri`, passée aux crates : pas de dépendance à Tauri dans les crates).
 - Base `educator.db` : migrations, WAL et sauvegarde `VACUUM INTO` vérifiés sur le système de fichiers mobile.
-- Contenu : le dossier `content/` est embarqué comme ressource ; `find_content_directory` le trouve dans le paquet iOS (bundle) et Android (assets : accès par chemin à vérifier, copie au premier lancement si nécessaire).
+- Contenu : le dossier `content/` est embarqué comme ressource ; `find_content_directory` le trouve dans le paquet iOS (bundle de l'application).
 - Aucun WAV de mot à exclure du paquet mobile : depuis le lot 2bis (ADR 0004), les mots sont lus en direct partout.
 - Logs : dossier de logs de l'application, consultable pour le dépannage (`tauri-plugin-log`).
 - Les variables `EDUCATOR_*` ne s'appliquent qu'au bureau.

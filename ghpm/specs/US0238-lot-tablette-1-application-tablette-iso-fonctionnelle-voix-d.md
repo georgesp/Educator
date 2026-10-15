@@ -36,18 +36,22 @@ La tablette utilise la **voix du système** (`AVSpeechSynthesizer` sur iPad, `Te
 
 Lancer Educator sur une tablette et y retrouver le même parcours qu'à l'ordinateur (profils, mathématiques, orthographe, leçons, examens, défi chrono, mascotte), avec la voix de la tablette, hors ligne, sans le stylet (lot suivant). Saisie au clavier à l'écran et au doigt.
 
-## À trancher avant de démarrer (fiche 01)
+## Décisions de la fiche 01 (2026-10-15)
 
-- Plateforme(s) visée(s) en premier : iPad, tablette Android, ou les deux (les fiches iOS et Android sont séparées pour pouvoir en laisser une de côté).
-- Tablette(s) de test et versions minimales de système.
-- iPad : compte Apple Developer payant (installation durable sur appareil, TestFlight) ou installation de 7 jours avec un compte gratuit ; Mac avec Xcode.
-- Android : Android Studio, SDK et NDK ; installation d'un APK de test sans compte Google Play.
+Détail et raisons : `docs/adr/0006-application-tablette.md` ; préparation du Mac et de l'iPad : `docs/tablette.md`.
+
+- **iPad seulement** (pas d'iPhone) ; Android mis de côté (SUB023807 retirée du lot).
+- Tablette de test : **iPad Air 13 pouces (M2)**, **iPadOS 27** ; iPadOS 17 minimum déclaré.
+- Orientation : **paysage seul**.
+- Mac : MacBook Pro M1 Pro, Xcode 27 (macOS Tahoe 26.6 ou plus récent).
+- Compte : **Apple ID gratuit** pour commencer (installation valable 7 jours, pas de TestFlight) ; compte Apple Developer payant à décider avant un usage quotidien par les enfants.
 
 ## Hors périmètre
 
 - Stylet et reconnaissance de l'écriture : lot tablette 2.
 - Publication sur l'App Store et Google Play (fiche de signature et de publication à créer plus tard, dans le lot packaging US0069 ou un lot dédié).
 - Synchronisation des profils et des résultats entre l'ordinateur et la tablette : les données restent locales à chaque appareil.
+- Tablettes Android (mises de côté, ADR 0006) ; iPhone.
 - Téléphones (écrans de moins de 7 pouces) ; tablettes Windows.
 
 ## Critères d'acceptation

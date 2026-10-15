@@ -29,10 +29,10 @@ En tant que Georges, je veux savoir précisément ce qu'il faut (matériel, comp
 
 ## Livrable
 
-- ADR 0005 « Application tablette » : décisions ci-dessus, prérequis d'installation, risques ; sert de base aux fiches suivantes du lot (la partie voix est complétée par la fiche 04).
+- ADR 0006 « Application tablette » (`docs/adr/0006-application-tablette.md` ; le numéro 0005 est pris par la voix sur tablette) : décisions ci-dessus, prérequis d'installation, risques ; sert de base aux fiches suivantes du lot (la partie voix est complétée par la fiche 04).
 - `docs/tablette.md` : procédure pas à pas pour préparer le Mac et la tablette.
 
 ## Critères d'acceptation
 
-- [ ] ADR 0005 rédigé et validé par Georges.
-- [ ] La liste des fiches iOS / Android du lot est ajustée selon les plateformes retenues.
+- [ ] ADR 0006 rédigé et validé par Georges.
+- [x] La liste des fiches iOS / Android du lot est ajustée selon les plateformes retenues (iPad seul : SUB023807 et SUB023905 mises de côté ; SUB023804, SUB023812, SUB023813 limitées à iOS).

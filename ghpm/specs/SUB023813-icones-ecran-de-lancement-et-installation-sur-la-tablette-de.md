@@ -26,8 +26,8 @@ Fiches 01 et 02.
 
 ## Comportement attendu
 
-- Icônes iOS et Android (jeu complet généré depuis l'icône existante, `tauri icon`), écran de lancement sobre (couleur de la charte, mascotte), nom affiché « Educator ».
-- iPad : installation sur appareil avec le compte retenu (profil de développement ou TestFlight) ; Android : APK ou AAB de test installable en sideload.
+- Icônes iOS (jeu complet généré depuis l'icône existante, `tauri icon`), écran de lancement sobre (couleur de la charte, mascotte), nom affiché « Educator ».
+- iPad : installation sur appareil avec l'Apple ID gratuit (« Personal Team », profil valable 7 jours, voir `docs/tablette.md`) ; TestFlight seulement si un compte Apple Developer est pris.
 - Procédure de mise à jour documentée dans `docs/tablette.md` (nouvelle version par-dessus, données conservées).
 - `THIRD-PARTY-NOTICES.md` : rien à ajouter si seule la voix du système est utilisée ; à vérifier.
 

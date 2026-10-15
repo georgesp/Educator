@@ -12,9 +12,11 @@ size: M
 estimate:
 startDate:
 endDate:
-parent: "#238"
+parent:
 order: 3070
 ---
+
+> **Mise de côté (2026-10-15, ADR 0006)** : le lot tablette part sur l'iPad seul. Fiche retirée du lot, conservée pour un futur lot « tablette Android ».
 
 ## User story
 
