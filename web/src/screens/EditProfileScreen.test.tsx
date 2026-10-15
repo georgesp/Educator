@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
+import { screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { ApiError, type Profile, type UpdateProfile } from "../api/client";
@@ -37,7 +37,7 @@ describe("EditProfileScreen", () => {
     await user.click(screen.getByRole("button", { name: "Enregistrer" }));
 
     await waitFor(() => expect(router.state.location.pathname).toBe("/"));
-    expect(api.updateProfile).toHaveBeenCalledWith("p-lea", { name: "Léonie", grade: "CE1", characterId: "ours" });
+    expect(api.updateProfile).toHaveBeenCalledWith("p-lea", { name: "Léonie", grade: "CE1", characterId: "ours", placementSeconds: 20, examSeconds: 0 });
     expect(await screen.findByRole("button", { name: "Jouer avec le profil de Léonie" })).toBeInTheDocument();
   });
 
@@ -91,5 +91,25 @@ describe("EditProfileScreen", () => {
     await user.click(screen.getByRole("button", { name: /Exercices/ }));
     await user.click(await screen.findByRole("button", { name: /Mathématiques/ }));
     await waitFor(() => expect(api.getSkills).toHaveBeenLastCalledWith("CE1", "Math", "p-lea"));
+  });
+
+  it("sets the timer of the level assessment and of the exam, « Sans chrono » included (SUB001418)", async () => {
+    const api = statefulApi();
+    renderApp(api, "/profil/p-lea?retour=menu");
+    const user = userEvent.setup();
+
+    const placement = await screen.findByRole("group", { name: "Évaluation de niveau" });
+    const exam = screen.getByRole("group", { name: "Examen (bilan)" });
+    // The current durations are shown: 20 s for the assessment, no timer for the exam.
+    expect(within(placement).getByRole("button", { name: "20 s" })).toHaveAttribute("aria-pressed", "true");
+    expect(within(exam).getByRole("button", { name: "Sans chrono" })).toHaveAttribute("aria-pressed", "true");
+    expect(within(placement).queryByRole("button", { name: "Sans chrono" })).not.toBeInTheDocument();
+
+    await user.click(within(placement).getByRole("button", { name: "45 s" }));
+    await user.click(within(exam).getByRole("button", { name: "30 s" }));
+    expect(within(placement).getByRole("button", { name: "20 s" })).toHaveAttribute("aria-pressed", "false");
+    await user.click(screen.getByRole("button", { name: "Enregistrer" }));
+
+    await waitFor(() => expect(api.updateProfile).toHaveBeenCalledWith("p-lea", expect.objectContaining({ placementSeconds: 45, examSeconds: 30 })));
   });
 });

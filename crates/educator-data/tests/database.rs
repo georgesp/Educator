@@ -45,7 +45,7 @@ fn new_database_applies_the_initial_migration_without_backup() {
 
     assert!(db.path.is_file());
     assert_eq!(
-        vec!["0001_initial", "0002_sessions"],
+        vec!["0001_initial", "0002_sessions", "0003_question_timers"],
         report.applied_migrations
     );
     assert_eq!(None, report.backup_path);
@@ -108,7 +108,7 @@ fn database_of_the_dotnet_version_is_adopted_with_its_profiles() {
     let (database, report) = open(&db.path, Arc::new(SystemClock));
 
     assert_eq!(
-        vec!["0001_initial", "0002_sessions"],
+        vec!["0001_initial", "0002_sessions", "0003_question_timers"],
         report.applied_migrations
     );
     let profiles = SqliteProfileStore::new(database).list().unwrap();
@@ -196,6 +196,8 @@ fn new_profile(name: &str, grade: Grade, last_used: i64) -> Profile {
         grade,
         character_id: "lion".to_owned(),
         points: 0,
+        placement_seconds: 20,
+        exam_seconds: 0,
         created_at: 0,
         updated_at: 0,
         last_used_at: last_used,
@@ -313,6 +315,27 @@ fn update_changes_name_grade_character_and_last_use_not_points() {
             })
             .unwrap()
     );
+}
+
+#[test]
+fn the_timers_of_a_profile_are_stored_and_a_new_profile_has_the_defaults() {
+    let db = temporary();
+    let (store, _) = profiles(&db);
+    let lea = store.add(&new_profile("Léa", Grade::CP, start())).unwrap();
+    assert_eq!((20, 0), (lea.placement_seconds, lea.exam_seconds));
+
+    let updated = store
+        .update(&Profile {
+            placement_seconds: 45,
+            exam_seconds: 30,
+            ..lea.clone()
+        })
+        .unwrap()
+        .unwrap();
+
+    assert_eq!((45, 30), (updated.placement_seconds, updated.exam_seconds));
+    let read = store.get(lea.id).unwrap().unwrap();
+    assert_eq!((45, 30), (read.placement_seconds, read.exam_seconds));
 }
 
 #[test]

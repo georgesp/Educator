@@ -1,6 +1,6 @@
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { setVoiceEnabled } from "../audio/useSpeech";
 import { fakeApi, renderApp } from "../test/renderWithApp";
 
@@ -31,6 +31,29 @@ describe("MenuScreen", () => {
     await user.click(screen.getByRole("button", { name: /Examen/ }));
     await waitFor(() => expect(router.state.location.pathname).toBe("/examen"));
     expect(api.speak).not.toHaveBeenCalledWith("Cette partie arrive bientôt.");
+  });
+
+  it("reminds the level assessment while a subject is still to do, and opens it (SUB001418)", async () => {
+    const api = fakeApi({
+      getPlacementStatus: vi.fn().mockResolvedValue({
+        subjects: [
+          { subject: "Math", available: false, done: true },
+          { subject: "Spelling", available: true, done: false },
+        ],
+        questionSeconds: 20,
+      }),
+    });
+    const router = renderApp(api, "/menu");
+
+    await userEvent.click(await screen.findByRole("button", { name: /Évaluation de niveau/ }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/evaluation"));
+  });
+
+  it("shows no reminder once every assessment is done", async () => {
+    renderApp(fakeApi(), "/menu");
+
+    await screen.findByRole("heading", { name: "En piste, Léa !" });
+    expect(screen.queryByRole("button", { name: /Évaluation de niveau/ })).not.toBeInTheDocument();
   });
 
   it("opens Exercises", async () => {

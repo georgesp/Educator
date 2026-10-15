@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYNw
-rev: 2026-10-11T18:48:36Z
+rev: 2026-10-13T16:39:18Z
 url: https://github.com/georgesp/Educator/issues/100
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000132 — Leçon CE1 — Additions de nombres plus petits que 100
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

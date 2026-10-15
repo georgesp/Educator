@@ -8,6 +8,7 @@ import {
   type Lesson,
   type Lessons,
   type Mascot,
+  type PlacementStatus,
   type ParentGate,
   type ParentProfile,
   type ProfileStatistics,
@@ -52,6 +53,10 @@ export type UiApi = {
   finishSeries(seriesId: string): Promise<SeriesSummary>;
   /** An exam of a subject: 15 questions up to the current period (SUB001414). */
   startExam(profileId: string, subject: Subject): Promise<Series>;
+  /** The subjects whose level assessment can still be taken (not done, with skills for the grade). */
+  getPlacementStatus(profileId: string): Promise<PlacementStatus>;
+  /** The level assessment of a subject (SUB001418): once per subject, valid once finished. */
+  startPlacement(profileId: string, subject: Subject): Promise<Series>;
   /** What the timed challenge offers: the mastered skills and the best score of each duration. */
   getTimedChallenge(profileId: string, subject: Subject): Promise<TimedChallenge>;
   /** A timed challenge of 60, 120 or 180 seconds (SUB001415). */
@@ -120,6 +125,8 @@ export function createUiApi(): UiApi {
     abandonSeries: (seriesId) => call("abandon_series", { seriesId }),
     finishSeries: (seriesId) => call("finish_series", { seriesId }),
     startExam: (profileId, subject) => call("start_exam", { profileId, subject }),
+    getPlacementStatus: (profileId) => call("get_placement_status", { profileId }),
+    startPlacement: (profileId, subject) => call("start_placement", { profileId, subject }),
     getTimedChallenge: (profileId, subject) => call("get_timed_challenge", { profileId, subject }),
     startTimed: (profileId, subject, seconds) => call("start_timed", { profileId, subject, seconds }),
     getMultiplicationTable: (number) => call("get_multiplication_table", { number }),

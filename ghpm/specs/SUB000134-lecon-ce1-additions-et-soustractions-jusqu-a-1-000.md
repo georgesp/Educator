@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYQ4
-rev: 2026-10-11T18:48:45Z
+rev: 2026-10-13T16:39:20Z
 url: https://github.com/georgesp/Educator/issues/102
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000134 — Leçon CE1 — Additions et soustractions jusqu'à 1 000
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

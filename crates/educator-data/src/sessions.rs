@@ -240,6 +240,7 @@ impl SessionStore for SqliteSessionStore {
             .prepare(
                 r#"SELECT a."IsCorrect" FROM "Answer" a JOIN "Session" s ON s."Id" = a."SessionId"
                    WHERE s."ProfileId" = ?1 AND a."SkillId" = ?2
+                   AND NOT (s."Type" = 'Placement' AND s."Abandoned" = 1)
                    ORDER BY a."AnsweredAt" DESC, a."Index" DESC LIMIT ?3"#,
             )
             .map_err(storage)?;
@@ -258,7 +259,8 @@ impl SessionStore for SqliteSessionStore {
             .connection()
             .query_row(
                 r#"SELECT COUNT(*) FROM "Answer" a JOIN "Session" s ON s."Id" = a."SessionId"
-                   WHERE s."ProfileId" = ?1 AND a."SkillId" = ?2"#,
+                   WHERE s."ProfileId" = ?1 AND a."SkillId" = ?2
+                   AND NOT (s."Type" = 'Placement' AND s."Abandoned" = 1)"#,
                 rusqlite::params![id_text(profile_id), skill_id],
                 |row| row.get(0),
             )
@@ -310,6 +312,7 @@ impl SessionStore for SqliteSessionStore {
         let mut statement = connection
             .prepare(&format!(
                 r#"SELECT {SESSION_COLUMNS} FROM "Session" WHERE "ProfileId" = ?1 AND "EndedAt" IS NOT NULL
+                   AND NOT ("Type" = 'Placement' AND "Abandoned" = 1)
                    ORDER BY "StartedAt", "Id""#
             ))
             .map_err(storage)?;
@@ -330,6 +333,7 @@ impl SessionStore for SqliteSessionStore {
             .prepare(&format!(
                 r#"SELECT {columns} FROM "Answer" a JOIN "Session" s ON s."Id" = a."SessionId"
                    WHERE s."ProfileId" = ?1 AND s."EndedAt" IS NOT NULL
+                   AND NOT (s."Type" = 'Placement' AND s."Abandoned" = 1)
                    ORDER BY a."AnsweredAt", a."Index""#
             ))
             .map_err(storage)?;

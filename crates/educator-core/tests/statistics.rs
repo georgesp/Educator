@@ -240,6 +240,44 @@ fn every_exercise_counts_its_series_its_points_and_their_evolution() {
 }
 
 #[test]
+fn a_finished_placement_is_listed_with_the_exams_and_an_abandoned_one_is_ignored() {
+    let mut data = Data::new();
+    data.session(
+        SessionType::Placement,
+        None,
+        "add",
+        at(12, 9),
+        300,
+        &results(4, 6),
+        0,
+        false,
+    );
+    // Left half way: it counts for nothing.
+    data.session(
+        SessionType::Placement,
+        None,
+        "sub",
+        at(13, 9),
+        120,
+        &results(1, 3),
+        0,
+        true,
+    );
+
+    let statistics = data.statistics();
+
+    assert_eq!(1, statistics.summary.session_count);
+    assert_eq!(6, statistics.summary.answer_count);
+    assert_eq!(1, statistics.tests.len());
+    assert_eq!(SessionType::Placement, statistics.tests[0].session_type);
+    assert_eq!((4, 6), (statistics.tests[0].correct_count, statistics.tests[0].question_count));
+    assert_eq!(1, statistics.skills.len());
+    assert_eq!("add", statistics.skills[0].skill_id);
+    assert_eq!(6, statistics.skills[0].answer_count);
+    assert_eq!(67, statistics.skills[0].mastery);
+}
+
+#[test]
 fn time_is_counted_by_day_and_by_week_and_long_sessions_are_capped() {
     let mut data = Data::new();
     data.session(

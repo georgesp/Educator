@@ -101,12 +101,44 @@ function SkillLine({ result, subject }: { result: SkillResult; subject: Subject 
   );
 }
 
+/** The strong points and the notions to work on of a review (exam, level assessment). */
+export function ExamResults({ summary, subject }: { summary: SeriesSummary; subject: Subject }) {
+  const strong = summary.skills.filter((s) => s.strong);
+  const rework = summary.skills.filter((s) => !s.strong);
+  return (
+    <div className="exam-results">
+      <section aria-labelledby="exam-strong">
+        <h2 id="exam-strong">{fr.exam.strong}</h2>
+        {strong.length === 0 ? (
+          <p className="message">{fr.exam.noStrong}</p>
+        ) : (
+          <ul className="plain-list">
+            {strong.map((r) => (
+              <SkillLine key={r.skillId} result={r} subject={subject} />
+            ))}
+          </ul>
+        )}
+      </section>
+      <section aria-labelledby="exam-rework">
+        <h2 id="exam-rework">{fr.exam.rework}</h2>
+        {rework.length === 0 ? (
+          <p className="message">{fr.exam.noRework}</p>
+        ) : (
+          <ul className="plain-list">
+            {rework.map((r) => (
+              <SkillLine key={r.skillId} result={r} subject={subject} />
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+}
+
 /** The end of the exam: score, fireworks when everything is right, strong points, notions to work on. */
 export function ExamSummary({ summary, subject, onAgain }: { summary: SeriesSummary; subject: Subject; onAgain(): void }) {
   const navigate = useNavigate();
   const perfect = summary.exerciseCount > 0 && summary.correctCount === summary.exerciseCount;
-  const strong = summary.skills.filter((s) => s.strong);
-  const rework = summary.skills.filter((s) => !s.strong);
   return (
     <motion.section className="summary" role="status" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
       <h1 className="title">{fr.exam.finished}</h1>
@@ -115,32 +147,7 @@ export function ExamSummary({ summary, subject, onAgain }: { summary: SeriesSumm
       {perfect && <Fireworks label={fr.series.allRight} />}
       {perfect && <p className="summary-perfect">{fr.series.allRight}</p>}
       <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
-      <div className="exam-results">
-        <section aria-labelledby="exam-strong">
-          <h2 id="exam-strong">{fr.exam.strong}</h2>
-          {strong.length === 0 ? (
-            <p className="message">{fr.exam.noStrong}</p>
-          ) : (
-            <ul className="plain-list">
-              {strong.map((r) => (
-                <SkillLine key={r.skillId} result={r} subject={subject} />
-              ))}
-            </ul>
-          )}
-        </section>
-        <section aria-labelledby="exam-rework">
-          <h2 id="exam-rework">{fr.exam.rework}</h2>
-          {rework.length === 0 ? (
-            <p className="message">{fr.exam.noRework}</p>
-          ) : (
-            <ul className="plain-list">
-              {rework.map((r) => (
-                <SkillLine key={r.skillId} result={r} subject={subject} />
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
+      <ExamResults summary={summary} subject={subject} />
       <div className="actions">
         <button type="button" className="button" onClick={() => void navigate("/menu")}>
           {fr.series.menu}

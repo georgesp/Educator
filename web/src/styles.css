@@ -1892,6 +1892,54 @@ body {
   white-space: nowrap;
 }
 
+/* Time of one question (SUB001418): the bar empties by itself, redder in the last seconds. */
+.question-timer {
+  margin-bottom: 8px;
+}
+
+.question-timer-fill {
+  background: var(--primary);
+}
+
+.question-timer-low {
+  background: var(--incorrect);
+}
+
+.question-timer-seconds {
+  min-width: 3.5ch;
+  text-align: right;
+}
+
+.timer-picker {
+  margin: 12px 0 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timer-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timer-group-label {
+  font-weight: 700;
+}
+
+.placement-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(640px, 100%);
+}
+
+.menu-banner {
+  margin-bottom: 8px;
+}
+
 .exam-results {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

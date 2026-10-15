@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000123 — Exercices CE1 — Les premières fractions
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

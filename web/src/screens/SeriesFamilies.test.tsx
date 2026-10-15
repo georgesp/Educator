@@ -15,6 +15,7 @@ function oneExercise(exercise: Omit<Exercise, "index">, expected: AnswerPayload,
     instruction: "Consigne.",
     answerMode: "Keyboard",
     timeLimitSeconds: null,
+    questionSeconds: null,
     exercises: [{ index: 0, ...exercise }],
   };
   const answerSeries = vi.fn(async (_s: string, _i: number, given: AnswerPayload) => ({

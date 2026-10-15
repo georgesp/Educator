@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000119 — Exercices CE1 — Le signe × et les tables de multiplication
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

@@ -218,9 +218,12 @@ impl SessionStore for InMemorySessionStore {
             .iter()
             .filter(|a| {
                 a.skill_id == skill_id
-                    && sessions
-                        .iter()
-                        .any(|s| s.id == a.session_id && s.profile_id == profile_id)
+                    && sessions.iter().any(|s| {
+                        s.id == a.session_id
+                            && s.profile_id == profile_id
+                            // An abandoned level assessment does not count.
+                            && !(s.session_type == SessionType::Placement && s.abandoned)
+                    })
             })
             .cloned()
             .collect();
@@ -259,7 +262,11 @@ impl SessionStore for InMemorySessionStore {
             .lock()
             .unwrap()
             .iter()
-            .filter(|s| s.profile_id == profile_id && s.ended_at.is_some())
+            .filter(|s| {
+                s.profile_id == profile_id
+                    && s.ended_at.is_some()
+                    && !(s.session_type == SessionType::Placement && s.abandoned)
+            })
             .cloned()
             .collect();
         found.sort_by_key(|s| s.started_at);

@@ -148,6 +148,7 @@ pub enum SessionType {
     Exam,
     Timed,
     LessonQuiz,
+    Placement,
 }
 
 impl From<sessions::SessionType> for SessionType {
@@ -157,6 +158,7 @@ impl From<sessions::SessionType> for SessionType {
             sessions::SessionType::Exam => SessionType::Exam,
             sessions::SessionType::Timed => SessionType::Timed,
             sessions::SessionType::LessonQuiz => SessionType::LessonQuiz,
+            sessions::SessionType::Placement => SessionType::Placement,
         }
     }
 }
@@ -345,6 +347,10 @@ pub struct ProfileResponse {
     pub grade: Grade,
     pub character_id: String,
     pub points: i32,
+    /// Seconds given per question of the level assessment.
+    pub placement_seconds: u32,
+    /// Seconds given per question of an exam; 0 is no timer.
+    pub exam_seconds: u32,
     /// ISO 8601 instant in UTC, e.g. `2026-10-11T08:00:00.000Z`.
     pub last_used_at: String,
 }
@@ -357,6 +363,8 @@ impl From<&Profile> for ProfileResponse {
             grade: profile.grade.into(),
             character_id: profile.character_id.clone(),
             points: profile.points,
+            placement_seconds: profile.placement_seconds,
+            exam_seconds: profile.exam_seconds,
             last_used_at: iso_8601(profile.last_used_at),
         }
     }
@@ -396,6 +404,14 @@ pub struct UpdateProfileRequest {
     #[serde(default)]
     #[cfg_attr(test, ts(optional))]
     pub character_id: Option<String>,
+    /// Seconds per question of the level assessment (15, 20, 30, 45 or 60).
+    #[serde(default)]
+    #[cfg_attr(test, ts(optional))]
+    pub placement_seconds: Option<u32>,
+    /// Seconds per question of an exam (0 for no timer, 20, 30, 45 or 60).
+    #[serde(default)]
+    #[cfg_attr(test, ts(optional))]
+    pub exam_seconds: Option<u32>,
 }
 
 // ── Series (SUB000107, SUB000110) ────────────────────────────────────────────────────────────
@@ -433,6 +449,8 @@ pub struct SeriesResponse {
     pub answer_mode: AnswerMode,
     /// Duration of a timed challenge, in seconds.
     pub time_limit_seconds: Option<u32>,
+    /// Seconds given per question (level assessment, exam with a timer); null without a timer.
+    pub question_seconds: Option<u32>,
     pub exercises: Vec<ExerciseResponse>,
 }
 
@@ -447,6 +465,7 @@ impl From<&exercises::Series> for SeriesResponse {
             instruction: series.instruction.clone(),
             answer_mode: series.answer_mode.into(),
             time_limit_seconds: series.time_limit_seconds,
+            question_seconds: series.question_seconds,
             exercises: series.exercises.iter().map(Into::into).collect(),
         }
     }
@@ -807,6 +826,8 @@ pub enum AnswerPayload {
     Text {
         value: String,
     },
+    /// The time given for the question ran out: no answer, always wrong.
+    TimedOut,
 }
 
 impl From<&Answer> for AnswerPayload {
@@ -831,6 +852,7 @@ impl From<&Answer> for AnswerPayload {
                 value: answer.label(),
             },
             Answer::Text(value) | Answer::Spelling(value) => AnswerPayload::Text { value },
+            Answer::TimedOut => AnswerPayload::TimedOut,
         }
     }
 }
@@ -852,6 +874,7 @@ impl From<AnswerPayload> for Answer {
             AnswerPayload::Sequence { values } => Answer::Sequence(values),
             AnswerPayload::Set { values } => Answer::Set(values),
             AnswerPayload::Text { value } => Answer::Text(value),
+            AnswerPayload::TimedOut => Answer::TimedOut,
         }
     }
 }
@@ -1074,6 +1097,28 @@ pub struct TimedDurationResponse {
     pub seconds: u32,
     /// Best number of right answers, when the profile already played this duration.
     pub best: Option<u32>,
+}
+
+/// The level assessment of a profile: which subjects can still be taken.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct PlacementStatusResponse {
+    /// One entry per subject, in the order of the menu.
+    pub subjects: Vec<PlacementSubjectResponse>,
+    /// Seconds given per question, from the profile's options.
+    pub question_seconds: u32,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(test, derive(ts_rs::TS))]
+pub struct PlacementSubjectResponse {
+    pub subject: Subject,
+    /// Not done yet and the grade has skills in the subject.
+    pub available: bool,
+    /// Finished: an abandoned assessment does not count.
+    pub done: bool,
 }
 
 impl SeriesSummaryResponse {

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000121 — Exercices CE1 — Les nombres jusqu'à 1 000
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

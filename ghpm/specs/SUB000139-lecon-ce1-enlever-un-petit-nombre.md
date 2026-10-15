@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYZk
-rev: 2026-10-11T18:48:40Z
+rev: 2026-10-13T16:39:29Z
 url: https://github.com/georgesp/Educator/issues/107
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000139 — Leçon CE1 — Enlever un petit nombre
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

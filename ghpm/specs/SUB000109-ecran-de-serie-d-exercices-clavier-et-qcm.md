@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000109 — Écran de série d'exercices (clavier et QCM)
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

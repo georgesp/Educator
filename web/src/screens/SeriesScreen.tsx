@@ -21,6 +21,7 @@ import { Statement } from "../components/exercise/Statement";
 import { RequireProfile } from "../components/RequireProfile";
 import { SpellingAnswer } from "../components/spelling/SpellingAnswer";
 import { WordCorrection } from "../components/spelling/WordCorrection";
+import { QuestionTimer } from "../components/child/QuestionTimer";
 import { TimerBar } from "../components/child/TimerBar";
 import { Mascot } from "../components/child/Mascot";
 import { fr } from "../i18n/fr";
@@ -100,6 +101,8 @@ function instructionOf(series: Series): string {
       return fr.exam.instruction;
     case "Timed":
       return fr.exam.timedInstruction;
+    case "Placement":
+      return fr.placement.instruction;
     default:
       return series.instruction;
   }
@@ -136,12 +139,28 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
   const [phase, setPhase] = useState<Phase>({ kind: "answering" });
   const [confirmQuit, setConfirmQuit] = useState(false);
   const [points, setPoints] = useState(profile.points);
+  // The timer of a question (level assessment, exam with a timer) runs once the question is read.
+  const [timerRunning, setTimerRunning] = useState(false);
+  // Which question the timer belongs to: a late end of reading must not start the next one's.
+  const turn = useRef(0);
   const started = useRef(-1);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   // When the exercise was shown, for the time taken to answer (SUB001401).
   const shownAt = useRef(Date.now());
   // The voice is on for the French exercises.
   useVoiceWhile(series?.subject === "Spelling");
+
+  const timed = series?.sessionType === "Timed";
+  const questionSeconds = series?.questionSeconds ?? null;
+  const questionTimed = questionSeconds !== null && questionSeconds > 0;
+  // With a timer on each question, the next one comes by itself, as in a timed challenge.
+  const autoNext = timed || questionTimed;
+
+  const startTimer = (token: number) => {
+    if (turn.current === token) {
+      setTimerRunning(true);
+    }
+  };
 
   const resetAnswer = () => {
     setValues([]);
@@ -157,15 +176,22 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       setResults(created.exercises.map(() => null));
       setPhase({ kind: "answering" });
       shownAt.current = Date.now();
+      const token = ++turn.current;
+      const withTimer = (created.questionSeconds ?? 0) > 0;
+      setTimerRunning(false);
       const first = created.exercises[0];
       if (first?.word) {
         // A French exercise: the instruction, then the word to write.
         setVoiceEnabled(true);
         await speak(instructionOf(created));
         await dictateWord(created.seriesId, 0, first.word.hasExample);
+      } else if (withTimer) {
+        // The time given starts once the question is read.
+        await speak(`${instructionOf(created)} ${first?.spokenPrompt ?? ""}`);
       } else {
         void speak(`${instructionOf(created)} ${first?.spokenPrompt ?? ""}`);
       }
+      startTimer(token);
     },
   });
 
@@ -202,9 +228,14 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
     resetAnswer();
     setPhase({ kind: "answering" });
     shownAt.current = Date.now();
+    const token = ++turn.current;
+    setTimerRunning(false);
     const word = series?.exercises[next]?.word;
     if (series && word) {
-      void dictateWord(series.seriesId, next, word.hasExample);
+      // The time starts once the word is dictated.
+      void dictateWord(series.seriesId, next, word.hasExample).then(() => startTimer(token));
+    } else {
+      startTimer(token);
     }
   };
 
@@ -214,18 +245,17 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
       setResults((current) => current.map((r, i) => (i === index ? outcome.correct : r)));
       // The time of a challenge may run out while the answer is on its way: the end stays shown.
       setPhase((current) => (current.kind === "finished" ? current : { kind: "answered", outcome, given }));
-      if (!outcome.correct && series?.sessionType !== "Timed") {
+      if (!outcome.correct && !autoNext) {
         void speak(outcome.explanation);
       }
     },
   });
 
-  const timed = series?.sessionType === "Timed";
-
   // A right answer moves on by itself; after a mistake the child reads the correction and clicks
-  // « Suivant » — in a timed challenge, the next question comes by itself too.
+  // « Suivant » — in a timed challenge, or with a timer on each question, the next question comes by
+  // itself too.
   useEffect(() => {
-    if (phase.kind !== "answered" || (!phase.outcome.correct && !timed)) {
+    if (phase.kind !== "answered" || (!phase.outcome.correct && !autoNext)) {
       return;
     }
 
@@ -419,9 +449,18 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
         <RaceTrack done={answeredCount} total={total} results={results} label={fr.series.progress(Math.min(index + 1, total), total)} />
       )}
 
+      {questionSeconds !== null && questionTimed && phase.kind === "answering" && (
+        <QuestionTimer
+          key={`timer-${index}`}
+          seconds={questionSeconds}
+          running={timerRunning && !confirmQuit && !check.isPending}
+          onOver={() => submit({ kind: "timedOut" })}
+        />
+      )}
+
       {confirmQuit && phase.kind !== "finished" && (
         <div className="quit-confirm" role="alertdialog" aria-labelledby="quit-question">
-          <p id="quit-question">{fr.series.quitQuestion}</p>
+          <p id="quit-question">{series.sessionType === "Placement" ? fr.placement.quitQuestion : fr.series.quitQuestion}</p>
           <div className="actions">
             <button type="button" className="button" onClick={() => setConfirmQuit(false)} autoFocus>
               {fr.series.quitNo}
@@ -571,7 +610,11 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
                   <Feedback kind="correct" message={fr.series.correct[index % fr.series.correct.length]} />
                 ) : (
                   <>
-                    <Feedback kind="incorrect" message={fr.series.incorrect} detail={answered.outcome.explanation} />
+                    <Feedback
+                      kind="incorrect"
+                      message={answered.given.kind === "timedOut" ? fr.placement.timeUp : fr.series.incorrect}
+                      detail={answered.outcome.explanation}
+                    />
                     {answered.outcome.correction && <WordCorrection correction={answered.outcome.correction} />}
                     {answered.outcome.help && (
                       <figure className="answer-help">
@@ -579,7 +622,7 @@ export function SeriesRun({ profile, answerMode, start: create, renderSummary, s
                         <ExercisePicture picture={answered.outcome.help} />
                       </figure>
                     )}
-                    {!timed && (
+                    {!autoNext && (
                       <button type="button" className="button button-primary" onClick={() => goNext(answered.outcome)} autoFocus>
                         {fr.series.next}
                       </button>

@@ -425,6 +425,52 @@ fn exams_are_composed_from_the_skills_reached_without_duplicates() {
     }
 }
 
+/// SUB001418: a level assessment asks 2 or 3 questions per skill of the grade up to the current
+/// period, 30 at most, never twice the same question, whatever the grade, period and seed.
+#[test]
+fn placements_are_composed_from_the_skills_reached_without_duplicates() {
+    use educator_core::exercises::exam::{
+        compose_placement, exam_skills, PLACEMENT_MAX_LENGTH, PLACEMENT_MAX_PER_SKILL,
+    };
+    let skills = &content().skills;
+    for subject in [Subject::Math, Subject::Spelling] {
+        for grade in [Grade::CP, Grade::CE1] {
+            let offered = skills.offered_to(subject, grade);
+            for period in 1..=5u8 {
+                let weighted = exam_skills(&offered, period);
+                assert!(!weighted.is_empty(), "{subject:?} {grade} P{period}");
+                for seed in 0..40u64 {
+                    let placement = compose_placement(&weighted, seed).unwrap();
+                    assert!(
+                        !placement.is_empty() && placement.len() <= PLACEMENT_MAX_LENGTH,
+                        "{subject:?} {grade} P{period}: {} questions",
+                        placement.len()
+                    );
+                    let keys: HashSet<String> = placement
+                        .iter()
+                        .map(|q| format!("{}|{}", q.exercise.prompt(), q.exercise.key))
+                        .collect();
+                    assert_eq!(
+                        placement.len(),
+                        keys.len(),
+                        "duplicate in {subject:?} {grade} P{period}"
+                    );
+                    for (i, q) in placement.iter().enumerate() {
+                        assert_eq!(i, q.exercise.index);
+                        assert!(q.exercise.is_correct(&q.exercise.expected.as_given()));
+                        let skill = skills.find(&q.skill_id).unwrap();
+                        assert!(skill.grade == grade && skill.period <= period);
+                    }
+                    for (skill, _) in &weighted {
+                        let asked = placement.iter().filter(|q| q.skill_id == skill.id).count();
+                        assert!(asked <= PLACEMENT_MAX_PER_SKILL, "{} asked {asked} times", skill.id);
+                    }
+                }
+            }
+        }
+    }
+}
+
 /// SUB001417: the mascot has her four expressions and phrases for every situation.
 #[test]
 fn the_mascot_has_four_expressions_and_phrases_for_every_situation() {

@@ -33,6 +33,27 @@ describe("ProfilesScreen", () => {
     expect(api.createProfile).toHaveBeenCalledWith("Tom", "CE1", "ours");
   });
 
+  it("offers the level assessment after the creation of a profile (SUB001418)", async () => {
+    const api = fakeApi({
+      listProfiles: vi.fn().mockResolvedValue([]),
+      getPlacementStatus: vi.fn().mockResolvedValue({
+        subjects: [
+          { subject: "Math", available: true, done: false },
+          { subject: "Spelling", available: true, done: false },
+        ],
+        questionSeconds: 20,
+      }),
+    });
+    const router = renderApp(api, "/", null);
+    const user = userEvent.setup();
+
+    await user.type(await screen.findByLabelText("Ton prénom"), "Tom");
+    await user.click(await screen.findByRole("button", { name: "C'est parti !" }));
+
+    await waitFor(() => expect(router.state.location.pathname).toBe("/evaluation"));
+    expect(await screen.findByRole("heading", { name: "Évaluation de niveau" })).toBeInTheDocument();
+  });
+
   it("explains a refused name in a simple sentence", async () => {
     const api = fakeApi({
       listProfiles: vi.fn().mockResolvedValue([]),

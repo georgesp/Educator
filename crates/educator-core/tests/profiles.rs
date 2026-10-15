@@ -127,6 +127,44 @@ fn update_changes_only_the_given_fields() {
 }
 
 #[test]
+fn a_profile_starts_with_a_twenty_second_assessment_and_exams_without_timer() {
+    let profile = service().create("Léa", Grade::CP, None).unwrap();
+
+    assert_eq!((20, 0), (profile.placement_seconds, profile.exam_seconds));
+}
+
+#[test]
+fn update_timers_changes_the_given_durations_and_refuses_the_others() {
+    let service = service();
+    let lea = service.create("Léa", Grade::CP, None).unwrap();
+
+    let only_assessment = service.update_timers(lea.id, Some(45), None).unwrap();
+    assert_eq!((45, 0), (only_assessment.placement_seconds, only_assessment.exam_seconds));
+    let both = service.update_timers(lea.id, Some(15), Some(60)).unwrap();
+    assert_eq!((15, 60), (both.placement_seconds, both.exam_seconds));
+    let nothing = service.update_timers(lea.id, None, None).unwrap();
+    assert_eq!((15, 60), (nothing.placement_seconds, nothing.exam_seconds));
+    assert_eq!(
+        ("examSeconds", "Cette durée n'est pas proposée.".to_owned()),
+        validation_message(service.update_timers(lea.id, None, Some(25)))
+    );
+    // 0 is no timer for an exam, but not an assessment without time.
+    assert_eq!(0, service.update_timers(lea.id, None, Some(0)).unwrap().exam_seconds);
+    assert_eq!(
+        "placementSeconds",
+        validation_message(service.update_timers(lea.id, Some(0), None)).0
+    );
+    assert_eq!((15, 0), {
+        let kept = service.get(lea.id).unwrap();
+        (kept.placement_seconds, kept.exam_seconds)
+    });
+    assert!(matches!(
+        service.update_timers(Uuid::now_v7(), Some(20), None),
+        Err(Error::ProfileNotFound(_))
+    ));
+}
+
+#[test]
 fn update_keeping_its_own_name_is_allowed() {
     let service = service();
     let profile = service.create("Tom", Grade::CP, None).unwrap();

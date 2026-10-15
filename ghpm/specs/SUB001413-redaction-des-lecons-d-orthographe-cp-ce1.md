@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Wd4
-rev: 2026-10-10T19:39:18Z
+rev: 2026-10-14T06:20:02Z
 url: https://github.com/georgesp/Educator/issues/29
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001413 — Rédaction des leçons d'orthographe CP–CE1
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

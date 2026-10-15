@@ -8,7 +8,7 @@ export type Subject = "Math" | "Spelling";
 
 export type SpellingFormat = "Dictation" | "MissingLetters" | "ChooseSpelling";
 
-export type SessionType = "Exercise" | "Exam" | "Timed" | "LessonQuiz";
+export type SessionType = "Exercise" | "Exam" | "Timed" | "LessonQuiz" | "Placement";
 
 export type CharacterKind = "Animal" | "Child";
 
@@ -74,6 +74,14 @@ export type CharacterResponse = { id: string, name: string, kind: CharacterKind,
 
 export type ProfileResponse = { id: string, name: string, grade: Grade, characterId: string, points: number, 
 /**
+ * Seconds given per question of the level assessment.
+ */
+placementSeconds: number, 
+/**
+ * Seconds given per question of an exam; 0 is no timer.
+ */
+examSeconds: number, 
+/**
  * ISO 8601 instant in UTC, e.g. `2026-10-11T08:00:00.000Z`.
  */
 lastUsedAt: string, };
@@ -84,7 +92,15 @@ export type CreateProfileRequest = { name: string, grade: Grade,
  */
 characterId?: string, };
 
-export type UpdateProfileRequest = { name?: string, grade?: Grade, characterId?: string, };
+export type UpdateProfileRequest = { name?: string, grade?: Grade, characterId?: string, 
+/**
+ * Seconds per question of the level assessment (15, 20, 30, 45 or 60).
+ */
+placementSeconds?: number, 
+/**
+ * Seconds per question of an exam (0 for no timer, 20, 30, 45 or 60).
+ */
+examSeconds?: number, };
 
 export type StartSeriesRequest = { profileId: string, skillId: string, answerMode: AnswerMode, 
 /**
@@ -108,7 +124,11 @@ instruction: string, answerMode: AnswerMode,
 /**
  * Duration of a timed challenge, in seconds.
  */
-timeLimitSeconds: number | null, exercises: Array<ExerciseResponse>, };
+timeLimitSeconds: number | null, 
+/**
+ * Seconds given per question (level assessment, exam with a timer); null without a timer.
+ */
+questionSeconds: number | null, exercises: Array<ExerciseResponse>, };
 
 export type ExerciseResponse = { index: number, 
 /**
@@ -168,7 +188,7 @@ export type ChoiceResponse = { label: string, answer: AnswerPayload, };
 
 export type ComparisonSign = "<" | ">" | "=";
 
-export type AnswerPayload = { "kind": "number", value: number, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "comparison", sign: ComparisonSign, } | { "kind": "yesNo", value: boolean, } | { "kind": "sequence", values: Array<number>, } | { "kind": "set", values: Array<number>, } | { "kind": "text", value: string, };
+export type AnswerPayload = { "kind": "number", value: number, } | { "kind": "fraction", numerator: number, denominator: number, } | { "kind": "comparison", sign: ComparisonSign, } | { "kind": "yesNo", value: boolean, } | { "kind": "sequence", values: Array<number>, } | { "kind": "set", values: Array<number>, } | { "kind": "text", value: string, } | { "kind": "timedOut", };
 
 export type SeriesAnswerResponse = { correct: boolean, expected: AnswerPayload, 
 /**
@@ -259,6 +279,26 @@ export type TimedDurationResponse = { seconds: number,
  * Best number of right answers, when the profile already played this duration.
  */
 best: number | null, };
+
+export type PlacementStatusResponse = { 
+/**
+ * One entry per subject, in the order of the menu.
+ */
+subjects: Array<PlacementSubjectResponse>, 
+/**
+ * Seconds given per question, from the profile's options.
+ */
+questionSeconds: number, };
+
+export type PlacementSubjectResponse = { subject: Subject, 
+/**
+ * Not done yet and the grade has skills in the subject.
+ */
+available: boolean, 
+/**
+ * Finished: an abandoned assessment does not count.
+ */
+done: boolean, };
 
 export type MultiplicationTableResponse = { number: number, lines: Array<TableLineResponse>, };
 

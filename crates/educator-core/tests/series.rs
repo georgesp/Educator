@@ -31,6 +31,8 @@ fn fixture(extra: Vec<educator_core::skills::Skill>) -> Fixture {
             grade: Grade::CP,
             character_id: "lion".to_owned(),
             points: 0,
+            placement_seconds: 20,
+            exam_seconds: 0,
             created_at: now,
             updated_at: now,
             last_used_at: now,
@@ -433,6 +435,8 @@ fn fixture_with_clock(extra: Vec<educator_core::skills::Skill>) -> (Fixture, Arc
             grade: Grade::CP,
             character_id: "lion".to_owned(),
             points: 0,
+            placement_seconds: 20,
+            exam_seconds: 0,
             created_at: now,
             updated_at: now,
             last_used_at: now,
@@ -497,6 +501,143 @@ fn an_exam_mixes_the_skills_reached_and_is_recorded() {
         (session.session_type, session.correct_count)
     );
     assert_eq!(2, f.sessions.masteries(f.profile.id).unwrap().len());
+}
+
+#[test]
+fn a_placement_asks_two_or_three_questions_per_skill_and_counts_once_finished() {
+    let mut second = skill("second");
+    second.right = educator_core::skills::OperandRule::range(0, 5);
+    let (f, _) = fixture_with_clock(vec![second]);
+    let id = f.profile.id;
+
+    assert!(f.service.placement_available(id, Subject::Math, 1).unwrap());
+    assert!(!f.service.placement_done(id, Subject::Math).unwrap());
+    let placement = f
+        .service
+        .start_placement(id, Subject::Math, 1, Some(3))
+        .unwrap();
+
+    assert_eq!(SessionType::Placement, placement.session_type);
+    assert_eq!(None, placement.skill_id);
+    // The default timer of a profile: 20 seconds per question.
+    assert_eq!(Some(20), placement.question_seconds);
+    // Two skills: three questions each (30 allows it).
+    assert_eq!(6, placement.exercises.len());
+    for skill_id in ["test-skill", "second"] {
+        let asked = placement.skill_ids.iter().filter(|s| *s == skill_id).count();
+        assert_eq!(3, asked, "{skill_id}");
+    }
+    // Not done while it is not finished.
+    assert!(!f.service.placement_done(id, Subject::Math).unwrap());
+
+    let mut summary = None;
+    for e in &placement.exercises {
+        summary = f
+            .service
+            .answer(placement.id, e.index, &e.expected, Some(900))
+            .unwrap()
+            .summary;
+    }
+    let summary = summary.unwrap();
+    // No points for an assessment.
+    assert_eq!((6, 6, 0), (summary.correct_count, summary.exercise_count, summary.points_earned));
+    assert_eq!(0, points(&f));
+    // Done: it feeds the masteries and cannot be taken again.
+    assert!(f.service.placement_done(id, Subject::Math).unwrap());
+    assert!(!f.service.placement_available(id, Subject::Math, 1).unwrap());
+    assert!(matches!(
+        f.service.start_placement(id, Subject::Math, 1, Some(4)),
+        Err(Error::SeriesRequest(_))
+    ));
+    assert_eq!(2, f.sessions.masteries(id).unwrap().len());
+    assert_eq!(1, f.sessions.profile_sessions(id).unwrap().len());
+    assert_eq!(6, f.sessions.profile_answers(id).unwrap().len());
+    // The other subject is still to do (it has no skill here, so it is not offered).
+    assert!(!f.service.placement_done(id, Subject::Spelling).unwrap());
+    assert!(!f
+        .service
+        .placement_available(id, Subject::Spelling, 1)
+        .unwrap());
+}
+
+#[test]
+fn an_abandoned_placement_counts_for_nothing_and_is_to_do_again() {
+    let (f, _) = fixture_with_clock(vec![]);
+    let id = f.profile.id;
+    let placement = f
+        .service
+        .start_placement(id, Subject::Math, 1, Some(3))
+        .unwrap();
+    let first = &placement.exercises[0];
+    f.service
+        .answer(placement.id, 0, &first.expected, None)
+        .unwrap();
+
+    let summary = f.service.abandon(placement.id).unwrap();
+
+    assert_eq!(0, summary.points_earned);
+    assert!(!f.service.placement_done(id, Subject::Math).unwrap());
+    assert!(f.service.placement_available(id, Subject::Math, 1).unwrap());
+    // Neither the masteries nor the statistics see it.
+    assert!(f.sessions.masteries(id).unwrap().is_empty());
+    assert!(f.sessions.profile_sessions(id).unwrap().is_empty());
+    assert!(f.sessions.profile_answers(id).unwrap().is_empty());
+    assert!(f.sessions.recent_results(id, "test-skill", 20).unwrap().is_empty());
+    // It can be taken again, and then it counts.
+    let again = f
+        .service
+        .start_placement(id, Subject::Math, 1, Some(4))
+        .unwrap();
+    assert_ne!(placement.id, again.id);
+    for e in &again.exercises {
+        f.service
+            .answer(again.id, e.index, &e.expected, None)
+            .unwrap();
+    }
+    assert!(f.service.placement_done(id, Subject::Math).unwrap());
+}
+
+#[test]
+fn a_question_out_of_time_is_wrong_and_the_exam_timer_comes_from_the_profile() {
+    let (f, _) = fixture_with_clock(vec![]);
+    let id = f.profile.id;
+    let placement = f
+        .service
+        .start_placement(id, Subject::Math, 1, Some(3))
+        .unwrap();
+
+    let outcome = f
+        .service
+        .answer(placement.id, 0, &Answer::TimedOut, Some(20_000))
+        .unwrap();
+
+    assert!(!outcome.correct);
+    let recorded = f.sessions.answers(placement.id).unwrap();
+    assert_eq!(("", false), (recorded[0].given.as_str(), recorded[0].is_correct));
+
+    // An exam has no timer until the profile asks for one.
+    let exam = f
+        .service
+        .start_exam(id, Subject::Math, 1, Some(3))
+        .unwrap();
+    assert_eq!(None, exam.question_seconds);
+    f.profiles
+        .update(&Profile {
+            exam_seconds: 30,
+            placement_seconds: 45,
+            ..f.profile.clone()
+        })
+        .unwrap();
+    let exam = f
+        .service
+        .start_exam(id, Subject::Math, 1, Some(3))
+        .unwrap();
+    assert_eq!(Some(30), exam.question_seconds);
+    let placement = f
+        .service
+        .start_placement(id, Subject::Math, 1, Some(5))
+        .unwrap();
+    assert_eq!(Some(45), placement.question_seconds);
 }
 
 #[test]

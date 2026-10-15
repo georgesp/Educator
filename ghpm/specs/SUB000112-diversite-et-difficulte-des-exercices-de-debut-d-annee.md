@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000112 — Diversité et difficulté des exercices de début d'année
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

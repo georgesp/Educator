@@ -9,6 +9,8 @@ export const queryKeys = {
   characterSvg: (id: string) => ["character-svg", id] as const,
   skills: (grade: Grade, subject: Subject = "Math", profileId?: string) => ["skills", grade, subject, profileId ?? null] as const,
   parentProfile: ["parent-profile"] as const,
+  /** The level assessment of a profile (which subjects remain). */
+  placement: (profileId: string) => ["placement", profileId] as const,
   /** Statistics of a profile in the parents' space. */
   statistics: (profileId: string) => ["profile-statistics", profileId] as const,
 };
@@ -37,6 +39,17 @@ export function useCharacters() {
 export function useSkills(grade: Grade, subject: Subject = "Math", profileId?: string) {
   const api = useApi();
   return useQuery({ queryKey: queryKeys.skills(grade, subject, profileId), queryFn: () => api.getSkills(grade, subject, profileId) });
+}
+
+/** The level assessment of a profile: the subjects still to do. Always read again (staleTime 0). */
+export function usePlacementStatus(profileId: string | undefined) {
+  const api = useApi();
+  return useQuery({
+    queryKey: queryKeys.placement(profileId ?? ""),
+    queryFn: () => api.getPlacementStatus(profileId!),
+    enabled: profileId !== undefined,
+    staleTime: 0,
+  });
 }
 
 /** The parents' card of the profile choice (created by the core the first time). */

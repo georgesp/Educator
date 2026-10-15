@@ -99,6 +99,9 @@ pub enum Answer {
     /// A word or letters to write (spelling, SUB001405): no tolerance on accents, capitals
     /// tolerated. The child's answer is a [`Answer::Text`].
     Spelling(String),
+    /// No answer: the time given for the question ran out (level assessment, timed exam). Never
+    /// expected, always wrong.
+    TimedOut,
 }
 
 impl Answer {
@@ -131,6 +134,7 @@ impl Answer {
             Answer::Sequence(values) | Answer::Set(values) => join_numbers(values),
             Answer::Words(n) => spell(*n, Spelling::Traditional),
             Answer::Text(text) | Answer::Spelling(text) => text.clone(),
+            Answer::TimedOut => String::new(),
         }
     }
 

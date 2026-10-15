@@ -2,6 +2,9 @@
 
 use crate::characters::{CharacterCatalog, CharacterInfo};
 use crate::clock::{uuid_v7, Clock};
+use crate::exercises::exam::{
+    DEFAULT_EXAM_SECONDS, DEFAULT_PLACEMENT_SECONDS, EXAM_SECONDS, PLACEMENT_SECONDS,
+};
 use crate::random::RandomSource;
 use crate::{Error, Grade, Result};
 use std::fmt;
@@ -18,6 +21,10 @@ pub struct Profile {
     /// Id from `characters.json`; becomes the avatar configuration in lot 3.
     pub character_id: String,
     pub points: i32,
+    /// Seconds given for each question of the level assessment ([`PLACEMENT_SECONDS`]).
+    pub placement_seconds: u32,
+    /// Seconds given for each question of an exam ([`EXAM_SECONDS`]); 0 is no timer.
+    pub exam_seconds: u32,
     /// UTC Unix milliseconds, filled by the store.
     pub created_at: i64,
     pub updated_at: i64,
@@ -64,6 +71,7 @@ pub const NAME_REQUIRED: &str = "Écris ton prénom.";
 pub const NAME_TAKEN: &str = "Ce prénom est déjà pris. Choisis-en un autre.";
 pub const GRADE_REQUIRED: &str = "Choisis ta classe.";
 pub const UNKNOWN_CHARACTER: &str = "Ce personnage n'existe pas.";
+pub const UNKNOWN_TIMER: &str = "Cette durée n'est pas proposée.";
 
 pub fn name_too_long() -> String {
     format!("Ton prénom est trop long : {MAX_NAME_LENGTH} lettres au maximum.")
@@ -129,6 +137,8 @@ impl ProfileService {
             grade,
             character_id: character,
             points: 0,
+            placement_seconds: DEFAULT_PLACEMENT_SECONDS,
+            exam_seconds: DEFAULT_EXAM_SECONDS,
             created_at: 0,
             updated_at: 0,
             last_used_at: now,
@@ -154,6 +164,34 @@ impl ProfileService {
 
         if let Some(character_id) = character_id {
             profile.character_id = self.validate_character(character_id)?;
+        }
+
+        self.save(&profile)
+    }
+
+    /// Changes the seconds given per question to the level assessment and to the exams of a
+    /// profile; only the given ones change. A duration that is not offered is refused.
+    pub fn update_timers(
+        &self,
+        id: Uuid,
+        placement_seconds: Option<u32>,
+        exam_seconds: Option<u32>,
+    ) -> Result<Profile> {
+        let mut profile = self.get(id)?;
+        if let Some(seconds) = placement_seconds {
+            if !PLACEMENT_SECONDS.contains(&seconds) {
+                return Err(Error::validation("placementSeconds", UNKNOWN_TIMER));
+            }
+
+            profile.placement_seconds = seconds;
+        }
+
+        if let Some(seconds) = exam_seconds {
+            if !EXAM_SECONDS.contains(&seconds) {
+                return Err(Error::validation("examSeconds", UNKNOWN_TIMER));
+            }
+
+            profile.exam_seconds = seconds;
         }
 
         self.save(&profile)

@@ -48,6 +48,8 @@ fn add_profile(profiles: &SqliteProfileStore, name: &str, now: i64) -> Profile {
             grade: Grade::CE1,
             character_id: "lion".to_owned(),
             points: 0,
+            placement_seconds: 20,
+            exam_seconds: 0,
             created_at: 0,
             updated_at: 0,
             last_used_at: now,
@@ -146,6 +148,50 @@ fn a_session_and_its_answers_are_stored_and_read_back() {
         (Some(now + 10), 1, 30),
         (stored.ended_at, stored.correct_count, stored.points_earned)
     );
+}
+
+#[test]
+fn an_abandoned_placement_is_left_out_of_every_reading_and_a_finished_one_counts() {
+    let f = fixture();
+    let now = f.clock.now_ms();
+    // Left open (the application was closed in the middle).
+    let open = session(f.profile.id, SessionType::Placement, now);
+    f.sessions.add_session(&open).unwrap();
+    for (index, right) in [true, false, true].into_iter().enumerate() {
+        f.sessions
+            .add_answer(&answer(open.id, index as u32, "a", right, now + 100 + index as i64))
+            .unwrap();
+    }
+    // A finished one, later.
+    let done = session(f.profile.id, SessionType::Placement, now + 5_000);
+    f.sessions.add_session(&done).unwrap();
+    f.sessions
+        .add_answer(&answer(done.id, 0, "a", true, now + 5_100))
+        .unwrap();
+    f.sessions
+        .end_session(
+            done.id,
+            &SessionEnd {
+                ended_at: now + 5_200,
+                abandoned: false,
+                question_count: 1,
+                correct_count: 1,
+                points_earned: 0,
+            },
+        )
+        .unwrap();
+
+    educator_core::sessions::close_open_sessions(&f.sessions, now + 1_000).unwrap();
+
+    // The abandoned assessment keeps its rows but no reading sees it.
+    assert!(f.sessions.session(open.id).unwrap().unwrap().abandoned);
+    assert_eq!(3, f.sessions.answers(open.id).unwrap().len());
+    let sessions = f.sessions.profile_sessions(f.profile.id).unwrap();
+    assert_eq!(vec![done.id], sessions.iter().map(|s| s.id).collect::<Vec<_>>());
+    let answers = f.sessions.profile_answers(f.profile.id).unwrap();
+    assert_eq!(vec![done.id], answers.iter().map(|a| a.session_id).collect::<Vec<_>>());
+    assert_eq!(1, f.sessions.answer_count(f.profile.id, "a").unwrap());
+    assert_eq!(vec![true], f.sessions.recent_results(f.profile.id, "a", 20).unwrap());
 }
 
 #[test]

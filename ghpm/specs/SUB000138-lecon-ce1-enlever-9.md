@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYYY
-rev: 2026-10-11T18:48:39Z
+rev: 2026-10-13T16:39:28Z
 url: https://github.com/georgesp/Educator/issues/106
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000138 — Leçon CE1 — Enlever 9
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

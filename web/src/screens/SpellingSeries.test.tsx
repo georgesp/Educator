@@ -14,6 +14,7 @@ function spellingSeries(exercise: Omit<Exercise, "index">): Series {
     instruction: "Écoute bien le mot, puis écris-le.",
     answerMode: "Keyboard",
     timeLimitSeconds: null,
+    questionSeconds: null,
     exercises: [{ index: 0, ...exercise }],
   };
 }

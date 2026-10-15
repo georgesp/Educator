@@ -138,7 +138,8 @@ function CreateProfile({ canCancel, onCancel }: { canCancel: boolean; onCancel()
     onSuccess: async (profile) => {
       setProfileId(profile.id);
       await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
-      await navigate("/menu");
+      // The level assessment is offered first (SUB001418); with nothing to ask, it leads to the menu.
+      await navigate("/evaluation");
     },
   });
 

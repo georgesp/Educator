@@ -62,7 +62,7 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
         return profiles;
       case "create_profile": {
         const { name, grade } = args.request as { name: string; grade: string };
-        const profile = { id: "p1", name, grade, characterId: "lion", points: 0, lastUsedAt: "2026-10-11T08:00:00.000Z" };
+        const profile = { id: "p1", name, grade, characterId: "lion", points: 0, placementSeconds: 20, examSeconds: 0, lastUsedAt: "2026-10-11T08:00:00.000Z" };
         profiles.push(profile);
         return profile;
       }
@@ -132,6 +132,9 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
       case "get_mascot":
       case "get_mascot_phrase":
         return null;
+      case "get_placement_status":
+        // Nothing left to assess: the new profile goes straight to the menu.
+        return { subjects: [{ subject: "Math", available: false, done: true }, { subject: "Spelling", available: false, done: true }], questionSeconds: 20 };
       case "speak":
         return Array.from({ length: 44 }, () => 0);
       default:
@@ -220,7 +223,7 @@ test("a CP child creates a profile, then does a whole series with the keyboard, 
 });
 
 test("an existing profile is chosen on the first screen", async ({ page }) => {
-  await mockApi(page, [{ id: "p1", name: "Tom", grade: "CP", characterId: "ours", points: 30, lastUsedAt: "2026-10-10T08:00:00Z" }]);
+  await mockApi(page, [{ id: "p1", name: "Tom", grade: "CP", characterId: "ours", points: 30, placementSeconds: 20, examSeconds: 0, lastUsedAt: "2026-10-10T08:00:00Z" }]);
   await page.goto("/");
 
   await expect(page.getByRole("heading", { name: "Qui joue ?" })).toBeVisible();

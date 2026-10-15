@@ -104,4 +104,14 @@ CREATE TABLE "LessonProgress" (
 );
 "#,
     ),
+    (
+        // Level assessment: the seconds given per question to the assessment (20 by default) and to
+        // the exams (0: no timer), chosen in the profile. Existing profiles take the defaults.
+        "0003_question_timers",
+        r#"
+ALTER TABLE "Profile" ADD COLUMN "PlacementSeconds" INTEGER NOT NULL DEFAULT 20;
+
+ALTER TABLE "Profile" ADD COLUMN "ExamSeconds" INTEGER NOT NULL DEFAULT 0;
+"#,
+    ),
 ];

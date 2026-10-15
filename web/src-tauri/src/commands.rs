@@ -149,6 +149,25 @@ pub async fn start_exam(
     run(state, move |s| s.start_exam(&profile_id, subject, None)).await
 }
 
+/// The subjects whose level assessment a profile can still take.
+#[tauri::command]
+pub async fn get_placement_status(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+) -> CommandResult<PlacementStatusResponse> {
+    run(state, move |s| s.placement_status(&profile_id)).await
+}
+
+/// The level assessment of a subject, taken once after the creation of a profile.
+#[tauri::command]
+pub async fn start_placement(
+    state: State<'_, Arc<AppState>>,
+    profile_id: String,
+    subject: Subject,
+) -> CommandResult<SeriesResponse> {
+    run(state, move |s| s.start_placement(&profile_id, subject, None)).await
+}
+
 /// What the timed challenge offers to a profile (SUB001415).
 #[tauri::command]
 pub async fn get_timed_challenge(

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000124 — Exercices CE1 — Résoudre des problèmes
-status: In progress
+status: In Review
 size: L
 estimate:
 startDate:

@@ -8,6 +8,7 @@ import { LessonsScreen } from "../screens/LessonsScreen";
 import { MenuScreen } from "../screens/MenuScreen";
 import { ModeScreen } from "../screens/ModeScreen";
 import { OptionsScreen } from "../screens/OptionsScreen";
+import { PlacementRunScreen, PlacementScreen } from "../screens/PlacementScreen";
 import { ParentGateScreen } from "../screens/ParentGateScreen";
 import { ParentScreen } from "../screens/ParentScreen";
 import { ProfilesScreen } from "../screens/ProfilesScreen";
@@ -31,6 +32,8 @@ export const screenRoutes: RouteObject[] = [
   { path: "parent/espace", element: <ParentScreen /> },
   { path: "examen", element: <ExamScreen /> },
   { path: "examen/:subject", element: <ExamRunScreen /> },
+  { path: "evaluation", element: <PlacementScreen /> },
+  { path: "evaluation/:subject", element: <PlacementRunScreen /> },
   { path: "defi/:subject", element: <TimedSetupScreen /> },
   { path: "defi/:subject/:seconds", element: <TimedRunScreen /> },
   { path: "lecons", element: <SubjectScreen kind="lessons" /> },

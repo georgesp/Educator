@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WPU
-rev: 2026-10-14T11:28:38Z
+rev: 2026-10-14T19:44:29Z
 url: https://github.com/georgesp/Educator/issues/20
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001404 — Audio des mots pré-généré avec Piper
-status: In progress
+status: In Review
 size: S
 estimate:
 startDate:

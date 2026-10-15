@@ -14,6 +14,8 @@ export const lea: Profile = {
   grade: "CP",
   characterId: "lion",
   points: 120,
+  placementSeconds: 20,
+  examSeconds: 0,
   lastUsedAt: "2026-10-11T08:00:00Z",
 };
 
@@ -36,6 +38,7 @@ export const twoExercises: Series = {
   instruction: "Calcule.",
   answerMode: "Keyboard",
   timeLimitSeconds: null,
+  questionSeconds: null,
   exercises: [
     numberExercise(0, [n(3), sign("+"), n(4), sign("="), slot], "3 + 4 = ?", "Combien font 3 plus 4 ?"),
     numberExercise(1, [n(5), sign("+"), slot, sign("="), n(9)], "5 + ? = 9", "Combien faut-il ajouter à 5 pour obtenir 9 ?"),
@@ -139,6 +142,7 @@ export const quizSeries: Series = {
   instruction: "",
   answerMode: "Keyboard",
   timeLimitSeconds: null,
+  questionSeconds: null,
   exercises: shortLesson.quiz.map((q) => ({
     index: q.index,
     question: q.question,
@@ -232,6 +236,21 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
     // A first timed challenge at this duration: a record, decided by the commands.
     finishSeries: vi.fn().mockResolvedValue({ ...summaryOf(1, 2, 30, 150), newRecord: true }),
     startExam: vi.fn(async (_p: string, subject: Subject) => ({ ...twoExercises, sessionType: "Exam" as const, subject, skillId: null })),
+    // By default nothing is left to assess: the profiles of the tests go straight to the menu.
+    getPlacementStatus: vi.fn().mockResolvedValue({
+      subjects: [
+        { subject: "Math", available: false, done: true },
+        { subject: "Spelling", available: false, done: true },
+      ],
+      questionSeconds: 20,
+    }),
+    startPlacement: vi.fn(async (_p: string, subject: Subject) => ({
+      ...twoExercises,
+      sessionType: "Placement" as const,
+      subject,
+      skillId: null,
+      questionSeconds: 20,
+    })),
     getTimedChallenge: vi.fn(async (_p: string, subject: Subject) => ({
       subject,
       skillCount: 2,

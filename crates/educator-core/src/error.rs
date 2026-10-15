@@ -4,7 +4,8 @@ use uuid::Uuid;
 /// [`Error::ProfileValidation`], whose message is a simple French sentence shown to the child.
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum Error {
-    /// Invalid input on a profile; `field` is `name`, `grade` or `characterId`.
+    /// Invalid input on a profile; `field` is `name`, `grade`, `characterId`, `placementSeconds` or
+    /// `examSeconds`.
     #[error("{message}")]
     ProfileValidation {
         field: &'static str,

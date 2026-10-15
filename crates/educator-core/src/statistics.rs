@@ -158,7 +158,7 @@ pub struct SkillStatistics {
     pub history: Vec<SeriesPoint>,
 }
 
-/// An exam or a timed challenge.
+/// An exam, a level assessment or a timed challenge.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct TestResult {
     pub session_type: SessionType,
@@ -199,7 +199,7 @@ pub struct ProfileStatistics {
     pub skills: Vec<SkillStatistics>,
     /// The skill ids to review first (at most [`TO_REVIEW_COUNT`]), the weakest first.
     pub to_review: Vec<String>,
-    /// Exams and timed challenges, the most recent first.
+    /// Exams, level assessments and timed challenges, the most recent first.
     pub tests: Vec<TestResult>,
     pub frequent_mistakes: Vec<FrequentMistake>,
 }
@@ -225,8 +225,12 @@ pub fn profile_statistics(
     answers: &[AnswerRecord],
     calendar: &LocalCalendar<'_>,
 ) -> ProfileStatistics {
-    let mut sessions: Vec<&SessionRecord> =
-        sessions.iter().filter(|s| s.ended_at.is_some()).collect();
+    // An abandoned level assessment does not count: it is to do again.
+    let mut sessions: Vec<&SessionRecord> = sessions
+        .iter()
+        .filter(|s| s.ended_at.is_some())
+        .filter(|s| !(s.session_type == SessionType::Placement && s.abandoned))
+        .collect();
     sessions.sort_by_key(|s| s.started_at);
     let session_ids: std::collections::HashSet<_> = sessions.iter().map(|s| s.id).collect();
     let mut answers: Vec<&AnswerRecord> = answers
@@ -310,7 +314,12 @@ pub fn profile_statistics(
     let tests = sessions
         .iter()
         .rev()
-        .filter(|s| matches!(s.session_type, SessionType::Exam | SessionType::Timed))
+        .filter(|s| {
+            matches!(
+                s.session_type,
+                SessionType::Exam | SessionType::Timed | SessionType::Placement
+            )
+        })
         .take(TESTS_SHOWN)
         .map(|s| TestResult {
             session_type: s.session_type,

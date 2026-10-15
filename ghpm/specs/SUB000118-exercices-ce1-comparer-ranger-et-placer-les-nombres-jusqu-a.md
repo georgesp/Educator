@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB000118 — Exercices CE1 — Comparer, ranger et placer les nombres jusqu'à 1 000"
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

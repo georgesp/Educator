@@ -85,6 +85,8 @@ pub fn run() {
             commands::answer_series,
             commands::abandon_series,
             commands::start_exam,
+            commands::get_placement_status,
+            commands::start_placement,
             commands::get_timed_challenge,
             commands::start_timed,
             commands::finish_series,

@@ -77,6 +77,10 @@ export const fr = {
     save: "Enregistrer",
     parentCard: (name: string) => `${name} : espace parent`,
     parentBadge: "Espace parent",
+    timersLabel: "Chronomètre par question",
+    placementTimer: "Évaluation de niveau",
+    examTimer: "Examen (bilan)",
+    perQuestion: (seconds: number) => (seconds === 0 ? "Sans chrono" : `${seconds} s`),
   },
   menu: {
     greeting: (name: string) => `En piste, ${name} !`,
@@ -548,11 +552,15 @@ export const fr = {
     detailsTitle: (title: string) => `Points par série · ${title}`,
     seriesPoint: (date: string, points: number, correct: number, total: number) => `${date} : ${points} points, ${correct} sur ${total}`,
     best: (points: number) => `Meilleure série : ${points} points`,
-    tests: "Examens et défis chrono",
+    tests: "Examens, évaluations et défis chrono",
     noTests: "Aucun bilan ni défi chrono pour l'instant.",
     testColumns: { date: "Date", kind: "Épreuve", score: "Bonnes réponses", points: "Points" },
     testKind: (type: SessionType, subject: Subject, seconds: number | null) => {
       const of = subject === "Math" ? "de maths" : "d'orthographe";
+      if (type === "Placement") {
+        return `Évaluation de niveau ${of}`;
+      }
+
       return type === "Timed" ? `Défi chrono ${of}${seconds ? ` (${seconds / 60} min)` : ""}` : `Bilan ${of}`;
     },
     score: (correct: number, total: number) => `${correct} sur ${total}`,
@@ -629,6 +637,27 @@ export const fr = {
     timedScore: (count: number) => `${count} bonne${count > 1 ? "s" : ""} réponse${count > 1 ? "s" : ""}`,
     newRecord: "Nouveau record !",
     timedSpoken: (count: number) => `Temps écoulé ! Tu as trouvé ${count} bonne${count > 1 ? "s" : ""} réponse${count > 1 ? "s" : ""}.`,
+  },
+  // Évaluation de niveau (SUB001418): taken once per subject after the creation of a profile.
+  placement: {
+    title: "Évaluation de niveau",
+    spoken: (seconds: number) =>
+      `Avant de commencer, on regarde ensemble ce que tu sais déjà ! Tu as ${seconds} secondes pour chaque question. Ce n'est pas grave si tu ne sais pas : tu peux passer à la suivante.`,
+    explain: (seconds: number) => `Quelques questions par notion, ${seconds} secondes pour répondre à chacune.`,
+    onlyOnce: "Tu ne la fais qu'une fois, et jusqu'au bout : si tu t'arrêtes, elle sera à refaire.",
+    startOf: { Math: "Évaluation de maths", Spelling: "Évaluation d'orthographe" } as Record<Subject, string>,
+    later: "Plus tard",
+    instruction: "Évaluation : réponds du mieux que tu peux !",
+    timerLabel: (seconds: number) => `Temps pour répondre : ${seconds} secondes`,
+    secondsLeft: (seconds: number) => `${seconds} s`,
+    timeUp: "Temps écoulé !",
+    quitQuestion: "Tu veux vraiment arrêter ? L'évaluation sera à refaire.",
+    finished: "Évaluation terminée !",
+    finishedSpoken: (correct: number, total: number) => `Évaluation terminée ! Tu as ${correct} bonnes réponses sur ${total}. Regarde tes points forts, et ce que tu peux retravailler.`,
+    thanks: "Merci ! Ton niveau est maintenant connu : les exercices et les statistiques en tiennent compte.",
+    next: (label: string) => `Continuer : ${label}`,
+    menuBanner: "Évaluation de niveau",
+    menuBannerHint: "À faire une seule fois par matière",
   },
   tables: {
     title: "Mes tables",

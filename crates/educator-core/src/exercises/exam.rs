@@ -1,5 +1,5 @@
-//! Composition of an exam (SUB001414) and of a timed challenge (SUB001415): questions drawn from
-//! several skills of the grade, with the generators of the families.
+//! Composition of an exam (SUB001414), of a level assessment and of a timed challenge (SUB001415):
+//! questions drawn from several skills of the grade, with the generators of the families.
 
 use super::{distinct_count, generate_series_as, Exercise};
 use crate::random::SeededRng;
@@ -26,6 +26,21 @@ pub const TIMED_MIN_MASTERY: u8 = 60;
 pub const TIMED_DURATIONS: [u32; 3] = [60, 120, 180];
 
 pub const DEFAULT_TIMED_DURATION: u32 = 120;
+
+/// Most questions a level assessment asks in a subject.
+pub const PLACEMENT_MAX_LENGTH: usize = 30;
+
+/// Questions a level assessment asks on each skill it covers: 2, or 3 while there is room.
+pub const PLACEMENT_MIN_PER_SKILL: usize = 2;
+pub const PLACEMENT_MAX_PER_SKILL: usize = 3;
+
+/// Seconds per question of a level assessment a profile can choose from, and the default one.
+pub const PLACEMENT_SECONDS: [u32; 5] = [15, 20, 30, 45, 60];
+pub const DEFAULT_PLACEMENT_SECONDS: u32 = 20;
+
+/// Seconds per question of an exam a profile can choose from (0: no timer), and the default one.
+pub const EXAM_SECONDS: [u32; 5] = [0, 20, 30, 45, 60];
+pub const DEFAULT_EXAM_SECONDS: u32 = 0;
 
 /// A question of an exam or a challenge, with its skill.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -211,6 +226,60 @@ pub fn compose_exam(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<ComposedQ
     compose(&list, &counts, seed, false)
 }
 
+/// Skills in a weighted random order: the heavier a skill, the likelier it comes early.
+fn weighted_order(weights: &[u32], random: &mut impl Rng) -> Vec<usize> {
+    let mut keys: Vec<(f64, usize)> = weights
+        .iter()
+        .enumerate()
+        .map(|(i, &weight)| {
+            let u: f64 = random.random_range(f64::EPSILON..1.0);
+            (u.powf(1.0 / f64::from(weight.max(1))), i)
+        })
+        .collect();
+    keys.sort_by(|a, b| b.0.total_cmp(&a.0));
+    keys.into_iter().map(|(_, i)| i).collect()
+}
+
+/// How many questions each skill gets in a level assessment: 2 per skill, plus a third one while
+/// the total stays under [`PLACEMENT_MAX_LENGTH`], the heavier (recent) skills first. With more
+/// skills than the questions can cover twice, the skills are drawn (weighted) and the others are
+/// left out (0).
+pub fn plan_placement(weights: &[u32], random: &mut impl Rng) -> Vec<usize> {
+    let mut counts = vec![0usize; weights.len()];
+    if weights.is_empty() {
+        return counts;
+    }
+
+    let order = weighted_order(weights, random);
+    let covered = (PLACEMENT_MAX_LENGTH / PLACEMENT_MIN_PER_SKILL).min(weights.len());
+    let mut room = PLACEMENT_MAX_LENGTH - covered * PLACEMENT_MIN_PER_SKILL;
+    for &i in order.iter().take(covered) {
+        counts[i] = PLACEMENT_MIN_PER_SKILL;
+        if room > 0 && counts[i] < PLACEMENT_MAX_PER_SKILL {
+            counts[i] += 1;
+            room -= 1;
+        }
+    }
+
+    counts
+}
+
+/// The questions of a level assessment from the weighted skills of the grade (same skills and
+/// weights as an exam): 2 or 3 per skill, 30 at most.
+pub fn compose_placement(skills: &[(&Skill, u32)], seed: u64) -> Result<Vec<ComposedQuestion>> {
+    if skills.is_empty() {
+        return Err(Error::SeriesRequest(
+            "No skill for a level assessment.".to_owned(),
+        ));
+    }
+
+    let mut random = SeededRng::seed_from_u64(seed ^ 0x91AC);
+    let weights: Vec<u32> = skills.iter().map(|(_, w)| *w).collect();
+    let counts = plan_placement(&weights, &mut random);
+    let list: Vec<&Skill> = skills.iter().map(|(s, _)| *s).collect();
+    compose(&list, &counts, seed, false)
+}
+
 /// The questions of a timed challenge (SUB001415): the skills already mastered, in equal shares,
 /// picked answers when the skill allows them (faster).
 pub fn compose_timed(skills: &[&Skill], seed: u64) -> Result<Vec<ComposedQuestion>> {
@@ -253,6 +322,45 @@ mod tests {
         assert_eq!(2, exam_weight(2, 3));
         assert_eq!(1, exam_weight(1, 3));
         assert_eq!(1, exam_weight(1, 5));
+    }
+
+    #[test]
+    fn the_placement_plan_asks_two_or_three_questions_per_skill_thirty_at_most() {
+        let mut random = SeededRng::seed_from_u64(7);
+        for skill_count in [1usize, 2, 5, 10, 11, 12, 15, 16, 27, 60] {
+            let weights: Vec<u32> = (0..skill_count).map(|i| 1 + (i as u32 % 3)).collect();
+            let counts = plan_placement(&weights, &mut random);
+            assert_eq!(skill_count, counts.len());
+            let total: usize = counts.iter().sum();
+            let asked = counts.iter().filter(|&&c| c > 0).count();
+            assert!(total <= PLACEMENT_MAX_LENGTH, "{skill_count}: {total}");
+            assert_eq!(skill_count.min(15), asked, "{skill_count} skills");
+            assert!(
+                counts
+                    .iter()
+                    .all(|&c| c == 0 || (PLACEMENT_MIN_PER_SKILL..=PLACEMENT_MAX_PER_SKILL).contains(&c)),
+                "{skill_count}: {counts:?}"
+            );
+            // Three questions per skill while 30 allows it, otherwise as many thirds as fit.
+            let expected = (3 * skill_count).min(PLACEMENT_MAX_LENGTH);
+            assert_eq!(expected, total, "{skill_count}: {counts:?}");
+        }
+        assert!(plan_placement(&[], &mut random).is_empty());
+    }
+
+    #[test]
+    fn the_placement_leaves_out_light_skills_when_there_are_too_many() {
+        // 40 skills: 15 are asked; the heavy ones (weight 30) almost always make it.
+        let mut weights = vec![1u32; 40];
+        weights[0] = 30;
+        weights[1] = 30;
+        let mut random = SeededRng::seed_from_u64(3);
+        let mut kept = 0;
+        for _ in 0..50 {
+            let counts = plan_placement(&weights, &mut random);
+            kept += usize::from(counts[0] > 0) + usize::from(counts[1] > 0);
+        }
+        assert!(kept >= 95, "heavy skills kept {kept} times out of 100");
     }
 
     #[test]

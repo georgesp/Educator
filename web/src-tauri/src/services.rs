@@ -252,15 +252,22 @@ impl Services {
         id: &str,
         changes: UpdateProfileRequest,
     ) -> Result<ProfileResponse, CommandError> {
-        let profile = self
+        let profile_id = profile_id_of(id)?;
+        let mut profile = self
             .profiles
             .update(
-                profile_id_of(id)?,
+                profile_id,
                 changes.name.as_deref(),
                 changes.grade.map(Into::into),
                 changes.character_id.as_deref(),
             )
             .map_err(profile_error)?;
+        if changes.placement_seconds.is_some() || changes.exam_seconds.is_some() {
+            profile = self
+                .profiles
+                .update_timers(profile_id, changes.placement_seconds, changes.exam_seconds)
+                .map_err(profile_error)?;
+        }
         Ok((&profile).into())
     }
 
@@ -344,6 +351,54 @@ impl Services {
         let series = self
             .series
             .start_exam(
+                profile_id_of(profile_id)?,
+                subject.into(),
+                current_period,
+                seed,
+            )
+            .map_err(start_error)?;
+        Ok((&series).into())
+    }
+
+    /// The level assessment (done, to do) of each subject for a profile.
+    pub fn placement_status(
+        &self,
+        profile_id: &str,
+    ) -> Result<PlacementStatusResponse, CommandError> {
+        let id = profile_id_of(profile_id)?;
+        let profile = self.series.profile(id).map_err(profile_error)?;
+        let current_period = self.calendar.period_of((self.today)());
+        let mut subjects = Vec::new();
+        for subject in [Subject::Math, Subject::Spelling] {
+            subjects.push(PlacementSubjectResponse {
+                subject,
+                available: self
+                    .series
+                    .placement_available(id, subject.into(), current_period)
+                    .map_err(profile_error)?,
+                done: self
+                    .series
+                    .placement_done(id, subject.into())
+                    .map_err(profile_error)?,
+            });
+        }
+        Ok(PlacementStatusResponse {
+            subjects,
+            question_seconds: profile.placement_seconds,
+        })
+    }
+
+    /// The level assessment of a subject (once finished, it cannot be taken again).
+    pub fn start_placement(
+        &self,
+        profile_id: &str,
+        subject: Subject,
+        seed: Option<u32>,
+    ) -> Result<SeriesResponse, CommandError> {
+        let current_period = self.calendar.period_of((self.today)());
+        let series = self
+            .series
+            .start_placement(
                 profile_id_of(profile_id)?,
                 subject.into(),
                 current_period,
@@ -1464,6 +1519,107 @@ mod tests {
             assert!(summary.skills.iter().all(|s| s.skill_id.starts_with("cp-")));
             assert!(summary.skills.iter().any(|s| s.lesson_id.is_some()));
         }
+    }
+
+    /// SUB001418: one level assessment per subject, valid once finished, a timer on every question.
+    #[test]
+    fn the_level_assessment_is_offered_once_per_subject_and_counts_when_finished() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let state = |services: &Services| {
+            services
+                .placement_status(&lea.id)
+                .unwrap()
+                .subjects
+                .iter()
+                .map(|s| (s.subject, s.available, s.done))
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(20, f.services.placement_status(&lea.id).unwrap().question_seconds);
+        assert_eq!(
+            vec![(Subject::Math, true, false), (Subject::Spelling, true, false)],
+            state(&f.services)
+        );
+
+        let placement = f.services.start_placement(&lea.id, Subject::Math, Some(1)).unwrap();
+        assert_eq!(SessionType::Placement, placement.session_type);
+        assert_eq!(Some(20), placement.question_seconds);
+        assert!(!placement.exercises.is_empty() && placement.exercises.len() <= 30);
+        // Abandoned: still to do.
+        f.services.abandon_series(&placement.series_id).unwrap();
+        assert_eq!(
+            vec![(Subject::Math, true, false), (Subject::Spelling, true, false)],
+            state(&f.services)
+        );
+
+        // Every question out of time: the assessment is over, wrong answers count.
+        let placement = f.services.start_placement(&lea.id, Subject::Math, Some(2)).unwrap();
+        let mut summary = None;
+        for exercise in &placement.exercises {
+            let outcome = f
+                .services
+                .answer_series(&placement.series_id, exercise.index, AnswerPayload::TimedOut, Some(20_000))
+                .unwrap();
+            assert!(!outcome.correct);
+            summary = outcome.summary;
+        }
+        let summary = summary.unwrap();
+        assert_eq!((0, 0), (summary.correct_count, summary.points_earned));
+        assert_eq!(
+            vec![(Subject::Math, false, true), (Subject::Spelling, true, false)],
+            state(&f.services)
+        );
+        assert_eq!(
+            400,
+            f.services
+                .start_placement(&lea.id, Subject::Math, Some(3))
+                .unwrap_err()
+                .status
+        );
+        // It feeds the statistics of the parents' space.
+        let statistics = f.services.profile_statistics(&lea.id).unwrap();
+        assert!(statistics.summary.answer_count > 0);
+        assert!(statistics
+            .tests
+            .iter()
+            .any(|t| t.session_type == SessionType::Placement));
+    }
+
+    /// SUB001418: the timers of the assessment and of the exam are options of the profile.
+    #[test]
+    fn the_timers_of_a_profile_are_options_that_the_exam_follows() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        assert_eq!((20, 0), (lea.placement_seconds, lea.exam_seconds));
+        let exam = f.services.start_exam(&lea.id, Subject::Math, Some(4)).unwrap();
+        assert_eq!(None, exam.question_seconds);
+
+        let updated = f
+            .services
+            .update_profile(
+                &lea.id,
+                UpdateProfileRequest {
+                    placement_seconds: Some(45),
+                    exam_seconds: Some(30),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+
+        assert_eq!((45, 30), (updated.placement_seconds, updated.exam_seconds));
+        let exam = f.services.start_exam(&lea.id, Subject::Math, Some(4)).unwrap();
+        assert_eq!(Some(30), exam.question_seconds);
+        let error = f
+            .services
+            .update_profile(
+                &lea.id,
+                UpdateProfileRequest {
+                    exam_seconds: Some(25),
+                    ..Default::default()
+                },
+            )
+            .unwrap_err();
+        assert_eq!((400, Some("examSeconds".to_owned())), (error.status, error.field));
     }
 
     /// SUB001415: offered once a skill is mastered, best score per duration.

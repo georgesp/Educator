@@ -24,14 +24,18 @@ pub enum SessionType {
     Timed,
     /// The quiz at the end of a lesson (SUB001411).
     LessonQuiz,
+    /// The level assessment taken once per subject after the creation of a profile. Only a
+    /// finished one counts: an abandoned one is left out of the statistics and the masteries.
+    Placement,
 }
 
 impl SessionType {
-    pub const ALL: [SessionType; 4] = [
+    pub const ALL: [SessionType; 5] = [
         SessionType::Exercise,
         SessionType::Exam,
         SessionType::Timed,
         SessionType::LessonQuiz,
+        SessionType::Placement,
     ];
 
     /// Stored name.
@@ -41,6 +45,7 @@ impl SessionType {
             SessionType::Exam => "Exam",
             SessionType::Timed => "Timed",
             SessionType::LessonQuiz => "LessonQuiz",
+            SessionType::Placement => "Placement",
         }
     }
 }

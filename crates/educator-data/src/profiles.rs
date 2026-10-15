@@ -5,8 +5,7 @@ use rusqlite::{Connection, OptionalExtension, Row};
 use std::sync::Arc;
 use uuid::Uuid;
 
-const COLUMNS: &str =
-    r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt""#;
+const COLUMNS: &str = r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds""#;
 
 /// [`ProfileStore`] backed by the `Profile` table.
 #[derive(Debug, Clone)]
@@ -44,6 +43,8 @@ fn read(row: &Row<'_>) -> rusqlite::Result<Profile> {
         created_at: row.get(5)?,
         updated_at: row.get(6)?,
         last_used_at: row.get(7)?,
+        placement_seconds: row.get(8)?,
+        exam_seconds: row.get(9)?,
     })
 }
 
@@ -109,8 +110,8 @@ impl ProfileStore for SqliteProfileStore {
         let connection = self.database.connection();
         connection
             .execute(
-                r#"INSERT INTO "Profile" ("Id", "Name", "NormalizedName", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt")
-                   VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7, ?8)"#,
+                r#"INSERT INTO "Profile" ("Id", "Name", "NormalizedName", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds")
+                   VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7, ?8, ?9, ?10)"#,
                 rusqlite::params![
                     id_text(profile.id),
                     profile.name,
@@ -120,13 +121,16 @@ impl ProfileStore for SqliteProfileStore {
                     profile.points,
                     now,
                     profile.last_used_at,
+                    profile.placement_seconds,
+                    profile.exam_seconds,
                 ],
             )
             .map_err(write_error)?;
         get(&connection, profile.id)?.ok_or_else(|| storage("Profile not found after insert."))
     }
 
-    /// `UpdatedAt` only moves when a column actually changed. Points are never written here.
+    /// `UpdatedAt` only moves when a column actually changed. Points are never written here (the
+    /// timers are: they are chosen in the profile).
     fn update(&self, profile: &Profile) -> Result<Option<Profile>> {
         let now = self.database.now_ms();
         let connection = self.database.connection();
@@ -137,12 +141,15 @@ impl ProfileStore for SqliteProfileStore {
         let changed = current.name != profile.name
             || current.grade != profile.grade
             || current.character_id != profile.character_id
-            || current.last_used_at != profile.last_used_at;
+            || current.last_used_at != profile.last_used_at
+            || current.placement_seconds != profile.placement_seconds
+            || current.exam_seconds != profile.exam_seconds;
         if changed {
             connection
                 .execute(
                     r#"UPDATE "Profile" SET "Name" = ?2, "NormalizedName" = ?3, "Grade" = ?4, "CharacterId" = ?5,
-                       "LastUsedAt" = ?6, "UpdatedAt" = ?7 WHERE "Id" = ?1"#,
+                       "LastUsedAt" = ?6, "UpdatedAt" = ?7, "PlacementSeconds" = ?8, "ExamSeconds" = ?9
+                       WHERE "Id" = ?1"#,
                     rusqlite::params![
                         id_text(profile.id),
                         profile.name,
@@ -151,6 +158,8 @@ impl ProfileStore for SqliteProfileStore {
                         profile.character_id,
                         profile.last_used_at,
                         now,
+                        profile.placement_seconds,
+                        profile.exam_seconds,
                     ],
                 )
                 .map_err(write_error)?;

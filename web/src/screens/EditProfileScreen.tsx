@@ -4,6 +4,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router";
 import { ApiError, type Grade, type Profile } from "../api/client";
 import { useApi } from "../app/BackendContext";
 import { queryKeys, useCharacters, useProfiles } from "../app/queries";
+import { EXAM_SECONDS, PLACEMENT_SECONDS } from "../app/timers";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { SpeakButton } from "../components/child/SpeakButton";
 import { DiceIcon } from "../components/icons";
@@ -51,12 +52,14 @@ function EditProfile({ profile, back }: { profile: Profile; back: string }) {
   const [name, setName] = useState(profile.name);
   const [grade, setGrade] = useState<Grade>(profile.grade);
   const [characterId, setCharacterId] = useState(profile.characterId);
+  const [placementSeconds, setPlacementSeconds] = useState(profile.placementSeconds);
+  const [examSeconds, setExamSeconds] = useState(profile.examSeconds);
 
   // Drawn on screen only: saved with the rest, so that « Annuler » changes nothing.
   const draw = useMutation({ mutationFn: () => api.drawCharacter(characterId), onSuccess: (character) => setCharacterId(character.id) });
 
   const save = useMutation({
-    mutationFn: () => api.updateProfile(profile.id, { name, grade, characterId }),
+    mutationFn: () => api.updateProfile(profile.id, { name, grade, characterId, placementSeconds, examSeconds }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.profiles });
       await navigate(back);
@@ -106,6 +109,34 @@ function EditProfile({ profile, back }: { profile: Profile; back: string }) {
                   {fr.grades[g]}
                 </button>
               ))}
+            </div>
+          </fieldset>
+
+          <fieldset className="timer-picker">
+            <legend className="field-label">{fr.profiles.timersLabel}</legend>
+            <div className="timer-group" role="group" aria-label={fr.profiles.placementTimer}>
+              <span className="timer-group-label" aria-hidden="true">
+                {fr.profiles.placementTimer}
+              </span>
+              <div className="grade-buttons">
+                {PLACEMENT_SECONDS.map((s) => (
+                  <button key={s} type="button" className="grade-button" aria-pressed={placementSeconds === s} onClick={() => setPlacementSeconds(s)}>
+                    {fr.profiles.perQuestion(s)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="timer-group" role="group" aria-label={fr.profiles.examTimer}>
+              <span className="timer-group-label" aria-hidden="true">
+                {fr.profiles.examTimer}
+              </span>
+              <div className="grade-buttons">
+                {EXAM_SECONDS.map((s) => (
+                  <button key={s} type="button" className="grade-button" aria-pressed={examSeconds === s} onClick={() => setExamSeconds(s)}>
+                    {fr.profiles.perQuestion(s)}
+                  </button>
+                ))}
+              </div>
             </div>
           </fieldset>
 

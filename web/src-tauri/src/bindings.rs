@@ -48,6 +48,8 @@ fn types_ts_is_up_to_date() {
         MascotPictureResponse::decl(),
         MascotPhraseResponse::decl(),
         TimedDurationResponse::decl(),
+        PlacementStatusResponse::decl(),
+        PlacementSubjectResponse::decl(),
         MultiplicationTableResponse::decl(),
         TableLineResponse::decl(),
         LessonsResponse::decl(),

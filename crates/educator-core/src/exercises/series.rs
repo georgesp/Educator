@@ -1,4 +1,6 @@
-use super::exam::{compose_exam, compose_timed, exam_skills, TIMED_DURATIONS, TIMED_MIN_MASTERY};
+use super::exam::{
+    compose_exam, compose_placement, compose_timed, exam_skills, TIMED_DURATIONS, TIMED_MIN_MASTERY,
+};
 use super::{generate_series_as, Answer, Exercise, Picture, DEFAULT_LENGTH};
 use crate::clock::{uuid_v7, Clock};
 use crate::lessons::Lesson;
@@ -43,6 +45,10 @@ pub struct Series {
     pub skill_ids: Vec<String>,
     /// Duration of a timed challenge.
     pub time_limit_seconds: Option<u32>,
+    /// Seconds given for each question (level assessment, exam with a timer); `None` without a
+    /// timer. The front counts the time: a question out of time is answered with
+    /// [`Answer::TimedOut`].
+    pub question_seconds: Option<u32>,
     /// The lesson of a quiz.
     pub lesson_id: Option<String>,
     /// When the series started (UTC Unix milliseconds).
@@ -187,6 +193,7 @@ pub struct NewSeries {
     pub exercises: Vec<Exercise>,
     pub skill_ids: Vec<String>,
     pub time_limit_seconds: Option<u32>,
+    pub question_seconds: Option<u32>,
 }
 
 #[derive(Default)]
@@ -312,6 +319,7 @@ impl SeriesService {
                 skill_ids: vec![skill.id.clone(); exercises.len()],
                 exercises,
                 time_limit_seconds: None,
+                question_seconds: None,
             },
         )
     }
@@ -345,8 +353,76 @@ impl SeriesService {
                 skill_ids: questions.iter().map(|q| q.skill_id.clone()).collect(),
                 exercises: questions.into_iter().map(|q| q.exercise).collect(),
                 time_limit_seconds: None,
+                // The timer chosen in the profile; 0 is no timer.
+                question_seconds: Some(profile.exam_seconds).filter(|s| *s > 0),
             },
         )
+    }
+
+    /// The level assessment of a subject: 2 or 3 questions on each skill of the profile's grade up
+    /// to the current period, 30 at most, a timer on every question. Taken once per subject: it
+    /// counts once finished ([`Self::placement_done`]); an abandoned one is to do again.
+    pub fn start_placement(
+        &self,
+        profile_id: Uuid,
+        subject: Subject,
+        current_period: u8,
+        seed: Option<u32>,
+    ) -> Result<Series> {
+        let profile = self.profile(profile_id)?;
+        if self.placement_done(profile_id, subject)? {
+            return Err(Error::SeriesRequest(
+                "The level assessment of this subject is already done.".to_owned(),
+            ));
+        }
+
+        let (_, offered) = self.skills.offered_or_fallback(subject, profile.grade);
+        let skills = exam_skills(&offered, current_period);
+        let seed = self.seed_or_random(seed);
+        let questions = compose_placement(&skills, u64::from(seed))?;
+        self.open(
+            profile_id,
+            NewSeries {
+                session_type: SessionType::Placement,
+                subject,
+                skill_id: None,
+                lesson_id: None,
+                instruction: String::new(),
+                answer_mode: AnswerMode::Keyboard,
+                format: None,
+                seed,
+                skill_ids: questions.iter().map(|q| q.skill_id.clone()).collect(),
+                exercises: questions.into_iter().map(|q| q.exercise).collect(),
+                time_limit_seconds: None,
+                question_seconds: Some(profile.placement_seconds),
+            },
+        )
+    }
+
+    /// Whether a profile finished the level assessment of a subject (an abandoned one does not
+    /// count).
+    pub fn placement_done(&self, profile_id: Uuid, subject: Subject) -> Result<bool> {
+        Ok(self
+            .sessions
+            .profile_sessions(profile_id)?
+            .iter()
+            .any(|s| {
+                s.session_type == SessionType::Placement && s.subject == subject && !s.abandoned
+            }))
+    }
+
+    /// Whether the level assessment of a subject can be taken: not done yet, and the profile's
+    /// grade has skills in the subject.
+    pub fn placement_available(
+        &self,
+        profile_id: Uuid,
+        subject: Subject,
+        current_period: u8,
+    ) -> Result<bool> {
+        let profile = self.profile(profile_id)?;
+        let (_, offered) = self.skills.offered_or_fallback(subject, profile.grade);
+        Ok(!exam_skills(&offered, current_period).is_empty()
+            && !self.placement_done(profile_id, subject)?)
     }
 
     /// The skills a profile may meet in a timed challenge: those of its grade (revisions included)
@@ -399,6 +475,7 @@ impl SeriesService {
                 skill_ids: questions.iter().map(|q| q.skill_id.clone()).collect(),
                 exercises: questions.into_iter().map(|q| q.exercise).collect(),
                 time_limit_seconds: Some(seconds),
+                question_seconds: None,
             },
         )
     }
@@ -425,6 +502,7 @@ impl SeriesService {
                 skill_ids: vec![skill_id; exercises.len()],
                 exercises,
                 time_limit_seconds: None,
+                question_seconds: None,
             },
         )
     }
@@ -447,6 +525,7 @@ impl SeriesService {
             exercises: new.exercises,
             skill_ids: new.skill_ids,
             time_limit_seconds: new.time_limit_seconds,
+            question_seconds: new.question_seconds,
             lesson_id: new.lesson_id,
             started_at: now,
             closed: false,
@@ -459,9 +538,9 @@ impl SeriesService {
             grade: profile.grade,
             skill_id: series.skill_id.clone(),
             lesson_id: series.lesson_id.clone(),
-            // An exam and a timed challenge mix typed and picked answers.
+            // An exam, an assessment and a timed challenge mix typed and picked answers.
             answer_mode: match series.session_type {
-                SessionType::Exam | SessionType::Timed => None,
+                SessionType::Exam | SessionType::Timed | SessionType::Placement => None,
                 _ => Some(series.answer_mode),
             },
             format: series.format,
@@ -668,6 +747,10 @@ impl SeriesService {
                 series.exercises.len(),
             ),
         };
+        // A level assessment earns no points (nothing to gain by guessing), and an abandoned one
+        // counts for nothing: neither the statistics nor the masteries take it into account.
+        let placement = series.session_type == SessionType::Placement;
+        let earned = if placement { 0 } else { earned };
         let total = self
             .profiles
             .add_points(profile_id, earned)?
@@ -691,7 +774,9 @@ impl SeriesService {
             .filter(|(_, r)| r.is_some())
             .map(|(s, _)| s.clone())
             .collect();
-        update_masteries(self.sessions.as_ref(), profile_id, &practised, now)?;
+        if !(placement && abandoned) {
+            update_masteries(self.sessions.as_ref(), profile_id, &practised, now)?;
+        }
 
         let (results, skill_ids) = if series.session_type == SessionType::Timed {
             // Only the questions reached.

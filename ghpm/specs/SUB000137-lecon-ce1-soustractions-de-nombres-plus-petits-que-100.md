@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACYWQ
-rev: 2026-10-11T18:48:42Z
+rev: 2026-10-13T16:39:25Z
 url: https://github.com/georgesp/Educator/issues/105
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000137 — Leçon CE1 — Soustractions de nombres plus petits que 100
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

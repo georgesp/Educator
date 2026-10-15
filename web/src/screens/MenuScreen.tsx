@@ -2,6 +2,7 @@ import { useEffect, useRef, type KeyboardEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 import type { Profile } from "../api/client";
 import { useSpeech } from "../audio/useSpeech";
+import { usePlacementStatus } from "../app/queries";
 import { BigButton } from "../components/child/BigButton";
 import { CharacterImage } from "../components/child/CharacterImage";
 import { PointsBadge } from "../components/child/PointsBadge";
@@ -32,6 +33,9 @@ function Menu({ profile }: { profile: Profile }) {
   const speak = useSpeech();
   const items = useRef<(HTMLButtonElement | null)[]>([]);
   const hoverTimer = useRef<number | undefined>(undefined);
+  // The level assessment stays offered until it is done (or the child leaves it for later).
+  const placement = usePlacementStatus(profile.id);
+  const placementToDo = placement.data?.subjects.some((s) => s.available) ?? false;
   // No reading after leaving the screen.
   useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
 
@@ -68,6 +72,16 @@ function Menu({ profile }: { profile: Profile }) {
           <h1 className="title">{fr.menu.greeting(profile.name)}</h1>
           <SpeakButton text={fr.menu.spoken(profile.name)} autoPlay compact />
         </div>
+        {placementToDo && (
+          <BigButton
+            className="menu-banner"
+            label={fr.placement.menuBanner}
+            hint={fr.placement.menuBannerHint}
+            icon={<FlagIcon />}
+            variant="outline"
+            onClick={() => void navigate("/evaluation")}
+          />
+        )}
         {ENTRIES.map((entry, index) => (
           <BigButton
             key={entry.key}

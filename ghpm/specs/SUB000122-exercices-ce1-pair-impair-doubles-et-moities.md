@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB000122 — Exercices CE1 — Pair, impair, doubles et moitiés"
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:

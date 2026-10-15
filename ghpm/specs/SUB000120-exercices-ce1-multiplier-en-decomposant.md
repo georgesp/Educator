@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB000120 — Exercices CE1 — Multiplier en décomposant
-status: In progress
+status: In Review
 size: M
 estimate:
 startDate:
