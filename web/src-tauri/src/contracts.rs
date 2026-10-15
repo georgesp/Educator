@@ -225,6 +225,8 @@ pub struct SpeechStatusResponse {
     pub voice: Option<String>,
     /// Why the voice is unavailable (English, diagnostics only).
     pub problem: Option<String>,
+    /// No French voice is installed on the device: the parent can install one (iPad).
+    pub voice_to_install: bool,
 }
 
 // ── Skills (SUB000106) ───────────────────────────────────────────────────────────────────────

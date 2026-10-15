@@ -20,6 +20,7 @@ import { SeriesScreen } from "../screens/SeriesScreen";
 import { SkillsScreen } from "../screens/SkillsScreen";
 import { SubjectScreen } from "../screens/SubjectScreen";
 import { TablesScreen } from "../screens/TablesScreen";
+import { VoiceLabScreen } from "../screens/VoiceLabScreen";
 
 /** Screens of the application, shared by the app and the tests. */
 export const screenRoutes: RouteObject[] = [
@@ -51,6 +52,8 @@ export const screenRoutes: RouteObject[] = [
   { path: "revisions/:subject", element: <ReviewScreen /> },
   // Development only: every child component on one page (SUB000105).
   ...(import.meta.env.DEV ? [{ path: "dev/composants", element: <ComponentsDemoScreen /> }] : []),
+  // Development only: study of the iPad voice (SUB023804).
+  ...(import.meta.env.DEV ? [{ path: "dev/voix", element: <VoiceLabScreen /> }] : []),
 ];
 
 /** Hash routing: the Tauri WebView serves the front from files, without server-side routes. */

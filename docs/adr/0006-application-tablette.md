@@ -1,6 +1,6 @@
 # ADR 0006 — Application tablette (iPad)
 
-- **Statut** : proposée — à valider par Georges (critère de la fiche SUB023801)
+- **Statut** : acceptée (validée par Georges le 2026-10-15)
 - **Date** : 2026-10-15
 - **Fiche** : SUB023801 — Étude : plateformes cibles, versions minimales et prérequis (lot tablette 1, US0238)
 - **Liée à** : [ADR 0003](0003-backend-rust.md) (backend Rust), [ADR 0005](0005-voix-sur-tablette.md) (voix sur tablette)
@@ -56,8 +56,8 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
 | Outil | Version / commande |
 |---|---|
 | Mac | MacBook Pro M1 Pro (Apple Silicon) |
-| macOS | Tahoe 26.6 ou plus récent (exigé par Xcode 27) |
-| Xcode | 27 complet (App Store), pas seulement les Command Line Tools ; plateforme iOS 27 installée |
+| macOS | Golden Gate 27.0.1 (Xcode 27 exige au moins Tahoe 26.6) |
+| Xcode | 27.0 complet (App Store), pas seulement les Command Line Tools ; plateforme iOS 27 installée |
 | Homebrew + CocoaPods | `brew install cocoapods` (prérequis iOS de Tauri 2) |
 | Cibles Rust | `rustup target add aarch64-apple-ios aarch64-apple-ios-sim` (`x86_64-apple-ios` inutile sur Apple Silicon) |
 | Tauri CLI | celle du projet (`@tauri-apps/cli` 2.12), via `npm run tauri` |
@@ -104,7 +104,18 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
 ### Taille de l'application
 
 - Contenu pédagogique (`content/`) : ≈ 2,5 Mo, sans fichier audio (les mots sont lus en direct). Pas de voix ni de
-  moteur à embarquer. Taille de l'application à mesurer à la fiche 14.
+  moteur à embarquer.
+- Mesure du 2026-10-15 (`npm run tauri ios build`, version finale, arm64, SUB023803) :
+
+  | | Taille |
+  |---|---|
+  | Fichier `.ipa` (compressé, ordre de grandeur du téléchargement) | **4,9 Mo** |
+  | Application installée (`Educator.app`) | **11 Mo** |
+  | dont exécutable (cœur Rust + coque Tauri) | 8,0 Mo |
+  | dont contenu pédagogique (`assets/content`) | ≈ 3 Mo |
+  | dont icônes et écran de lancement | 0,3 Mo |
+
+  Pour comparaison, la version de développement (debug) fait 115 Mo installée, dont 112 Mo d'exécutable.
 
 ## Risques
 
@@ -116,6 +127,7 @@ s'afficher sans refonte ; la fiche 08 vérifie chaque écran et ajoute les zones
 | Voix française absente ou de qualité basique | Dictée peu claire | Fiche 05 : état de la voix et message au parent (voix « améliorée » à télécharger dans les réglages) |
 | Application suspendue ou tuée par iPadOS | Série perdue | Fiche 11 : reprise ou abandon propre |
 | Mises à jour de Xcode et d'iPadOS chaque année | Build cassé | Versions notées dans `docs/tablette.md`, CI iOS (fiche 12) |
+| `libc` 0.2.190 réserve `mach_task_self` à macOS : `num_threads` 0.1.7 (via `time`, `tauri-plugin-log`) ne compile plus pour iOS | Build iPad cassé | `libc` bloquée à 0.2.189 dans `Cargo.lock` (2026-10-15) ; ne pas lancer `cargo update` sans `-p` ; lever le blocage quand `libc` ou `num_threads` corrige |
 
 ## Conséquences sur les fiches du lot
 

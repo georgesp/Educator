@@ -822,6 +822,8 @@ export const fr = {
     version: (version: string) => `Version ${version}`,
     voiceReady: (voice: string) => `Voix : ${voice}`,
     voiceUnavailable: "Voix indisponible",
+    /** iPad without a French voice (ADR 0005): where the parent installs one. */
+    voiceToInstall: "Voix : installe une voix française (Réglages › Accessibilité › Contenu énoncé › Voix)",
     databaseNotReady: "Base de données en préparation",
   },
 } as const;

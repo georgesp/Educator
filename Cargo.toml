@@ -3,9 +3,16 @@
 # - crates/educator-content : chargement et validation du contenu pédagogique, Piper (bureau)
 # - crates/educator-data    : SQLite (profils, réglages)
 # - web/src-tauri           : application Tauri (commandes, état partagé, démarrage, logs)
+# - plugins/tauri-plugin-system-voice : voix du système sur iPad (Swift, ADR 0005), aucune règle métier
 [workspace]
 resolver = "2"
-members = ["crates/educator-core", "crates/educator-content", "crates/educator-data", "web/src-tauri"]
+members = [
+    "crates/educator-core",
+    "crates/educator-content",
+    "crates/educator-data",
+    "plugins/tauri-plugin-system-voice",
+    "web/src-tauri",
+]
 
 [workspace.package]
 version = "0.1.0"

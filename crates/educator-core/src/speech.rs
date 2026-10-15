@@ -36,6 +36,9 @@ pub struct SpeechEngineStatus {
     pub voice: Option<String>,
     /// Why the engine is unavailable, in English (logs and diagnostics).
     pub problem: Option<String>,
+    /// The engine works but no French voice is installed: the parent can install one (system voice
+    /// of the iPad, ADR 0005).
+    pub voice_to_install: bool,
 }
 
 impl SpeechEngineStatus {
@@ -44,6 +47,7 @@ impl SpeechEngineStatus {
             is_available: true,
             voice: Some(voice.into()),
             problem: None,
+            voice_to_install: false,
         }
     }
 
@@ -52,6 +56,15 @@ impl SpeechEngineStatus {
             is_available: false,
             voice: None,
             problem: Some(problem.into()),
+            voice_to_install: false,
+        }
+    }
+
+    /// The engine works but has no French voice to read with.
+    pub fn voice_missing(problem: impl Into<String>) -> Self {
+        Self {
+            voice_to_install: true,
+            ..Self::unavailable(problem)
         }
     }
 }

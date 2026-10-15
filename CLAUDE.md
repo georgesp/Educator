@@ -16,7 +16,8 @@ l'Éducation nationale.
 - Aucun compte en ligne, aucune donnée envoyée : tout reste sur l'ordinateur.
 
 Depuis le lot 1bis (ADR 0003), toute la logique est en **Rust**, dans l'application Tauri : plus de host .NET, de
-serveur local ni de token. Cela prépare une version tablette (iOS n'autorise pas de processus annexe).
+serveur local ni de token. Cela permet la version **iPad** (lot tablette 1, ADR 0006 : iPad seul, paysage seul,
+iPadOS 17 minimum), dans le même dépôt : iOS n'autorise pas de processus annexe.
 
 ## Stack technique
 
@@ -44,10 +45,11 @@ Educator/
 │                           # Lot 3 : rewards/ (niveaux, étoiles, objectif du jour, badges + icônes), accessories/ (accessoires d'avatar + planche),
 │                           # progress/ (seuils de la difficulté adaptative, intervalles des révisions), themes/ (liste des thèmes)
 ├── web/                    # Front React + application Tauri (src-tauri/), voir web/README.md
-│   └── src/api/types.ts    # Types des commandes, générés depuis web/src-tauri/src/contracts.rs
+│   ├── src/api/types.ts    # Types des commandes, générés depuis web/src-tauri/src/contracts.rs
+│   └── src-tauri/gen/apple/ # Projet Xcode de la version iPad (`tauri ios init`, commité ; `project.yml` fait foi)
 ├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, listen-words.sh / .ps1
 ├── vendor/piper/           # Moteur Piper + voix, téléchargés par scripts/fetch-piper (non commités)
-├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust, 0004 voix en direct pour les mots, 0005 voix sur tablette — étude)
+├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust, 0004 voix en direct pour les mots, 0005 voix sur tablette — étude, 0006 application tablette (iPad)) ; `docs/tablette.md` : préparer le Mac et l'iPad
 ├── ghpm/                   # Backlog en fiches (voir ci-dessous)
 └── CLAUDE.md
 ```
@@ -181,6 +183,8 @@ cargo clippy --workspace --all-targets -- -D warnings
 cargo fmt --all
 cd web && npm install
 cd web && npm run tauri dev            # application complète
+cd web && npm run tauri ios dev "iPad Air 13-inch (M2)"   # version iPad dans le simulateur (docs/tablette.md)
+cd web && npm run tauri ios dev -- --open                 # version iPad sur l'iPad, via Xcode (docs/tablette.md)
 cd web && npm run api:generate         # après une modification des contrats
 scripts/listen-words.sh --sample 50    # écoute de contrôle des mots (après ajout ou modification de mots)
 EDUCATOR_WRITE_PLANCHE=1 cargo test -p educator-content --test accessories   # régénère content/accessories/planche.html

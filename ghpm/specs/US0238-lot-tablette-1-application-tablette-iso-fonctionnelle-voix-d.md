@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsC4w
+rev: 2026-10-15T13:35:22Z
 url: https://github.com/georgesp/Educator/issues/238
 type: Issue
 repository: georgesp/Educator
@@ -43,7 +44,7 @@ Détail et raisons : `docs/adr/0006-application-tablette.md` ; préparation du M
 - **iPad seulement** (pas d'iPhone) ; Android mis de côté (SUB023807 retirée du lot).
 - Tablette de test : **iPad Air 13 pouces (M2)**, **iPadOS 27** ; iPadOS 17 minimum déclaré.
 - Orientation : **paysage seul**.
-- Mac : MacBook Pro M1 Pro, Xcode 27 (macOS Tahoe 26.6 ou plus récent).
+- Mac : MacBook Pro M1 Pro, macOS Golden Gate 27.0.1, Xcode 27.0.
 - Compte : **Apple ID gratuit** pour commencer (installation valable 7 jours, pas de TestFlight) ; compte Apple Developer payant à décider avant un usage quotidien par les enfants.
 
 ## Hors périmètre

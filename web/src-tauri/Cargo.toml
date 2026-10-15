@@ -27,6 +27,9 @@ serde.workspace = true
 serde_json.workspace = true
 log.workspace = true
 uuid.workspace = true
+# System voice of the iPad (SUB023805, ADR 0005): the plugin runs on iOS only; elsewhere only its
+# models, used by the tests of the adapter (`system_voice.rs`).
+tauri-plugin-system-voice = { path = "../../plugins/tauri-plugin-system-voice" }
 chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
 
 # Desktop only: one window per computer (the database is shared), remembered window size and the

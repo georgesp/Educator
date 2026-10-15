@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDKY
+rev: 2026-10-15T13:35:14Z
 url: https://github.com/georgesp/Educator/issues/241
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023802 — Projet iOS Tauri et compilation du cœur Rust
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -34,7 +35,7 @@ Fiche 01 (plateformes retenues).
 
 ## Critères d'acceptation
 
-- [ ] L'application démarre dans le simulateur iPad (iPad Air 13 pouces M2) et affiche l'écran de choix du profil.
-- [ ] Même chose sur la tablette physique.
-- [ ] `cargo test --workspace` reste vert sur macOS.
-- [ ] La barre d'état indique que la voix est indisponible (en attendant les fiches voix), sans erreur.
+- [x] L'application démarre dans le simulateur iPad (iPad Air 13 pouces M2) et affiche l'écran de choix du profil.
+- [x] Même chose sur la tablette physique.
+- [x] `cargo test --workspace` reste vert sur macOS (et `clippy` sans avertissement).
+- [x] La barre d'état indique que la voix est indisponible (en attendant les fiches voix), sans erreur.

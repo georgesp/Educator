@@ -62,7 +62,13 @@ pub struct Folders {
 }
 
 /// Loads the content, opens the database and finds the voice, then warms the voice up.
-pub fn start(state: Arc<AppState>, folders: Folders) {
+/// `platform_speech`: the voice given by the platform (the system voice on the iPad); otherwise the
+/// voice is chosen here (Piper on the desktop).
+pub fn start(
+    state: Arc<AppState>,
+    folders: Folders,
+    platform_speech: Option<Arc<dyn SpeechSynthesizer>>,
+) {
     let spawned = std::thread::Builder::new()
         .name("educator-startup".to_owned())
         .spawn(move || {
@@ -84,7 +90,7 @@ pub fn start(state: Arc<AppState>, folders: Folders) {
                 return;
             };
 
-            let speech = speech_synthesizer(&folders);
+            let speech = platform_speech.unwrap_or_else(|| speech_synthesizer(&folders));
             let locations = Locations {
                 content_directory,
                 database_path: folders.data.join(educator_data::DATABASE_FILE_NAME),
@@ -134,11 +140,11 @@ fn speech_synthesizer(folders: &Folders) -> Arc<dyn SpeechSynthesizer> {
     ))
 }
 
-/// No voice on tablets until the tablet lot.
+/// No voice on Android (the iPad gets the system voice from `lib.rs`).
 #[cfg(mobile)]
 fn speech_synthesizer(_folders: &Folders) -> Arc<dyn SpeechSynthesizer> {
     Arc::new(educator_core::speech::UnavailableSpeechSynthesizer::new(
-        "No voice on tablets yet.",
+        "No voice on this tablet.",
     ))
 }
 

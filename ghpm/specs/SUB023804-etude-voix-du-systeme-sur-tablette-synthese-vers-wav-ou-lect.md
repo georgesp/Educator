@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDYw
+rev: 2026-10-15T13:35:16Z
 url: https://github.com/georgesp/Educator/issues/243
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023804 — Étude — voix du système sur tablette (synthèse vers WAV ou lecture directe)
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -38,6 +39,7 @@ Aujourd'hui le contrat est : le Rust renvoie des **octets WAV** (`SpeechSynthesi
 
 ## Critères d'acceptation
 
-- [ ] Prototype essayé sur l'iPad de test (iPad Air 13 pouces M2, iPadOS 27) : latence d'un mot et d'une phrase mesurée.
-- [ ] Lecture du WAV par le front après l'appel asynchrone vérifiée dans la vue web de l'iPad (risque noté dans l'ADR 0006).
-- [ ] Écoute de contrôle par Georges (qualité, vitesse 0,5×) notée dans l'ADR.
+- [x] Prototype essayé sur l'iPad de test (iPad Air 13 pouces M2, iPadOS 27) : latence d'un mot et d'une phrase mesurée (voix du système par l'API Web, ADR 0005).
+- [x] Lecture du WAV par le front après l'appel asynchrone vérifiée dans la vue web de l'iPad (risque noté dans l'ADR 0006) : jouée.
+- [x] Écoute de contrôle par Georges (qualité, vitesse 0,5×) notée dans l'ADR.
+- [x] `AVSpeechSynthesizer.write` essayé en natif (WAV fiable ?) : décide entre le contrat WAV et la lecture native. **Contrat WAV retenu** (ADR 0005).

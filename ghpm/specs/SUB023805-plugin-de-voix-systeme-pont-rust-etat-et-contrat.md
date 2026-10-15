@@ -7,7 +7,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023805 — Plugin de voix système — pont Rust, état et contrat"
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -32,6 +32,13 @@ Fiche 04 (contrat retenu).
 - `get_status` : l'état de la voix explique le cas « voix française absente » (« Installe la voix française dans les réglages de la tablette ») ; l'application fonctionne sans son, comme sans Piper aujourd'hui.
 - Préchauffage au démarrage si le moteur du système en bénéficie.
 - Le mot d'une dictée n'est jamais envoyé au front avant la réponse (`speak_series_word`), comme sur le bureau.
+
+## Réalisation (2026-10-15)
+
+- Plugin `plugins/tauri-plugin-system-voice/` (Swift : voix `fr-FR`, `AVSpeechSynthesizer.write`, SSML avec pause après les deux-points, session `.playback` ; Rust : appels, modèles, WAV) et adaptateur `web/src-tauri/src/system_voice.rs` (trait `VoiceBridge`, faux pont dans les tests). Contrat WAV retenu (ADR 0005).
+- `get_status` : champ `voiceToInstall` (`SpeechEngineStatus::voice_missing`) ; la barre d'état affiche « Voix : installe une voix française (Réglages › Accessibilité › Contenu énoncé › Voix) ».
+- Pas de cache des phrases sur l'iPad pour l'instant : WAV reçu en 300 à 335 ms, mots des dictées préparés à l'avance (`SpeechPreparer`).
+- Préchauffage : « Bonjour. » lu au démarrage, liste des voix dans les logs.
 
 ## Critères d'acceptation
 

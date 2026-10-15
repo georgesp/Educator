@@ -15,7 +15,11 @@ export function StatusBar() {
     <footer className="status-bar" aria-label="État de l'application">
       <span>{fr.status.version(data.version)}</span>
       <span title={speech.problem ?? undefined}>
-        {speech.isAvailable && speech.voice ? fr.status.voiceReady(speech.voice) : fr.status.voiceUnavailable}
+        {speech.isAvailable && speech.voice
+          ? fr.status.voiceReady(speech.voice)
+          : speech.voiceToInstall
+            ? fr.status.voiceToInstall
+            : fr.status.voiceUnavailable}
       </span>
       {!data.database.isReady && <span>{fr.status.databaseNotReady}</span>}
     </footer>

@@ -7,10 +7,13 @@ mod commands;
 mod contracts;
 mod services;
 mod state;
+#[cfg(any(target_os = "ios", test))]
+mod system_voice;
 
 #[cfg(test)]
 mod bindings;
 
+use educator_core::speech::SpeechSynthesizer;
 use state::{AppState, Folders};
 use std::sync::Arc;
 use tauri::Manager;
@@ -50,6 +53,10 @@ pub fn run() {
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .plugin(tauri_plugin_dialog::init());
 
+    // iPad: the system voice (SUB023805); its handle is read in `setup`.
+    #[cfg(target_os = "ios")]
+    let builder = builder.plugin(tauri_plugin_system_voice::init());
+
     let state = Arc::new(AppState::default());
     builder
         .plugin(logs)
@@ -66,6 +73,7 @@ pub fn run() {
                     executable,
                     data: data_directory,
                 },
+                platform_speech(app),
             );
             Ok(())
         })
@@ -121,4 +129,24 @@ pub fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running the application");
+}
+
+/// The system voice on the iPad (ADR 0005). `None` elsewhere: Piper on the desktop, chosen at start-up.
+/// Only reads the plugin state here: the voice itself is never called from the main thread.
+#[cfg(target_os = "ios")]
+fn platform_speech(app: &tauri::App) -> Option<Arc<dyn SpeechSynthesizer>> {
+    match app.try_state::<tauri_plugin_system_voice::SystemVoice<tauri::Wry>>() {
+        Some(voice) => Some(Arc::new(system_voice::SystemVoiceSynthesizer::new(
+            voice.inner().clone(),
+        ))),
+        None => {
+            log::error!("System voice plugin not registered: no voice on the iPad.");
+            None
+        }
+    }
+}
+
+#[cfg(not(target_os = "ios"))]
+fn platform_speech(_app: &tauri::App) -> Option<Arc<dyn SpeechSynthesizer>> {
+    None
 }

@@ -217,6 +217,7 @@ impl Services {
                 is_available: speech.is_available,
                 voice: speech.voice,
                 problem: speech.problem,
+                voice_to_install: speech.voice_to_install,
             },
         }
     }
@@ -680,8 +681,14 @@ impl Services {
             )
         })?;
         let reading = word_speech(&SpokenWord::of(found, None), example, slow)?;
-        self.speech
-            .synthesize(&reading.text, voice.apply(reading.speed))
+        // Same path as a dictation: a word in its carrier (« Le mot : jaune. ») comes back cut at
+        // the pause of the colon (ADR 0004).
+        let reading = speech::Reading {
+            speed: voice.apply(reading.speed),
+            ..reading
+        };
+        reading
+            .synthesize(self.speech.as_ref())
             .map_err(speech_error)
     }
 
@@ -1758,6 +1765,87 @@ mod tests {
         }
 
         fn warm_up(&self, _speed: f64) {}
+    }
+
+    /// A voice that reads any text as « sound, pause of 0.4 s, sound » (16-bit mono WAV).
+    struct PausedVoice;
+
+    fn paused_wav() -> Vec<u8> {
+        let rate: u32 = 16_000;
+        let mut samples: Vec<i16> = Vec::new();
+        let tone = |samples: &mut Vec<i16>| {
+            samples.extend((0..4_800).map(|i| if i % 2 == 0 { 8_000 } else { -8_000 }));
+        };
+        tone(&mut samples);
+        samples.extend(std::iter::repeat_n(0, 6_400));
+        tone(&mut samples);
+        let data: Vec<u8> = samples.iter().flat_map(|s| s.to_le_bytes()).collect();
+        let mut wav = Vec::new();
+        wav.extend_from_slice(b"RIFF");
+        wav.extend_from_slice(&(36 + data.len() as u32).to_le_bytes());
+        wav.extend_from_slice(b"WAVEfmt ");
+        wav.extend_from_slice(&16u32.to_le_bytes());
+        wav.extend_from_slice(&1u16.to_le_bytes());
+        wav.extend_from_slice(&1u16.to_le_bytes());
+        wav.extend_from_slice(&rate.to_le_bytes());
+        wav.extend_from_slice(&(rate * 2).to_le_bytes());
+        wav.extend_from_slice(&2u16.to_le_bytes());
+        wav.extend_from_slice(&16u16.to_le_bytes());
+        wav.extend_from_slice(b"data");
+        wav.extend_from_slice(&(data.len() as u32).to_le_bytes());
+        wav.extend_from_slice(&data);
+        wav
+    }
+
+    impl SpeechSynthesizer for PausedVoice {
+        fn status(&self) -> educator_core::speech::SpeechEngineStatus {
+            educator_core::speech::SpeechEngineStatus::available("paused")
+        }
+
+        fn synthesize(&self, _text: &str, _speed: f64) -> educator_core::Result<Vec<u8>> {
+            Ok(paused_wav())
+        }
+
+        fn warm_up(&self, _speed: f64) {}
+    }
+
+    /// `speak_word` (« Écouter le mot » outside a series) takes the path of a dictation: a word in its
+    /// carrier, « Le mot : jaune. », is cut at the pause; its example sentence is read whole.
+    #[test]
+    fn a_word_alone_is_cut_after_its_carrier_and_its_sentence_is_read_whole() {
+        let f = fixture_with_voice(Arc::new(PausedVoice));
+        let whole = paused_wav().len();
+
+        let word = f
+            .services
+            .speak_word("jaune", false, false, VoiceSpeed::Normal)
+            .unwrap();
+        let sentence = f
+            .services
+            .speak_word("jaune", true, false, VoiceSpeed::Normal)
+            .unwrap();
+
+        assert!(word.len() < whole, "the carrier is cut off");
+        assert_eq!(whole, sentence.len(), "the sentence is read whole");
+    }
+
+    /// SUB023805: without a voice (no Piper, no French voice on the iPad), the readings answer 503
+    /// and the application goes on without sound.
+    #[test]
+    fn readings_answer_503_without_a_voice() {
+        let f = fixture();
+
+        let word = f
+            .services
+            .speak_word("jaune", false, false, VoiceSpeed::Normal)
+            .unwrap_err();
+        let text = f
+            .services
+            .speak("Écoute bien.", None, VoiceSpeed::Normal)
+            .unwrap_err();
+
+        assert_eq!(503, word.status);
+        assert_eq!(503, text.status);
     }
 
     /// SUB026705, SUB026706, SUB026702: the words of a dictation are prepared (each word, then its

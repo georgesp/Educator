@@ -358,6 +358,7 @@ impl SpeechSynthesizer for PiperSpeechSynthesizer {
                 is_available: false,
                 voice: Some(self.installation.voice_name.clone()),
                 problem: Some(problem),
+                voice_to_install: false,
             },
         }
     }

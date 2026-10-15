@@ -37,6 +37,16 @@ export function stopSpeech(): void {
   }
 }
 
+// The voice stops when the application goes to the background (iPad, SUB023806) or the window is
+// hidden: a reading never goes on behind another application.
+if (typeof document !== "undefined") {
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      stopSpeech();
+    }
+  });
+}
+
 async function play(load: () => Promise<Blob>, startedAt: number): Promise<void> {
   // « Couper les sons » (Options) silences the voice too.
   if (!voiceEnabled || isMuted()) {

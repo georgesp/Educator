@@ -20,7 +20,10 @@ mod settings;
 pub use database::{Database, InitReport};
 pub use migrations::MIGRATIONS;
 pub use motivation::{SqliteProfileSettingsStore, SqliteReviewStore, SqliteRewardStore};
-pub use paths::{app_data_directory, DATABASE_FILE_NAME, DATA_DIR_VARIABLE, LOGS_FOLDER_NAME};
+pub use paths::{
+    app_data_directory, data_directory_for, Platform, APP_FOLDER_NAME, DATABASE_FILE_NAME,
+    DATA_DIR_VARIABLE, LOGS_FOLDER_NAME,
+};
 pub use profiles::SqliteProfileStore;
 pub use sessions::SqliteSessionStore;
 pub use settings::SqliteAppSettingsStore;

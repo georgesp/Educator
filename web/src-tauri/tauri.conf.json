@@ -37,6 +37,9 @@
     ],
     "resources": {
       "../../content/": "content/"
+    },
+    "iOS": {
+      "minimumSystemVersion": "17.0"
     }
   }
 }

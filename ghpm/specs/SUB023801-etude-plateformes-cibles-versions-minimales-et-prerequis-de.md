@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDB8
+rev: 2026-10-15T13:35:13Z
 url: https://github.com/georgesp/Educator/issues/240
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023801 — Étude — plateformes cibles, versions minimales et prérequis de la version tablette"
-status: Todo
+status: Done
 size: S
 estimate:
 startDate:
@@ -34,5 +35,5 @@ En tant que Georges, je veux savoir précisément ce qu'il faut (matériel, comp
 
 ## Critères d'acceptation
 
-- [ ] ADR 0006 rédigé et validé par Georges.
+- [x] ADR 0006 rédigé et validé par Georges.
 - [x] La liste des fiches iOS / Android du lot est ajustée selon les plateformes retenues (iPad seul : SUB023807 et SUB023905 mises de côté ; SUB023804, SUB023812, SUB023813 limitées à iOS).

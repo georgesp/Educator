@@ -1,0 +1,29 @@
+[package]
+name = "tauri-plugin-system-voice"
+description = "System voice of the iPad (AVSpeechSynthesizer) for Educator: French voices and synthesis to a 16-bit WAV (SUB023805, ADR 0005). No business rule."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
+links = "tauri-plugin-system-voice"
+
+[build-dependencies]
+tauri-plugin = { version = "2", features = ["build"] }
+
+# Answers of the Swift side and their decoding: every target (tested on the desktop).
+[dependencies]
+serde.workspace = true
+base64 = "0.22"
+
+# The Swift side exists only on iOS.
+[target.'cfg(target_os = "ios")'.dependencies]
+tauri = { version = "2", features = ["wry"] }
+log.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

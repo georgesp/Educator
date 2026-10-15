@@ -30,7 +30,11 @@ voice: string | null,
 /**
  * Why the voice is unavailable (English, diagnostics only).
  */
-problem: string | null, };
+problem: string | null, 
+/**
+ * No French voice is installed on the device: the parent can install one (iPad).
+ */
+voiceToInstall: boolean, };
 
 export type SkillsResponse = { subject: Subject, 
 /**
