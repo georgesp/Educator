@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_Ig
+rev: 2026-10-15T05:31:33Z
 url: https://github.com/georgesp/Educator/issues/283
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB027607 — Identité de l'appareil, suivi des changements et migration de la base"
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -29,7 +30,17 @@ En tant que parent, je veux que chaque appareil sache qui il est et ce qu'il a d
 
 ## Critères d'acceptation
 
-- [ ] Une base existante (migrations 1 à 3) est migrée sans perte ; test d'intégration sur une base de l'état actuel.
-- [ ] Toute modification d'un profil, d'une séance, d'une réponse ou d'une progression de leçon est visible dans le suivi ; la suppression d'un profil laisse une pierre tombale.
-- [ ] L'identifiant d'appareil est stable après relance et n'est jamais copié par une sauvegarde de la base d'un appareil à l'autre (cas à documenter dans l'ADR).
-- [ ] Tests unitaires et d'intégration (`cargo test --workspace`), `clippy` sans avertissement.
+- [x] Une base existante (migrations 1 à 3) est migrée sans perte ; test d'intégration sur une base de l'état actuel.
+- [x] Toute modification d'un profil, d'une séance, d'une réponse ou d'une progression de leçon est visible dans le suivi ; la suppression d'un profil laisse une pierre tombale.
+- [x] L'identifiant d'appareil est stable après relance et n'est jamais copié par une sauvegarde de la base d'un appareil à l'autre (cas à documenter dans l'ADR).
+- [x] Tests unitaires et d'intégration (`cargo test --workspace`), `clippy` sans avertissement.
+
+## Réalisation (2026-10-15)
+
+- Migration `0005_sync` (`crates/educator-data/src/migrations.rs`) : `SyncState`, `SyncRow`, `SyncCounter`,
+  `SyncPeer`, et des **déclencheurs** sur chaque table synchronisée : le suivi est écrit dans la même transaction que
+  la donnée, sans toucher aux stores existants. L'horloge hybride vient de la fonction SQL `educator_hlc()`
+  (`educator-data::database`).
+- Identifiant d'appareil créé au premier démarrage après la migration ; tout l'existant est marqué « à envoyer ».
+- La sauvegarde n'emporte aucune table de synchronisation ; une restauration n'envoie aucune suppression.
+- Tests : `crates/educator-data/tests/sync.rs` (base du lot 3 migrée, suivi de chaque écriture, identité, sauvegarde).

@@ -24,6 +24,8 @@ export const queryKeys = {
   settings: (profileId: string) => ["profile-settings", profileId] as const,
   settingsOptions: ["settings-options"] as const,
   lessons: (grade: Grade, subject: Subject, profileId?: string) => ["lessons", grade, subject, profileId ?? null] as const,
+  /** Lot tablette 2: the screen « Synchronisation » of the parents' space. */
+  syncStatus: ["sync-status"] as const,
 };
 
 /**

@@ -177,6 +177,18 @@ Noter pour chaque ligne : OK, ou le défaut et son niveau (**bloquant** / **gên
 Rapport : copier ce tableau rempli dans la fiche SUB023814 (section « Recette »), avec une fiche ou une correction
 pour chaque défaut bloquant ou gênant.
 
+## 12. Synchroniser avec l'ordinateur (lot tablette 2)
+
+Décisions : [ADR 0007](adr/0007-synchronisation-locale.md) ; recette : [recette-synchronisation.md](recette-synchronisation.md).
+
+1. `cd web && npm install` (ajoute `@tauri-apps/plugin-barcode-scanner`), puis relancer `npm run tauri ios dev -- --open`.
+2. Sur le Mac : espace parent › « Synchronisation avec la tablette » › « Associer une tablette ». La première fois,
+   macOS demande d'accepter les connexions entrantes pour Educator : « Autoriser ».
+3. Sur l'iPad : espace parent › « Associer à l'ordinateur », viser le QR code. Autoriser la caméra, puis le réseau
+   local. Sans caméra : « Pas de caméra ? Entrer le code » avec l'adresse et le code affichés sous le QR code.
+4. Ensuite : « Synchroniser maintenant » dans l'espace parent de l'iPad, ou automatiquement à « Qui joue ? » si
+   l'option « Recevoir les synchronisations » est activée sur le Mac (et Educator ouvert).
+
 ## Dépannage
 
 | Symptôme | Piste |
@@ -194,3 +206,7 @@ pour chaque défaut bloquant ou gênant.
 | L'application se ferme dès le lancement | Dossier de données inaccessible : voir `educator-data/src/paths.rs` (iPad = `Library/Application Support`) |
 | Le simulateur n'est pas proposé par `tauri ios dev` | iPad branché (Tauri ne propose alors que lui) : le débrancher ; simulateur créé dans Device Hub (Xcode 27) : vérifier `xcrun simctl list devices available`, sinon le créer avec `xcrun simctl create` |
 | « Oups ! L'application n'a pas pu démarrer » | Lire le détail affiché dessous ; ne lancer que `npm run tauri ios dev` (pas l'application de bureau en même temps) |
+- **L'iPad ne trouve pas l'ordinateur** : même Wi-Fi (pas le réseau « invité » de la box), Educator ouvert sur le Mac
+  avec l'écran « Synchronisation » (ou l'option de réception), pare-feu du Mac (Réglages Système › Réseau › Pare-feu),
+  permission « Réseau local » de l'iPad (Réglages › Confidentialité et sécurité › Réseau local). Si la box a redémarré,
+  scanner à nouveau le QR code met l'adresse à jour sans rien perdre.

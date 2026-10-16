@@ -3,9 +3,10 @@ use super::exam::{
     TIMED_MIN_MASTERY,
 };
 use super::{generate_series_as, Answer, Exercise, Picture, DEFAULT_LENGTH};
+use crate::adaptive::AdaptiveRules;
 use crate::clock::{uuid_v7, Clock};
 use crate::lessons::Lesson;
-use crate::points::PointsRules;
+use crate::points::{apply_percent, PaceContext, PointsRules, USUAL_PERCENT};
 use crate::profiles::{Profile, ProfileStore};
 use crate::random::RandomSource;
 use crate::reviews::{review_exercise, ReviewOrigin, ReviewQueue};
@@ -58,6 +59,9 @@ pub struct Series {
     pub started_at: i64,
     /// « Mes révisions »: the review item of each exercise (SUB001509); empty otherwise.
     pub review_items: Vec<Uuid>,
+    /// Percent of the points earned: [`USUAL_PERCENT`], less on a past period already mastered,
+    /// more on a period still to come ([`crate::points::Pace`]). Fixed when the series starts.
+    pub points_percent: u32,
     answers: Vec<Option<bool>>,
     closed: bool,
 }
@@ -131,8 +135,10 @@ pub struct SeriesSummary {
     pub abandoned: bool,
     pub correct_count: usize,
     pub exercise_count: usize,
-    /// Points earned by this series.
+    /// Points earned by this series, [`Self::points_percent`] applied.
     pub points_earned: i32,
+    /// Percent applied to the points of the series ([`Series::points_percent`]).
+    pub points_percent: u32,
     /// New total of the profile.
     pub profile_points: i32,
     /// Right, wrong or not answered, for each exercise of the series (results by skill of an exam).
@@ -209,6 +215,8 @@ pub struct NewSeries {
     pub question_seconds: Option<u32>,
     /// « Mes révisions »: the review item of each exercise.
     pub review_items: Vec<Uuid>,
+    /// Percent of the points ([`Series::points_percent`]).
+    pub points_percent: u32,
 }
 
 #[derive(Default)]
@@ -227,6 +235,8 @@ pub struct SeriesService {
     profiles: Arc<dyn ProfileStore>,
     sessions: Arc<dyn SessionStore>,
     points: PointsRules,
+    /// When a skill is mastered, for the points of a past period.
+    adaptive: AdaptiveRules,
     random: Arc<dyn RandomSource>,
     clock: Arc<dyn Clock>,
     in_progress: Mutex<InProgress>,
@@ -258,12 +268,20 @@ impl SeriesService {
             profiles,
             sessions,
             points,
+            adaptive: AdaptiveRules::DEFAULT,
             random,
             clock,
             in_progress: Mutex::new(InProgress::default()),
             listening: AtomicBool::new(true),
             reviews: None,
         }
+    }
+
+    /// The mastery thresholds of `content/progress/adaptive.json`: a past period mastered earns
+    /// the points of a revision.
+    pub fn with_adaptive(mut self, adaptive: AdaptiveRules) -> Self {
+        self.adaptive = adaptive;
+        self
     }
 
     /// The mistakes go to the review queue, and « Mes révisions » can be started (SUB001509).
@@ -323,7 +341,8 @@ impl SeriesService {
 
     /// A series of exercises of one skill. `format`: the kind of exercise chosen (dictation…), all
     /// the formats of the skill allowed by the answer mode when `None`. `seed`: fixed seed (tests,
-    /// reproducing a series); random when `None`.
+    /// reproducing a series); random when `None`. `current_period`: the school period of today,
+    /// which gives the percent of the points ([`crate::points::Pace`]).
     pub fn start(
         &self,
         profile_id: Uuid,
@@ -331,8 +350,9 @@ impl SeriesService {
         answer_mode: AnswerMode,
         format: Option<ExerciseFormat>,
         seed: Option<u32>,
+        current_period: u8,
     ) -> Result<Series> {
-        self.profile(profile_id)?;
+        let profile = self.profile(profile_id)?;
         let skill = self
             .skills
             .find(skill_id)
@@ -357,6 +377,17 @@ impl SeriesService {
         let seed = self.seed_or_random(seed);
         let exercises =
             generate_series_as(skill, u64::from(seed), answer_mode, DEFAULT_LENGTH, format)?;
+        let (shown, offered) = self
+            .skills
+            .offered_or_fallback(skill.subject, profile.grade);
+        let masteries = self.sessions.masteries(profile_id)?;
+        let pace = PaceContext {
+            grade: profile.grade,
+            current_period,
+            masteries: &masteries,
+            rules: &self.adaptive,
+        }
+        .skill(shown, &offered, &skill.id);
         self.open(
             profile_id,
             NewSeries {
@@ -373,6 +404,7 @@ impl SeriesService {
                 time_limit_seconds: None,
                 question_seconds: None,
                 review_items: Vec::new(),
+                points_percent: self.points.percent(pace),
             },
         )
     }
@@ -409,6 +441,7 @@ impl SeriesService {
                 // The timer chosen in the profile; 0 is no timer.
                 question_seconds: Some(profile.exam_seconds).filter(|s| *s > 0),
                 review_items: Vec::new(),
+                points_percent: USUAL_PERCENT,
             },
         )
     }
@@ -450,6 +483,7 @@ impl SeriesService {
                 time_limit_seconds: None,
                 question_seconds: Some(profile.placement_seconds),
                 review_items: Vec::new(),
+                points_percent: USUAL_PERCENT,
             },
         )
     }
@@ -528,12 +562,28 @@ impl SeriesService {
                 time_limit_seconds: Some(seconds),
                 question_seconds: None,
                 review_items: Vec::new(),
+                points_percent: USUAL_PERCENT,
             },
         )
     }
 
-    /// The quiz of a lesson (SUB001411), recorded as a session `LessonQuiz` on the lesson's main skill.
-    pub fn start_lesson_quiz(&self, profile_id: Uuid, lesson: &Lesson) -> Result<Series> {
+    /// The quiz of a lesson (SUB001411), recorded as a session `LessonQuiz` on the lesson's main
+    /// skill. `current_period`: the school period of today, which gives the percent of the points.
+    pub fn start_lesson_quiz(
+        &self,
+        profile_id: Uuid,
+        lesson: &Lesson,
+        current_period: u8,
+    ) -> Result<Series> {
+        let profile = self.profile(profile_id)?;
+        let masteries = self.sessions.masteries(profile_id)?;
+        let pace = PaceContext {
+            grade: profile.grade,
+            current_period,
+            masteries: &masteries,
+            rules: &self.adaptive,
+        }
+        .lesson(lesson);
         let exercises = lesson.quiz_exercises();
         let skill_id = lesson
             .skill_ids
@@ -556,6 +606,7 @@ impl SeriesService {
                 time_limit_seconds: None,
                 question_seconds: None,
                 review_items: Vec::new(),
+                points_percent: self.points.percent(pace),
             },
         )
     }
@@ -619,6 +670,8 @@ impl SeriesService {
                 time_limit_seconds: None,
                 question_seconds: None,
                 review_items: items,
+                // « Mes révisions » is worth the usual points whatever the period of its mistakes.
+                points_percent: USUAL_PERCENT,
             },
         )
     }
@@ -645,6 +698,7 @@ impl SeriesService {
             lesson_id: new.lesson_id,
             started_at: now,
             review_items: new.review_items,
+            points_percent: new.points_percent,
             closed: false,
         };
         self.sessions.add_session(&SessionRecord {
@@ -834,6 +888,12 @@ impl SeriesService {
         self.close(series_id, profile_id, false)
     }
 
+    /// Whether a series, exam, quiz or timed challenge is in progress (not over yet): the
+    /// synchronisation never starts then (ADR 0007, section 9).
+    pub fn has_series_in_progress(&self) -> bool {
+        self.lock().series.values().any(|s| !s.closed)
+    }
+
     /// A profile is deleted: its series in progress are forgotten (its sessions go with it).
     pub fn forget_profile(&self, profile_id: Uuid) {
         let mut state = self.lock();
@@ -910,7 +970,11 @@ impl SeriesService {
         // A level assessment earns no points (nothing to gain by guessing), and an abandoned one
         // counts for nothing: neither the statistics nor the masteries take it into account.
         let placement = series.session_type == SessionType::Placement;
-        let earned = if placement { 0 } else { earned };
+        let earned = if placement {
+            0
+        } else {
+            apply_percent(earned, series.points_percent)
+        };
         let total = self
             .profiles
             .add_points(profile_id, earned)?
@@ -965,6 +1029,7 @@ impl SeriesService {
             correct_count,
             exercise_count: question_count,
             points_earned: earned,
+            points_percent: series.points_percent,
             profile_points: total,
             results,
             skill_ids,

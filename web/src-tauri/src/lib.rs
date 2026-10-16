@@ -1,12 +1,14 @@
 //! Educator desktop application (Tauri 2, ADR 0003). Everything runs in this process: the commands
 //! (`commands.rs`) call the services assembled at start-up (`state.rs`, `services.rs`) from the
-//! `educator-core`, `educator-content` and `educator-data` crates. No server, no port, no child
-//! process except the Piper voice.
+//! `educator-core`, `educator-content`, `educator-data` and `educator-sync` crates. No child process
+//! except the Piper voice; the only port is the synchronisation server of the computer, open while the
+//! parents' space asks for it (lot tablette 2, ADR 0007).
 
 mod commands;
 mod contracts;
 mod services;
 mod state;
+mod synchronisation;
 #[cfg(any(target_os = "ios", test))]
 mod system_voice;
 
@@ -56,6 +58,10 @@ pub fn run() {
     // iPad: the system voice (SUB023805); its handle is read in `setup`.
     #[cfg(target_os = "ios")]
     let builder = builder.plugin(tauri_plugin_system_voice::init());
+
+    // iPad: the camera reads the pairing QR code of the computer (SUB027601).
+    #[cfg(mobile)]
+    let builder = builder.plugin(tauri_plugin_barcode_scanner::init());
 
     let state = Arc::new(AppState::default());
     builder
@@ -126,6 +132,18 @@ pub fn run() {
             commands::get_settings_options,
             commands::export_backup,
             commands::import_backup,
+            commands::get_sync_status,
+            commands::open_sync_screen,
+            commands::close_sync_screen,
+            commands::set_sync_receive,
+            commands::start_sync_pairing,
+            commands::cancel_sync_pairing,
+            commands::rename_sync_device,
+            commands::remove_sync_device,
+            commands::pair_with_computer,
+            commands::sync_now,
+            commands::answer_sync_question,
+            commands::interrupt_sync,
         ])
         .run(tauri::generate_context!())
         .expect("error while running the application");

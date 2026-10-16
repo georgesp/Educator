@@ -1,5 +1,6 @@
-//! Dependency rule (ADR 0001/0003): educator-core depends on no infrastructure crate. Only the
-//! crates listed here may appear among its normal (non-dev) dependencies.
+//! Dependency rule (ADR 0001/0003/0007): educator-core depends on no infrastructure crate. Only the
+//! crates listed here may appear among its normal (non-dev) dependencies. educator-data,
+//! educator-content and educator-sync build on educator-core, never on each other.
 
 use std::process::Command;
 
@@ -46,6 +47,10 @@ fn core_depends_on_no_infrastructure_crate() {
         );
     }
 
+    assert!(
+        packages.iter().any(|p| p["name"] == "educator-sync"),
+        "educator-sync in the workspace"
+    );
     for package in packages.iter().filter(|p| {
         p["name"]
             .as_str()
@@ -61,22 +66,22 @@ fn core_depends_on_no_infrastructure_crate() {
             continue;
         }
 
-        // Data and content depend on core, never the other way round, and never on each other.
-        if name == "educator-data" || name == "educator-content" {
+        // Data, content and sync depend on core, never the other way round, and never on each
+        // other (the tests of sync may use data: dev-dependencies are not checked).
+        const LAYERS: [&str; 3] = ["educator-data", "educator-content", "educator-sync"];
+        if LAYERS.contains(&name) {
             assert!(uses_core, "{name} builds on educator-core");
-            let other = if name == "educator-data" {
-                "educator-content"
-            } else {
-                "educator-data"
-            };
-            assert!(
-                !package["dependencies"]
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .any(|d| d["name"] == other),
-                "{name} must not depend on {other}"
-            );
+            for other in LAYERS.iter().filter(|o| **o != name) {
+                assert!(
+                    !package["dependencies"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .filter(|d| d["kind"].is_null())
+                        .any(|d| d["name"] == *other),
+                    "{name} must not depend on {other}"
+                );
+            }
         }
     }
 }

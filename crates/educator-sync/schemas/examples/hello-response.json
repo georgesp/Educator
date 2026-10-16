@@ -1,0 +1,31 @@
+{
+  "protocol": 1,
+  "deviceId": "0199f1a2-0000-7000-8000-00000000c0de",
+  "epoch": "0199f1a2-0000-7000-8000-00000000e0c1",
+  "profiles": [
+    {
+      "id": "0199f1a2-1111-7000-8000-000000000001",
+      "name": "Léa",
+      "grade": "CE1",
+      "characterId": "renard",
+      "accessories": [
+        {
+          "id": "casquette",
+          "color": "bleu"
+        }
+      ],
+      "placementSeconds": 20,
+      "examSeconds": 0,
+      "createdAt": 1792000000000,
+      "lastUsedAt": 1792090000000,
+      "clocks": {
+        "name": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "grade": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "avatar": "0001792050000000-000002-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "placementSeconds": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "examSeconds": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "lastUsedAt": "0001792090000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6"
+      }
+    }
+  ]
+}

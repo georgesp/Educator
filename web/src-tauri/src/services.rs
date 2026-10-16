@@ -3,6 +3,7 @@
 //! here. Kept free of Tauri types so that it is tested directly (`tests` below).
 
 use crate::contracts::*;
+use crate::synchronisation::Synchronisation;
 use educator_content::{EducatorContent, WordBank};
 use educator_core::adaptive::{advise, AdaptiveRules};
 use educator_core::characters::CharacterCatalog;
@@ -16,6 +17,7 @@ use educator_core::lessons::LessonCatalog;
 use educator_core::mascot::{Expression, MascotService};
 use educator_core::parent_gate::ParentGateKeeper;
 use educator_core::parent_profile::ParentProfileService;
+use educator_core::points::PaceContext;
 use educator_core::profile_settings::SESSION_MINUTES;
 use educator_core::profile_settings::{ProfileSettingsService, VoiceSpeed};
 use educator_core::profiles::ProfileService;
@@ -23,6 +25,7 @@ use educator_core::random::RandomSource;
 use educator_core::reviews::ReviewQueue;
 use educator_core::rewards::accessories::WornAccessory;
 use educator_core::rewards::daily_goal::GOAL_CHOICES;
+use educator_core::rewards::RewardStore;
 use educator_core::rewards::{DateOf, RewardsDependencies, RewardsService};
 use educator_core::sessions::{close_open_sessions, SessionStore};
 use educator_core::settings::AppSettingsStore;
@@ -30,11 +33,13 @@ use educator_core::skills::{Date, SchoolCalendar, SkillCatalog};
 use educator_core::speech::{self, SpeechPreparer, SpeechSynthesizer};
 use educator_core::spelling::SpokenWord;
 use educator_core::statistics::{profile_statistics, LocalCalendar};
+use educator_core::sync::{refresh_pending, SyncStore};
 use educator_core::Error;
 use educator_data::{
     Database, SqliteAppSettingsStore, SqliteProfileSettingsStore, SqliteProfileStore,
-    SqliteReviewStore, SqliteRewardStore, SqliteSessionStore,
+    SqliteReviewStore, SqliteRewardStore, SqliteSessionStore, SqliteSyncStore,
 };
+use educator_sync::service::SyncDependencies;
 use std::fmt;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -80,6 +85,8 @@ pub struct Services {
     adaptive: AdaptiveRules,
     themes: Vec<educator_core::profile_settings::Theme>,
     database: Arc<Database>,
+    /// Lot tablette 2: the synchronisation with the other device (ADR 0007).
+    synchronisation: Synchronisation,
 }
 
 impl fmt::Debug for Services {
@@ -91,6 +98,28 @@ impl fmt::Debug for Services {
 impl Services {
     /// Loads the content (invalid files are logged and skipped) and opens the database.
     pub fn start(
+        locations: &Locations,
+        speech: Arc<dyn SpeechSynthesizer>,
+        random: Arc<dyn RandomSource>,
+        clock: Arc<dyn Clock>,
+        today: Box<dyn Fn() -> Date + Send + Sync>,
+        local_date: DateOf,
+    ) -> Result<Services, String> {
+        Self::start_as(
+            Synchronisation::platform_role(),
+            locations,
+            speech,
+            random,
+            clock,
+            today,
+            local_date,
+        )
+    }
+
+    /// [`Services::start`] with the role of this device in the synchronisation (the tests run the
+    /// iPad side on the computer).
+    pub fn start_as(
+        role: SyncRole,
         locations: &Locations,
         speech: Arc<dyn SpeechSynthesizer>,
         random: Arc<dyn RandomSource>,
@@ -142,6 +171,28 @@ impl Services {
             log::info!("{closed} session(s) left open closed as abandoned.");
         }
 
+        // A merge interrupted after its transaction: its masteries and points are finished now.
+        let sync_store: Arc<dyn SyncStore> = Arc::new(SqliteSyncStore::new(Arc::clone(&database)));
+        let reward_store: Arc<dyn RewardStore> =
+            Arc::new(SqliteRewardStore::new(Arc::clone(&database)));
+        refresh_pending(
+            sessions.as_ref(),
+            reward_store.as_ref(),
+            sync_store.as_ref(),
+            clock.now_ms(),
+        )
+        .map_err(|e| e.to_string())?;
+        let synchronisation = Synchronisation::new(
+            role,
+            SyncDependencies {
+                store: sync_store,
+                profiles: store.clone(),
+                sessions: Arc::clone(&sessions),
+                rewards: Arc::clone(&reward_store),
+                clock: Arc::clone(&clock),
+            },
+        );
+
         let skills: Arc<dyn SkillCatalog> = Arc::new(content.skills);
         let characters: Arc<dyn CharacterCatalog> = Arc::new(content.characters);
         let lessons: Arc<dyn LessonCatalog> = Arc::new(content.lessons);
@@ -154,13 +205,14 @@ impl Services {
                 characters: Arc::clone(&characters),
                 profiles: store.clone(),
                 sessions: Arc::clone(&sessions),
-                store: Arc::new(SqliteRewardStore::new(Arc::clone(&database))),
+                store: reward_store,
                 settings: Arc::clone(&profile_settings),
                 clock: Arc::clone(&clock),
                 date_of: Arc::clone(&local_date),
             },
         );
         Ok(Services {
+            synchronisation,
             rewards,
             reviews: Arc::clone(&reviews),
             settings: profile_settings,
@@ -187,7 +239,8 @@ impl Services {
                 clock,
             )
             .with_listening(listening_of(speech.as_ref()))
-            .with_reviews(reviews),
+            .with_reviews(reviews)
+            .with_adaptive(content.adaptive),
             local_date,
             skills,
             words: content.words,
@@ -236,15 +289,17 @@ impl Services {
         let (skills_grade, offered) = self
             .skills
             .offered_or_fallback(subject.into(), grade.into());
-        let (masteries, stars) = match profile_id {
+        let (masteries, stars, profile_grade) = match profile_id {
             Some(id) => {
                 let id = profile_id_of(id)?;
                 (
                     self.sessions.masteries(id).map_err(unexpected)?,
                     self.rewards.best_stars(id).map_err(unexpected)?,
+                    // An unknown profile: the grade asked for (its lists stay readable).
+                    self.profiles.get(id).map_or(grade.into(), |p| p.grade),
                 )
             }
-            None => (Vec::new(), Default::default()),
+            None => (Vec::new(), Default::default(), grade.into()),
         };
         let mastery = |skill_id: &str| {
             masteries
@@ -252,6 +307,16 @@ impl Services {
                 .find(|m| m.skill_id == skill_id)
                 .map(|m| m.score)
         };
+        // The percent of the points of a series started today, as the series will count it.
+        let points = self.series.points();
+        let pace = PaceContext {
+            grade: profile_grade,
+            current_period,
+            masteries: &masteries,
+            rules: &self.adaptive,
+        };
+        let points_percent =
+            |skill_id: &str| points.percent(pace.skill(skills_grade, &offered, skill_id));
         Ok(SkillsResponse {
             subject,
             grade,
@@ -265,6 +330,7 @@ impl Services {
                         current_period,
                         mastery(&o.skill.id),
                         stars.skill(&o.skill.id),
+                        points_percent(&o.skill.id),
                     )
                 })
                 .collect(),
@@ -367,6 +433,7 @@ impl Services {
         request: StartSeriesRequest,
     ) -> Result<SeriesResponse, CommandError> {
         let profile = profile_id_of(&request.profile_id)?;
+        let current_period = self.calendar.period_of((self.today)());
         let series = self
             .series
             .start(
@@ -375,6 +442,7 @@ impl Services {
                 request.answer_mode.into(),
                 request.format.map(Into::into),
                 request.seed,
+                current_period,
             )
             .map_err(start_error)?;
         Ok(self.prepared(&series))
@@ -733,18 +801,31 @@ impl Services {
         subject: Subject,
         profile_id: Option<&str>,
     ) -> Result<LessonsResponse, CommandError> {
-        let stars = match profile_id {
-            Some(id) => self
-                .rewards
-                .best_stars(profile_id_of(id)?)
-                .map_err(unexpected)?,
-            None => Default::default(),
+        let (stars, masteries, profile_grade) = match profile_id {
+            Some(id) => {
+                let id = profile_id_of(id)?;
+                (
+                    self.rewards.best_stars(id).map_err(unexpected)?,
+                    self.sessions.masteries(id).map_err(unexpected)?,
+                    // An unknown profile: the grade asked for (its lists stay readable).
+                    self.profiles.get(id).map_or(grade.into(), |p| p.grade),
+                )
+            }
+            None => (Default::default(), Vec::new(), grade.into()),
         };
         let current_period = self.calendar.period_of((self.today)());
         let (lessons_grade, _) = self
             .skills
             .offered_or_fallback(subject.into(), grade.into());
         let lessons = self.lessons.for_grade(subject.into(), lessons_grade);
+        // The percent of the points of its quiz taken today, as the quiz will count it.
+        let points = self.series.points();
+        let pace = PaceContext {
+            grade: profile_grade,
+            current_period,
+            masteries: &masteries,
+            rules: &self.adaptive,
+        };
         Ok(LessonsResponse {
             subject,
             grade,
@@ -754,7 +835,13 @@ impl Services {
                 .iter()
                 .map(|l| {
                     let main_skill = l.skill_ids.first().and_then(|id| self.skills.find(id));
-                    LessonSummaryResponse::new(l, current_period, main_skill, stars.lesson(&l.id))
+                    LessonSummaryResponse::new(
+                        l,
+                        current_period,
+                        main_skill,
+                        stars.lesson(&l.id),
+                        points.percent(pace.lesson(l)),
+                    )
                 })
                 .collect(),
         })
@@ -803,9 +890,10 @@ impl Services {
             .lessons
             .find(lesson_id)
             .ok_or_else(|| unknown_lesson(lesson_id))?;
+        let current_period = self.calendar.period_of((self.today)());
         let series = self
             .series
-            .start_lesson_quiz(profile_id_of(profile_id)?, lesson)
+            .start_lesson_quiz(profile_id_of(profile_id)?, lesson, current_period)
             .map_err(start_error)?;
         Ok(self.prepared(&series))
     }
@@ -1040,6 +1128,17 @@ impl Services {
         }
     }
 
+    /// The screen « Synchronisation » and the exchanges with the other device (lot tablette 2).
+    pub fn synchronisation(&self) -> &Synchronisation {
+        &self.synchronisation
+    }
+
+    /// « Synchroniser maintenant » on the iPad: never while a series is in progress.
+    pub fn sync_now(&self, automatic: bool) -> Result<SyncResultResponse, CommandError> {
+        self.synchronisation
+            .sync_now(automatic, &|| self.series.has_series_in_progress())
+    }
+
     /// Writes every profile to a backup file (SUB001512).
     pub fn export_backup(&self, path: &str) -> Result<BackupResponse, CommandError> {
         let text = educator_data::backup::export(&self.database).map_err(unexpected)?;
@@ -1262,6 +1361,59 @@ mod tests {
         assert!(status.database.is_ready);
         assert!(!status.speech.is_available);
         assert_eq!(Some("tests".to_owned()), status.speech.problem);
+    }
+
+    /// Points by period: on 2026-10-11 (period 1), a CP skill and a CP lesson of period 3 are
+    /// ahead of the year, at 150 %; those of the current period at 100 %.
+    #[test]
+    fn the_skills_and_lessons_ahead_show_and_earn_their_bonus() {
+        let f = fixture();
+        let lea = create(&f.services, "Léa");
+        let skills = f
+            .services
+            .skills(Grade::CP, Subject::Math, Some(&lea.id))
+            .unwrap();
+        let percent = |id: &str| {
+            skills
+                .skills
+                .iter()
+                .find(|s| s.id == id)
+                .unwrap()
+                .points_percent
+        };
+        assert_eq!(
+            (100, 150),
+            (percent("cp-add-sum-10"), percent("cp-add-sub-tens"))
+        );
+        let lessons = f
+            .services
+            .lessons(Grade::CP, Subject::Math, Some(&lea.id))
+            .unwrap();
+        let lesson = lessons
+            .lessons
+            .iter()
+            .find(|l| l.id == "cp-add-sub-tens")
+            .unwrap();
+        assert_eq!(150, lesson.points_percent);
+
+        let series = f
+            .services
+            .start_series(StartSeriesRequest {
+                profile_id: lea.id.clone(),
+                skill_id: "cp-add-sub-tens".to_owned(),
+                answer_mode: AnswerMode::Choice,
+                format: None,
+                seed: Some(42),
+            })
+            .unwrap();
+        let summary = f.services.abandon_series(&series.series_id).unwrap();
+        assert_eq!((150, 0), (summary.points_percent, summary.points_earned));
+        let quiz = f
+            .services
+            .start_lesson_quiz(&lea.id, "cp-add-sub-tens")
+            .unwrap();
+        let summary = f.services.abandon_series(&quiz.series_id).unwrap();
+        assert_eq!(150, summary.points_percent);
     }
 
     #[test]

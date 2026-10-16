@@ -184,4 +184,343 @@ CREATE TABLE "ProfileSetting" (
 );
 "#,
     ),
+    (
+        // Lot tablette 2 (US0276, ADR 0007): the synchronisation between the computer and the iPad.
+        // `SyncState`: identity of this device and values of the synchronisation; `SyncRow`: the
+        // clock and sequence number (`SyncCounter`) of every synchronised record (one row per field of a profile,
+        // `Deleted` for the tombstones); `SyncPeer`: the paired devices. Triggers follow every
+        // write. The points are recomputed from the sessions.
+        "0005_sync",
+        r#"
+-- Points are the points of the closed sessions and the bonuses of the goal of the day (ADR 0007,
+-- section 6): those of the .NET version, matching no session, are dropped (Georges, 2026-10-15).
+UPDATE "Profile" SET "Points" =
+    (SELECT COALESCE(SUM("PointsEarned"), 0) FROM "Session" WHERE "ProfileId" = "Profile"."Id" AND "EndedAt" IS NOT NULL)
+    + (SELECT COALESCE(SUM("BonusPoints"), 0) FROM "DailyGoalDay" WHERE "ProfileId" = "Profile"."Id");
+
+CREATE TABLE "SyncState" (
+    "Key" TEXT NOT NULL CONSTRAINT "PK_SyncState" PRIMARY KEY,
+    "Value" TEXT NOT NULL,
+    "CreatedAt" INTEGER NOT NULL,
+    "UpdatedAt" INTEGER NOT NULL
+);
+
+CREATE TABLE "SyncRow" (
+    "Entity" TEXT NOT NULL,
+    "Key" TEXT NOT NULL,
+    "Field" TEXT NOT NULL DEFAULT '',
+    "Hlc" TEXT NOT NULL,
+    "Seq" INTEGER NOT NULL,
+    "Deleted" INTEGER NOT NULL DEFAULT 0,
+    "Target" TEXT NULL,
+    CONSTRAINT "PK_SyncRow" PRIMARY KEY ("Entity", "Key", "Field")
+);
+
+CREATE UNIQUE INDEX "IX_SyncRow_Seq" ON "SyncRow" ("Seq");
+
+-- The last sequence number given: it only grows, even when rows of SyncRow are deleted.
+CREATE TABLE "SyncCounter" ("Seq" INTEGER NOT NULL);
+
+INSERT INTO "SyncCounter" ("Seq") VALUES (0);
+
+CREATE TABLE "SyncPeer" (
+    "DeviceId" TEXT NOT NULL CONSTRAINT "PK_SyncPeer" PRIMARY KEY,
+    "Role" TEXT NOT NULL,
+    "Name" TEXT NOT NULL,
+    "TokenHash" TEXT NULL,
+    "Token" TEXT NULL,
+    "Fingerprint" TEXT NULL,
+    "Addresses" TEXT NOT NULL DEFAULT '',
+    "Port" INTEGER NULL,
+    "PairedAt" INTEGER NOT NULL,
+    "LastSyncAt" INTEGER NULL,
+    "PushedSeq" INTEGER NOT NULL DEFAULT 0,
+    "PulledSeq" INTEGER NOT NULL DEFAULT 0,
+    "Revoked" INTEGER NOT NULL DEFAULT 0,
+    "Epoch" TEXT NULL,
+    "CreatedAt" INTEGER NOT NULL,
+    "UpdatedAt" INTEGER NOT NULL
+);
+
+-- Every write of a followed table records its change in the same transaction: a clock
+-- (educator_hlc(), registered by educator-data on the connection) and a local sequence number.
+CREATE TRIGGER "TR_Profile_Sync_Insert" AFTER INSERT ON "Profile"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'name', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'grade', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'avatar', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'placementSeconds', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'examSeconds', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'lastUsedAt', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Profile' AND "Key" = NEW."Id" AND "Field" = '';
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_Name" AFTER UPDATE OF "Name" ON "Profile"
+WHEN OLD."Name" IS NOT NEW."Name"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'name', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_Grade" AFTER UPDATE OF "Grade" ON "Profile"
+WHEN OLD."Grade" IS NOT NEW."Grade"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'grade', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_PlacementSeconds" AFTER UPDATE OF "PlacementSeconds" ON "Profile"
+WHEN OLD."PlacementSeconds" IS NOT NEW."PlacementSeconds"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'placementSeconds', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_ExamSeconds" AFTER UPDATE OF "ExamSeconds" ON "Profile"
+WHEN OLD."ExamSeconds" IS NOT NEW."ExamSeconds"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'examSeconds', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_LastUsedAt" AFTER UPDATE OF "LastUsedAt" ON "Profile"
+WHEN OLD."LastUsedAt" IS NOT NEW."LastUsedAt"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'lastUsedAt', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_Avatar" AFTER UPDATE OF "CharacterId", "Avatar" ON "Profile"
+WHEN OLD."CharacterId" IS NOT NEW."CharacterId" OR OLD."Avatar" IS NOT NEW."Avatar"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', NEW."Id", 'avatar', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Profile_Sync_Delete" AFTER DELETE ON "Profile"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Profile' AND "Key" = OLD."Id" AND "Field" <> '';
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Profile', OLD."Id", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 1, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Session_Sync_Insert" AFTER INSERT ON "Session"
+WHEN NEW."EndedAt" IS NOT NULL
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Session', NEW."Id", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Session_Sync_Update" AFTER UPDATE ON "Session"
+WHEN NEW."EndedAt" IS NOT NULL AND (OLD."EndedAt" IS NULL OR OLD."ProfileId" IS NOT NEW."ProfileId")
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Session', NEW."Id", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_Session_Sync_Delete" AFTER DELETE ON "Session"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Session' AND "Key" = OLD."Id";
+END;
+
+CREATE TRIGGER "TR_LessonProgress_Sync_Insert" AFTER INSERT ON "LessonProgress"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('LessonProgress', NEW."ProfileId" || '/' || NEW."LessonId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_LessonProgress_Sync_Update" AFTER UPDATE ON "LessonProgress"
+WHEN OLD."SlideIndex" IS NOT NEW."SlideIndex" OR OLD."ProfileId" IS NOT NEW."ProfileId"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('LessonProgress', NEW."ProfileId" || '/' || NEW."LessonId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_LessonProgress_Sync_Delete" AFTER DELETE ON "LessonProgress"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('LessonProgress', OLD."ProfileId" || '/' || OLD."LessonId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 1, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_EarnedBadge_Sync_Insert" AFTER INSERT ON "EarnedBadge"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Badge', NEW."ProfileId" || '/' || NEW."BadgeId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_EarnedBadge_Sync_Update" AFTER UPDATE ON "EarnedBadge"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Badge', NEW."ProfileId" || '/' || NEW."BadgeId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_EarnedBadge_Sync_Delete" AFTER DELETE ON "EarnedBadge"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Badge' AND "Key" = OLD."ProfileId" || '/' || OLD."BadgeId";
+END;
+
+CREATE TRIGGER "TR_UnlockedAccessory_Sync_Insert" AFTER INSERT ON "UnlockedAccessory"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Accessory', NEW."ProfileId" || '/' || NEW."AccessoryId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_UnlockedAccessory_Sync_Update" AFTER UPDATE ON "UnlockedAccessory"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Accessory', NEW."ProfileId" || '/' || NEW."AccessoryId", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_UnlockedAccessory_Sync_Delete" AFTER DELETE ON "UnlockedAccessory"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Accessory' AND "Key" = OLD."ProfileId" || '/' || OLD."AccessoryId";
+END;
+
+CREATE TRIGGER "TR_DailyGoalDay_Sync_Insert" AFTER INSERT ON "DailyGoalDay"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('GoalDay', NEW."ProfileId" || '/' || NEW."Day", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_DailyGoalDay_Sync_Update" AFTER UPDATE ON "DailyGoalDay"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('GoalDay', NEW."ProfileId" || '/' || NEW."Day", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_DailyGoalDay_Sync_Delete" AFTER DELETE ON "DailyGoalDay"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'GoalDay' AND "Key" = OLD."ProfileId" || '/' || OLD."Day";
+END;
+
+CREATE TRIGGER "TR_ReviewItem_Sync_Insert" AFTER INSERT ON "ReviewItem"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Review', NEW."ProfileId" || '/' || NEW."SkillId" || '/' || NEW."Key", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_ReviewItem_Sync_Update" AFTER UPDATE ON "ReviewItem"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Review', NEW."ProfileId" || '/' || NEW."SkillId" || '/' || NEW."Key", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_ReviewItem_Sync_Delete" AFTER DELETE ON "ReviewItem"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Review', OLD."ProfileId" || '/' || OLD."SkillId" || '/' || OLD."Key", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 1, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_ProfileSetting_Sync_Insert" AFTER INSERT ON "ProfileSetting"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Setting', NEW."ProfileId" || '/' || NEW."Key", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_ProfileSetting_Sync_Update" AFTER UPDATE ON "ProfileSetting"
+WHEN OLD."Value" IS NOT NEW."Value" OR OLD."ProfileId" IS NOT NEW."ProfileId"
+BEGIN
+    UPDATE "SyncCounter" SET "Seq" = "Seq" + 1;
+    INSERT INTO "SyncRow" ("Entity", "Key", "Field", "Hlc", "Seq", "Deleted", "Target")
+    VALUES ('Setting', NEW."ProfileId" || '/' || NEW."Key", '', educator_hlc(), (SELECT "Seq" FROM "SyncCounter"), 0, NULL)
+    ON CONFLICT ("Entity", "Key", "Field") DO UPDATE SET "Hlc" = excluded."Hlc", "Seq" = excluded."Seq",
+        "Deleted" = excluded."Deleted", "Target" = NULL;
+END;
+
+CREATE TRIGGER "TR_ProfileSetting_Sync_Delete" AFTER DELETE ON "ProfileSetting"
+BEGIN
+    DELETE FROM "SyncRow" WHERE "Entity" = 'Setting' AND "Key" = OLD."ProfileId" || '/' || OLD."Key";
+END;
+"#,
+    ),
 ];

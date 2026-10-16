@@ -14,10 +14,12 @@ uuid.workspace = true
 log.workspace = true
 serde_json.workspace = true
 # SQLite compiled into the application (no system library needed, same version everywhere).
-rusqlite = { version = "0.37", features = ["bundled"] }
+rusqlite = { version = "0.37", features = ["bundled", "functions"] }
 
 [dev-dependencies]
 tempfile.workspace = true
+rand.workspace = true
+rand_chacha.workspace = true
 
 [lints]
 workspace = true

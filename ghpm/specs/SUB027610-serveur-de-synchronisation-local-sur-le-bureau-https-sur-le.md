@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_QU
+rev: 2026-10-15T05:31:39Z
 url: https://github.com/georgesp/Educator/issues/286
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027610 — Serveur de synchronisation local sur le bureau (HTTPS sur le Wi-Fi)
-status: Todo
+status: Done
 size: L
 estimate:
 startDate:
@@ -32,8 +33,18 @@ En tant que parent, je veux que l'ordinateur reçoive les données de la tablett
 
 ## Critères d'acceptation
 
-- [ ] Un client non appairé, un jeton invalide ou révoqué, ou une empreinte de certificat différente est refusé (tests d'intégration avec un client de test).
-- [ ] Le serveur n'est pas joignable quand l'écran de synchronisation est fermé (si c'est la règle retenue).
-- [ ] Une synchronisation complète se fait entre deux instances de test sur la machine (client simulé), sans réseau externe.
-- [ ] Rien n'est écrit dans les logs qui permette d'identifier un enfant.
-- [ ] `cargo clippy --workspace --all-targets -- -D warnings` et `cargo test --workspace` verts ; test d'architecture mis à jour pour la nouvelle crate.
+- [x] Un client non appairé, un jeton invalide ou révoqué, ou une empreinte de certificat différente est refusé (tests d'intégration avec un client de test).
+- [x] Le serveur n'est pas joignable quand l'écran de synchronisation est fermé (si c'est la règle retenue).
+- [x] Une synchronisation complète se fait entre deux instances de test sur la machine (client simulé), sans réseau externe.
+- [x] Rien n'est écrit dans les logs qui permette d'identifier un enfant.
+- [x] `cargo clippy --workspace --all-targets -- -D warnings` et `cargo test --workspace` verts ; test d'architecture mis à jour pour la nouvelle crate.
+
+## Réalisation (2026-10-15)
+
+- Crate `educator-sync` : TLS 1.3 (rustls + ring), certificat auto-signé (rcgen) gardé dans `SyncState`, HTTP/1.1
+  minimal, serveur (bureau) qui refuse les adresses hors réseau local, limite les connexions, la taille et la durée
+  des requêtes, et ralentit après 5 échecs par minute ; annonce Bonjour `_educator-sync._tcp` (nom « Educator-XXXX »).
+- Le serveur écoute pendant que l'écran « Synchronisation » est ouvert, ou tant que l'option « Recevoir les
+  synchronisations » est activée (`web/src-tauri/src/synchronisation.rs`).
+- Tests : `crates/educator-sync/tests/exchange.rs` (vrai serveur sur la machine, deux bases SQLite).
+- Reste à voir à la recette (SUB027609) : la question du pare-feu de macOS au premier lancement ; Windows non testé.

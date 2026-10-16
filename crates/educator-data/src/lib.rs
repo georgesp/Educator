@@ -1,8 +1,9 @@
 //! Local SQLite storage of Educator (port of `Educator.Data`): the `Profile` and `AppSetting`
 //! tables, the sessions of lot 2 (`Session`, `Answer`, `SkillMastery`), versioned migrations,
 //! the rewards, review queue and settings of lot 3 (`EarnedBadge`, `UnlockedAccessory`, `DailyGoalDay`,
-//! `ReviewItem`, `ProfileSetting`), the backup of everything (`backup`), timestamps and the location
-//! of the data files.
+//! `ReviewItem`, `ProfileSetting`), the backup of everything (`backup`), the synchronisation with the
+//! other device (lot tablette 2, `sync`: `SyncState`, `SyncRow`, `SyncCounter`, `SyncPeer` and the
+//! triggers of migration 0005), timestamps and the location of the data files.
 //!
 //! Conventions (ADR 0001): tables in singular PascalCase, identifiers Guid v7 stored as upper-case
 //! text (as EF Core did, so that a database created by the .NET version is kept), dates as UTC Unix
@@ -16,6 +17,7 @@ mod paths;
 mod profiles;
 mod sessions;
 mod settings;
+pub mod sync;
 
 pub use database::{Database, InitReport};
 pub use migrations::MIGRATIONS;
@@ -27,3 +29,4 @@ pub use paths::{
 pub use profiles::SqliteProfileStore;
 pub use sessions::SqliteSessionStore;
 pub use settings::SqliteAppSettingsStore;
+pub use sync::SqliteSyncStore;

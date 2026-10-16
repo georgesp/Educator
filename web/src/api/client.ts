@@ -108,6 +108,14 @@ export type UpdateProfileSettings = Types.UpdateProfileSettingsRequest;
 export type Theme = Types.ThemeResponse;
 export type SettingsOptions = Types.SettingsOptionsResponse;
 export type Backup = Types.BackupResponse;
+export type SyncRole = Types.SyncRole;
+export type SyncDevice = Types.SyncDeviceResponse;
+export type SyncQuestion = Types.SyncQuestionResponse;
+export type SyncStatus = Types.SyncStatusResponse;
+export type SyncPairing = Types.SyncPairingResponse;
+export type PairWithComputer = Types.PairWithComputerRequest;
+export type SyncOutcome = Types.SyncOutcomeName;
+export type SyncResult = Types.SyncResultResponse;
 
 /**
  * Error returned by a command. `status` keeps the meaning of the former HTTP API (400 invalid input,

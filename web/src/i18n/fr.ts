@@ -13,6 +13,7 @@ import type {
   SkillCategory,
   SpellingFormat,
   Subject,
+  SyncOutcome,
   TableHighlightKind,
   Trend,
 } from "../api/client";
@@ -20,12 +21,16 @@ import type {
 const dayFormat = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short" });
 const shortDayFormat = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "2-digit" });
 const instantFormat = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+const dateTimeFormat = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
 /** A local date `YYYY-MM-DD` (statistics) as a Date at local midnight. */
 const localDate = (date: string): Date => {
   const [year, month, day] = date.split("-").map(Number);
   return new Date(year, month - 1, day);
 };
+
+/** The points bonus ahead of the school year, from its percent: 150 → « Bonus ×1,5 ». */
+const pointsBonus = (percent: number): string => `Bonus ×${String(percent / 100).replace(".", ",")}`;
 
 /** A step of a calculation as written in the lessons: « + 20 », « − 1 » (typographic minus). */
 export const signed = (delta: number): string => (delta < 0 ? `− ${-delta}` : `+ ${delta}`);
@@ -216,6 +221,9 @@ export const fr = {
     score: (correct: number, total: number) => `${correct} bonne${correct > 1 ? "s" : ""} réponse${correct > 1 ? "s" : ""} sur ${total}`,
     allRight: "Bravo, tout est juste !",
     pointsEarned: (points: number) => `+${points} points`,
+    /** Points of a skill or a lesson ahead of the school year (a past period is never mentioned). */
+    pointsBonus,
+    aheadBonus: (percent: number) => `${pointsBonus(percent)} : tu prends de l'avance !`,
     finishedSpoken: (correct: number, total: number, points: number) =>
       `Série terminée ! Tu as ${correct} bonnes réponses sur ${total}. Tu gagnes ${points} points.`,
     again: "Recommencer",
@@ -680,6 +688,81 @@ export const fr = {
     restoreWarning: "Les profils actuels seront remplacés. Une copie de la base actuelle est gardée à côté d'elle par sécurité.",
     restoreChoose: "Choisir le fichier",
     restoreDone: (profiles: number) => `Sauvegarde restaurée : ${profiles} profil${profiles > 1 ? "s" : ""}.`,
+    /** Lot tablette 2: synchronisation between the computer and the iPad (SUB027603). */
+    sync: {
+      titleComputer: "Synchronisation avec la tablette",
+      titleTablet: "Synchronisation avec l'ordinateur",
+      hint: "Les profils, les points et les statistiques sont partagés entre l'ordinateur et la tablette, sur le Wi-Fi de la maison. Rien ne passe par Internet.",
+      receiving: (address: string) => `L'ordinateur attend la tablette sur le Wi-Fi (${address}).`,
+      receivingNoAddress: "L'ordinateur attend la tablette sur le Wi-Fi.",
+      notReceiving: "L'ordinateur ne reçoit pas en ce moment.",
+      problem: "L'ordinateur ne peut pas recevoir pour l'instant. Vérifiez qu'il est connecté au Wi-Fi de la maison.",
+      receiveAlways: "Recevoir les synchronisations même quand cet écran est fermé",
+      receiveAlwaysHint: "La tablette pourra alors synchroniser toute seule à son ouverture, tant qu'Educator est ouvert sur l'ordinateur.",
+      pair: "Associer une tablette",
+      pairHint: "Sur la tablette, ouvrez l'espace parent, touchez « Associer à l'ordinateur » et visez ce code avec la caméra.",
+      qrLabel: "Code à scanner avec la tablette",
+      manual: "Sans caméra, sur la tablette :",
+      manualAddress: (address: string) => `adresse ${address}`,
+      manualCode: (code: string) => `code ${code}`,
+      expires: "Ce code est valable 5 minutes et ne sert qu'une fois.",
+      closePairing: "Fermer le code",
+      devicesComputer: "Tablettes associées",
+      noDevices: "Aucune tablette associée pour l'instant.",
+      lastSync: (iso: string) => `Dernière synchronisation : ${dateTimeFormat.format(new Date(iso))}`,
+      neverSynced: "Pas encore synchronisée",
+      rename: "Renommer",
+      renameLabel: (name: string) => `Nouveau nom pour ${name}`,
+      renameSave: "Enregistrer",
+      renameCancel: "Annuler",
+      remove: "Retirer cette tablette",
+      removeLabel: (name: string) => `Retirer ${name}`,
+      removeQuestion: (name: string) => `Retirer ${name} ?`,
+      removeWarning: "Elle ne pourra plus synchroniser avec cet ordinateur. Les données déjà présentes restent sur chaque appareil.",
+      removeConfirm: "Retirer",
+      keepDevice: "Non, je la garde",
+      notPaired: "Cette tablette n'est associée à aucun ordinateur.",
+      pairWithComputer: "Associer à l'ordinateur",
+      scanHint: "Sur l'ordinateur, ouvrez l'espace parent, puis « Associer une tablette » : un code s'affiche.",
+      noCamera: "Pas de caméra ? Entrer le code",
+      addressLabel: "Adresse affichée par l'ordinateur",
+      codeLabel: "Code affiché par l'ordinateur",
+      pairSubmit: "Associer",
+      cameraRefused: "La caméra n'est pas autorisée. Vous pouvez entrer à la place l'adresse et le code affichés sous le QR code.",
+      pairedWith: (name: string) => `Associée à : ${name}`,
+      paired: "La tablette est associée à l'ordinateur.",
+      syncNow: "Synchroniser maintenant",
+      syncing: "Synchronisation…",
+      forget: "Dissocier",
+      forgetQuestion: "Dissocier la tablette de l'ordinateur ?",
+      forgetWarning: "Les données restent sur la tablette. Pour synchroniser à nouveau, il faudra scanner un nouveau code.",
+      forgetConfirm: "Dissocier",
+      keepComputer: "Non, je garde l'association",
+      questionsTitle: "Une question avant de synchroniser",
+      question: (name: string) => `« ${name} » existe sur la tablette et sur l'ordinateur. Est-ce le même enfant ?`,
+      same: "Oui, c'est le même enfant",
+      sameHint: "Ses séances, ses points et ses badges sont réunis dans un seul profil.",
+      different: "Non, ce sont deux enfants",
+      differentHint: "Le profil de la tablette reçoit un autre nom (vous pourrez le changer).",
+      done: (sent: number, received: number) => (sent + received === 0 ? "Tout est déjà à jour." : "Synchronisation terminée."),
+      outcomes: {
+        Done: "Synchronisation terminée.",
+        NeedsDecision: "Répondez d'abord à la question ci-dessous.",
+        NotPaired: "Cette tablette n'est associée à aucun ordinateur.",
+        Busy: "Une activité est en cours : la synchronisation se fera plus tard.",
+        Unreachable:
+          "L'ordinateur est introuvable. Vérifiez qu'il est allumé et sur le même Wi-Fi, qu'Educator y est ouvert sur l'écran « Synchronisation » (ou que la réception est activée) et que son pare-feu autorise Educator.",
+        CertificateMismatch:
+          "Ce n'est pas l'ordinateur associé : la synchronisation est bloquée par sécurité. Si vous avez changé d'ordinateur, associez la tablette à nouveau.",
+        Unauthorized: "L'ordinateur ne reconnaît plus cette tablette. Associez-la à nouveau.",
+        Incompatible: "Les deux appareils n'ont pas la même version d'Educator. Mettez-les à jour, puis réessayez.",
+        PairingExpired: "Ce code n'est plus valable. Affichez un nouveau code sur l'ordinateur.",
+        TooManyAttempts: "Trop d'essais avec ce code. Affichez un nouveau code sur l'ordinateur.",
+        InvalidLink: "Ce n'est pas un code d'Educator. Vérifiez l'adresse et le code.",
+        Interrupted: "La synchronisation s'est arrêtée en route. Elle reprendra la prochaine fois, sans rien perdre.",
+        Failed: "La synchronisation n'a pas pu se faire. Réessayez dans un instant.",
+      } as Record<SyncOutcome, string>,
+    },
   },
   rewards: {
     starsLabel: (count: number) => `${count} étoile${count > 1 ? "s" : ""} sur 3`,

@@ -135,6 +135,14 @@ fn types_ts_is_up_to_date() {
         ThemeResponse::decl(),
         SettingsOptionsResponse::decl(),
         BackupResponse::decl(),
+        SyncRole::decl(),
+        SyncDeviceResponse::decl(),
+        SyncQuestionResponse::decl(),
+        SyncStatusResponse::decl(),
+        SyncPairingResponse::decl(),
+        PairWithComputerRequest::decl(),
+        SyncOutcomeName::decl(),
+        SyncResultResponse::decl(),
         CommandError::decl(),
     ];
 

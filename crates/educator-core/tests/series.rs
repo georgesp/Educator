@@ -91,6 +91,7 @@ fn perfect_series_earns_answers_and_both_bonuses() {
             AnswerMode::Keyboard,
             None,
             Some(7),
+            1,
         )
         .unwrap();
 
@@ -150,6 +151,7 @@ fn mistakes_are_corrected_without_losing_points() {
             AnswerMode::Choice,
             None,
             Some(7),
+            1,
         )
         .unwrap();
 
@@ -180,6 +182,7 @@ fn abandoned_series_keeps_correct_answers_without_bonus() {
             AnswerMode::Keyboard,
             None,
             Some(3),
+            1,
         )
         .unwrap();
     f.service
@@ -225,7 +228,14 @@ fn same_exercise_cannot_be_answered_twice() {
     let f = fixture(vec![]);
     let series = f
         .service
-        .start(f.profile.id, "test-skill", AnswerMode::Keyboard, None, None)
+        .start(
+            f.profile.id,
+            "test-skill",
+            AnswerMode::Keyboard,
+            None,
+            None,
+            1,
+        )
         .unwrap();
     f.service
         .answer(series.id, 0, &Answer::Number(1), None)
@@ -253,13 +263,14 @@ fn start_checks_profile_skill_and_mode() {
             "test-skill",
             AnswerMode::Keyboard,
             None,
-            None
+            None,
+            1,
         ),
         Err(Error::ProfileNotFound(_))
     ));
     assert!(matches!(
         f.service
-            .start(f.profile.id, "unknown", AnswerMode::Keyboard, None, None),
+            .start(f.profile.id, "unknown", AnswerMode::Keyboard, None, None, 1),
         Err(Error::SeriesRequest(_))
     ));
     assert!(matches!(
@@ -268,7 +279,8 @@ fn start_checks_profile_skill_and_mode() {
             "keyboard-only",
             AnswerMode::Choice,
             None,
-            None
+            None,
+            1,
         ),
         Err(Error::SeriesRequest(_))
     ));
@@ -286,6 +298,7 @@ fn same_seed_replays_the_same_series() {
             AnswerMode::Choice,
             None,
             Some(99),
+            1,
         )
         .unwrap();
     let second = f
@@ -296,6 +309,7 @@ fn same_seed_replays_the_same_series() {
             AnswerMode::Choice,
             None,
             Some(99),
+            1,
         )
         .unwrap();
 
@@ -679,6 +693,7 @@ fn a_timed_challenge_needs_mastered_skills_and_ends_with_the_time() {
             AnswerMode::Keyboard,
             None,
             Some(7),
+            1,
         )
         .unwrap();
     for e in &series.exercises {
@@ -774,6 +789,7 @@ fn only_a_timed_challenge_ends_before_its_last_question() {
             AnswerMode::Keyboard,
             None,
             Some(7),
+            1,
         )
         .unwrap();
     f.service
@@ -803,6 +819,7 @@ fn a_series_pushed_out_of_the_memory_is_recorded_as_abandoned() {
                 AnswerMode::Keyboard,
                 None,
                 Some(seed),
+                1,
             )
             .unwrap()
     };
@@ -835,6 +852,7 @@ fn the_series_of_a_deleted_profile_are_forgotten() {
             AnswerMode::Keyboard,
             None,
             Some(7),
+            1,
         )
         .unwrap();
 
@@ -845,4 +863,190 @@ fn the_series_of_a_deleted_profile_are_forgotten() {
             .answer(series.id, 0, &series.exercises[0].expected, None),
         Err(Error::SeriesNotFound(_))
     ));
+}
+
+// Percent of the points by period.
+
+/// A whole series answered right on `skill`, started in `period`.
+fn perfect_series(f: &Fixture, skill: &str, period: u8) -> educator_core::exercises::SeriesSummary {
+    let series = f
+        .service
+        .start(
+            f.profile.id,
+            skill,
+            AnswerMode::Keyboard,
+            None,
+            Some(7),
+            period,
+        )
+        .unwrap();
+    let mut last = None;
+    for exercise in &series.exercises {
+        last = f
+            .service
+            .answer(series.id, exercise.index, &exercise.expected, None)
+            .unwrap()
+            .summary;
+    }
+    last.unwrap()
+}
+
+#[test]
+fn points_are_worth_more_ahead_and_less_on_a_past_period_mastered() {
+    let f = fixture(vec![
+        placed("early", Grade::CP, 1),
+        placed("later", Grade::CP, 3),
+    ]);
+
+    // In period 2, the period 3 skill is ahead: 140 points at 150 %.
+    let ahead = perfect_series(&f, "later", 2);
+    assert_eq!((150, 210), (ahead.points_percent, ahead.points_earned));
+    // The period 1 skill is not mastered yet: the usual points (its 10 right answers master it).
+    let first = perfect_series(&f, "early", 2);
+    assert_eq!((100, 140), (first.points_percent, first.points_earned));
+    // Mastered now: a revision, at 50 %.
+    let again = perfect_series(&f, "early", 2);
+    assert_eq!((50, 70), (again.points_percent, again.points_earned));
+    // In its own period, the usual points.
+    let own = perfect_series(&f, "early", 1);
+    assert_eq!((100, 140), (own.points_percent, own.points_earned));
+    assert_eq!(210 + 140 + 70 + 140, points(&f));
+    // The session keeps the points earned, the percent applied.
+    assert_eq!(
+        70,
+        f.sessions
+            .session(again.series_id)
+            .unwrap()
+            .unwrap()
+            .points_earned
+    );
+}
+
+#[test]
+fn an_abandoned_series_ahead_keeps_its_percent() {
+    let f = fixture(vec![placed("later", Grade::CP, 3)]);
+    let series = f
+        .service
+        .start(
+            f.profile.id,
+            "later",
+            AnswerMode::Keyboard,
+            None,
+            Some(7),
+            1,
+        )
+        .unwrap();
+    assert_eq!(150, series.points_percent);
+    for exercise in &series.exercises[..3] {
+        f.service
+            .answer(series.id, exercise.index, &exercise.expected, None)
+            .unwrap();
+    }
+
+    let summary = f.service.abandon(series.id).unwrap();
+
+    assert_eq!((150, 45), (summary.points_percent, summary.points_earned));
+}
+
+#[test]
+fn a_skill_of_another_grade_earns_the_usual_points() {
+    let f = fixture(vec![placed("ce2-skill", Grade::CE2, 4)]);
+    let summary = perfect_series(&f, "ce2-skill", 1);
+    assert_eq!((100, 140), (summary.points_percent, summary.points_earned));
+}
+
+/// A profile of a grade without skills yet (CE2) practises the CE1 ones: another grade's, so the
+/// usual points, whatever their period.
+#[test]
+fn the_skills_of_the_fallback_grade_earn_the_usual_points() {
+    let f = fixture(vec![placed("ce1-later", Grade::CE1, 3)]);
+    let mut ce2 = f.profile.clone();
+    ce2.id = Uuid::now_v7();
+    ce2.name = "Tom".to_owned();
+    ce2.grade = Grade::CE2;
+    let ce2 = f.profiles.add(&ce2).unwrap();
+    let mut ce1 = f.profile.clone();
+    ce1.id = Uuid::now_v7();
+    ce1.name = "Zoé".to_owned();
+    ce1.grade = Grade::CE1;
+    let ce1 = f.profiles.add(&ce1).unwrap();
+
+    let start = |profile: Uuid| {
+        f.service
+            .start(profile, "ce1-later", AnswerMode::Keyboard, None, Some(7), 1)
+            .unwrap()
+            .points_percent
+    };
+    assert_eq!(150, start(ce1.id), "ahead for a CE1");
+    assert_eq!(100, start(ce2.id), "another grade for a CE2");
+}
+
+fn lesson(id: &str, grade: Grade, period: u8, skill_id: &str) -> educator_core::lessons::Lesson {
+    educator_core::lessons::Lesson {
+        id: id.to_owned(),
+        subject: Subject::Math,
+        grade,
+        period,
+        skill_ids: vec![skill_id.to_owned()],
+        title: "Leçon".to_owned(),
+        duration_minutes: 4,
+        slides: Vec::new(),
+        quiz: vec![educator_core::lessons::QuizQuestion {
+            question: "2 + 3 = ?".to_owned(),
+            spoken: "Combien font 2 plus 3 ?".to_owned(),
+            answer: Answer::Number(5),
+            choices: Vec::new(),
+            explanation: "2 + 3 = 5.".to_owned(),
+            word: None,
+        }],
+        sources: Vec::new(),
+    }
+}
+
+/// The quiz of `lesson` answered right, started in `period`: (percent, points earned).
+fn perfect_quiz(f: &Fixture, lesson: &educator_core::lessons::Lesson, period: u8) -> (u32, i32) {
+    let quiz = f
+        .service
+        .start_lesson_quiz(f.profile.id, lesson, period)
+        .unwrap();
+    let summary = f
+        .service
+        .answer(quiz.id, 0, &Answer::Number(5), None)
+        .unwrap()
+        .summary
+        .unwrap();
+    assert_eq!(quiz.points_percent, summary.points_percent);
+    (summary.points_percent, summary.points_earned)
+}
+
+#[test]
+fn a_lesson_quiz_follows_the_period_of_the_lesson() {
+    let f = fixture(vec![placed("early", Grade::CP, 1)]);
+    // One right answer: 10 + 20 + 20 = 50 points at 100 %.
+    let ahead = lesson("cp-later", Grade::CP, 3, "test-skill");
+    assert_eq!((150, 75), perfect_quiz(&f, &ahead, 1));
+    let past = lesson("cp-early", Grade::CP, 1, "early");
+    // Its skill is not mastered yet.
+    assert_eq!((100, 50), perfect_quiz(&f, &past, 2));
+    perfect_series(&f, "early", 2);
+    assert_eq!((50, 25), perfect_quiz(&f, &past, 2));
+    // A lesson of another grade.
+    let other = lesson("ce1-later", Grade::CE1, 3, "test-skill");
+    assert_eq!((100, 50), perfect_quiz(&f, &other, 1));
+}
+
+/// A timed challenge mixes the mastered skills: the usual points, even with a skill still to come.
+#[test]
+fn a_timed_challenge_earns_the_usual_points() {
+    let f = fixture(vec![placed("later", Grade::CP, 3)]);
+    assert_eq!(150, perfect_series(&f, "later", 1).points_percent);
+
+    let timed = f
+        .service
+        .start_timed(f.profile.id, Subject::Math, 60, Some(2))
+        .unwrap();
+    assert!(timed.skill_ids.iter().any(|s| s == "later"));
+    assert_eq!(100, timed.points_percent);
+    let summary = f.service.finish(timed.id).unwrap();
+    assert_eq!(100, summary.points_percent);
 }

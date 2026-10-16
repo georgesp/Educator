@@ -13,6 +13,8 @@ import type {
   Series,
   SeriesSummary,
   Subject,
+  SyncDevice,
+  SyncStatus,
   Token,
   WornAccessory,
 } from "../api/client";
@@ -137,6 +139,7 @@ export function summaryOf(correctCount: number, exerciseCount: number, pointsEar
     correctCount,
     exerciseCount,
     pointsEarned,
+    pointsPercent: 100,
     profilePoints,
     skills: [{ skillId, title: "Additions jusqu'à 10", correctCount, questionCount: exerciseCount, lessonId: null, strong: correctCount * 3 >= exerciseCount * 2 }],
     mascotSituation: correctCount === exerciseCount ? "SeriesPerfect" : correctCount * 3 >= exerciseCount * 2 ? "SeriesWell" : "SeriesEncourage",
@@ -235,8 +238,8 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       skillsGrade: "CP",
       currentPeriod: 1,
       skills: [
-        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null, stars: 0 },
-        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 75, stars: 2 },
+        { id: "cp-add-sum-10", title: "Additions jusqu'à 10", instruction: "Calcule.", period: 1, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard", "Choice"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null, stars: 0, pointsPercent: 100 },
+        { id: "cp-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 2, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 75, stars: 2, pointsPercent: 100 },
       ],
     }),
     getCharacters: vi.fn().mockResolvedValue([
@@ -324,7 +327,7 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
       lessonsGrade: "CP",
       currentPeriod: 1,
       lessons: [
-        { id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract", stars: 0, skillId: "ce1-add-9-19-29" },
+        { id: shortLesson.id, title: shortLesson.title, period: 2, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract", stars: 0, skillId: "ce1-add-9-19-29", pointsPercent: 100 },
       ],
     }),
     getLesson: vi.fn().mockResolvedValue(shortLesson),
@@ -372,8 +375,45 @@ export function fakeApi(overrides: Partial<UiApi> = {}): UiApi {
     }),
     exportBackup: vi.fn().mockResolvedValue({ profiles: 1, path: "/tmp/2026-10-15_educator-sauvegarde.json" }),
     importBackup: vi.fn().mockResolvedValue({ profiles: 1, path: "/tmp/2026-10-15_educator-sauvegarde.json" }),
+    // Lot tablette 2: by default a computer with no tablet paired.
+    getSyncStatus: vi.fn().mockResolvedValue(computerSyncStatus()),
+    openSyncScreen: vi.fn().mockResolvedValue(computerSyncStatus()),
+    closeSyncScreen: vi.fn().mockResolvedValue(computerSyncStatus()),
+    setSyncReceive: vi.fn(async (enabled: boolean) => ({ ...computerSyncStatus(), receiveAlways: enabled })),
+    startSyncPairing: vi.fn().mockResolvedValue({
+      qrSvg: "<svg xmlns='http://www.w3.org/2000/svg'><rect width='10' height='10'/></svg>",
+      code: "ABCD-EFGH",
+      address: "192.168.1.10:47615",
+      expiresAt: "2026-10-15T20:05:00.000Z",
+    }),
+    cancelSyncPairing: vi.fn().mockResolvedValue(computerSyncStatus()),
+    renameSyncDevice: vi.fn().mockResolvedValue(computerSyncStatus()),
+    removeSyncDevice: vi.fn().mockResolvedValue(computerSyncStatus()),
+    scanPairingCode: vi.fn().mockResolvedValue(null),
+    pairWithComputer: vi.fn(async () => ({ outcome: "Done" as const, sent: 0, received: 0, status: tabletSyncStatus(true) })),
+    syncNow: vi.fn(async () => ({ outcome: "Done" as const, sent: 2, received: 3, status: tabletSyncStatus(true) })),
+    answerSyncQuestion: vi.fn().mockResolvedValue(tabletSyncStatus(true)),
+    interruptSync: vi.fn().mockResolvedValue(undefined),
     ...overrides,
   } as UiApi;
+}
+
+/** The computer, listening, with its tablets. */
+export function computerSyncStatus(devices: SyncDevice[] = []): SyncStatus {
+  return { role: "Computer", receiving: true, receiveAlways: false, address: "192.168.1.10:47615", problem: null, devices, questions: [] };
+}
+
+/** The iPad, paired or not, with its questions « Est-ce le même enfant ? ». */
+export function tabletSyncStatus(paired: boolean, questions: SyncStatus["questions"] = []): SyncStatus {
+  return {
+    role: "Tablet",
+    receiving: false,
+    receiveAlways: false,
+    address: null,
+    problem: null,
+    devices: paired ? [{ id: "pc-1", name: "Ordinateur", pairedAt: "2026-10-15T19:00:00.000Z", lastSyncAt: null }] : [],
+    questions,
+  };
 }
 
 /** Renders the application screens at `path`, with the fake API and (optionally) a chosen profile. */

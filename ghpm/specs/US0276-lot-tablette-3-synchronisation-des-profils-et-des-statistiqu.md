@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0276 — Lot tablette 2 — Synchronisation des profils et des statistiques (Wi-Fi local)
-status: Todo
+status: In progress
 size: XL
 estimate:
 startDate:
@@ -49,8 +49,14 @@ Ce qui facilite le travail : les identifiants de `Profile`, `Session` et `Answer
 - [ ] Toutes les sous-issues sont terminées.
 - [ ] Un parent appaire la tablette avec l'ordinateur en moins d'une minute, sans saisir d'adresse réseau.
 - [ ] Après synchronisation, les deux appareils affichent les mêmes profils, les mêmes points et les mêmes statistiques dans l'espace parent.
-- [ ] Une synchronisation répétée (ou interrompue puis reprise) ne crée aucun doublon et ne perd aucune donnée.
-- [ ] Un travail fait hors ligne sur les deux appareils à la fois est fusionné sans perte.
-- [ ] Aucune donnée ne circule hors du réseau local ; aucun appareil non appairé ne peut lire ou écrire.
-- [ ] Aucune règle métier dans le front ni dans `web/src-tauri` ; test d'architecture à jour avec la nouvelle crate.
+- [x] Une synchronisation répétée (ou interrompue puis reprise) ne crée aucun doublon et ne perd aucune donnée.
+- [x] Un travail fait hors ligne sur les deux appareils à la fois est fusionné sans perte.
+- [x] Aucune donnée ne circule hors du réseau local ; aucun appareil non appairé ne peut lire ou écrire.
+- [x] Aucune règle métier dans le front ni dans `web/src-tauri` ; test d'architecture à jour avec la nouvelle crate.
 - [ ] Le build bureau (macOS, Windows), la CI existante et le build mobile du lot tablette 1 restent verts.
+
+## Réalisation (2026-10-15)
+
+Fiches 04, 06, 07, 08 et 10 terminées ; 01, 02 et 03 attendent la recette sur l'iPad réel (09) ; 05 (facultative)
+non commencée. Deux fiches de suivi créées : recherche Bonjour sur l'iPad, jeton dans le Keychain. Les critères
+cochés sont vérifiés par les tests automatiques ; les autres attendent la recette sur le Mac et l'iPad.

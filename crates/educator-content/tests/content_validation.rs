@@ -281,7 +281,10 @@ fn current_period_comes_from_the_calendar_file() {
 
 #[test]
 fn points_come_from_the_rewards_file() {
-    assert_eq!(PointsRules::new(10, 20, 20), content().points);
+    assert_eq!(
+        PointsRules::new(10, 20, 20).with_period_percents(50, 150),
+        content().points
+    );
 }
 
 fn calculation(

@@ -7,7 +7,9 @@
   "required": [
     "perCorrectAnswer",
     "seriesCompletedBonus",
-    "perfectSeriesBonus"
+    "perfectSeriesBonus",
+    "pastPeriodPercent",
+    "nextPeriodPercent"
   ],
   "properties": {
     "$schema": {
@@ -27,6 +29,18 @@
       "type": "integer",
       "minimum": 0,
       "description": "Bonus supplémentaire pour une série sans faute."
+    },
+    "pastPeriodPercent": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 500,
+      "description": "Pourcentage des points d'une série d'exercices ou d'un quiz de leçon d'une période passée, quand ses compétences sont déjà maîtrisées (sinon 100 %)."
+    },
+    "nextPeriodPercent": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 500,
+      "description": "Pourcentage des points d'une série d'exercices ou d'un quiz de leçon d'une période à venir."
     }
   }
 }

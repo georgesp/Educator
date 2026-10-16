@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ApiError, type Character, type Grade, type Profile } from "../api/client";
+import { useAutomaticSync } from "../app/automaticSync";
 import { useApi } from "../app/BackendContext";
 import { useProfileSession } from "../app/ProfileContext";
 import { queryKeys, useParentProfile, useProfiles } from "../app/queries";
@@ -19,6 +20,8 @@ export const GRADES: Grade[] = ["CP", "CE1", "CE2", "CM1", "CM2"];
  */
 export function ProfilesScreen() {
   const profiles = useProfiles();
+  // iPad: a silent synchronisation with the computer at the profile choice (lot tablette 2).
+  useAutomaticSync();
   const [creating, setCreating] = useState(false);
 
   if (profiles.isLoading) {

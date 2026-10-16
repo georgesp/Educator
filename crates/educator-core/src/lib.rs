@@ -29,6 +29,7 @@ pub mod skills;
 pub mod speech;
 pub mod spelling;
 pub mod statistics;
+pub mod sync;
 
 pub use error::{Error, Result};
 pub use grade::Grade;

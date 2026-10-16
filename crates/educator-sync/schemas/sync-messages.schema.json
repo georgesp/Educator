@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sync-messages.schema.json",
+  "title": "Messages de synchronisation ordinateur ↔ iPad (protocole 1)",
+  "description": "SUB027606, ADR 0007. Chaque message porte « protocol » : un message d'une autre version est refusé (409 incompatible). Seules les données utiles à la fusion circulent : pas d'adresse, pas de nom d'appareil. Les horloges sont des horloges hybrides « 16 chiffres-6 chiffres-identifiant d'appareil ».",
+  "$defs": {
+    "protocol": { "const": 1 },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    "clock": {
+      "type": "string",
+      "pattern": "^[0-9]{16}-[0-9]{6}-[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$"
+    },
+    "instant": { "type": "integer", "minimum": 0 },
+    "count": { "type": "integer", "minimum": 0 },
+    "grade": { "enum": ["CP", "CE1", "CE2", "CM1", "CM2"] },
+    "part": { "type": "string", "minLength": 1, "pattern": "^[^/]+$" },
+
+    "pairRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId", "secret"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" },
+        "secret": { "type": "string", "minLength": 8, "maxLength": 64 }
+      }
+    },
+    "pairResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId", "token"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" },
+        "token": { "type": "string", "pattern": "^[0-9A-F]{64}$" }
+      }
+    },
+    "helloRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" }
+      }
+    },
+    "helloResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId", "epoch", "profiles"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" },
+        "epoch": { "type": "string", "minLength": 1, "description": "Change à chaque restauration d'une sauvegarde sur l'ordinateur : l'iPad échange alors tout à nouveau." },
+        "profiles": { "type": "array", "items": { "$ref": "#/$defs/profile" } }
+      }
+    },
+    "pushRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId", "lastSeq", "batch"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" },
+        "lastSeq": { "$ref": "#/$defs/count" },
+        "batch": { "$ref": "#/$defs/batch" }
+      }
+    },
+    "pushResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "acknowledged"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "acknowledged": { "$ref": "#/$defs/count" }
+      }
+    },
+    "pullRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "deviceId", "after"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "deviceId": { "$ref": "#/$defs/id" },
+        "after": { "$ref": "#/$defs/count" }
+      }
+    },
+    "pullResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "lastSeq", "more", "batch"],
+      "properties": {
+        "protocol": { "$ref": "#/$defs/protocol" },
+        "lastSeq": { "$ref": "#/$defs/count" },
+        "more": { "type": "boolean" },
+        "batch": { "$ref": "#/$defs/batch" }
+      }
+    },
+    "errorResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "code", "message"],
+      "properties": {
+        "protocol": { "type": "integer" },
+        "code": { "enum": ["unauthorized", "incompatible", "invalid", "expired", "tooMany", "unavailable"] },
+        "message": { "type": "string" }
+      }
+    },
+
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profiles", "removals", "sessions", "lessonProgress", "badges", "accessories", "goalDays", "reviews", "settings"],
+      "properties": {
+        "profiles": { "type": "array", "items": { "$ref": "#/$defs/profile" } },
+        "removals": { "type": "array", "items": { "$ref": "#/$defs/removal" } },
+        "sessions": { "type": "array", "maxItems": 200, "items": { "$ref": "#/$defs/session" } },
+        "lessonProgress": { "type": "array", "items": { "$ref": "#/$defs/lessonProgress" } },
+        "badges": { "type": "array", "items": { "$ref": "#/$defs/badge" } },
+        "accessories": { "type": "array", "items": { "$ref": "#/$defs/accessory" } },
+        "goalDays": { "type": "array", "items": { "$ref": "#/$defs/goalDay" } },
+        "reviews": { "type": "array", "items": { "$ref": "#/$defs/review" } },
+        "settings": { "type": "array", "items": { "$ref": "#/$defs/setting" } }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "grade", "characterId", "accessories", "placementSeconds", "examSeconds", "createdAt", "lastUsedAt", "clocks"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 20 },
+        "grade": { "$ref": "#/$defs/grade" },
+        "characterId": { "type": "string", "minLength": 1 },
+        "accessories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "color"],
+            "properties": { "id": { "type": "string" }, "color": { "type": "string" } }
+          }
+        },
+        "placementSeconds": { "$ref": "#/$defs/count" },
+        "examSeconds": { "$ref": "#/$defs/count" },
+        "createdAt": { "$ref": "#/$defs/instant" },
+        "lastUsedAt": { "$ref": "#/$defs/instant" },
+        "clocks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "grade", "avatar", "placementSeconds", "examSeconds", "lastUsedAt"],
+          "properties": {
+            "name": { "$ref": "#/$defs/clock" },
+            "grade": { "$ref": "#/$defs/clock" },
+            "avatar": { "$ref": "#/$defs/clock" },
+            "placementSeconds": { "$ref": "#/$defs/clock" },
+            "examSeconds": { "$ref": "#/$defs/clock" },
+            "lastUsedAt": { "$ref": "#/$defs/clock" }
+          }
+        }
+      }
+    },
+    "removal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "clock": { "$ref": "#/$defs/clock" },
+        "mergedInto": { "$ref": "#/$defs/id" }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "profileId", "type", "subject", "grade", "seed", "questionCount", "startedAt", "endedAt", "abandoned", "correctCount", "pointsEarned", "clock", "answers"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "profileId": { "$ref": "#/$defs/id" },
+        "type": { "enum": ["Exercise", "Exam", "Timed", "LessonQuiz", "Placement", "Review"] },
+        "subject": { "enum": ["math", "spelling"] },
+        "grade": { "$ref": "#/$defs/grade" },
+        "skillId": { "type": "string" },
+        "lessonId": { "type": "string" },
+        "answerMode": { "enum": ["Keyboard", "Choice"] },
+        "format": { "type": "string" },
+        "seed": { "$ref": "#/$defs/count" },
+        "questionCount": { "$ref": "#/$defs/count" },
+        "timeLimitSeconds": { "$ref": "#/$defs/count" },
+        "startedAt": { "$ref": "#/$defs/instant" },
+        "endedAt": { "$ref": "#/$defs/instant" },
+        "abandoned": { "type": "boolean" },
+        "correctCount": { "$ref": "#/$defs/count" },
+        "pointsEarned": { "$ref": "#/$defs/count" },
+        "clock": { "$ref": "#/$defs/clock" },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "index", "skillId", "prompt", "expected", "given", "isCorrect", "answeredAt"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "index": { "$ref": "#/$defs/count" },
+              "skillId": { "type": "string", "minLength": 1 },
+              "prompt": { "type": "string" },
+              "expected": { "type": "string" },
+              "given": { "type": "string" },
+              "isCorrect": { "type": "boolean" },
+              "durationMs": { "$ref": "#/$defs/count" },
+              "answeredAt": { "$ref": "#/$defs/instant" }
+            }
+          }
+        }
+      }
+    },
+    "lessonProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "lessonId", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "lessonId": { "$ref": "#/$defs/part" },
+        "slide": { "$ref": "#/$defs/count" },
+        "clock": { "$ref": "#/$defs/clock" }
+      }
+    },
+    "badge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "badgeId", "earnedAt", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "badgeId": { "$ref": "#/$defs/part" },
+        "earnedAt": { "$ref": "#/$defs/instant" },
+        "clock": { "$ref": "#/$defs/clock" }
+      }
+    },
+    "accessory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "accessoryId", "unlockedAt", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "accessoryId": { "$ref": "#/$defs/part" },
+        "unlockedAt": { "$ref": "#/$defs/instant" },
+        "clock": { "$ref": "#/$defs/clock" }
+      }
+    },
+    "goalDay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "day", "reachedAt", "bonusPoints", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "day": { "type": "integer" },
+        "reachedAt": { "$ref": "#/$defs/instant" },
+        "bonusPoints": { "$ref": "#/$defs/count" },
+        "clock": { "$ref": "#/$defs/clock" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "skillId", "key", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "skillId": { "$ref": "#/$defs/part" },
+        "key": { "type": "string", "minLength": 1 },
+        "clock": { "$ref": "#/$defs/clock" },
+        "item": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "prompt", "expected", "step", "dueDay", "createdAt"],
+          "properties": {
+            "id": { "$ref": "#/$defs/id" },
+            "prompt": { "type": "string" },
+            "expected": { "type": "string" },
+            "word": { "type": "string" },
+            "origin": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["seed", "answerMode", "index"],
+              "properties": {
+                "seed": { "$ref": "#/$defs/count" },
+                "answerMode": { "enum": ["Keyboard", "Choice"] },
+                "format": { "type": "string" },
+                "index": { "$ref": "#/$defs/count" }
+              }
+            },
+            "step": { "$ref": "#/$defs/count" },
+            "dueDay": { "type": "integer" },
+            "createdAt": { "$ref": "#/$defs/instant" }
+          }
+        }
+      }
+    },
+    "setting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "key", "value", "clock"],
+      "properties": {
+        "profileId": { "$ref": "#/$defs/id" },
+        "key": { "$ref": "#/$defs/part" },
+        "value": { "type": "string" },
+        "clock": { "$ref": "#/$defs/clock" }
+      }
+    }
+  }
+}

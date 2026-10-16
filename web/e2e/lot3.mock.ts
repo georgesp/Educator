@@ -83,6 +83,7 @@ const skill = (id: string, title: string, period: number, category: string, mast
   listeningFormats: [],
   mastery,
   stars,
+  pointsPercent: 100,
 });
 
 export const SKILLS = [
@@ -103,7 +104,10 @@ export const SKILLS = [
 
 export type Calls = { command: string; args: Record<string, unknown> }[];
 
-export async function mockLot3(page: Page, calls: Calls = []) {
+/** Commands added by a spec (lot tablette 2): `undefined` lets the lot 3 simulation answer. */
+export type ExtraCommands = (command: string, args: Record<string, unknown>) => unknown;
+
+export async function mockLot3(page: Page, calls: Calls = [], extra?: ExtraCommands) {
   let settings = {
     sound: true,
     mascot: true,
@@ -119,6 +123,10 @@ export async function mockLot3(page: Page, calls: Calls = []) {
   let profile = { ...lea };
   const commands = async (command: string, args: Record<string, unknown> = {}): Promise<unknown> => {
     calls.push({ command, args });
+    const added = extra?.(command, args);
+    if (added !== undefined) {
+      return added;
+    }
     switch (command) {
       case "get_startup":
         return { state: "ready" };
@@ -184,7 +192,7 @@ export async function mockLot3(page: Page, calls: Calls = []) {
           grade: "CP",
           lessonsGrade: "CP",
           currentPeriod: 2,
-          lessons: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", period: 1, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract", stars: 3, skillId: "cp-add-sum-10" }],
+          lessons: [{ id: "cp-add-sum-10", title: "Additions jusqu'à 10", period: 1, isCurrentPeriod: false, durationMinutes: 4, category: "AddSubtract", stars: 3, skillId: "cp-add-sum-10", pointsPercent: 100 }],
         };
       case "get_advice":
         return { skillId: "cp-num-100", title: "Les nombres jusqu'à 100", reason: "Consolidate", prepares: "Comparer les nombres jusqu'à 100" };

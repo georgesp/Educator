@@ -650,6 +650,7 @@ export function Summary({ summary, onAgain, onMenu, againLabel = fr.series.again
       >
         {fr.series.pointsEarned(summary.pointsEarned)}
       </motion.p>
+      {summary.pointsPercent > 100 && <p className="summary-perfect summary-bonus">{fr.series.aheadBonus(summary.pointsPercent)}</p>}
       <RewardsPanel rewards={summary.rewards} />
       <div className="actions">
         <button type="button" className="button" onClick={onMenu}>

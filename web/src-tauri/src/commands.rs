@@ -511,3 +511,112 @@ pub async fn import_backup(
 ) -> CommandResult<BackupResponse> {
     run(state, move |s| s.import_backup(&path)).await
 }
+
+// ── Lot tablette 2: synchronisation with the other device (ADR 0007) ─────────────────────────
+
+/// The state of the screen « Synchronisation » of the parents' space.
+#[tauri::command]
+pub async fn get_sync_status(state: State<'_, Arc<AppState>>) -> CommandResult<SyncStatusResponse> {
+    run(state, |s| s.synchronisation().status()).await
+}
+
+/// The screen « Synchronisation » is shown: the computer listens while it is open.
+#[tauri::command]
+pub async fn open_sync_screen(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, |s| s.synchronisation().open_screen()).await
+}
+
+#[tauri::command]
+pub async fn close_sync_screen(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, |s| s.synchronisation().close_screen()).await
+}
+
+/// Computer: « Recevoir les synchronisations » even with the screen closed.
+#[tauri::command]
+pub async fn set_sync_receive(
+    state: State<'_, Arc<AppState>>,
+    enabled: bool,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, move |s| s.synchronisation().set_receive(enabled)).await
+}
+
+/// Computer: « Associer une tablette » (QR code and short code, 5 minutes).
+#[tauri::command]
+pub async fn start_sync_pairing(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<SyncPairingResponse> {
+    run(state, |s| s.synchronisation().start_pairing()).await
+}
+
+#[tauri::command]
+pub async fn cancel_sync_pairing(
+    state: State<'_, Arc<AppState>>,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, |s| s.synchronisation().cancel_pairing()).await
+}
+
+#[tauri::command]
+pub async fn rename_sync_device(
+    state: State<'_, Arc<AppState>>,
+    id: String,
+    name: String,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, move |s| {
+        s.synchronisation().rename_device(&id, &name)
+    })
+    .await
+}
+
+/// Computer: « Retirer cette tablette »; iPad: « Dissocier ».
+#[tauri::command]
+pub async fn remove_sync_device(
+    state: State<'_, Arc<AppState>>,
+    id: String,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, move |s| s.synchronisation().remove_device(&id)).await
+}
+
+/// iPad: pairs with the computer (QR code, or address and short code).
+#[tauri::command]
+pub async fn pair_with_computer(
+    state: State<'_, Arc<AppState>>,
+    request: PairWithComputerRequest,
+) -> CommandResult<SyncResultResponse> {
+    run(state, move |s| s.synchronisation().pair(&request)).await
+}
+
+/// iPad: « Synchroniser maintenant », or the automatic attempt at the profile choice.
+#[tauri::command]
+pub async fn sync_now(
+    state: State<'_, Arc<AppState>>,
+    automatic: bool,
+) -> CommandResult<SyncResultResponse> {
+    run(state, move |s| s.sync_now(automatic)).await
+}
+
+/// iPad: the parent's answer to « Est-ce le même enfant ? ».
+#[tauri::command]
+pub async fn answer_sync_question(
+    state: State<'_, Arc<AppState>>,
+    local_profile_id: String,
+    same_child: bool,
+) -> CommandResult<SyncStatusResponse> {
+    run(state, move |s| {
+        s.synchronisation().answer(&local_profile_id, same_child)
+    })
+    .await
+}
+
+/// The application goes to the background: an exchange in progress stops after its batch.
+#[tauri::command]
+pub async fn interrupt_sync(state: State<'_, Arc<AppState>>) -> CommandResult<()> {
+    run(state, |s| {
+        s.synchronisation().interrupt();
+        Ok(())
+    })
+    .await
+}

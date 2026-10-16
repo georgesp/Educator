@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_OI
+rev: 2026-10-15T05:31:49Z
 url: https://github.com/georgesp/Educator/issues/285
 type: Issue
 repository: georgesp/Educator
@@ -40,3 +41,7 @@ En tant que Georges, je veux vérifier sur mes appareils réels que la synchroni
 - [ ] Tous les scénarios sont joués sur l'ordinateur et la tablette de test, avec le résultat consigné.
 - [ ] Aucune perte ni doublon constaté ; les anomalies restantes sont des fiches ouvertes.
 - [ ] Les commandes de build et de test à lancer par Georges sont indiquées dans le rapport.
+
+## Réalisation (2026-10-15)
+
+Le rapport à remplir est prêt : `docs/recette-synchronisation.md` (20 scénarios, commandes, mesures).

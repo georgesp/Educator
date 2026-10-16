@@ -143,3 +143,27 @@ describe("SkillsScreen — families", () => {
     expect(await screen.findByRole("button", { name: /Additions jusqu'à 10/ })).toBeInTheDocument();
   });
 });
+
+describe("SkillsScreen — points by period", () => {
+  it("shows the points bonus on the skills ahead of the school year only", async () => {
+    const api = fakeApi({
+      getSkills: vi.fn().mockResolvedValue({
+        subject: "Math",
+        grade: "CE1",
+        skillsGrade: "CE1",
+        currentPeriod: 2,
+        skills: [
+          { id: "ce1-add-tables", title: "Tables d'addition", instruction: "Calcule.", period: 1, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: 95, stars: 3, pointsPercent: 50 },
+          { id: "ce1-sub-9", title: "Enlever 9", instruction: "Calcule.", period: 2, isCurrentPeriod: true, revisionFrom: null, answerModes: ["Keyboard"], family: "Calculation", category: "AddSubtract", spellingFormats: [], listeningFormats: [], mastery: null, stars: 0, pointsPercent: 100 },
+          { id: "ce1-num-hundreds", title: "Centaines, dizaines et unités", instruction: "Écris.", period: 3, isCurrentPeriod: false, revisionFrom: null, answerModes: ["Keyboard"], family: "Numeration", category: "Numbers", spellingFormats: [], listeningFormats: [], mastery: null, stars: 0, pointsPercent: 150 },
+        ],
+      }),
+    });
+    renderApp(api, "/exercices/maths");
+
+    expect(await screen.findByRole("button", { name: /Centaines, dizaines et unités/ })).toHaveAccessibleName(/Période 3 · Bonus ×1,5/);
+    // A past period mastered is worth less, but the child is never told.
+    expect(screen.getByRole("button", { name: /Tables d'addition/ })).not.toHaveAccessibleName(/Bonus/);
+    expect(screen.getByRole("button", { name: /Enlever 9/ })).not.toHaveAccessibleName(/Bonus/);
+  });
+});

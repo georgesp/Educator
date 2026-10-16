@@ -6,7 +6,7 @@ use rusqlite::{Connection, OptionalExtension, Row};
 use std::sync::Arc;
 use uuid::Uuid;
 
-const COLUMNS: &str = r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds", "Avatar""#;
+pub(crate) const COLUMNS: &str = r#""Id", "Name", "Grade", "CharacterId", "Points", "CreatedAt", "UpdatedAt", "LastUsedAt", "PlacementSeconds", "ExamSeconds", "Avatar""#;
 
 /// [`ProfileStore`] backed by the `Profile` table.
 #[derive(Debug, Clone)]
@@ -62,7 +62,7 @@ fn accessories_of(avatar: &str) -> Vec<WornAccessory> {
         .unwrap_or_default()
 }
 
-fn read(row: &Row<'_>) -> rusqlite::Result<Profile> {
+pub(crate) fn read(row: &Row<'_>) -> rusqlite::Result<Profile> {
     let id: String = row.get(0)?;
     let grade: String = row.get(2)?;
     let invalid = |index: usize, e: Box<dyn std::error::Error + Send + Sync>| {

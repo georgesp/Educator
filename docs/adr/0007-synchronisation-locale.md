@@ -1,6 +1,6 @@
 # ADR 0007 — Synchronisation locale des données (ordinateur ↔ tablette, Wi-Fi)
 
-- **Statut** : proposée (à valider par Georges)
+- **Statut** : acceptée (validée par Georges le 2026-10-15, sans `LegacyPoints` : voir section 6)
 - **Date** : 2026-10-15
 - **Fiche** : SUB027604 — Étude : modèle de synchronisation (lot tablette 2 — synchronisation, US0276)
 - **Liée à** : [ADR 0003](0003-backend-rust.md) (backend Rust), [ADR 0006](0006-application-tablette.md) (application iPad)
@@ -50,7 +50,8 @@ Constats dans le code (2026-10-15) :
   restaurer la sauvegarde d'un appareil sur un autre ne copie pas son identité ni ses appairages.
 - **L'identité d'un enfant est l'identifiant de son profil.** Deux profils créés séparément ne sont jamais fusionnés
   automatiquement.
-- Avant chaque synchronisation, l'iPad compare la liste des profils (identifiant + prénom) avec celle de l'ordinateur.
+- Avant chaque synchronisation, l'iPad compare la liste des profils (identifiant + prénom) avec celle de l'ordinateur
+  (sans les profils de l'ordinateur que l'iPad a supprimés entre-temps : leur suppression va partir).
   Pour chaque prénom présent des deux côtés sous deux identifiants différents, l'espace parent de l'iPad demande
   **« Est-ce le même enfant ? »** :
   - **Oui, c'est le même enfant** : le profil de l'iPad est **rattaché** à celui de l'ordinateur (ses séances,
@@ -71,14 +72,25 @@ Constats dans le code (2026-10-15) :
   (`0001792095649001-000003-<appareil>`) pour se comparer en SQL. Elle avance à chaque écriture locale et se recale sur
   la plus grande valeur reçue : un iPad en retard de dix minutes ne perd pas ses modifications, et deux modifications
   se départagent toujours de la même façon (l'appareil sert d'arbitre en cas d'égalité).
-- **Table de suivi `SyncRow`** `(Entity, Key, Field, Hlc, Seq, Deleted)` : une ligne par donnée suivie (par champ pour
-  le profil). `Seq` est un numéro local croissant, donné à chaque écriture locale **dans la même transaction** que
-  l'écriture elle-même ; une valeur reçue qui l'emporte reçoit aussi un nouveau `Seq` (elle pourra être transmise à
-  un troisième appareil plus tard, sans le tester ici).
+- **Table de suivi `SyncRow`** `(Entity, Key, Field, Hlc, Seq, Deleted, Target)` : une ligne par donnée suivie (par
+  champ pour le profil ; `Deleted` = pierre tombale, `Target` = profil « rattaché à »). `Seq` est un numéro local qui ne
+  fait que croître (`SyncCounter`, même quand des lignes sont supprimées), donné à chaque écriture locale **dans la
+  même transaction** que l'écriture elle-même.
+  - *Mise en œuvre* : des **déclencheurs SQLite** (migration 0005) sur chaque table suivie ; l'horloge vient d'une
+    fonction SQL `educator_hlc()` enregistrée par `educator-data` sur la connexion. Les écritures existantes
+    (stores, sauvegarde) n'ont donc pas changé : rien ne peut être oublié.
+  - Une valeur reçue qui l'emporte reçoit aussi un nouveau `Seq` (elle pourra être transmise à un troisième appareil
+    plus tard, sans le tester ici).
+  - Les réponses (`Answer`) n'ont pas de ligne propre : elles voyagent avec leur séance, qui n'est suivie qu'une
+    fois fermée.
 - **Curseurs** côté iPad, par ordinateur appairé : `PushedSeq` (le dernier `Seq` de l'iPad accusé par l'ordinateur)
   et `PulledSeq` (le dernier `Seq` de l'ordinateur reçu et enregistré par l'iPad). Un lot n'avance le curseur
   qu'**après** sa validation : une coupure fait renvoyer le dernier lot, sans effet puisque la fusion est idempotente.
-- On n'envoie pas à un appareil ce qui vient de lui (HLC dont l'appareil est le destinataire).
+- On n'envoie pas à un appareil ce qui vient de lui (HLC dont l'appareil est le destinataire), sauf quand le curseur
+  est à 0 (premier échange, ou tout à nouveau après une restauration).
+- Le parent qui retire une tablette ou dissocie l'ordinateur pendant un échange garde le dernier mot : les fins
+  d'échange ne font que des mises à jour ciblées (curseur, dernière synchronisation), jamais une réécriture complète
+  de l'appareil appairé.
 - À la migration, tout ce qui existe reçoit une ligne de suivi « à envoyer ».
 
 ### 4. Ce qui est synchronisé, et comment (tableau de fusion)
@@ -88,8 +100,7 @@ Constats dans le code (2026-10-15) :
 | `Profile` — `Name`, `Grade`, avatar (`CharacterId` + `Avatar`), `PlacementSeconds`, `ExamSeconds` | Oui | Dernier écrivain gagne **champ par champ** (HLC du champ). Collision de prénom : section 2 | renommé des deux côtés ; classe changée d'un côté, avatar de l'autre ; deux profils de même nom |
 | `Profile.LastUsedAt` | Oui | Maximum | |
 | `Profile.CreatedAt` | Oui | Minimum | |
-| `Profile.LegacyPoints` (nouvelle colonne) | Oui | Maximum (fixée une fois à la migration) | base .NET avec des points sans séances |
-| `Profile.Points` | Non (recalculée) | `LegacyPoints` + Σ `PointsEarned` des séances fermées + Σ bonus des jours d'objectif | points identiques des deux côtés après fusion |
+| `Profile.Points` | Non (recalculée) | Σ `PointsEarned` des séances fermées + Σ bonus des jours d'objectif | points identiques des deux côtés après fusion |
 | `Session` | Oui, **fermées seulement** | Union par identifiant ; une séance n'est écrite que par l'appareil qui l'a créée. Une séance encore ouverte n'est pas envoyée : elle le sera une fois fermée (fin normale ou abandon au démarrage suivant) | même séance reçue deux fois ; séance non terminée |
 | `Answer` | Oui, avec sa séance | Union par identifiant (et `(SessionId, Index)`) ; jamais modifiée | lot de milliers de réponses découpé |
 | `SkillMastery` | Non (recalculée) | `sessions::update_masteries` pour chaque profil et compétence touchés par les réponses reçues | statistiques identiques à « tout sur un appareil » |
@@ -100,20 +111,21 @@ Constats dans le code (2026-10-15) :
 | `ReviewItem` | Oui | Clé (profil, compétence, clé de l'exercice) ; la plus récente gagne (HLC), sortie de la file = pierre tombale | |
 | `ProfileSetting` | Oui | Dernier écrivain gagne, par réglage | |
 | `AppSetting` (thème de l'appareil, carte des parents…) | **Non** | Réglages de l'appareil, pas de l'enfant | |
-| `SyncState`, `SyncRow`, `SyncPeer`, `SyncTombstone` (nouvelles) | Non | Propres à chaque appareil | |
+| `SyncState`, `SyncRow`, `SyncCounter`, `SyncPeer` (nouvelles) | Non | Propres à chaque appareil, hors sauvegarde | |
 
 - **Évaluation de niveau** : elle se lit dans les séances ; faite sur l'iPad, elle compte comme faite sur l'ordinateur
   dès la synchronisation.
-- **Compétences inconnues** (réponse d'une version plus récente) : la réponse est conservée, `SkillMastery` est
-  calculée comme pour les autres, et les statistiques de l'espace parent ignorent ce qu'elles ne connaissent pas
-  jusqu'à la mise à jour.
+- **Compétences inconnues** (réponse d'une version plus récente) : la réponse est conservée et `SkillMastery` est
+  calculée comme pour les autres. Les totaux de l'espace parent la comptent (ils sont ainsi les mêmes sur les deux
+  appareils) ; tant que l'appareil n'est pas à jour, la ligne de cet exercice s'affiche sous son identifiant, comme pour
+  un exercice retiré du contenu (comportement existant, pas de cas particulier).
 - **Badges et accessoires nouveaux grâce aux données fusionnées** : ils sont accordés à la prochaine séance, par le code
   existant (`RewardsService::after_session`), pas pendant la fusion.
 
 ### 5. Suppression d'un profil
 
-- La suppression laisse une **pierre tombale** (`SyncTombstone` : identifiant du profil, HLC, éventuellement
-  « rattaché à »). Reçue, elle supprime le profil et tout ce qui en dépend.
+- La suppression laisse une **pierre tombale** (ligne `Deleted` de `SyncRow` : identifiant du profil, HLC,
+  éventuellement « rattaché à » dans `Target`). Reçue, elle supprime le profil et tout ce qui en dépend.
 - **La suppression l'emporte** sur toute modification ou séance de l'autre appareil, même plus récente : la confirmation
   existe déjà quand le parent supprime un profil. Une séance reçue pour un profil supprimé est ignorée.
 - Rattachement (« même enfant ») : la pierre tombale porte la cible ; un appareil qui connaîtrait encore l'ancien
@@ -121,7 +133,11 @@ Constats dans le code (2026-10-15) :
 
 ### 6. Points
 
-- Migration : `LegacyPoints = max(0, Points − Σ PointsEarned − Σ BonusPoints)` pour chaque profil.
+- **Décision de Georges (2026-10-15)** : les points gagnés avec l'ancienne version .NET, qui ne correspondent à aucune
+  séance, sont abandonnés. Pas de colonne « points hérités ».
+- Les points d'un profil sont **toujours** Σ `PointsEarned` des séances fermées + Σ `BonusPoints` des jours d'objectif.
+  La migration 0005 recalcule `Profile.Points` ainsi pour tous les profils (un profil de la version .NET repart avec
+  les seuls points de ses séances).
 - Après chaque fusion, les points des profils touchés sont recalculés par une fonction de `educator-core`
   (`sync::profile_points`). Un test vérifie que `add_points` et ce recalcul donnent toujours le même total.
 - Conséquence assumée : si l'objectif du jour a été atteint le même jour sur les deux appareils, un des deux bonus
@@ -129,13 +145,15 @@ Constats dans le code (2026-10-15) :
 
 ### 7. Protocole (grandes lignes)
 
-- **HTTPS** avec un **certificat auto-signé** généré au premier lancement du serveur (`rcgen`), clé privée dans le
-  dossier de données (droits restreints). L'iPad **épingle l'empreinte SHA-256** du certificat reçue dans le QR code :
+- **HTTPS** avec un **certificat auto-signé** (ECDSA P-256) généré au premier lancement du serveur (`rcgen`),
+  certificat et clé privée rangés dans `SyncState` (base locale, dossier de données de l'application, jamais dans la
+  sauvegarde). L'iPad **épingle l'empreinte SHA-256** du certificat reçue dans le QR code :
   aucune autorité de certification, une autre machine est refusée.
 - HTTP/1.1 minimal écrit dans la crate `educator-sync` (une requête par connexion, `Content-Length` obligatoire, corps
   limité à 4 Mo, délais de lecture et d'écriture) au-dessus de **rustls** (fournisseur `ring`, compilable pour iOS).
   Pas de serveur web généraliste : moins de dépendances, et le code est testé de bout en bout.
-- Messages JSON décrits par des schémas versionnés (`content/schemas/sync/`), même démarche que le contenu :
+- Messages JSON décrits par un schéma versionné (`crates/educator-sync/schemas/sync-messages.schema.json`, exemples
+  dans `schemas/examples/`), même démarche que le contenu :
   - `POST /v1/pair` : secret d'appairage → jeton durable ;
   - `POST /v1/hello` : versions, identifiant d'appareil → profils de l'ordinateur (pour la question « même enfant ») ;
   - `POST /v1/push` : un lot de changements de l'iPad → accusé (`Seq` le plus haut appliqué) ;
@@ -146,17 +164,25 @@ Constats dans le code (2026-10-15) :
 - **Versions** : `protocol` = 1. Une version différente est refusée par un message bienveillant (« Mets à jour
   Educator sur les deux appareils »). La version de la base (`user_version`) n'est pas comparée : le format d'échange
   est indépendant du schéma.
-- **Bonjour / mDNS** (`mdns-sd`) : service `_educator-sync._tcp.local.`, nom neutre « Educator-xxxx » (4 caractères de
-  l'identifiant d'appareil), aucune donnée d'enfant. Repli : dernière adresse connue.
+- **Bonjour / mDNS** (`mdns-sd`, bureau) : l'ordinateur s'annonce `_educator-sync._tcp.local.` sous un nom neutre
+  « Educator-XXXX » (4 caractères de l'identifiant d'appareil), aucune donnée d'enfant.
+- **Retrouver l'ordinateur depuis l'iPad** (écart à la fiche, constaté à l'implémentation) : sur iPadOS, écouter le
+  multicast avec une bibliothèque Rust demande l'autorisation `com.apple.developer.networking.multicast`, accordée par
+  Apple sur demande et impossible avec le compte gratuit (ADR 0006). La recherche Bonjour passe donc par le framework
+  natif (`NWBrowser`), en Swift : **reportée à une fiche de suivi**. En attendant, l'iPad utilise les adresses du QR code
+  puis la dernière adresse qui a répondu (essayée en premier). Si l'ordinateur change d'adresse (box redémarrée), un
+  nouveau scan du QR code met l'adresse à jour sans rien perdre (même ordinateur, mêmes curseurs).
 
 ### 8. Appairage
 
 - « Associer une tablette » (espace parent de l'ordinateur) affiche un QR code :
   `educator://pair?v=1&h=<adresses>&p=<port>&f=<empreinte>&s=<secret>`. Le secret (128 bits) ne vit qu'en mémoire,
   **5 minutes**, **une seule fois**.
-- Plan B sans caméra : un **code court de 8 caractères** affiché sous le QR code, valable aussi 5 minutes, 5 essais au
-  plus ; l'iPad trouve l'ordinateur par Bonjour et accepte son certificat à la première connexion (confiance au
-  premier usage, plus faible que le QR code : à n'utiliser qu'à la maison).
+- Plan B sans caméra : un **code court de 8 caractères** (`ABCD-EFGH`) affiché sous le QR code avec l'adresse de
+  l'ordinateur (`192.168.1.10:47615`), valable aussi 5 minutes, 5 essais au plus ; le parent saisit les deux sur l'iPad,
+  qui accepte le certificat à la première connexion puis l'épingle (confiance au premier usage, plus faible que le QR
+  code : à n'utiliser qu'à la maison). Plus de 5 échecs en une minute depuis une même adresse : refus pendant une
+  minute (`429`).
 - L'échange donne un **jeton de 256 bits** propre à l'iPad ; l'ordinateur n'en garde que l'empreinte SHA-256
   (`SyncPeer`). Chaque requête le présente ; un appareil retiré est refusé immédiatement.
 - Nom de l'appareil proposé par défaut : « Tablette 1 » (« Tablette 2 »…) côté ordinateur, « Ordinateur » côté iPad,
@@ -184,8 +210,8 @@ Constats dans le code (2026-10-15) :
 |---|---|
 | `educator-core::sync` | HLC, types des changements, moteur de fusion (code pur), recalcul des points, traits `SyncStore`, règles de lot |
 | `educator-data::sync` | Migration 0005, suivi dans les écritures existantes (même transaction), application d'un lot en une transaction, lecture des changements après un curseur |
-| `educator-sync` (nouvelle crate) | Format d'échange JSON (serde) et schémas, TLS (rustls, rcgen), HTTP minimal, serveur (bureau), client (iPad et tests), appairage, Bonjour, limites de débit |
-| `web/src-tauri` | Commandes (`get_sync_status`, `start_pairing`, `pair_with_computer`, `sync_now`…), cycle de vie du serveur, aucune règle |
+| `educator-sync` (nouvelle crate) | Format d'échange JSON (serde) et schéma, TLS (rustls, rcgen), HTTP minimal, serveur (bureau), client (iPad et tests), appairage, annonce Bonjour (bureau), limites de débit |
+| `web/src-tauri` | `synchronisation.rs` : commandes (`get_sync_status`, `open_sync_screen` / `close_sync_screen`, `set_sync_receive`, `start_sync_pairing`, `cancel_sync_pairing`, `rename_sync_device`, `remove_sync_device`, `pair_with_computer`, `sync_now`, `answer_sync_question`, `interrupt_sync`), cycle de vie du serveur, aucune règle |
 | `web/src` | Écran « Synchronisation » de l'espace parent (ordinateur et iPad), question « même enfant », textes dans `i18n/fr.ts` |
 
 Règle de dépendance : `educator-sync` → `educator-core` seulement (ni `data`, ni `content`) ; vérifiée par
@@ -212,14 +238,21 @@ Règle de dépendance : `educator-sync` → `educator-core` seulement (ni `data`
 - **Profil de 7 jours** (compte Apple gratuit) : réinstaller l'application garde ses données et son appairage.
 - **Wi-Fi « invité »** ou isolation des clients sur certaines box : les deux appareils ne se voient pas. Hors de notre
   portée, message dans l'écran.
-- Restauration d'une sauvegarde : elle remplace les profils de l'appareil ; le suivi est reconstruit (tout repart
-  « à envoyer », avec une HLC neuve) et les profils de l'autre appareil reviennent à la synchronisation suivante.
+- Restauration d'une sauvegarde : elle remplace les profils de l'appareil, sans envoyer de suppression. Elle change
+  l'**époque** de l'appareil (`SyncState`, renvoyée par `/v1/hello`) et remet ses curseurs à 0 : à la synchronisation
+  suivante, les deux appareils s'échangent tout (un curseur à 0 envoie tout, même ce que l'autre appareil a déjà ; la
+  fusion ignore ce qu'elle connaît). Les profils de l'autre appareil reviennent donc.
+- Un profil supprimé puis ramené par la sauvegarde (le parent veut le retrouver) : si l'appareil est appairé, il
+  revient sous un **nouvel identifiant** (ses séances, badges, réglages le suivent), car sa suppression, peut-être
+  déjà connue de l'autre appareil, l'emporterait toujours sur l'ancien identifiant. Il revient ainsi sur les deux
+  appareils. Sans appareil appairé, rien ne change (même identifiant, comme au lot 3).
 
 ## Conséquences sur les fiches
 
 - SUB027607 : migration **0005_sync** (et non 0004).
-- SUB027606 : les schémas vont dans `content/schemas/sync/` ; les types échangés ne sont pas exposés au front (seuls
-  les contrats des commandes le sont).
-- SUB027601 / SUB027602 : Android hors périmètre (ADR 0006) ; jeton dans la base de l'iPad, Keychain en fiche de suivi.
+- SUB027606 : le schéma va dans `crates/educator-sync/schemas/` (ce n'est pas du contenu pédagogique, il n'est pas
+  embarqué) ; les types échangés ne sont pas exposés au front (seuls les contrats des commandes le sont).
+- SUB027601 / SUB027602 : Android hors périmètre (ADR 0006) ; jeton dans la base de l'iPad, Keychain en fiche de suivi ;
+  recherche Bonjour sur l'iPad (framework natif) en fiche de suivi.
 - SUB027605 (fichier chiffré, facultatif) : reporté après la recette, comme prévu par la fiche.
 - SUB027609 : rapport de recette dans `docs/recette-synchronisation.md`, joué par Georges sur le Mac et l'iPad.

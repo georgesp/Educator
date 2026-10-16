@@ -2,6 +2,7 @@
 # - crates/educator-core    : domaine et moteur d'exercices, code pur
 # - crates/educator-content : chargement et validation du contenu pédagogique, Piper (bureau)
 # - crates/educator-data    : SQLite (profils, réglages)
+# - crates/educator-sync    : synchronisation ordinateur ↔ iPad sur le Wi-Fi (ADR 0007)
 # - web/src-tauri           : application Tauri (commandes, état partagé, démarrage, logs)
 # - plugins/tauri-plugin-system-voice : voix du système sur iPad (Swift, ADR 0005), aucune règle métier
 [workspace]
@@ -10,6 +11,7 @@ members = [
     "crates/educator-core",
     "crates/educator-content",
     "crates/educator-data",
+    "crates/educator-sync",
     "plugins/tauri-plugin-system-voice",
     "web/src-tauri",
 ]
@@ -26,6 +28,7 @@ publish = false
 educator-core = { path = "crates/educator-core" }
 educator-content = { path = "crates/educator-content" }
 educator-data = { path = "crates/educator-data" }
+educator-sync = { path = "crates/educator-sync" }
 rand = "0.9"
 rand_chacha = "0.9"
 uuid = { version = "1", features = ["v7"] }

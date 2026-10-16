@@ -109,6 +109,7 @@ async function mockApi(page: Page, calls: string[]) {
                 correctCount: correct,
                 exerciseCount: words.length,
                 pointsEarned: correct * 10 + 20,
+                pointsPercent: 100,
                 profilePoints: correct * 10 + 20,
                 skills: [{ skillId: "cp-son-ou", title: "Le son [ou]", correctCount: correct, questionCount: words.length, lessonId: "cp-son-ou", strong: correct * 3 >= words.length * 2 }],
                 mascotSituation: correct === words.length ? "SeriesPerfect" : "SeriesWell",

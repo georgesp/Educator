@@ -31,6 +31,11 @@ function LessonList({ profile }: { profile: Profile }) {
   const current = shown.filter((l) => l.isCurrentPeriod);
   const others = shown.filter((l) => !l.isCurrentPeriod);
   const open = (lesson: LessonSummary) => void navigate(`/lecons/${SUBJECT_SLUGS[subject]}/${encodeURIComponent(lesson.id)}`);
+  // A lesson ahead of the school year shows its points bonus.
+  const hint = (lesson: LessonSummary) => {
+    const text = fr.lessons.hint(lesson.period, lesson.durationMinutes);
+    return lesson.pointsPercent > 100 ? `${text} · ${fr.series.pointsBonus(lesson.pointsPercent)}` : text;
+  };
 
   return (
     <main className="screen">
@@ -58,7 +63,7 @@ function LessonList({ profile }: { profile: Profile }) {
               <BigButton
                 key={lesson.id}
                 label={lesson.title}
-                hint={fr.lessons.hint(lesson.period, lesson.durationMinutes)}
+                hint={hint(lesson)}
                 category={lesson.category}
                 stars={lesson.stars}
                 variant="outline"
@@ -79,7 +84,7 @@ function LessonList({ profile }: { profile: Profile }) {
               <BigButton
                 key={lesson.id}
                 label={lesson.title}
-                hint={fr.lessons.hint(lesson.period, lesson.durationMinutes)}
+                hint={hint(lesson)}
                 category={lesson.category}
                 stars={lesson.stars}
                 onClick={() => open(lesson)}

@@ -30,6 +30,18 @@ disponible aux adresses ci-dessus ; le texte de la licence GPL-3.0 sera joint au
 | tauri-plugin-log | MIT ou Apache-2.0 |
 | ts-rs, jsonschema, regex, tempfile (développement uniquement) | MIT ou Apache-2.0 |
 
+### Synchronisation ordinateur ↔ iPad (lot tablette 2, `crates/educator-sync`, ADR 0007)
+
+| Crate | Licence | Rôle |
+|---|---|---|
+| rustls | Apache-2.0 ou ISC ou MIT | TLS 1.3 entre l'ordinateur et l'iPad |
+| ring (fournisseur cryptographique de rustls et de rcgen) | Apache-2.0 et ISC | chiffrement, signatures |
+| rustls-webpki, rustls-pki-types (dépendances de rustls) | ISC ; MIT ou Apache-2.0 | lecture des certificats |
+| rcgen | MIT ou Apache-2.0 | certificat auto-signé de l'ordinateur |
+| qrcode | MIT ou Apache-2.0 | QR code d'appairage (SVG) |
+| mdns-sd (bureau seulement) | Apache-2.0 ou MIT | annonce Bonjour de l'ordinateur |
+| if-addrs (bureau seulement) | MIT ou BSD-3-Clause | adresses du réseau local de l'ordinateur |
+
 ## Front et coque (npm, crates)
 
 | Paquet | Licence |
@@ -40,6 +52,7 @@ disponible aux adresses ci-dessus ; le texte de la licence GPL-3.0 sera joint au
 | Police Fredoka du thème Cosmos (`@fontsource/fredoka`, embarquée dans le front) | SIL Open Font License 1.1 |
 | Police OpenDyslexic, option « police adaptée à la dyslexie » (`@fontsource/opendyslexic`, embarquée dans le front ; © Abbie Gonzalez, nom de police réservé « OpenDyslexic ») | SIL Open Font License 1.1 |
 | `@tauri-apps/plugin-dialog` / `tauri-plugin-dialog` (fenêtres d'enregistrement et d'ouverture de la sauvegarde) | MIT ou Apache-2.0 |
+| `@tauri-apps/plugin-barcode-scanner` / `tauri-plugin-barcode-scanner` (iPad : lecture du QR code d'appairage, lot tablette 2) | MIT ou Apache-2.0 |
 | Vite, Vitest, Playwright, TypeScript (développement uniquement) | MIT / Apache-2.0 |
 
 La liste exhaustive des dépendances transitives sera générée au lot packaging.

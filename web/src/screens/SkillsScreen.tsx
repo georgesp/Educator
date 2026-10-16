@@ -48,7 +48,10 @@ function Skills({ profile }: { profile: Profile }) {
         ? `/serie/${encodeURIComponent(skill.id)}/${skill.answerModes[0]}`
         : `/exercices/${slug}/${encodeURIComponent(skill.id)}`,
     );
-  const hint = (skill: Skill, text: string) => (skill.mastery === null ? text : `${text} · ${fr.skills.mastery(skill.mastery)}`);
+  const hint = (skill: Skill, text: string) =>
+    [text, skill.mastery === null ? null : fr.skills.mastery(skill.mastery), skill.pointsPercent > 100 ? fr.series.pointsBonus(skill.pointsPercent) : null]
+      .filter((part) => part !== null)
+      .join(" · ");
   // « Je te conseille… » (SUB001508): an advice of the core, the child keeps the choice.
   const advice = useQuery({ queryKey: queryKeys.advice(profile.id, subject), queryFn: () => api.getAdvice(profile.id, subject), staleTime: 0 }).data;
   const advised = advice ? data?.skills.find((s) => s.id === advice.skillId) : undefined;

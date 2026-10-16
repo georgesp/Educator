@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4-28
+rev: 2026-10-16T07:23:16Z
 url: https://github.com/georgesp/Educator/issues/278
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027602 — Client de synchronisation sur la tablette
-status: Todo
+status: In Review
 size: L
 estimate:
 startDate:
@@ -31,7 +32,17 @@ En tant que parent, je veux que la tablette envoie et reçoive les données dès
 ## Critères d'acceptation
 
 - [ ] Synchronisation complète entre l'ordinateur et la tablette de test, dans les deux sens.
-- [ ] Ordinateur éteint ou sur un autre réseau : la tablette fonctionne normalement hors ligne, la synchronisation est simplement reportée.
-- [ ] Wi-Fi coupé en plein échange : aucun doublon, aucune perte à la synchronisation suivante.
-- [ ] Une empreinte de certificat différente (autre machine, tentative d'usurpation) bloque la synchronisation avec un message clair.
-- [ ] Aucune synchronisation ne démarre pendant une série ou un défi.
+- [x] Ordinateur éteint ou sur un autre réseau : la tablette fonctionne normalement hors ligne, la synchronisation est simplement reportée.
+- [x] Wi-Fi coupé en plein échange : aucun doublon, aucune perte à la synchronisation suivante.
+- [x] Une empreinte de certificat différente (autre machine, tentative d'usurpation) bloque la synchronisation avec un message clair.
+- [x] Aucune synchronisation ne démarre pendant une série ou un défi.
+
+## Réalisation (2026-10-15)
+
+- `educator-sync::service::ClientSync` : bonjour (profils de l'ordinateur), envoi, réception, envoi de ce que la
+  réception a changé ; curseurs enregistrés après chaque lot ; arrêt propre au passage en arrière-plan
+  (`interrupt_sync`) ; tentative silencieuse à « Qui joue ? » (`web/src/app/automaticSync.ts`).
+- Écart : l'iPad retrouve l'ordinateur par les adresses du QR code et la dernière adresse qui a répondu ; la recherche
+  Bonjour native est une fiche de suivi (le multicast « brut » demande une autorisation d'Apple, ADR 0007).
+- Reste : la synchronisation complète sur l'iPad réel (recette SUB027609).
+- 2026-10-16 : développement terminé et testé (tests automatiques verts) ; passée en revue. Reste la vérification sur le Mac et l'iPad réels, jouée avec la recette SUB027609.

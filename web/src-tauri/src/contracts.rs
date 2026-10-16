@@ -18,9 +18,11 @@ use serde::{Deserialize, Serialize};
 
 mod figures;
 mod motivation;
+mod sync;
 
 pub use figures::*;
 pub use motivation::*;
+pub use sync::*;
 
 // ── Enums ────────────────────────────────────────────────────────────────────────────────────
 
@@ -272,6 +274,9 @@ pub struct SkillResponse {
     pub mastery: Option<u8>,
     /// Best stars of the profile on the skill (0 to 3, SUB001502).
     pub stars: u8,
+    /// Percent of the points of a series started today: 100, more for a period still to come
+    /// (a bonus shown on the card), less for a past period already mastered.
+    pub points_percent: u32,
 }
 
 /// Family of a skill: the front shows « Mes tables » next to the multiplications.
@@ -343,6 +348,7 @@ impl SkillResponse {
         current_period: u8,
         mastery: Option<u8>,
         stars: u8,
+        points_percent: u32,
     ) -> Self {
         let skill = offered.skill;
         Self {
@@ -368,6 +374,7 @@ impl SkillResponse {
                 .collect(),
             mastery,
             stars,
+            points_percent,
         }
     }
 }
@@ -1021,6 +1028,9 @@ pub struct SeriesSummaryResponse {
     pub correct_count: u32,
     pub exercise_count: u32,
     pub points_earned: i32,
+    /// Percent applied to the points: 100, more ahead of the school year (a bonus shown to the
+    /// child), less on a past period already mastered (never shown).
+    pub points_percent: u32,
     /// New total of the profile.
     pub profile_points: i32,
     /// Results by skill, in the order of the series (an exam mixes several skills).
@@ -1195,6 +1205,7 @@ impl SeriesSummaryResponse {
             correct_count: count(summary.correct_count),
             exercise_count: count(summary.exercise_count),
             points_earned: summary.points_earned,
+            points_percent: summary.points_percent,
             profile_points: summary.profile_points,
             previous_best: summary.previous_best,
             new_record: summary.new_record,
@@ -1290,6 +1301,9 @@ pub struct LessonSummaryResponse {
     pub stars: u8,
     /// The main skill of the lesson (its first one): the progress map links it (SUB001506).
     pub skill_id: Option<String>,
+    /// Percent of the points of its quiz taken today, as for the skills: 100, more for a period
+    /// still to come, less for a past period already mastered.
+    pub points_percent: u32,
 }
 
 impl LessonSummaryResponse {
@@ -1299,6 +1313,7 @@ impl LessonSummaryResponse {
         current_period: u8,
         main_skill: Option<&skills::Skill>,
         stars: u8,
+        points_percent: u32,
     ) -> Self {
         Self {
             id: lesson.id.clone(),
@@ -1309,6 +1324,7 @@ impl LessonSummaryResponse {
             category: main_skill.map(|s| s.category().into()),
             stars,
             skill_id: lesson.skill_ids.first().cloned(),
+            points_percent,
         }
     }
 }

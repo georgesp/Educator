@@ -56,6 +56,12 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         CFBundleShortVersionString: 0.1.0
         CFBundleVersion: "0.1.0"
+        # Lot tablette 2 (ADR 0007): the camera reads the pairing QR code, the iPad talks to the
+        # computer on the Wi-Fi of the house (local network permission).
+        NSCameraUsageDescription: "La caméra sert à lire le code de l'ordinateur pour associer la tablette. Aucune photo n'est gardée."
+        NSLocalNetworkUsageDescription: "Educator partage les profils et les statistiques avec l'ordinateur de la maison, sur le Wi-Fi. Rien ne sort de chez vous."
+        NSBonjourServices:
+          - _educator-sync._tcp
     entitlements:
       path: educator-shell_iOS/educator-shell_iOS.entitlements
     scheme:

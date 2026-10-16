@@ -251,6 +251,7 @@ function LessonSummary({ summary, skillIds, practiceLabel, onPractice, onReview 
       <p className="summary-score">{fr.series.score(summary.correctCount, summary.exerciseCount)}</p>
       {summary.correctCount === summary.exerciseCount && <p className="summary-perfect">{fr.series.allRight}</p>}
       <p className="summary-points">{fr.series.pointsEarned(summary.pointsEarned)}</p>
+      {summary.pointsPercent > 100 && <p className="summary-perfect summary-bonus">{fr.series.aheadBonus(summary.pointsPercent)}</p>}
       <RewardsPanel rewards={summary.rewards} />
       {review && <p className="notice">{fr.lessons.review}</p>}
       <div className="lesson-summary-actions">{review ? [reviewButton, ...practiceButtons] : [...practiceButtons, reviewButton]}</div>

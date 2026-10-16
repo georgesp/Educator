@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4-zg
+rev: 2026-10-16T07:23:15Z
 url: https://github.com/georgesp/Educator/issues/277
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027601 — Appairage de la tablette par QR code
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -31,7 +32,18 @@ En tant que parent, je veux associer la tablette à l'ordinateur en scannant un 
 ## Critères d'acceptation
 
 - [ ] Appairage de bout en bout entre l'ordinateur et la tablette de test, en moins d'une minute.
-- [ ] Un QR code expiré, déjà utilisé, ou photographié puis rejoué plus tard ne permet pas de s'appairer (test automatisé côté serveur).
-- [ ] Le jeton n'apparaît ni dans les logs ni dans l'interface.
-- [ ] Caméra refusée par l'utilisateur : message bienveillant et plan B disponible.
-- [ ] Permissions mobiles déclarées (caméra, réseau local sur iOS) avec un texte d'explication en français.
+- [x] Un QR code expiré, déjà utilisé, ou photographié puis rejoué plus tard ne permet pas de s'appairer (test automatisé côté serveur).
+- [x] Le jeton n'apparaît ni dans les logs ni dans l'interface.
+- [x] Caméra refusée par l'utilisateur : message bienveillant et plan B disponible.
+- [x] Permissions mobiles déclarées (caméra, réseau local sur iOS) avec un texte d'explication en français.
+
+## Réalisation (2026-10-15)
+
+- QR code `educator://pair?v=1&h=…&p=…&f=<empreinte>&s=<secret>` dessiné en SVG par le cœur ; secret 128 bits,
+  5 minutes, usage unique ; code court `ABCD-EFGH` + adresse pour le plan B ; jeton 256 bits, empreinte seule gardée
+  par l'ordinateur.
+- Lecture du QR code : `tauri-plugin-barcode-scanner` (iPad) ; `Info.plist` / `project.yml` : `NSCameraUsageDescription`,
+  `NSLocalNetworkUsageDescription`, `NSBonjourServices`.
+- Jeton de l'iPad rangé dans sa base (hors sauvegarde) : le Keychain est une fiche de suivi.
+- Reste : l'appairage de bout en bout sur le Mac et l'iPad réels (recette SUB027609).
+- 2026-10-16 : développement terminé et testé (tests automatiques verts) ; passée en revue. Reste la vérification sur le Mac et l'iPad réels, jouée avec la recette SUB027609.

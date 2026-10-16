@@ -1,6 +1,7 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_DQ
+rev: 2026-10-15T05:31:47Z
 url: https://github.com/georgesp/Educator/issues/281
 type: Issue
 repository: georgesp/Educator
@@ -31,3 +32,7 @@ En tant que parent, je veux pouvoir transférer les données à la main (AirDrop
 - [ ] Export sur un appareil, import sur l'autre : mêmes statistiques des deux côtés.
 - [ ] Un mauvais mot de passe ou un fichier altéré est refusé sans modifier la base.
 - [ ] Importer deux fois le même fichier ne change rien.
+
+## Réalisation (2026-10-15)
+
+Non commencée, comme prévu : à reprendre après la recette (le format d'échange et la fusion idempotente sont prêts).

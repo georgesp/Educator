@@ -34,6 +34,8 @@ struct PointsFile {
     per_correct_answer: i32,
     series_completed_bonus: i32,
     perfect_series_bonus: i32,
+    past_period_percent: u32,
+    next_period_percent: u32,
 }
 
 pub fn load_calendar(path: &Path) -> Loaded<SchoolCalendar> {
@@ -56,11 +58,16 @@ pub fn load_points(path: &Path) -> Loaded<PointsRules> {
             return Err("Points cannot be negative.".to_owned());
         }
 
+        if file.past_period_percent > 500 || file.next_period_percent > 500 {
+            return Err("The percents of the periods are 0 to 500.".to_owned());
+        }
+
         Ok(PointsRules::new(
             file.per_correct_answer,
             file.series_completed_bonus,
             file.perfect_series_bonus,
-        ))
+        )
+        .with_period_percents(file.past_period_percent, file.next_period_percent))
     })
 }
 

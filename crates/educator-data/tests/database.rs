@@ -50,7 +50,8 @@ fn new_database_applies_the_initial_migration_without_backup() {
             "0001_initial",
             "0002_sessions",
             "0003_question_timers",
-            "0004_motivation"
+            "0004_motivation",
+            "0005_sync"
         ],
         report.applied_migrations
     );
@@ -118,13 +119,15 @@ fn database_of_the_dotnet_version_is_adopted_with_its_profiles() {
             "0001_initial",
             "0002_sessions",
             "0003_question_timers",
-            "0004_motivation"
+            "0004_motivation",
+            "0005_sync"
         ],
         report.applied_migrations
     );
     let profiles = SqliteProfileStore::new(database).list().unwrap();
+    // The points of the .NET version match no session: dropped by migration 0005 (ADR 0007).
     assert_eq!(
-        vec![("Léa".to_owned(), Grade::CE1, 30)],
+        vec![("Léa".to_owned(), Grade::CE1, 0)],
         profiles
             .iter()
             .map(|p| (p.name.clone(), p.grade, p.points))
@@ -404,12 +407,16 @@ fn profiles_of_lot_2_become_avatars_without_loss() {
 
     let (database, report) = open(&db.path, Arc::new(SystemClock));
 
-    assert_eq!(vec!["0004_motivation"], report.applied_migrations);
+    assert_eq!(
+        vec!["0004_motivation", "0005_sync"],
+        report.applied_migrations
+    );
     assert!(report.backup_path.is_some());
     let store = SqliteProfileStore::new(database);
     let lea = store.list().unwrap().remove(0);
+    // Points without any session are dropped by migration 0005 (ADR 0007, section 6).
     assert_eq!(
-        ("renard", 830, 0),
+        ("renard", 0, 0),
         (lea.character_id.as_str(), lea.points, lea.accessories.len())
     );
     assert_eq!(

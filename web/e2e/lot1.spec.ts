@@ -124,6 +124,7 @@ async function mockApi(page: Page, profiles: Record<string, unknown>[] = []) {
                 correctCount: count,
                 exerciseCount: 10,
                 pointsEarned: earned,
+                pointsPercent: 100,
                 profilePoints: (profiles[0] as { points: number }).points,
                 skills: [],
                 mascotSituation: count === 10 ? "SeriesPerfect" : "SeriesWell",

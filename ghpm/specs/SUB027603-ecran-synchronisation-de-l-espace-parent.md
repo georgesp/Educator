@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4-8c
+rev: 2026-10-16T07:23:18Z
 url: https://github.com/georgesp/Educator/issues/279
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027603 — Écran « Synchronisation » de l'espace parent
-status: Todo
+status: In Review
 size: M
 estimate:
 startDate:
@@ -30,7 +31,16 @@ En tant que parent, je veux voir quels appareils sont associés, quand ils ont s
 
 ## Critères d'acceptation
 
-- [ ] Les actions ci-dessus fonctionnent de bout en bout ; retirer une tablette l'empêche immédiatement de synchroniser.
-- [ ] Les statistiques de l'espace parent reflètent les données fusionnées, sur les deux appareils.
+- [x] Les actions ci-dessus fonctionnent de bout en bout ; retirer une tablette l'empêche immédiatement de synchroniser.
+- [x] Les statistiques de l'espace parent reflètent les données fusionnées, sur les deux appareils.
 - [ ] Ton bienveillant, aucun message culpabilisant ; écrans utilisables au doigt sur la tablette (cibles tactiles, voir SUB023809).
-- [ ] Tests Vitest des composants avec une `UiApi` simulée ; parcours Playwright de l'écran côté ordinateur.
+- [x] Tests Vitest des composants avec une `UiApi` simulée ; parcours Playwright de l'écran côté ordinateur.
+
+## Réalisation (2026-10-15)
+
+- Section « Synchronisation » de l'espace parent : `web/src/components/parent/SyncSection.tsx` (textes dans
+  `web/src/i18n/fr.ts`, `fr.parent.sync`), commandes dans `commands.rs` / `synchronisation.rs` / `contracts/sync.rs`.
+- Tests : `SyncSection.test.tsx` (Vitest), `e2e/sync.spec.ts` (Playwright, ordinateur), tests des commandes dans
+  `web/src-tauri/src/synchronisation.rs` (ordinateur et iPad sur la même machine).
+- Reste : vérifier au doigt sur l'iPad (cibles tactiles), à la recette.
+- 2026-10-16 : développement terminé et testé (tests automatiques verts) ; passée en revue. Reste la vérification sur le Mac et l'iPad réels, jouée avec la recette SUB027609.

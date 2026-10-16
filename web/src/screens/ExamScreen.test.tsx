@@ -9,6 +9,7 @@ const examSummary: SeriesSummary = {
   correctCount: 1,
   exerciseCount: 2,
   pointsEarned: 30,
+  pointsPercent: 100,
   profilePoints: 150,
   skills: [
     { skillId: "cp-add-sum-10", title: "Additions jusqu'à 10", correctCount: 1, questionCount: 1, lessonId: "cp-add-sum-10", strong: true },

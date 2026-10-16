@@ -13,7 +13,9 @@ l'Éducation nationale.
 - Menu principal : **Leçons**, **Exercices**, **Examen**, **Options** ; mode contre-la-montre.
 - Exercices de maths **générés en direct** à partir de règles par niveau (pas de banque figée).
 - Voix (consignes, dictées) : synthèse vocale **locale** avec **Piper**, hors ligne.
-- Aucun compte en ligne, aucune donnée envoyée : tout reste sur l'ordinateur.
+- Aucun compte en ligne, aucune donnée envoyée : tout reste à la maison. Seule exception, voulue : la synchronisation
+  des profils et des statistiques entre l'ordinateur et l'iPad, sur le Wi-Fi local, chiffrée, après appairage par un
+  parent (lot tablette 2, ADR 0007).
 
 Depuis le lot 1bis (ADR 0003), toute la logique est en **Rust**, dans l'application Tauri : plus de host .NET, de
 serveur local ni de token. Cela permet la version **iPad** (lot tablette 1, ADR 0006 : iPad seul, paysage seul,
@@ -24,7 +26,7 @@ iPadOS 17 minimum), dans le même dépôt : iOS n'autorise pas de processus anne
 | Couche | Technologie |
 |---|---|
 | Application | Tauri 2 (Rust) — `web/src-tauri/` : commandes, état partagé, démarrage, logs — **aucune règle métier** |
-| Cœur | Workspace Cargo (`crates/`) : `educator-core`, `educator-content`, `educator-data` |
+| Cœur | Workspace Cargo (`crates/`) : `educator-core`, `educator-content`, `educator-data`, `educator-sync` (synchronisation, ADR 0007) |
 | Front | React 19 + TypeScript (Vite), TanStack Query, Framer Motion — `web/` |
 | Stockage | SQLite embarqué (`rusqlite`, `bundled`), migrations versionnées (`educator-data`) |
 | Synthèse vocale | Piper (binaire + voix française), lancé depuis Rust sur le bureau |
@@ -40,7 +42,8 @@ Educator/
 ├── crates/
 │   ├── educator-core/      # Domaine + moteur d'exercices — code pur, aucune dépendance d'infrastructure
 │   ├── educator-content/   # Chargement / validation du contenu (JSON, SVG) + Piper (bureau)
-│   └── educator-data/      # SQLite : base, migrations, profils, réglages
+│   ├── educator-data/      # SQLite : base, migrations, profils, réglages, suivi des changements (synchronisation)
+│   └── educator-sync/      # Synchronisation ordinateur ↔ iPad : format d'échange (schemas/), TLS épinglé, HTTP minimal, serveur (bureau), client, appairage
 ├── content/                # Contenu pédagogique (règles d'exercices, gabarits de problèmes, banque de mots, sons, homophones, leçons, mascotte, personnages, calendrier, points) + schémas JSON
 │                           # Lot 3 : rewards/ (niveaux, étoiles, objectif du jour, badges + icônes), accessories/ (accessoires d'avatar + planche),
 │                           # progress/ (seuils de la difficulté adaptative, intervalles des révisions), themes/ (liste des thèmes)
@@ -49,13 +52,14 @@ Educator/
 │   └── src-tauri/gen/apple/ # Projet Xcode de la version iPad (`tauri ios init`, commité ; `project.yml` fait foi)
 ├── scripts/                # fetch-piper.sh / .ps1, compare-voices.sh, listen-words.sh / .ps1
 ├── vendor/piper/           # Moteur Piper + voix, téléchargés par scripts/fetch-piper (non commités)
-├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust, 0004 voix en direct pour les mots, 0005 voix sur tablette — étude, 0006 application tablette (iPad)) ; `docs/tablette.md` : préparer le Mac et l'iPad
+├── docs/adr/               # Décisions d'architecture (0001 remplacée par 0003, 0002 voix Piper, 0003 backend Rust, 0004 voix en direct pour les mots, 0005 voix sur tablette — étude, 0006 application tablette (iPad), 0007 synchronisation locale) ; `docs/tablette.md` : préparer le Mac et l'iPad ; `docs/recette-synchronisation.md` : recette du lot tablette 2
 ├── ghpm/                   # Backlog en fiches (voir ci-dessous)
 └── CLAUDE.md
 ```
 
 Règle de dépendance : `educator-core` ne dépend d'aucune crate d'infrastructure (seulement `rand`, `rand_chacha`,
-`uuid`, `thiserror`) ; `educator-data` et `educator-content` → `core` (pas l'un de l'autre) ; l'application → toutes.
+`uuid`, `thiserror`) ; `educator-data`, `educator-content` et `educator-sync` → `core` (jamais l'une de l'autre ; les
+tests de `educator-sync` utilisent `educator-data` en dépendance de développement) ; l'application → toutes.
 Vérifiée par `crates/educator-core/tests/architecture.rs`.
 
 ## Conventions
@@ -114,6 +118,14 @@ Vérifiée par `crates/educator-core/tests/architecture.rs`.
   choisi avec `tauri-plugin-dialog`, `educator-data::backup`). La fin de chaque séance (`SeriesSummaryResponse.rewards`)
   porte les étoiles, le niveau, l'objectif du jour, les badges et accessoires gagnés (`educator-core::rewards`).
   `speak` et `speak_word` reçoivent la vitesse de voix choisie par l'enfant (`voiceSpeed`).
+- Lot tablette 2 (synchronisation, ADR 0007, `web/src-tauri/src/synchronisation.rs`) : `get_sync_status`,
+  `open_sync_screen` / `close_sync_screen` (l'ordinateur écoute tant que l'écran « Synchronisation » de l'espace parent
+  est ouvert), `set_sync_receive` (option « Recevoir les synchronisations »), `start_sync_pairing` (QR code et code
+  court, 5 minutes, usage unique), `cancel_sync_pairing`, `rename_sync_device`, `remove_sync_device` (ordinateur :
+  retire une tablette ; iPad : dissocie), `pair_with_computer`, `sync_now` (`automatic` : la tentative silencieuse de
+  « Qui joue ? » ; jamais pendant une série), `answer_sync_question` (« Est-ce le même enfant ? »), `interrupt_sync`
+  (application en arrière-plan). Toute la fusion est dans `educator-core::sync`, le stockage dans
+  `educator-data::sync`, le réseau dans `educator-sync`.
 - Côté front : `web/src/api/ui.ts` (`UiApi`, injectée par `BackendContext`, simulée dans les tests).
 - Après toute modification d'un contrat : `cd web && npm run api:generate`, puis commiter `web/src/api/types.ts`
   (le test `bindings::types_ts_is_up_to_date` le vérifie).
@@ -170,6 +182,13 @@ Conventions :
   `CharacterId` garde le personnage), `EarnedBadge`, `UnlockedAccessory`, `DailyGoalDay` (jours où l'objectif est
   atteint, bonus donné une fois), `ReviewItem` (file de révision espacée), `ProfileSetting` (réglages de chaque enfant).
   Le niveau et les étoiles ne sont pas stockés : ils sont recalculés à partir des points et des séances.
+- Lot tablette 2 (migration `0005_sync`, ADR 0007) : `SyncState` (identifiant de l'appareil, certificat de
+  l'ordinateur, options), `SyncRow` (horloge hybride et numéro de séquence de chaque donnée synchronisée, un par champ
+  du profil, pierres tombales), `SyncCounter`, `SyncPeer` (appareils appairés, jeton : empreinte seulement sur
+  l'ordinateur). Des **déclencheurs** suivent chaque écriture des tables synchronisées (fonction SQL `educator_hlc()`
+  enregistrée sur la connexion) : une nouvelle table synchronisée demande ses déclencheurs dans une nouvelle migration.
+  Ces tables ne sont jamais dans la sauvegarde. `Profile.Points` = points des séances fermées + bonus des jours
+  d'objectif (les points de l'ancienne version .NET ont été abandonnés), recalculés après chaque fusion.
 
 ## Commandes
 
@@ -200,7 +219,8 @@ Le backlog est géré en fiches Markdown dans `ghpm/specs/`, synchronisées avec
 `georgesp/projects/7` par GitHubProjectManager (format décrit dans `ghpm/README.md`).
 
 - Lots : 0 socle technique, 1 socle mathématiques, 1bis migration du backend vers Rust, 2 orthographe / leçons /
-  examens, 2bis voix en direct pour les mots, 3 motivation et espace parent, 4 / 5 / 6 exercices et leçons du CE2 / CM1 / CM2 (maths, orthographe, grammaire) ; packaging et signature dans un lot dédié.
+  examens, 2bis voix en direct pour les mots, 3 motivation et espace parent, tablette 1 (iPad), tablette 2
+  (synchronisation ordinateur ↔ iPad, US0276 ; le stylet est US0239), 4 / 5 / 6 exercices et leçons du CE2 / CM1 / CM2 (maths, orthographe, grammaire) ; packaging et signature dans un lot dédié.
 - Ne jamais modifier les clés « Managed by GHPM » de l'en-tête d'une fiche.
 - Les codes (`US0060`, `SUB006001`…) sont attribués par GHPM à la synchronisation et ne changent plus.
 - En implémentant une fiche : respecter ses critères d'acceptation, cocher ceux qui sont remplis, passer `status`

@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4-_w
+rev: 2026-10-15T05:31:31Z
 url: https://github.com/georgesp/Educator/issues/280
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB027604 — Étude — modèle de synchronisation (identité des profils, fusion, suppressions, horloges)"
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -42,6 +43,15 @@ En tant que Georges, je veux que les règles de fusion soient écrites et valid�
 
 ## Critères d'acceptation
 
-- [ ] ADR 0006 rédigé et validé par Georges.
-- [ ] Chaque table de la base a une ligne dans le tableau de fusion (synchronisée ou non, et pourquoi).
-- [ ] Les fiches suivantes du lot sont ajustées si l'étude change le périmètre.
+- [x] ADR 0006 rédigé et validé par Georges.
+- [x] Chaque table de la base a une ligne dans le tableau de fusion (synchronisée ou non, et pourquoi).
+- [x] Les fiches suivantes du lot sont ajustées si l'étude change le périmètre.
+
+## Réalisation (2026-10-15)
+
+- ADR **0007** (le numéro 0006 était pris par l'application tablette) : `docs/adr/0007-synchronisation-locale.md`,
+  validé par Georges le 2026-10-15, avec une modification : pas de « points hérités », les points de la version .NET
+  sont abandonnés.
+- Écarts constatés à l'implémentation et consignés dans l'ADR : migration **0005_sync** (0004 était prise) ; schéma
+  d'échange dans `crates/educator-sync/schemas/` ; recherche Bonjour sur l'iPad reportée (fiche de suivi) ; jeton de
+  l'iPad dans sa base, Keychain en fiche de suivi.

@@ -18,6 +18,14 @@
 	<string>0.1.0</string>
 	<key>CFBundleVersion</key>
 	<string>0.1.0</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_educator-sync._tcp</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>La caméra sert à lire le code de l&apos;ordinateur pour associer la tablette. Aucune photo n&apos;est gardée.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Educator partage les profils et les statistiques avec l&apos;ordinateur de la maison, sur le Wi-Fi. Rien ne sort de chez vous.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

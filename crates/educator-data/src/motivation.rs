@@ -142,7 +142,7 @@ impl SqliteReviewStore {
     }
 }
 
-const REVIEW_COLUMNS: &str = r#""Id", "ProfileId", "SkillId", "Key", "Prompt", "Expected", "Word", "OriginSeed",
+pub(crate) const REVIEW_COLUMNS: &str = r#""Id", "ProfileId", "SkillId", "Key", "Prompt", "Expected", "Word", "OriginSeed",
     "OriginAnswerMode", "OriginFormat", "OriginIndex", "Step", "DueDay", "CreatedAt", "UpdatedAt""#;
 
 fn invalid(index: usize, message: String) -> rusqlite::Error {
@@ -154,7 +154,7 @@ fn uuid_at(row: &Row<'_>, index: usize) -> rusqlite::Result<Uuid> {
     Uuid::parse_str(&text).map_err(|e| invalid(index, e.to_string()))
 }
 
-fn read_review(row: &Row<'_>) -> rusqlite::Result<ReviewItem> {
+pub(crate) fn read_review(row: &Row<'_>) -> rusqlite::Result<ReviewItem> {
     let seed: Option<u32> = row.get(7)?;
     let mode: Option<String> = row.get(8)?;
     let format: Option<String> = row.get(9)?;

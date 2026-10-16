@@ -1,0 +1,40 @@
+[package]
+name = "educator-sync"
+description = "Synchronisation of Educator between the computer and the iPad on the local network (ADR 0007): exchange format, TLS with a pinned self-signed certificate, minimal HTTP, server (desktop), client, pairing, Bonjour announce."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+publish.workspace = true
+
+# Dependency rule (ADR 0007): educator-core only (never educator-data nor educator-content).
+# Checked by crates/educator-core/tests/architecture.rs.
+[dependencies]
+educator-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+uuid = { workspace = true, features = ["serde"] }
+rand.workspace = true
+sha2 = "0.10"
+# TLS 1.3 with the `ring` provider (pure Rust and assembly: builds for iOS without CMake).
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "logging"] }
+# The self-signed certificate of the computer, generated at the first start of the server.
+rcgen = { version = "0.14", default-features = false, features = ["crypto", "ring", "pem"] }
+# The pairing QR code, drawn as SVG.
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+
+# Desktop only: the Bonjour announce of the computer (raw multicast needs an entitlement on iOS).
+[target.'cfg(not(any(target_os = "ios", target_os = "android")))'.dependencies]
+mdns-sd = "0.13"
+# The addresses of the computer written in the QR code.
+if-addrs = "0.13"
+
+[dev-dependencies]
+educator-data.workspace = true
+tempfile.workspace = true
+jsonschema = { version = "0.33", default-features = false }
+
+[lints]
+workspace = true

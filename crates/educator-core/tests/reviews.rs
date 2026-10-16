@@ -29,6 +29,11 @@ struct Fixture {
 }
 
 fn fixture() -> Fixture {
+    fixture_with(test_skill())
+}
+
+/// The fixture with another skill of id `test-skill` (another period).
+fn fixture_with(skill: educator_core::skills::Skill) -> Fixture {
     let clock = Arc::new(ManualClock::new(unix_ms(2026, 10, 12, 8, 0, 0)));
     let profiles = Arc::new(InMemoryProfileStore::default());
     let profile = profiles
@@ -55,7 +60,7 @@ fn fixture() -> Fixture {
         Arc::new(utc_date_of),
     ));
     let series = SeriesService::new(
-        Arc::new(SkillList(vec![test_skill()])),
+        Arc::new(SkillList(vec![skill])),
         profiles,
         Arc::new(InMemorySessionStore::default()),
         PointsRules::DEFAULT,
@@ -83,7 +88,14 @@ fn answer(exercise: &Exercise, right: bool) -> Answer {
 fn series_with_mistakes(f: &Fixture, wrong: usize) -> Vec<String> {
     let series = f
         .series
-        .start(f.profile, "test-skill", AnswerMode::Keyboard, None, Some(7))
+        .start(
+            f.profile,
+            "test-skill",
+            AnswerMode::Keyboard,
+            None,
+            Some(7),
+            1,
+        )
         .unwrap();
     for (i, exercise) in series.exercises.iter().enumerate() {
         f.series
@@ -170,4 +182,31 @@ fn the_same_mistake_twice_is_one_item() {
     series_with_mistakes(&f, 2);
     series_with_mistakes(&f, 2);
     assert_eq!(2, f.store.items.lock().unwrap().len());
+}
+
+/// « Mes révisions » earns the usual points, even on the mistakes of a period still to come.
+#[test]
+fn the_reviews_earn_the_usual_points_whatever_the_period() {
+    let mut later = test_skill();
+    later.period = 3;
+    let f = fixture_with(later);
+    series_with_mistakes(&f, 3);
+    f.clock.advance(DAY);
+
+    let series = f
+        .series
+        .start_review(f.profile, Subject::Math, Some(3))
+        .unwrap();
+    assert_eq!(100, series.points_percent);
+    let mut summary = None;
+    for (i, exercise) in series.exercises.iter().enumerate() {
+        summary = f
+            .series
+            .answer(series.id, i, &answer(exercise, true), None)
+            .unwrap()
+            .summary;
+    }
+    let summary = summary.unwrap();
+    // 3 right answers, the bonus of a series and of a perfect one, at 100 %.
+    assert_eq!((100, 70), (summary.points_percent, summary.points_earned));
 }

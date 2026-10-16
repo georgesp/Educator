@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_GE
+rev: 2026-10-15T05:31:37Z
 url: https://github.com/georgesp/Educator/issues/282
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027606 — Format d'échange versionné entre les deux appareils
-status: Todo
+status: Done
 size: M
 estimate:
 startDate:
@@ -29,7 +30,13 @@ En tant que Georges, je veux un format d'échange clair et versionné, pour que 
 
 ## Critères d'acceptation
 
-- [ ] Schéma JSON versionné et exemples de messages dans le dépôt, validés par des tests.
-- [ ] Un message d'une version inconnue ou mal formé est refusé avec une erreur claire, sans plantage.
-- [ ] Lot volumineux (plusieurs milliers de réponses) découpé et reconstitué sans perte ; test de reprise après interruption.
-- [ ] `web/src/api/types.ts` régénéré et commité (le test `bindings::types_ts_is_up_to_date` passe).
+- [x] Schéma JSON versionné et exemples de messages dans le dépôt, validés par des tests.
+- [x] Un message d'une version inconnue ou mal formé est refusé avec une erreur claire, sans plantage.
+- [x] Lot volumineux (plusieurs milliers de réponses) découpé et reconstitué sans perte ; test de reprise après interruption.
+- [x] `web/src/api/types.ts` régénéré et commité (le test `bindings::types_ts_is_up_to_date` passe).
+
+## Réalisation (2026-10-15)
+
+- `crates/educator-sync/src/wire.rs`, schéma `crates/educator-sync/schemas/sync-messages.schema.json` et exemples
+  `schemas/examples/` (validés par `tests/schemas.rs`). Protocole 1 ; lots de 200 séances ou 2 000 éléments au plus.
+- Les messages d'échange ne sont pas exposés au front ; seuls les contrats des commandes (`contracts/sync.rs`) le sont.

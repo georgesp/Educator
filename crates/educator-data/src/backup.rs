@@ -139,6 +139,25 @@ pub fn restore(database: &Database, text: &str) -> Result<RestoreReport> {
         database.now_ms(),
     )?;
     let transaction = connection.transaction().map_err(storage)?;
+    // The deletions below are not removals to send to the paired devices (ADR 0007): their
+    // tombstones are dropped at the end; the rows restored are « to send ».
+    let last_seq: i64 = transaction
+        .query_row(r#"SELECT "Seq" FROM "SyncCounter""#, [], |row| row.get(0))
+        .map_err(storage)?;
+    // The profiles removed before (here or on a paired device) stay removed: the removal wins.
+    let removed: Vec<(String, String, Option<String>)> = {
+        let mut statement = transaction
+            .prepare(
+                r#"SELECT "Key", "Hlc", "Target" FROM "SyncRow" WHERE "Entity" = 'Profile' AND "Field" = '' AND "Deleted" = 1"#,
+            )
+            .map_err(storage)?;
+        let rows = statement
+            .query_map([], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)))
+            .map_err(storage)?
+            .collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(storage)?;
+        rows
+    };
     // Children first; deleting the profiles would cascade, the explicit order is clearer.
     for table in BACKUP_TABLES.iter().rev() {
         transaction
@@ -194,11 +213,136 @@ pub fn restore(database: &Database, text: &str) -> Result<RestoreReport> {
             [],
         )
         .map_err(storage)?;
+    transaction
+        .execute(
+            r#"DELETE FROM "SyncRow" WHERE "Deleted" = 1 AND "Seq" > ?1"#,
+            [last_seq],
+        )
+        .map_err(storage)?;
+    // A profile deleted before, brought back by the backup: with a paired device, its removal may
+    // be known there and always wins (ADR 0007). The profile comes back under a new identifier,
+    // so that it comes back there too; its old identifier stays removed.
+    let paired: bool = transaction
+        .query_row(
+            r#"SELECT EXISTS (SELECT 1 FROM "SyncPeer" WHERE "Revoked" = 0)"#,
+            [],
+            |row| row.get(0),
+        )
+        .map_err(storage)?;
+    if paired {
+        for (id, clock, target) in &removed {
+            let restored: bool = transaction
+                .query_row(
+                    r#"SELECT EXISTS (SELECT 1 FROM "Profile" WHERE "Id" = ?1)"#,
+                    [id],
+                    |row| row.get(0),
+                )
+                .map_err(storage)?;
+            if restored {
+                give_new_identifier(&transaction, id, database.now_ms())?;
+            }
+            transaction
+                .execute(
+                    r#"UPDATE "SyncRow" SET "Hlc" = ?2, "Target" = ?3, "Deleted" = 1
+                       WHERE "Entity" = 'Profile' AND "Key" = ?1 AND "Field" = ''"#,
+                    rusqlite::params![id, clock, target],
+                )
+                .map_err(storage)?;
+        }
+    }
+    // Everything is exchanged again with the paired devices: here (cursors at 0), and there (a new
+    // epoch tells them).
+    transaction
+        .execute(
+            r#"UPDATE "SyncPeer" SET "PushedSeq" = 0, "PulledSeq" = 0, "Epoch" = NULL"#,
+            [],
+        )
+        .map_err(storage)?;
+    transaction
+        .execute(
+            r#"UPDATE "SyncState" SET "Value" = ?1, "UpdatedAt" = ?2 WHERE "Key" = 'Epoch'"#,
+            rusqlite::params![
+                educator_core::clock::uuid_v7(database.now_ms()).to_string(),
+                database.now_ms()
+            ],
+        )
+        .map_err(storage)?;
     transaction.commit().map_err(storage)?;
     Ok(RestoreReport {
         profiles,
         safety_copy,
     })
+}
+
+/// Moves a profile and everything it has to a new identifier (the old one is then deleted).
+fn give_new_identifier(connection: &Connection, old: &str, now: i64) -> Result<()> {
+    let new = educator_core::clock::uuid_v7(now)
+        .hyphenated()
+        .encode_upper(&mut uuid::Uuid::encode_buffer())
+        .to_owned();
+    let names: Vec<String> = table_columns(connection, "Profile")?
+        .into_iter()
+        .filter(|c| c != "Id")
+        .collect();
+    let columns = names
+        .iter()
+        .map(|c| format!(r#""{c}""#))
+        .collect::<Vec<_>>()
+        .join(", ");
+    // The copy takes the unique name, set aside on the old row first.
+    let values = names
+        .iter()
+        .map(|c| {
+            if c == "NormalizedName" {
+                "?3".to_owned()
+            } else {
+                format!(r#""{c}""#)
+            }
+        })
+        .collect::<Vec<_>>()
+        .join(", ");
+    let normalized: String = connection
+        .query_row(
+            r#"SELECT "NormalizedName" FROM "Profile" WHERE "Id" = ?1"#,
+            [old],
+            |row| row.get(0),
+        )
+        .map_err(storage)?;
+    connection
+        .execute(
+            r#"UPDATE "Profile" SET "NormalizedName" = '#' || "Id" WHERE "Id" = ?1"#,
+            [old],
+        )
+        .map_err(storage)?;
+    connection
+        .execute(
+            &format!(
+                r#"INSERT INTO "Profile" ("Id", {columns}) SELECT ?2, {values} FROM "Profile" WHERE "Id" = ?1"#
+            ),
+            rusqlite::params![old, new, normalized],
+        )
+        .map_err(storage)?;
+    for table in [
+        "Session",
+        "SkillMastery",
+        "LessonProgress",
+        "EarnedBadge",
+        "UnlockedAccessory",
+        "DailyGoalDay",
+        "ReviewItem",
+        "ProfileSetting",
+    ] {
+        connection
+            .execute(
+                &format!(r#"UPDATE "{table}" SET "ProfileId" = ?2 WHERE "ProfileId" = ?1"#),
+                rusqlite::params![old, new],
+            )
+            .map_err(storage)?;
+    }
+    connection
+        .execute(r#"DELETE FROM "Profile" WHERE "Id" = ?1"#, [old])
+        .map_err(storage)?;
+    Ok(())
 }
 
 fn table_columns(connection: &Connection, table: &str) -> Result<Vec<String>> {

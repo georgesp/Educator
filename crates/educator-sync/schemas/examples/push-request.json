@@ -1,0 +1,82 @@
+{
+  "protocol": 1,
+  "deviceId": "0199f1a2-3b4c-7d5e-8f60-718293a4b5c6",
+  "lastSeq": 342,
+  "batch": {
+    "profiles": [
+      {
+        "id": "0199f1a2-1111-7000-8000-000000000001",
+        "name": "Léa",
+        "grade": "CE1",
+        "characterId": "renard",
+        "accessories": [{ "id": "casquette", "color": "bleu" }],
+        "placementSeconds": 20,
+        "examSeconds": 0,
+        "createdAt": 1792000000000,
+        "lastUsedAt": 1792090000000,
+        "clocks": {
+          "name": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+          "grade": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+          "avatar": "0001792050000000-000002-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+          "placementSeconds": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+          "examSeconds": "0001792000000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+          "lastUsedAt": "0001792090000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6"
+        }
+      }
+    ],
+    "removals": [
+      {
+        "profileId": "0199f1a2-1111-7000-8000-000000000009",
+        "clock": "0001792080000000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "mergedInto": "0199f1a2-1111-7000-8000-000000000001"
+      }
+    ],
+    "sessions": [
+      {
+        "id": "0199f1a2-2222-7000-8000-000000000001",
+        "profileId": "0199f1a2-1111-7000-8000-000000000001",
+        "type": "Exercise",
+        "subject": "math",
+        "grade": "CE1",
+        "skillId": "ce1-add-3-digits",
+        "answerMode": "Keyboard",
+        "seed": 4021,
+        "questionCount": 2,
+        "startedAt": 1792090000000,
+        "endedAt": 1792090060000,
+        "abandoned": false,
+        "correctCount": 1,
+        "pointsEarned": 30,
+        "clock": "0001792090060000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "answers": [
+          { "id": "0199f1a2-3333-7000-8000-000000000001", "index": 0, "skillId": "ce1-add-3-digits", "prompt": "234 + 125 = ?", "expected": "359", "given": "359", "isCorrect": true, "durationMs": 8200, "answeredAt": 1792090010000 },
+          { "id": "0199f1a2-3333-7000-8000-000000000002", "index": 1, "skillId": "ce1-add-3-digits", "prompt": "418 + 207 = ?", "expected": "625", "given": "615", "isCorrect": false, "durationMs": 11300, "answeredAt": 1792090030000 }
+        ]
+      }
+    ],
+    "lessonProgress": [
+      { "profileId": "0199f1a2-1111-7000-8000-000000000001", "lessonId": "ce1-tables-addition", "slide": 3, "clock": "0001792090070000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6" }
+    ],
+    "badges": [
+      { "profileId": "0199f1a2-1111-7000-8000-000000000001", "badgeId": "first-series", "earnedAt": 1792090060000, "clock": "0001792090060000-000001-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6" }
+    ],
+    "accessories": [
+      { "profileId": "0199f1a2-1111-7000-8000-000000000001", "accessoryId": "casquette", "unlockedAt": 1792090060000, "clock": "0001792090060000-000002-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6" }
+    ],
+    "goalDays": [
+      { "profileId": "0199f1a2-1111-7000-8000-000000000001", "day": 20741, "reachedAt": 1792090060000, "bonusPoints": 30, "clock": "0001792090060000-000003-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6" }
+    ],
+    "reviews": [
+      {
+        "profileId": "0199f1a2-1111-7000-8000-000000000001",
+        "skillId": "ce1-add-3-digits",
+        "key": "418+207",
+        "clock": "0001792090060000-000004-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6",
+        "item": { "id": "0199f1a2-4444-7000-8000-000000000001", "prompt": "418 + 207 = ?", "expected": "625", "origin": { "seed": 4021, "answerMode": "Keyboard", "index": 1 }, "step": 0, "dueDay": 20742, "createdAt": 1792090060000 }
+      }
+    ],
+    "settings": [
+      { "profileId": "0199f1a2-1111-7000-8000-000000000001", "key": "theme", "value": "cosmos", "clock": "0001792090080000-000000-0199F1A2-3B4C-7D5E-8F60-718293A4B5C6" }
+    ]
+  }
+}

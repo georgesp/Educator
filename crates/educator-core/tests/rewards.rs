@@ -165,6 +165,7 @@ fn play(f: &Fixture, right: usize) -> (SeriesSummary, educator_core::rewards::Se
             AnswerMode::Keyboard,
             None,
             Some(1),
+            1,
         )
         .unwrap();
     let mut summary = None;

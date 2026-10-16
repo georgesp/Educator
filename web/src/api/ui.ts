@@ -1,11 +1,16 @@
 import { invoke } from "@tauri-apps/api/core";
 import { currentVoiceSpeed } from "../app/voiceSpeed";
 import {
+  ApiError,
   toApiError,
   type Accessory,
   type Advice,
   type Backup,
   type Badge,
+  type PairWithComputer,
+  type SyncPairing,
+  type SyncResult,
+  type SyncStatus,
   type ProfileOverview,
   type ProfileSettings,
   type SettingsOptions,
@@ -128,6 +133,30 @@ export type UiApi = {
   exportBackup(): Promise<Backup | null>;
   /** Asks for a backup file, then restores it (replaces every profile); null when the parents cancel. */
   importBackup(): Promise<Backup | null>;
+  // ── Lot tablette 2: synchronisation computer ↔ iPad (ADR 0007) ──
+  /** The state of the screen « Synchronisation » (role, paired devices, questions). */
+  getSyncStatus(): Promise<SyncStatus>;
+  /** The screen is shown: the computer listens while it is open. */
+  openSyncScreen(): Promise<SyncStatus>;
+  closeSyncScreen(): Promise<SyncStatus>;
+  /** Computer: « Recevoir les synchronisations » even with the screen closed. */
+  setSyncReceive(enabled: boolean): Promise<SyncStatus>;
+  /** Computer: « Associer une tablette » (QR code and short code, 5 minutes). */
+  startSyncPairing(): Promise<SyncPairing>;
+  cancelSyncPairing(): Promise<SyncStatus>;
+  renameSyncDevice(id: string, name: string): Promise<SyncStatus>;
+  /** Computer: « Retirer cette tablette »; iPad: « Dissocier ». */
+  removeSyncDevice(id: string): Promise<SyncStatus>;
+  /** iPad: the text of the QR code read by the camera; null when the parent cancels. */
+  scanPairingCode(): Promise<string | null>;
+  /** iPad: pairs with the computer (text of the QR code, or address and short code). */
+  pairWithComputer(request: PairWithComputer): Promise<SyncResult>;
+  /** iPad: « Synchroniser maintenant », or the automatic attempt at the profile choice. */
+  syncNow(automatic: boolean): Promise<SyncResult>;
+  /** iPad: « Est-ce le même enfant ? ». */
+  answerSyncQuestion(localProfileId: string, sameChild: boolean): Promise<SyncStatus>;
+  /** The application goes to the background: an exchange in progress stops after its batch. */
+  interruptSync(): Promise<void>;
 };
 
 /** Calls a Tauri command (src-tauri/src/commands.rs); a rejection becomes an ApiError. */
@@ -203,6 +232,30 @@ export function createUiApi(): UiApi {
       const path = await open({ multiple: false, directory: false, filters: [{ name: "Sauvegarde Educator", extensions: ["json"] }] });
       return typeof path === "string" ? call<Backup>("import_backup", { path }) : null;
     },
+    getSyncStatus: () => call("get_sync_status"),
+    openSyncScreen: () => call("open_sync_screen"),
+    closeSyncScreen: () => call("close_sync_screen"),
+    setSyncReceive: (enabled) => call("set_sync_receive", { enabled }),
+    startSyncPairing: () => call("start_sync_pairing"),
+    cancelSyncPairing: () => call("cancel_sync_pairing"),
+    renameSyncDevice: (id, name) => call("rename_sync_device", { id, name }),
+    removeSyncDevice: (id) => call("remove_sync_device", { id }),
+    scanPairingCode: async () => {
+      const { scan, Format, checkPermissions, requestPermissions } = await import("@tauri-apps/plugin-barcode-scanner");
+      let permission = await checkPermissions();
+      if (permission !== "granted") {
+        permission = await requestPermissions();
+      }
+      if (permission !== "granted") {
+        throw new ApiError(403, "Camera refused");
+      }
+      const result = await scan({ windowed: false, formats: [Format.QRCode] });
+      return result.content || null;
+    },
+    pairWithComputer: (request) => call("pair_with_computer", { request }),
+    syncNow: (automatic) => call("sync_now", { automatic }),
+    answerSyncQuestion: (localProfileId, sameChild) => call("answer_sync_question", { localProfileId, sameChild }),
+    interruptSync: () => call("interrupt_sync"),
   };
 }
 

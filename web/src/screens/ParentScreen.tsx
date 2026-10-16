@@ -14,11 +14,13 @@ import { useUpdateSettings } from "../app/ProfileSettingsEffect";
 import { useProfileSettings, useSettingsOptions } from "../app/queries";
 import { Choice } from "./OptionsScreen";
 import { BarChart, LineChart, Sparkline } from "../components/parent/Charts";
+import { SyncSection } from "../components/parent/SyncSection";
 import { fr } from "../i18n/fr";
 
 /**
  * Parents' space (SUB001510, SUB001511): the progress of each child, computed by the core from the
- * recorded sessions, and the deletion of a profile. Reached through the « adult » gate only.
+ * recorded sessions, and the deletion of a profile; the synchronisation with the other device
+ * (SUB027603) and the backup. Reached through the « adult » gate only.
  */
 export function ParentScreen() {
   if (!isParentSpaceUnlocked()) {
@@ -84,6 +86,8 @@ function ParentSpace() {
       {list.length > 0 && <ManageProfiles profiles={list} onDeleted={(id) => chosen === id && setChosen(null)} />}
 
       <ParentCardEditor />
+
+      <SyncSection />
 
       <BackupSection />
     </main>

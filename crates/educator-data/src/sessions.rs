@@ -9,11 +9,11 @@ use rusqlite::{OptionalExtension, Row};
 use std::sync::Arc;
 use uuid::Uuid;
 
-const SESSION_COLUMNS: &str = r#""Id", "ProfileId", "Type", "Subject", "Grade", "SkillId", "LessonId", "AnswerMode",
+pub(crate) const SESSION_COLUMNS: &str = r#""Id", "ProfileId", "Type", "Subject", "Grade", "SkillId", "LessonId", "AnswerMode",
     "Format", "Seed", "QuestionCount", "TimeLimitSeconds", "StartedAt", "EndedAt", "Abandoned", "CorrectCount",
     "PointsEarned""#;
 
-const ANSWER_COLUMNS: &str = r#""Id", "SessionId", "Index", "SkillId", "Prompt", "Expected", "Given", "IsCorrect",
+pub(crate) const ANSWER_COLUMNS: &str = r#""Id", "SessionId", "Index", "SkillId", "Prompt", "Expected", "Given", "IsCorrect",
     "DurationMs", "AnsweredAt""#;
 
 /// [`SessionStore`] backed by the `Session`, `Answer` and `SkillMastery` tables (SUB001401).
@@ -37,7 +37,7 @@ fn uuid_at(row: &Row<'_>, index: usize) -> rusqlite::Result<Uuid> {
     Uuid::parse_str(&text).map_err(|e| invalid(index, e.to_string()))
 }
 
-fn read_session(row: &Row<'_>) -> rusqlite::Result<SessionRecord> {
+pub(crate) fn read_session(row: &Row<'_>) -> rusqlite::Result<SessionRecord> {
     let session_type: String = row.get(2)?;
     let subject: String = row.get(3)?;
     let grade: String = row.get(4)?;
@@ -78,7 +78,7 @@ fn read_session(row: &Row<'_>) -> rusqlite::Result<SessionRecord> {
     })
 }
 
-fn read_answer(row: &Row<'_>) -> rusqlite::Result<AnswerRecord> {
+pub(crate) fn read_answer(row: &Row<'_>) -> rusqlite::Result<AnswerRecord> {
     Ok(AnswerRecord {
         id: uuid_at(row, 0)?,
         session_id: uuid_at(row, 1)?,

@@ -83,7 +83,12 @@ mastery: number | null,
 /**
  * Best stars of the profile on the skill (0 to 3, SUB001502).
  */
-stars: number, };
+stars: number, 
+/**
+ * Percent of the points of a series started today: 100, more for a period still to come
+ * (a bonus shown on the card), less for a past period already mastered.
+ */
+pointsPercent: number, };
 
 export type SkillFamily = "Calculation" | "Multiplication" | "Numeration" | "DoubleHalf" | "Fraction" | "Problem" | "Spelling";
 
@@ -248,6 +253,11 @@ export type LetterResponse = { kind: LetterKindName, given: string | null, expec
 
 export type SeriesSummaryResponse = { correctCount: number, exerciseCount: number, pointsEarned: number, 
 /**
+ * Percent applied to the points: 100, more ahead of the school year (a bonus shown to the
+ * child), less on a past period already mastered (never shown).
+ */
+pointsPercent: number, 
+/**
  * New total of the profile.
  */
 profilePoints: number, 
@@ -370,7 +380,12 @@ stars: number,
 /**
  * The main skill of the lesson (its first one): the progress map links it (SUB001506).
  */
-skillId: string | null, };
+skillId: string | null, 
+/**
+ * Percent of the points of its quiz taken today, as for the skills: 100, more for a period
+ * still to come, less for a past period already mastered.
+ */
+pointsPercent: number, };
 
 export type LessonResponse = { id: string, title: string, subject: Subject, grade: Grade, 
 /**
@@ -947,6 +962,66 @@ profiles: number,
  * Where the file was written or read.
  */
 path: string, };
+
+export type SyncRole = "Computer" | "Tablet";
+
+export type SyncDeviceResponse = { id: string, 
+/**
+ * Neutral name (« Tablette 1 », « Ordinateur »), never a child's name.
+ */
+name: string, pairedAt: string, lastSyncAt: string | null, };
+
+export type SyncQuestionResponse = { localProfileId: string, localName: string, remoteProfileId: string, remoteName: string, 
+/**
+ * The character of the profile of the computer, to recognise the child.
+ */
+remoteCharacterId: string, };
+
+export type SyncStatusResponse = { role: SyncRole, 
+/**
+ * Computer: the server listens now.
+ */
+receiving: boolean, 
+/**
+ * Computer: the option « Recevoir les synchronisations » (even with the screen closed).
+ */
+receiveAlways: boolean, 
+/**
+ * Computer: where the tablet finds it (`192.168.1.10:47615`), while it listens.
+ */
+address: string | null, 
+/**
+ * Why the computer cannot receive (port, firewall), when it cannot.
+ */
+problem: string | null, 
+/**
+ * The tablets of the computer, or the computer of the iPad.
+ */
+devices: Array<SyncDeviceResponse>, 
+/**
+ * iPad: the questions waiting for the parent.
+ */
+questions: Array<SyncQuestionResponse>, };
+
+export type SyncPairingResponse = { 
+/**
+ * The QR code, as an SVG drawn by the core.
+ */
+qrSvg: string, 
+/**
+ * Plan B without camera: `ABCD-EFGH`, with the address.
+ */
+code: string, address: string, expiresAt: string, };
+
+export type PairWithComputerRequest = { link?: string, address?: string, code?: string, };
+
+export type SyncOutcomeName = "Done" | "NeedsDecision" | "NotPaired" | "Busy" | "Unreachable" | "CertificateMismatch" | "Unauthorized" | "Incompatible" | "PairingExpired" | "TooManyAttempts" | "InvalidLink" | "Interrupted" | "Failed";
+
+export type SyncResultResponse = { outcome: SyncOutcomeName, 
+/**
+ * Records sent and received.
+ */
+sent: number, received: number, status: SyncStatusResponse, };
 
 export type CommandError = { status: number, title: string, detail: string | null, 
 /**
