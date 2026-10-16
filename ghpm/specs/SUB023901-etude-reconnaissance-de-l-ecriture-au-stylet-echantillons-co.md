@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsESY
+rev: 2026-10-14T11:29:27Z
 url: https://github.com/georgesp/Educator/issues/254
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023901 — Étude — reconnaissance de l'écriture au stylet (échantillons, comparaison, go / no-go)"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

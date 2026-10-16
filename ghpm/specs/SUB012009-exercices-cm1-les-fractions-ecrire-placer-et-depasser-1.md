@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012009 — Exercices CM1 — Les fractions : écrire, placer et dépasser 1"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011903 — Exercices CE2 — Multiplier par des dizaines, par 4 et par 8"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

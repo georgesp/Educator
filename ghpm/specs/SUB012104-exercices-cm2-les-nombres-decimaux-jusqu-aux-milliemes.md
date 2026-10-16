@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012104 — Exercices CM2 — Les nombres décimaux jusqu'aux millièmes
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

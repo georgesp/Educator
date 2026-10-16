@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012028 — Leçon CM1 — Multiples, diviseurs et critères de divisibilité"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

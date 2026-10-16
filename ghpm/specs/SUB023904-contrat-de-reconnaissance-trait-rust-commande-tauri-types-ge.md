@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEfg
+rev: 2026-10-14T11:29:35Z
 url: https://github.com/georgesp/Educator/issues/257
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023904 — Contrat de reconnaissance (trait Rust, commande Tauri, types générés)"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

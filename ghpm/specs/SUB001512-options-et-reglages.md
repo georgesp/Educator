@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Wx0
-rev: 2026-10-10T19:39:36Z
+rev: 2026-10-16T19:31:19Z
 url: https://github.com/georgesp/Educator/issues/45
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001512 — Options et réglages
-status: In Review
+status: Done
 size: M
 estimate:
 startDate:

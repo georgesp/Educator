@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012018 — Leçon CM1 — Ajouter et soustraire de tête des nombres proches d'une dizaine
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

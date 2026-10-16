@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011929 — Leçon CE2 — Résoudre des problèmes
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

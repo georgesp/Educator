@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012213 — Leçon CP — Les nombres jusqu'à 100 : dizaines et unités"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

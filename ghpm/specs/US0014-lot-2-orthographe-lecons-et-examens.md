@@ -1,20 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WIM
-rev: 2026-10-10T19:39:03Z
+rev: 2026-10-16T19:32:30Z
 url: https://github.com/georgesp/Educator/issues/14
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "US0014 — Lot 2 — Orthographe, leçons et examens"
-status: In progress
+status: Done
 size: XL
 estimate:
 startDate:
 endDate:
 parent:
-order: 330
+order: 16
 ---
 
 Source : `2026-10-10_notes-application-educative.docx` (cadrage, version 4), sections 6 à 10 et 13.

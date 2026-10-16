@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012107 — Exercices CM2 — Les fractions : écrire, placer et comparer"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

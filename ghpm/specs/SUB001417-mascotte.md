@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5Wi4
-rev: 2026-10-14T06:20:09Z
+rev: 2026-10-16T19:32:37Z
 url: https://github.com/georgesp/Educator/issues/33
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001417 — Mascotte
-status: In Review
+status: Done
 size: M
 estimate:
 startDate:

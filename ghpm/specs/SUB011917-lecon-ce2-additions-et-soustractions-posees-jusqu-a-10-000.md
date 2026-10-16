@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011917 — Leçon CE2 — Additions et soustractions posées jusqu'à 10 000
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

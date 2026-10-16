@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012027 — Leçon CM1 — Les grands nombres jusqu'à 999 999
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

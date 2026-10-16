@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5WJs
-rev: 2026-10-14T19:30:47Z
+rev: 2026-10-16T19:31:53Z
 url: https://github.com/georgesp/Educator/issues/15
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: US0015 — Lot 3 — Motivation et espace parent
-status: In progress
+status: In Review
 size: XL
 estimate:
 startDate:

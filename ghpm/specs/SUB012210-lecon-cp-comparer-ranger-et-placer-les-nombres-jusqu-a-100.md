@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012210 — Leçon CP — Comparer, ranger et placer les nombres jusqu'à 100"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012030 — Leçon CM1 — Multiplier par 4, par 8 et par 5"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

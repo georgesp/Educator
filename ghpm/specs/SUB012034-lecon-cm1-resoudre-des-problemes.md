@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012034 — Leçon CM1 — Résoudre des problèmes
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

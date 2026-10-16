@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011927 — Leçon CE2 — Multiplier par 10 et par 100
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

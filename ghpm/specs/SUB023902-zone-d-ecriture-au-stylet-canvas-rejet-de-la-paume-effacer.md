@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEWg
+rev: 2026-10-14T11:29:30Z
 url: https://github.com/georgesp/Educator/issues/255
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023902 — Zone d'écriture au stylet (canvas, rejet de la paume, effacer)"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

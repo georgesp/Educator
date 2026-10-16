@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011920 — Leçon CE2 — Comparer, ranger et encadrer jusqu'à 10 000"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhBVG3M
+rev: 2026-10-16T19:31:45Z
 url: https://github.com/georgesp/Educator/issues/290
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001515 — Coefficient de points selon la période
-status: In progress
+status: In Review
 size: S
 estimate:
 startDate:

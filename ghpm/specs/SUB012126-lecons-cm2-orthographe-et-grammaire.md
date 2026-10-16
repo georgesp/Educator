@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012126 — Leçons CM2 — Orthographe et grammaire
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

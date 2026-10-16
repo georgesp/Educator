@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012205 — Exercices CP — Les nombres jusqu'à 100 : dizaines et unités"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

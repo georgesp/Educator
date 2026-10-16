@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012035 — Exercices CM1 — Orthographe et grammaire
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

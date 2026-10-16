@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_OI
-rev: 2026-10-15T05:31:49Z
+rev: 2026-10-16T07:23:28Z
 url: https://github.com/georgesp/Educator/issues/285
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB027609 — Recette de la synchronisation (ordinateur et tablette, cas limites)"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

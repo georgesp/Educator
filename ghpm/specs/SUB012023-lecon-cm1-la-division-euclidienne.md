@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012023 — Leçon CM1 — La division euclidienne
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

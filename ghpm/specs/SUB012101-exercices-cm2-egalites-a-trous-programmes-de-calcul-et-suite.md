@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012101 — Exercices CM2 — Égalités à trous, programmes de calcul et suites"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

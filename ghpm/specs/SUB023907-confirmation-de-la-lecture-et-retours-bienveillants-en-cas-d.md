@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEvU
+rev: 2026-10-14T11:29:43Z
 url: https://github.com/georgesp/Educator/issues/260
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023907 — Confirmation de la lecture et retours bienveillants en cas de doute
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

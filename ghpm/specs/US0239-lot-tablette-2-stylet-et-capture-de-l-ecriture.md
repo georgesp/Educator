@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0239 — Lot tablette 3 — Stylet et capture de l'écriture
-status: Todo
+status: Backlog
 size: XL
 estimate:
 startDate:

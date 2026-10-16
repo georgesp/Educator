@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011919 — Leçon CE2 — Multiplier par des dizaines, par 4 et par 8"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012029 — Leçon CM1 — Multiplier par 10, 100, 1 000 et par des dizaines ou des centaines"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

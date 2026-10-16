@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsFBg
+rev: 2026-10-14T11:29:53Z
 url: https://github.com/georgesp/Educator/issues/264
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023911 — Facultatif — tracé guidé des lettres (apprendre à écrire, sans reconnaissance)"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

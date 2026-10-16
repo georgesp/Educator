@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012115 — Leçon CM2 — Calcul mental sur les entiers
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

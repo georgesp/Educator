@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012105 — Exercices CM2 — La division posée d'un entier ou d'un décimal
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

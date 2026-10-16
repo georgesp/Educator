@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012108 — Exercices CM2 — Les grands nombres jusqu'au milliard
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

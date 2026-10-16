@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012019 — Leçon CM1 — Calculer avec les nombres décimaux
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

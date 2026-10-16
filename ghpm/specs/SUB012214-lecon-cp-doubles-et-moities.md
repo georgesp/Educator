@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012214 — Leçon CP — Doubles et moitiés
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

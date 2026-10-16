@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012102 — Exercices CM2 — Calculer avec les décimaux
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

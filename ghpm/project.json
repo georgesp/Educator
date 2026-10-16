@@ -12,11 +12,11 @@
   ],
   "fields": {
     "status": [
-      "Todo",
+      "Backlog",
+      "Ready",
       "In progress",
-      "Done",
       "In Review",
-      "Ready"
+      "Done"
     ],
     "size": [
       "XS",

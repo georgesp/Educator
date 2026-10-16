@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB006008 — Installeurs
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

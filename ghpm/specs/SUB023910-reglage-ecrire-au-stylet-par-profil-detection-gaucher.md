@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsE9I
+rev: 2026-10-14T11:29:50Z
 url: https://github.com/georgesp/Educator/issues/263
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023910 — Réglage « Écrire au stylet » (par profil, détection, gaucher)"
-status: Todo
+status: Backlog
 size: S
 estimate:
 startDate:

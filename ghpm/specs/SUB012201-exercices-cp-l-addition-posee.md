@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012201 — Exercices CP — L'addition posée
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAzB4Q
-rev: 2026-10-14T19:52:28Z
+rev: 2026-10-16T19:32:09Z
 url: https://github.com/georgesp/Educator/issues/266
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB001418 — Évaluation de niveau à la création du profil
-status: In progress
+status: Done
 size: L
 estimate:
 startDate:

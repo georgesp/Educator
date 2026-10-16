@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011922 — Leçon CE2 — Doubles, moitiés et faits multiplicatifs usuels"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

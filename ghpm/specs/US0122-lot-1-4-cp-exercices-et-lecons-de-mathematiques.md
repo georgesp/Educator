@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0122 — Lot 7 — CP — exercices et leçons de mathématiques
-status: Todo
+status: Backlog
 size: XL
 estimate:
 startDate:

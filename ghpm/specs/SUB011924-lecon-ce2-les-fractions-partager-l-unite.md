@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011924 — Leçon CE2 — Les fractions : partager l'unité"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

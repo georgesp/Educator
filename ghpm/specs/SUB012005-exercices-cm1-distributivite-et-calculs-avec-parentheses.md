@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012005 — Exercices CM1 — Distributivité et calculs avec parenthèses
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

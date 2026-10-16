@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsFF8
+rev: 2026-10-14T11:29:55Z
 url: https://github.com/georgesp/Educator/issues/265
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB023912 — Recette et mesures sur écritures d'enfants (fiabilité, accents, ressenti)"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

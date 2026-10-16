@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011925 — Leçon CE2 — Multiplication posée
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

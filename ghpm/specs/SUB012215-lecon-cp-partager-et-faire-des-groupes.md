@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012215 — Leçon CP — Partager et faire des groupes
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

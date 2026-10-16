@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023905 — Reconnaissance de l'écriture Android (ML Kit Digital Ink)
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

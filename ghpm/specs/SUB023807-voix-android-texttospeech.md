@@ -1,20 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsDtg
-rev: 2026-10-15T13:35:17Z
+rev: 2026-10-16T18:54:20Z
 url: https://github.com/georgesp/Educator/issues/246
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023807 — Voix Android — TextToSpeech
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:
 endDate:
 parent: "#238"
-order: 3070
+order: 3355
 ---
 
 > **Mise de côté (2026-10-15, ADR 0006)** : le lot tablette part sur l'iPad seul. Fiche retirée du lot, conservée pour un futur lot « tablette Android ».

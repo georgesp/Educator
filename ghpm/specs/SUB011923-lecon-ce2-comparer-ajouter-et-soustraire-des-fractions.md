@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011923 — Leçon CE2 — Comparer, ajouter et soustraire des fractions"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEbo
+rev: 2026-10-14T11:29:32Z
 url: https://github.com/georgesp/Educator/issues/256
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023903 — Écriture manuscrite du système dans les champs de réponse
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012020 — Leçon CM1 — Comparer, ranger et encadrer les grands nombres"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0119 — Lot 4 — CE2 — exercices et leçons
-status: Todo
+status: Backlog
 size: XL
 estimate:
 startDate:

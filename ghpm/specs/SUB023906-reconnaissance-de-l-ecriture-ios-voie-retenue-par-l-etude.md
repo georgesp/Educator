@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsEpc
+rev: 2026-10-14T11:29:39Z
 url: https://github.com/georgesp/Educator/issues/259
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023906 — Reconnaissance de l'écriture iOS (voie retenue par l'étude)
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

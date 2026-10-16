@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhBLzc8
+rev: 2026-10-16T07:23:30Z
 url: https://github.com/georgesp/Educator/issues/288
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027611 — Découverte Bonjour de l'ordinateur sur l'iPad (framework natif)
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

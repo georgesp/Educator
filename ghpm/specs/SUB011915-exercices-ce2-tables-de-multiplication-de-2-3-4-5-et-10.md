@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011915 — Exercices CE2 — Tables de multiplication de 2, 3, 4, 5 et 10"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

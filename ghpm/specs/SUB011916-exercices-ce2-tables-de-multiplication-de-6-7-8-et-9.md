@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011916 — Exercices CE2 — Tables de multiplication de 6, 7, 8 et 9"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

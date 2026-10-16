@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012026 — Leçon CM1 — Les fractions : écrire, placer et dépasser 1"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012006 — Exercices CM1 — La division euclidienne
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

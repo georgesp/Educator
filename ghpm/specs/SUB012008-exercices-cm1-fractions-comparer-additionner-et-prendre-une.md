@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012008 — Exercices CM1 — Fractions : comparer, additionner et prendre une fraction d'une quantité"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

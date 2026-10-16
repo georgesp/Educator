@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012203 — Exercices CP — Compter de 1 en 1, de 2 en 2, de 10 en 10 et à rebours"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012014 — Exercices CM1 — Les nombres décimaux : dixièmes et centièmes"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

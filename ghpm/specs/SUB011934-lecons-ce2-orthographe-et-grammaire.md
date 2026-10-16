@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011934 — Leçons CE2 — Orthographe et grammaire
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

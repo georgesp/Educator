@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhA4_DQ
-rev: 2026-10-15T05:31:47Z
+rev: 2026-10-16T07:23:21Z
 url: https://github.com/georgesp/Educator/issues/281
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027605 — Facultatif — export et import par fichier chiffré (secours sans réseau)
-status: Todo
+status: Backlog
 size: S
 estimate:
 startDate:

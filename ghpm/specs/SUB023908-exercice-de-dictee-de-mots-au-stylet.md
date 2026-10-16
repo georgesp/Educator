@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsE0A
+rev: 2026-10-14T11:29:46Z
 url: https://github.com/georgesp/Educator/issues/261
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023908 — Exercice de dictée de mots au stylet
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012016 — Exercices CM1 — La proportionnalité
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhAsE4o
+rev: 2026-10-14T11:29:47Z
 url: https://github.com/georgesp/Educator/issues/262
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB023909 — Exercice de mots à trous au stylet
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

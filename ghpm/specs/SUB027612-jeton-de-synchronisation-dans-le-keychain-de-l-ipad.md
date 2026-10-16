@@ -1,13 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhBLzfw
+rev: 2026-10-16T07:23:32Z
 url: https://github.com/georgesp/Educator/issues/289
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB027612 — Jeton de synchronisation dans le Keychain de l'iPad
-status: Todo
+status: Backlog
 size: S
 estimate:
 startDate:

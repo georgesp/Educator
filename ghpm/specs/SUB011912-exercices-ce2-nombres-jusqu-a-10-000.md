@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011912 — Exercices CE2 — Nombres jusqu'à 10 000
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

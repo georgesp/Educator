@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012015 — Exercices CM1 — Opérations posées sur les entiers
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:

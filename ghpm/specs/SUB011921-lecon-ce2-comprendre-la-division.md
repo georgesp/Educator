@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011921 — Leçon CE2 — Comprendre la division
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

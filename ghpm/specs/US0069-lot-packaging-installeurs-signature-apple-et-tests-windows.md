@@ -1,20 +1,20 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzg_5k6M
-rev: 2026-10-11T15:22:48Z
+rev: 2026-10-16T19:38:23Z
 url: https://github.com/georgesp/Educator/issues/69
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "US0069 — Lot packaging — Installeurs, signature Apple et tests Windows"
-status: Todo
+status: Backlog
 size: L
 estimate:
 startDate:
 endDate:
 parent:
-order: 650
+order: 4005
 ---
 
 Lot sorti du lot 0 (socle technique) le 2026-10-10 : le packaging, la signature et la validation sur Windows

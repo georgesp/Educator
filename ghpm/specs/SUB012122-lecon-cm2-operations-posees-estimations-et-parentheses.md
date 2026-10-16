@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012122 — Leçon CM2 — Opérations posées, estimations et parenthèses"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

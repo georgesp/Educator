@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB011930 — Leçon CE2 — Soustraire 9, 19, 29 ou 39"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

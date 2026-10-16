@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: US0120 — Lot 5 — CM1 — exercices et leçons
-status: Todo
+status: Backlog
 size: XL
 estimate:
 startDate:

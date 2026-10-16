@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB011928 — Leçon CE2 — Nombres jusqu'à 10 000
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

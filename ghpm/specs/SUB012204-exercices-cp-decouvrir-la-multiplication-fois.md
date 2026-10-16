@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012204 — Exercices CP — Découvrir la multiplication : « fois »"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

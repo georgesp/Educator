@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012036 — Leçons CM1 — Orthographe et grammaire
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012121 — Leçon CM2 — Multiples, diviseurs et diviseurs communs"
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:

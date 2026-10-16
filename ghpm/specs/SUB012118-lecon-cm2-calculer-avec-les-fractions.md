@@ -8,7 +8,7 @@ repository: georgesp/Educator
 labels: []
 # Editable
 title: SUB012118 — Leçon CM2 — Calculer avec les fractions
-status: Todo
+status: Backlog
 size: M
 estimate:
 startDate:
