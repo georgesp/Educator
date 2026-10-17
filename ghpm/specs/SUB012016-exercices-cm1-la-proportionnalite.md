@@ -23,14 +23,14 @@ En tant qu'enfant de CM1, je veux m'entraîner à résoudre des problèmes de pr
 
 ## Ce que dit le programme
 
-- Programme du cycle 3 (2025), CM1 : reconnaître une situation de proportionnalité et résoudre des problèmes de proportionnalité (linéarité).
-- Livret d'accompagnement CM1 : réactivation par des problèmes du type « 5 T-shirts identiques à 16 € pièce ».
+- Programme du cycle 3 (2025), CM1 : la rubrique « Proportionnalité » ne détaille pas d'objectif propre au CM1 ; les grandeurs et mesures y sont « réinvesties dans le cadre de l'enseignement de la résolution de problèmes, notamment de ceux qui relèvent de la proportionnalité ». Au CM1, Educator se limite donc à la linéarité (× 2, × 3, × 10, addition de colonnes), sans coefficient de proportionnalité, pourcentage ni échelle (CM2 et 6e).
+- Livret d'accompagnement CM1 : réactivation par des problèmes du type « 5 T-shirts identiques à 16 € pièce » (citation à revérifier dans le livret avant l'implémentation).
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-proportion` | 5 | Problèmes de proportionnalité | Gabarits : prix, recettes, distances ; linéarité multiplicative (× 2, × 3, × 10) et additive (prix de 5 = prix de 2 + prix de 3) | `problem`, `proportionTable` |
+| `cm1-proportion` | 5 | Problèmes de proportionnalité | Gabarits : prix, recettes (g, cL), distances (km, m) ; linéarité multiplicative (× 2, × 3, × 10) et additive (prix de 5 = prix de 2 + prix de 3) | `problem`, `proportionTable` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).

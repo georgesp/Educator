@@ -1,0 +1,57 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-half-even",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "title": "Moitié d'un nombre pair",
+  "instruction": "Trouve la moitié en décomposant : 46, c'est 40 + 6.",
+  "operation": "doubleHalf",
+  "halves": {
+    "min": 22,
+    "max": 98,
+    "values": [
+      22,
+      24,
+      26,
+      28,
+      42,
+      44,
+      46,
+      48,
+      62,
+      64,
+      66,
+      68,
+      82,
+      84,
+      86,
+      88,
+      32,
+      34,
+      36,
+      38,
+      52,
+      54,
+      56,
+      58,
+      72,
+      74,
+      76,
+      78,
+      92,
+      94,
+      96,
+      98
+    ]
+  },
+  "formats": [
+    "phrase"
+  ],
+  "progression": "easyFirst",
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — calcul mental : moitié d'un nombre pair en le décomposant (46 → 40 + 6 → 20 + 3 = 23). Dizaines paires d'abord (46, 84), puis une dizaine paire et un reste pair jusqu'à 20 (52 → 40 + 12 → 20 + 6), pour n'utiliser que les moitiés à connaître au CP ; période 5 : choix d'Educator."
+}

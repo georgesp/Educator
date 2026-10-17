@@ -1,0 +1,21 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-num-words-50",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "title": "Écrire les nombres en lettres jusqu'à cinquante",
+  "instruction": "Choisis la bonne écriture du nombre.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 1,
+    "max": 50
+  },
+  "formats": [
+    "readNumber"
+  ],
+  "answerModes": [
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — écrire les nombres en lettres jusqu'à cinquante en fin de CP (orthographe traditionnelle proposée ; la graphie de 1990 n'est jamais une mauvaise réponse). Période 5 : fin de CP."
+}

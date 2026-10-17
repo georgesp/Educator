@@ -6,7 +6,7 @@ use super::{Answer, Comparison, Exercise, Input, Picture, Token};
 use crate::numbers::{misspellings, spell, Spelling, MAX_SPELLED};
 use crate::random::SeededRng;
 use crate::skills::{AnswerMode, ExerciseFormat, Skill};
-use rand::seq::SliceRandom;
+use rand::seq::{IndexedRandom, SliceRandom};
 use rand::Rng;
 
 pub fn draw(
@@ -28,11 +28,14 @@ pub fn draw(
         ExerciseFormat::Decompose => decompose(n, mode, random),
         ExerciseFormat::PlaceValue => place_value(n, mode, random),
         ExerciseFormat::WriteNumber => write_number(n, mode, random),
+        ExerciseFormat::NumberDictation => number_dictation(n, mode, random),
         ExerciseFormat::ReadNumber => read_number(&values, n, random),
         ExerciseFormat::Compare => compare(&values, n, random),
         ExerciseFormat::Order => order(&values, n, random),
         ExerciseFormat::Frame => frame(n, mode, random),
-        ExerciseFormat::NumberLinePoint => number_line(&values, mode, random),
+        ExerciseFormat::NumberLinePoint => {
+            number_line(&values, &skill.params.line_steps, mode, random)
+        }
         ExerciseFormat::YesNo => parity_question(n, random),
         ExerciseFormat::MultiChoice => parity_pick(&values, random),
         _ => None,
@@ -93,6 +96,19 @@ fn number_input(
             Some(number_choices(expected, mistakes, random)),
         ),
     }
+}
+
+/// The mistakes of a two-digit number kept below 100, completed with close numbers below 100
+/// (CP: no proposal with three digits, SUB012205).
+fn below_hundred(expected: i32, mistakes: &[i32]) -> Vec<i32> {
+    let mut kept: Vec<i32> = mistakes.iter().copied().filter(|m| *m < 100).collect();
+    kept.extend(
+        [-1, 1, -10, 10, -2, 2]
+            .into_iter()
+            .map(|d| expected + d)
+            .filter(|m| (0..100).contains(m)),
+    );
+    kept
 }
 
 fn plural(count: i32, singular: &str) -> String {
@@ -163,10 +179,21 @@ fn recompose(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exercis
 
     let mistakes = [
         written_order,
-        if t == 0 { h * 10 + u } else { n + 100 },
+        match (h, t) {
+            // Two digits (CP): the digits swapped (34 → 43), never a hundred too many.
+            (0, _) if u > 0 && u != t => u * 10 + t,
+            (0, _) => n + 1,
+            (_, 0) => h * 10 + u,
+            _ => n + 100,
+        },
         n + 10,
         n - 10,
     ];
+    let mistakes = if n < 100 {
+        below_hundred(n, &mistakes)
+    } else {
+        mistakes.to_vec()
+    };
     let (input, choices) = number_input(n, &mistakes, mode, random);
     let explanation = format!(
         "{}, c'est {n}.",
@@ -239,7 +266,13 @@ fn decompose(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exercis
         .chars()
         .next()
         .map_or(0, |c| c.to_digit(10).map_or(0, |d| d as i32));
-    let mistakes = [digit, expected * 10, expected / 10, expected + 1];
+    let mistakes = if n < 100 {
+        // Two digits (CP): the digit, the digits swapped, one ten or one unit off.
+        let swapped = expected % 10 * 10 + expected / 10;
+        below_hundred(expected, &[digit, swapped, expected + 10, expected + 1])
+    } else {
+        vec![digit, expected * 10, expected / 10, expected + 1]
+    };
     let (input, choices) = number_input(expected, &mistakes, mode, random);
     let written = parts
         .iter()
@@ -276,11 +309,16 @@ fn spoken_statement(statement: &[Token]) -> String {
 
 fn place_value(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exercise> {
     let (h, t, u) = digits(n);
-    if !(100..1000).contains(&n) {
+    if !(10..1000).contains(&n) {
         return None;
     }
 
-    let variant = random.random_range(0..4);
+    // Below 100 (CP, SUB012205): no hundreds; « combien de dizaines » is the digit of the tens.
+    let variant = if n < 100 {
+        [0, 1, 3][random.random_range(0..3)]
+    } else {
+        random.random_range(0..4)
+    };
     let (question, expected, mistakes, explanation) = match variant {
         0 => (
             format!("Quel est le chiffre des unités de {n} ?"),
@@ -305,12 +343,17 @@ fn place_value(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exerc
             n / 10,
             vec![t, h, n / 100 * 10],
             format!(
-                "{n} = {} et {} : il y a {} dizaines dans {n}.",
-                plural(n / 10, "dizaine"),
-                plural(u, "unité"),
-                n / 10
+                "{n} = {} : il y a {} dans {n}.",
+                parts_text(&[(n / 10, "dizaine"), (u, "unité")]),
+                plural(n / 10, "dizaine")
             ),
         ),
+    };
+    // Two digits: the other digit, the number itself, the digit taken as tens (52 → 50).
+    let mistakes = match (n < 100, variant) {
+        (true, 0) => below_hundred(expected, &[t, n, u * 10]),
+        (true, _) => below_hundred(expected, &[u, n, t * 10]),
+        _ => mistakes,
     };
     let (input, choices) = number_input(expected, &mistakes, mode, random);
     Some(exercise(
@@ -345,6 +388,10 @@ fn writing_mistakes(n: i32) -> Vec<i32> {
     if n >= 100 {
         mistakes.push(h * 1000 + t * 10 + u);
     }
+    if h == 0 && (t == 7 || t == 9) {
+        // « soixante-douze » heard as 60 and 12: 612; « quatre-vingt-quinze »: 815.
+        mistakes.push((t - 1) * 100 + 10 + u);
+    }
     mistakes.push(n + 10);
     mistakes
 }
@@ -371,6 +418,40 @@ fn write_number(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exer
         format!("Écris en chiffres le nombre {words}."),
         format!("{words} s'écrit {n}."),
         format!("write:{n}"),
+    ))
+}
+
+/// « Écoute le nombre et écris-le en chiffres » (SUB012205): the number is never written, it is
+/// heard on click of the loudspeaker (nothing is read by itself, decision of 2026-10-15).
+fn number_dictation(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exercise> {
+    if n > MAX_SPELLED {
+        return None;
+    }
+
+    let words = spell(n, Spelling::Traditional);
+    // Below 100 (CP): no proposal of three digits but the heard mistake (612 for « soixante-douze »).
+    let mistakes = if n < 100 {
+        let (t, u) = (n / 10, n % 10);
+        let heard = (t == 7 || t == 9).then(|| (t - 1) * 100 + 10 + u);
+        heard
+            .into_iter()
+            .chain(below_hundred(n, &writing_mistakes(n)))
+            .collect()
+    } else {
+        writing_mistakes(n)
+    };
+    let (input, choices) = number_input(n, &mistakes, mode, random);
+    Some(exercise(
+        ExerciseFormat::NumberDictation,
+        Some("Écoute le nombre et écris-le en chiffres.".to_owned()),
+        vec![Token::Slot(0)],
+        None,
+        input,
+        Answer::Number(n),
+        choices,
+        format!("Écris en chiffres le nombre : {words}."),
+        format!("{words} s'écrit {n}."),
+        format!("dictation:{n}"),
     ))
 }
 
@@ -414,29 +495,42 @@ fn read_number(values: &[i32], n: i32, random: &mut SeededRng) -> Option<Exercis
 }
 
 /// Another number close to `n`, so that the comparison is decided at the right rank: same digits in
-/// another order (438 / 483), one digit changed, or rarely the same number.
+/// another order (438 / 483), one digit changed, or rarely (1 in 10) the same number.
 fn close_number(values: &[i32], n: i32, random: &mut SeededRng) -> Option<i32> {
     let (min, max) = (*values.first()?, *values.last()?);
+    let allowed = |other: i32| other >= min && other <= max && values.binary_search(&other).is_ok();
+    if random.random_range(0..10) == 0 {
+        return allowed(n).then_some(n);
+    }
+
     let (h, t, u) = digits(n);
-    let other = match random.random_range(0..10) {
-        0 => n,
-        1..=4 => {
+    // Ranks that exist in the numbers worked on (no hundreds up to 100, CP).
+    let ranks: Vec<i32> = [1, 10, 100]
+        .into_iter()
+        .filter(|rank| *rank < max.max(10))
+        .collect();
+    // Tried until another number fits: a draw that gives `n` again or leaves the numbers worked on
+    // must not make the equality more frequent.
+    for _ in 0..20 {
+        let other = if random.random_range(0..6) < 4 {
             let mut d = [h, t, u];
             let start = usize::from(n < 100);
             d[start..].shuffle(random);
             d[0] * 100 + d[1] * 10 + d[2]
-        }
-        _ => {
-            let rank = [1, 10, 100][random.random_range(0..3)];
+        } else {
+            let rank = *ranks.choose(random)?;
             let delta = random.random_range(1..=4) * rank;
             if random.random_bool(0.5) {
                 n + delta
             } else {
                 n - delta
             }
+        };
+        if other != n && allowed(other) {
+            return Some(other);
         }
-    };
-    (other >= min && other <= max && values.binary_search(&other).is_ok()).then_some(other)
+    }
+    None
 }
 
 /// Why `a` compares so to `b`, at the first rank that differs.
@@ -465,7 +559,12 @@ fn comparison_reason(a: i32, b: i32) -> String {
             } else {
                 format!("mêmes {} ; ", same.join(" et "))
             };
-            return format!("{a} {sign} {b} : {prefix}{da} {name}, c'est {words} que {db} {name}.");
+            let singular = name.trim_end_matches('s');
+            return format!(
+                "{a} {sign} {b} : {prefix}{}, c'est {words} que {}.",
+                plural(da, singular),
+                plural(db, singular)
+            );
         }
         same.push(name);
     }
@@ -617,9 +716,22 @@ fn frame(n: i32, mode: AnswerMode, random: &mut SeededRng) -> Option<Exercise> {
 /// Graduations of a number line: 11 graduations (10 intervals), numbers at both ends.
 const LINE_TICKS: u32 = 11;
 
-fn number_line(values: &[i32], mode: AnswerMode, random: &mut SeededRng) -> Option<Exercise> {
+/// Steps of the lines when the skill does not choose them.
+const LINE_STEPS: [i32; 3] = [1, 10, 100];
+
+fn number_line(
+    values: &[i32],
+    steps: &[i32],
+    mode: AnswerMode,
+    random: &mut SeededRng,
+) -> Option<Exercise> {
     let (min, max) = (*values.first()?, *values.last()?);
-    let step = [1, 10, 100][random.random_range(0..3)];
+    let steps = if steps.is_empty() {
+        &LINE_STEPS[..]
+    } else {
+        steps
+    };
+    let step = *steps.choose(random)?;
     let span = step * (LINE_TICKS as i32 - 1);
     // A start that is a round number for the step: 340 for a line of 1 in 1, 300 for 10 in 10, 0 for 100.
     let starts: Vec<i32> = (0..=max)
@@ -675,6 +787,8 @@ fn number_line(values: &[i32], mode: AnswerMode, random: &mut SeededRng) -> Opti
         value - step,
         start + (k as i32 + 1) * step,
     ];
+    // Within the numbers worked on: never 130 on a line of the CP.
+    let mistakes: Vec<i32> = mistakes.into_iter().filter(|m| *m <= max).collect();
     let (input, choices) = number_input(value, &mistakes, mode, random);
     let question = "Quel nombre la flèche montre-t-elle ?".to_owned();
     Some(exercise(

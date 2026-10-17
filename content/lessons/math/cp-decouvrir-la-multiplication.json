@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-decouvrir-la-multiplication",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "skillIds": ["cp-times-as-repeated-add"],
+  "title": "Découvrir la multiplication : « fois »",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : « fois », des paquets pareils.",
+      "speech": "Aujourd’hui, tu vas découvrir un nouveau mot pour compter vite des paquets pareils : fois.",
+      "animation": { "type": "titleCard", "title": "Découvrir « fois »", "subtitle": "Des paquets pareils" }
+    },
+    {
+      "title": "Des paquets pareils",
+      "text": "15 pneus rangés en boîtes de 5 : 3 boîtes pareilles.",
+      "speech": "Voici des pneus rangés dans des boîtes de 5. Il y a 3 boîtes, et chaque boîte a autant de pneus : 5.",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "object": "tire", "counts": [15], "size": 5 }
+    },
+    {
+      "title": "Compter vite",
+      "text": "5 + 5 + 5 = 15 : on ajoute les boîtes.",
+      "speech": "Pour savoir combien de pneus, j’ajoute les boîtes : 5, plus 5, plus 5. Ça fait 15.",
+      "animation": { "type": "calcChain", "chains": [{"start": 5, "steps": [5, 5]}] }
+    },
+    {
+      "title": "Dire « fois »",
+      "text": "3 fois 5 = 15 : 3 paquets de 5.",
+      "speech": "3 paquets de 5, on dit aussi 3 fois 5. 3 fois 5, c’est 5 plus 5 plus 5 : 15.",
+      "animation": { "type": "barModel", "kind": "groups", "groups": 3, "size": 5, "unknown": "whole" }
+    },
+    {
+      "title": "À toi !",
+      "text": "2 fois 5 : amène les 2 paquets de casques.",
+      "speech": "À toi ! Voici 2 paquets de 5 casques. Amène-les sur la ligne de départ, puis dis combien il y en a. 2 fois 5, c’est 5 plus 5.",
+      "animation": { "type": "groupObjects", "mode": "join", "object": "helmet", "counts": [5, 5], "interactive": true }
+    },
+    {
+      "title": "Des rangées",
+      "text": "2 rangées de 6 voitures : 6 + 6, c’est 2 fois 6.",
+      "speech": "Sur la grille de départ, 2 rangées de 6 voitures. 6 plus 6 : 12. C’est 2 fois 6.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [6, 6] }
+    },
+    {
+      "title": "3 fois 20",
+      "text": "3 fois 20 = 20 + 20 + 20 = 60.",
+      "speech": "3 fois 20, c’est 20 plus 20 plus 20. Ça fait 60.",
+      "animation": { "type": "calcChain", "chains": [{"start": 20, "steps": [20, 20]}] }
+    },
+    {
+      "title": "À toi !",
+      "text": "3 fois 20 : quel calcul est le bon ?",
+      "speech": "À toi ! 3 fois 20 : est-ce 20 plus 20 plus 20, ou 20 plus 3 ? Choisis le bon calcul.",
+      "animation": { "type": "calcChain", "mode": "pick", "chains": [{"start": 20, "steps": [20, 20]}, {"start": 20, "steps": [3], "crossed": true}] }
+    },
+    {
+      "title": "Pas 3 + 20",
+      "text": "3 fois 20, ce n’est pas 23 : ce sont 3 paquets de 20.",
+      "speech": "Attention : 3 fois 20, ce n’est pas 3 plus 20. Ce sont 3 paquets de 20 : 60.",
+      "animation": { "type": "barModel", "kind": "groups", "groups": 3, "size": 20, "unknown": "whole" }
+    },
+    {
+      "title": "Je retiens",
+      "text": "« Fois » :",
+      "speech": "Je retiens : 3 fois 7, c’est 3 paquets de 7 : 7 plus 7 plus 7, 21.",
+      "animation": { "type": "recapCard", "text": "3 fois 7, c’est 3 paquets de 7 : 7 + 7 + 7 = 21.", "example": "3 fois 20 = 20 + 20 + 20 = 60" }
+    }
+  ],
+  "quiz": [
+    { "question": "3 fois 20 = ?", "spoken": "Combien font 3 fois 20 ?", "answer": 60, "choices": [23, 60, 40], "explanation": "3 fois 20, c’est 20 + 20 + 20 = 60." },
+    { "question": "4 fois 5 = 5 + 5 + 5 + 5 = ?", "spoken": "4 fois 5, c’est 5 plus 5 plus 5 plus 5. Combien ça fait ?", "answer": 20, "explanation": "5 + 5 = 10, 10 + 5 = 15, 15 + 5 = 20." },
+    { "question": "2 paquets de 7 biscuits ?", "spoken": "2 paquets de 7 biscuits : combien de biscuits ?", "answer": 14, "explanation": "2 fois 7, c’est 7 + 7 = 14." },
+    { "question": "2 fois 10 = ?", "spoken": "Combien font 2 fois 10 ?", "answer": 20, "explanation": "10 + 10 = 20." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, multiplication : « fois » comme addition itérée (trois fois vingt = 20 + 20 + 20), sans le signe de la multiplication ; problèmes multiplicatifs jusqu'à 30",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

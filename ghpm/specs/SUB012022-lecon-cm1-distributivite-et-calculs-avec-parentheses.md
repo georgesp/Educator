@@ -38,7 +38,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 | 3 | **Ajouter les morceaux** — 120 + 18 = 138. | `calcChain` |
 | 4 | **À toi** — Interaction : coupe 47 × 4 et calcule. | `arrayGrid` (interactif) |
 | 5 | **Les parenthèses** — (12 + 8) × 5 : on calcule d'abord 12 + 8 = 20, puis × 5 = 100. | `equation` (étapes) |
-| 6 | **Sans parenthèses ?** — 12 + 8 × 5 n'est pas le même calcul : la grille change. | `arrayGrid` + `equation` |
+| 6 | **Où sont les parenthèses ?** — (12 + 8) × 5 = 100 et 12 + (8 × 5) = 52 : les parenthèses disent ce qu'on calcule d'abord. | `arrayGrid` + `equation` |
 | 7 | **Soustraction** — 50 − (18 + 7) = 50 − 25 = 25. | `equation` |
 | 8 | **À toi** — Interaction : relie chaque calcul à son histoire. | `barModel` (association) |
 | 9 | **Estimer** — 23 × 6 ≈ 20 × 6 = 120 : 138 est proche. | `calcChain` |

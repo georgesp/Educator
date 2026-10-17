@@ -42,6 +42,8 @@ pub struct Skill {
 pub struct SkillParams {
     /// Numbers worked on (numeration): 100 to 999, multiples of 2…
     pub numbers: Option<OperandRule>,
+    /// Numeration: steps of the graduated lines (empty: 1, 10 and 100; CP: 1 only, SUB012202).
+    pub line_steps: Vec<i32>,
     /// Multiplication: the tables worked on (« tables de 3 et 4 »); the other values of the rule
     /// are revisions mixed in.
     pub focus: Vec<i32>,
@@ -54,6 +56,8 @@ pub struct SkillParams {
     pub halves: Option<OperandRule>,
     /// Multiples of 25: « 3 fois 25 ».
     pub times_twenty_five: Vec<i32>,
+    /// Equal groups (CP, SUB012204, SUB012207).
+    pub groups: Option<GroupsRule>,
     /// Fractions: allowed denominators (SUB000123).
     pub denominators: Vec<u32>,
     /// Fractions: only 1/b.
@@ -64,6 +68,27 @@ pub struct SkillParams {
     pub words: Option<WordSet>,
     /// Spelling: the theme shown to the child (required for a spelling skill, absent in math).
     pub theme: Option<SpellingTheme>,
+}
+
+/// Kind of exercise of equal groups.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum GroupKind {
+    /// « 3 fois 20 » : the total of `count` groups of `size`.
+    Times,
+    /// « 18 images pour 3 enfants » : the size of each of `count` equal parts.
+    Share,
+    /// « 24 élèves en équipes de 4 » : how many groups of `size`.
+    GroupBy,
+}
+
+/// Equal groups, at most `max_total` in all. `count`: the number given to the child (the groups of
+/// « 3 fois 5 », the 3 children of a share, the teams of 4); `size`: the other number.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct GroupsRule {
+    pub kinds: Vec<GroupKind>,
+    pub count: OperandRule,
+    pub size: OperandRule,
+    pub max_total: i32,
 }
 
 /// Order of the exercises in a series.
@@ -146,6 +171,8 @@ pub enum SkillOperation {
     Numeration,
     /// Doubles and halves (facts, half of an even number).
     DoubleHalf,
+    /// Equal groups of the CP: « fois », fair shares, groups of a size, without × and ÷.
+    Groups,
     Fraction,
     /// Word problems generated from templates.
     Problem,
@@ -237,6 +264,9 @@ impl Skill {
                 SkillCategory::AddSubtract
             }
             SkillOperation::Multiplication => SkillCategory::Multiply,
+            // At CP, « fois » is a repeated addition and the sign × is not shown yet, not even on the
+            // family symbol of the cards (SUB012204).
+            SkillOperation::Groups => SkillCategory::AddSubtract,
             SkillOperation::Fraction | SkillOperation::DoubleHalf => SkillCategory::FractionsHalves,
             SkillOperation::Problem => SkillCategory::Problems,
             SkillOperation::Spelling => self
@@ -381,6 +411,8 @@ pub enum ExerciseFormat {
     PlaceValue,
     /// A number in words → in digits.
     WriteNumber,
+    /// A number heard on click (never shown) → in digits (CP, SUB012205).
+    NumberDictation,
     /// A number in digits → pick its words.
     ReadNumber,
     /// `438 ? 483` → `<`, `>` or `=`.
@@ -411,7 +443,7 @@ pub enum ExerciseFormat {
 
 impl ExerciseFormat {
     /// Every format with its name in the content files and the database (`"missingOperand"`).
-    pub const NAMES: [(&'static str, ExerciseFormat); 20] = [
+    pub const NAMES: [(&'static str, ExerciseFormat); 21] = [
         ("result", ExerciseFormat::Result),
         ("missingOperand", ExerciseFormat::MissingOperand),
         ("phrase", ExerciseFormat::Phrase),
@@ -419,6 +451,7 @@ impl ExerciseFormat {
         ("decompose", ExerciseFormat::Decompose),
         ("placeValue", ExerciseFormat::PlaceValue),
         ("writeNumber", ExerciseFormat::WriteNumber),
+        ("numberDictation", ExerciseFormat::NumberDictation),
         ("readNumber", ExerciseFormat::ReadNumber),
         ("compare", ExerciseFormat::Compare),
         ("order", ExerciseFormat::Order),
@@ -449,12 +482,14 @@ impl ExerciseFormat {
             .map(|(_, f)| *f)
     }
 
-    /// The formats that cannot be played without the voice: the word is only heard (SUB026704).
-    /// The missing letters stay playable: the word is partly written.
+    /// The formats that cannot be played without the voice: the word or the number is only heard
+    /// (SUB026704, SUB012205). The missing letters stay playable: the word is partly written.
     pub fn needs_listening(self) -> bool {
         matches!(
             self,
-            ExerciseFormat::Dictation | ExerciseFormat::ChooseSpelling
+            ExerciseFormat::Dictation
+                | ExerciseFormat::ChooseSpelling
+                | ExerciseFormat::NumberDictation
         )
     }
 

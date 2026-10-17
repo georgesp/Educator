@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-num-to-59",
+  "subject": "math",
+  "grade": "CP",
+  "period": 2,
+  "title": "Dizaines et unités jusqu'à 59",
+  "instruction": "Trouve le nombre, ou écris le nombre que tu entends.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 10,
+    "max": 59
+  },
+  "formats": [
+    "recompose",
+    "decompose",
+    "placeValue",
+    "numberDictation"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — base dix et valeur positionnelle dès la période 1 ; quantités jusqu'à 59 au plus tard en période 2 : barres de dix et cubes, « 3 dizaines et 4 unités » = 34, 30 + 4 = 34, écrire un nombre dicté, expliquer pourquoi 23 et 32 sont différents."
+}

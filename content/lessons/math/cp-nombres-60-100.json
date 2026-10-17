@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-nombres-60-100",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-num-to-100", "cp-num-words-50"],
+  "title": "Les nombres de 60 à 100 et en lettres",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : les nombres de 60 à 100, et les nombres en lettres.",
+      "speech": "Aujourd’hui, tu vas apprendre les grands nombres jusqu’à 100, et comment écrire les nombres en lettres.",
+      "animation": { "type": "titleCard", "title": "Les nombres de 60 à 100", "subtitle": "Et les nombres en lettres" }
+    },
+    {
+      "title": "Après 59",
+      "text": "59 et encore 1 : 10 cubes font une barre. 6 barres : 60.",
+      "speech": "59 : 5 barres et 9 cubes. J’ajoute un cube : 10 cubes, je les échange contre une barre. 6 barres : 60, soixante.",
+      "animation": { "type": "tensUnits", "value": 59, "add": 1 }
+    },
+    {
+      "title": "Soixante-dix",
+      "text": "On dit soixante-dix, mais on voit 7 barres : 70.",
+      "speech": "Soixante-dix, c’est soixante plus dix. On le dit comme ça, mais on voit 7 barres : 7 dizaines. On écrit 70.",
+      "animation": { "type": "tensUnits", "value": 70 }
+    },
+    {
+      "title": "Soixante-douze",
+      "text": "Soixante-douze : 60 + 12, soit 7 dizaines et 2 unités : 72.",
+      "speech": "Soixante-douze, c’est soixante plus douze. Mais à l’écrit, je compte les barres et les cubes : 7 dizaines et 2 unités. J’écris 72.",
+      "animation": { "type": "placeValueTable", "value": 72, "words": true }
+    },
+    {
+      "title": "Quatre-vingts",
+      "text": "Quatre-vingt-quinze : 9 barres et 5 cubes, 95. Et 8 barres : quatre-vingts, 80.",
+      "speech": "Quatre-vingt-quinze, c’est 9 barres et 5 cubes : 95. Et 8 barres, c’est quatre-vingts : 80.",
+      "animation": { "type": "tensUnits", "value": 95 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Fabrique 78 avec les barres et les cubes.",
+      "speech": "À toi ! Fabrique le nombre soixante-dix-huit avec les barres et les cubes. Compte bien les barres : soixante-dix, c’est 7 barres.",
+      "animation": { "type": "tensUnits", "value": 78, "interactive": true }
+    },
+    {
+      "title": "Cent",
+      "text": "60, 70, 80, 90, 100 : 10 dizaines font cent.",
+      "speech": "Je compte de dix en dix : soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent. 10 dizaines font cent. On écrit 100 : c’est le bout de la piste.",
+      "animation": { "type": "numberLine", "from": 0, "to": 100, "step": 10, "start": 60, "jumps": [10, 10, 10, 10] }
+    },
+    {
+      "title": "Écrire en lettres",
+      "text": "Trente-deux, quarante-cinq : un trait d’union. Vingt et un : « et un ».",
+      "speech": "Pour écrire les nombres en lettres, je mets un trait d’union entre les mots : trente-deux, quarante-cinq. Mais pour 21, 31, 41, on écrit vingt et un, trente et un, quarante et un.",
+      "animation": { "type": "placeValueTable", "value": 32, "words": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "Écris quarante-trois avec les étiquettes.",
+      "speech": "À toi ! Écris le nombre quarante-trois avec les étiquettes. N’oublie pas le trait d’union.",
+      "animation": { "type": "letterTiles", "word": "quarante-trois", "tiles": ["quarante", "-", "trois"], "distractors": ["et", "s"], "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les grands nombres :",
+      "speech": "Je retiens : j’écris ce que je compte, pas ce que j’entends. Soixante-douze, c’est 7 dizaines et 2 unités : 72. En lettres, un trait d’union, sauf avec et un.",
+      "animation": { "type": "recapCard", "text": "J’écris ce que je compte, pas ce que j’entends : soixante-douze, c’est 7 dizaines et 2 unités. En lettres : un trait d’union, sauf avec « et un ».", "example": "soixante-douze = 72" }
+    }
+  ],
+  "quiz": [
+    { "question": "Écris en chiffres : soixante-douze.", "spoken": "Écris en chiffres le nombre : soixante-douze.", "answer": 72, "explanation": "Soixante-douze : 7 dizaines et 2 unités, 72." },
+    { "question": "Combien de dizaines dans 85 ?", "spoken": "Combien y a-t-il de dizaines dans 85 ?", "answer": 8, "explanation": "85 = 80 + 5 : 8 dizaines et 5 unités." },
+    { "question": "7 dizaines et 4 unités ?", "spoken": "7 dizaines et 4 unités : quel nombre est-ce ? Choisis la bonne réponse.", "answer": 74, "choices": [74, 47, 64], "explanation": "7 dizaines et 4 unités : 74, soixante-quatorze." },
+    { "question": "Soixante-dix : combien de barres ?", "spoken": "Soixante-dix : combien de barres de dix faut-il ?", "answer": 7, "explanation": "Soixante-dix, c’est 60 + 10 : 7 dizaines, 7 barres. On écrit 70." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, nombres : quantités jusqu'à 100 au plus tard en période 3 ; écrire les nombres en lettres jusqu'à cinquante en fin de CP",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

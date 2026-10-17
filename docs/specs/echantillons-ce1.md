@@ -5,7 +5,7 @@ Régénérés avec `cargo run -p educator-content --example samples`. `?` marque
 
 ## CE1 · période 1 · Centaines, dizaines et unités (`ce1-num-hundreds`)
 
-Au moins 3276 exercices différents possibles.
+Au moins 3267 exercices différents possibles.
 
 - `Quel est le chiffre des dizaines de 636 ?` → **3** [3 · 63 · 4 · 6] — Correction : Dans 636, le chiffre des dizaines est 3.
 - `Quel nombre fait 5 dizaines, 5 unités et 3 centaines ?` → **355** [365 · 553 · 455 · 355] — Correction : 3 centaines, 5 dizaines et 5 unités, c'est 355.
@@ -30,7 +30,7 @@ Au moins 3276 exercices différents possibles.
 
 ## CE1 · période 1 · Problèmes additifs (`ce1-problems-additive`)
 
-Au moins 3947 exercices différents possibles.
+Au moins 3950 exercices différents possibles.
 
 - `Un bus transporte 99 passagers. À l'arrêt, 22 passagers descendent. Combien de passagers reste-t-il dans le bus ?` → **77** [99 · 22 · 77 · 121] — Correction : 99 − 22 = 77. Il reste 77 passagers. (schéma en barres : [77 | 22], total 99)
 - `Noah a 52 feutres et Tom en a 74. Combien Tom en a-t-il de plus que Noah ?` → **22** [22 · 52 · 126 · 74] — Correction : 74 − 52 = 22. Tom en a 22 de plus. (schéma en barres : [52 | 22] [52], total 74)
@@ -38,7 +38,7 @@ Au moins 3947 exercices différents possibles.
 - `Hugo a 9 crayons. Noah lui en donne 22. Combien de crayons Hugo a-t-il maintenant ?` → **31** [41 · 31 · 9 · 22] — Correction : 9 + 22 = 31. Hugo a maintenant 31 crayons. (schéma en barres : [9 | 22], total 31)
 - `Inès a 84 livres. Léa en a 23 de moins. Combien de livres Léa a-t-elle ?` → **61** [23 · 61 · 84 · 107] — Correction : 84 − 23 = 61. Léa a 61 livres. (schéma en barres : [61 | 23] [61], total 84)
 - `Kenzo a 11 petites voitures. Emma lui en donne 11. Combien de petites voitures Kenzo a-t-il maintenant ?` → **22** [32 · 0 · 11 · 22] — Correction : 11 + 11 = 22. Kenzo a maintenant 22 petites voitures. (schéma en barres : [11 | 11], total 22)
-- `Ibrahim avait 553 feutres. Après la récréation, il en a 880. Combien Ibrahim en a-t-il gagné ?` → **327** [880 · 553 · 327 · 1433] — Correction : 880 − 553 = 327. Ibrahim en a gagné 327. (schéma en barres : [553 | 327], total 880)
+- `Ibrahim avait 553 feutres. Après la récréation, il en a 880. Combien Ibrahim en a-t-il gagné ?` → **327** [337 · 880 · 327 · 553] — Correction : 880 − 553 = 327. Ibrahim en a gagné 327. (schéma en barres : [553 | 327], total 880)
 - `Un garage a 771 pneus en réserve. Le garagiste en reçoit 66 de plus. Combien de pneus a-t-il maintenant ?` → **837** [705 · 837 · 771 · 66] — Correction : 771 + 66 = 837. Le garage a 837 pneus. (schéma en barres : [771 | 66], total 837)
 - `Zoé a 40 billes. Gabriel lui en donne 708. Combien de billes Zoé a-t-elle maintenant ?` → **748** [748 · 708 · 40 · 758] — Correction : 40 + 708 = 748. Zoé a maintenant 748 billes. (schéma en barres : [40 | 708], total 748)
 - `Zoé a 255 autocollants. Tom en a 560 de plus. Combien d'autocollants Tom a-t-il ?` → **815** [560 · 825 · 815 · 255] — Correction : 255 + 560 = 815. Tom a 815 autocollants. (schéma en barres : [255] [255 | 560])
@@ -105,32 +105,32 @@ Au moins 28 exercices différents possibles.
 
 ## CE1 · période 2 · Comparer et ranger les nombres jusqu'à 1 000 (`ce1-num-compare`)
 
-Au moins 3697 exercices différents possibles.
+Au moins 3772 exercices différents possibles.
 
-- `Range ces nombres du plus grand au plus petit.` (à ranger : [452, 484, 448]) → **484, 452 et 448** — Correction : 484 > 452 > 448
-- `Écris le bon signe : <, > ou =. 256 ? 254` → **>** — Correction : 256 > 254 : mêmes centaines et dizaines ; 6 unités, c'est plus que 4 unités.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [578, 978, 879]) → **578, 879 et 978** — Correction : 578 < 879 < 978
-- `Écris le bon signe : <, > ou =. 461 ? 457` → **>** — Correction : 461 > 457 : mêmes centaines ; 6 dizaines, c'est plus que 5 dizaines.
-- `Range ces nombres du plus grand au plus petit.` (à ranger : [575, 527, 725, 569, 572]) → **725, 575, 572, 569 et 527** — Correction : 725 > 575 > 572 > 569 > 527
-- `Écris le bon signe : <, > ou =. 373 ? 473` → **<** — Correction : 373 < 473 : 3 centaines, c'est moins que 4 centaines.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [891, 791, 911, 893]) → **791, 891, 893 et 911** — Correction : 791 < 891 < 893 < 911
-- `Écris le bon signe : <, > ou =. 443 ? 643` → **<** — Correction : 443 < 643 : 4 centaines, c'est moins que 6 centaines.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [912, 922, 722, 892, 882]) → **722, 882, 892, 912 et 922** — Correction : 722 < 882 < 892 < 912 < 922
-- `Écris le bon signe : <, > ou =. 329 ? 339` → **<** — Correction : 329 < 339 : mêmes centaines ; 2 dizaines, c'est moins que 3 dizaines.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [801, 810, 809]) → **801, 809 et 810** — Correction : 801 < 809 < 810
-- `Écris le bon signe : <, > ou =. 967 ? 976` → **<** — Correction : 967 < 976 : mêmes centaines ; 6 dizaines, c'est moins que 7 dizaines.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [907, 790, 507]) → **507, 790 et 907** — Correction : 507 < 790 < 907
-- `Écris le bon signe : <, > ou =. 678 ? 867` → **<** — Correction : 678 < 867 : 6 centaines, c'est moins que 8 centaines.
-- `Range ces nombres du plus grand au plus petit.` (à ranger : [926, 928, 829, 925, 289]) → **928, 926, 925, 829 et 289** — Correction : 928 > 926 > 925 > 829 > 289
-- `Écris le bon signe : <, > ou =. 878 ? 887` → **<** — Correction : 878 < 887 : mêmes centaines ; 7 dizaines, c'est moins que 8 dizaines.
-- `Range ces nombres du plus petit au plus grand.` (à ranger : [152, 142, 521]) → **142, 152 et 521** — Correction : 142 < 152 < 521
-- `Écris le bon signe : <, > ou =. 349 ? 349` → **=** — Correction : 349 = 349 : c'est le même nombre.
-- `Range ces nombres du plus grand au plus petit.` (à ranger : [319, 280, 279, 792]) → **792, 319, 280 et 279** — Correction : 792 > 319 > 280 > 279
-- `Écris le bon signe : <, > ou =. 939 ? 939` → **=** — Correction : 939 = 939 : c'est le même nombre.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [449, 484, 448]) → **448, 449 et 484** — Correction : 448 < 449 < 484
+- `Écris le bon signe : <, > ou =. 851 ? 851` → **=** — Correction : 851 = 851 : c'est le même nombre.
+- `Range ces nombres du plus grand au plus petit.` (à ranger : [903, 503, 530, 305]) → **903, 530, 503 et 305** — Correction : 903 > 530 > 503 > 305
+- `Écris le bon signe : <, > ou =. 144 ? 414` → **<** — Correction : 144 < 414 : 1 centaine, c'est moins que 4 centaines.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [290, 920, 209]) → **209, 290 et 920** — Correction : 209 < 290 < 920
+- `Écris le bon signe : <, > ou =. 623 ? 236` → **>** — Correction : 623 > 236 : 6 centaines, c'est plus que 2 centaines.
+- `Range ces nombres du plus grand au plus petit.` (à ranger : [310, 130, 301, 103, 143]) → **310, 301, 143, 130 et 103** — Correction : 310 > 301 > 143 > 130 > 103
+- `Écris le bon signe : <, > ou =. 859 ? 985` → **<** — Correction : 859 < 985 : 8 centaines, c'est moins que 9 centaines.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [914, 911, 941]) → **911, 914 et 941** — Correction : 911 < 914 < 941
+- `Écris le bon signe : <, > ou =. 905 ? 907` → **<** — Correction : 905 < 907 : mêmes centaines et dizaines ; 5 unités, c'est moins que 7 unités.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [814, 180, 810]) → **180, 810 et 814** — Correction : 180 < 810 < 814
+- `Écris le bon signe : <, > ou =. 162 ? 621` → **<** — Correction : 162 < 621 : 1 centaine, c'est moins que 6 centaines.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [377, 368, 376, 378]) → **368, 376, 377 et 378** — Correction : 368 < 376 < 377 < 378
+- `Écris le bon signe : <, > ou =. 921 ? 192` → **>** — Correction : 921 > 192 : 9 centaines, c'est plus que 1 centaine.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [601, 610, 106]) → **106, 601 et 610** — Correction : 106 < 601 < 610
+- `Écris le bon signe : <, > ou =. 799 ? 997` → **<** — Correction : 799 < 997 : 7 centaines, c'est moins que 9 centaines.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [340, 733, 338, 373, 337]) → **337, 338, 340, 373 et 733** — Correction : 337 < 338 < 340 < 373 < 733
+- `Écris le bon signe : <, > ou =. 596 ? 496` → **>** — Correction : 596 > 496 : 5 centaines, c'est plus que 4 centaines.
+- `Range ces nombres du plus petit au plus grand.` (à ranger : [745, 945, 547]) → **547, 745 et 945** — Correction : 547 < 745 < 945
+- `Écris le bon signe : <, > ou =. 132 ? 132` → **=** — Correction : 132 = 132 : c'est le même nombre.
 
 ## CE1 · période 2 · Lire et écrire les nombres jusqu'à 1 000 (`ce1-num-read-write`)
 
-Au moins 1561 exercices différents possibles.
+Au moins 1547 exercices différents possibles.
 
 - `Choisis la bonne écriture de ce nombre. 393` → **trois cent quatre-vingt-treize** [trois cent quatre-vingt-treize · trois cents quatre-vingt-treize · trois cent quatre-vingt treize · trois cent quatre-vingts-treize] — Correction : 393 s'écrit « trois cent quatre-vingt-treize ».
 - `Écris ce nombre en chiffres. deux cent quatre-vingt-onze → ?` → **291** [301 · 219 · 2091 · 291] — Correction : deux cent quatre-vingt-onze s'écrit 291.
@@ -147,7 +147,7 @@ Au moins 1561 exercices différents possibles.
 - `Choisis la bonne écriture de ce nombre. 817` → **huit cent dix-sept** [huit cents dix-sept · huit cent dix sept · huit cent soixante et onze · huit cent dix-sept] — Correction : 817 s'écrit « huit cent dix-sept ».
 - `Écris ce nombre en chiffres. cent quarante → ?` → **140** [140 · 1040 · 104 · 14] — Correction : cent quarante s'écrit 140.
 - `Choisis la bonne écriture de ce nombre. 365` → **trois cent soixante-cinq** [trois cent soixante cinq · trois cents soixante-cinq · trois cent cinquante-six · trois cent soixante-cinq] — Correction : 365 s'écrit « trois cent soixante-cinq ».
-- `Écris ce nombre en chiffres. soixante-dix-huit → ?` → **78** [78 · 88 · 79 · 87] — Correction : soixante-dix-huit s'écrit 78.
+- `Écris ce nombre en chiffres. soixante-dix-huit → ?` → **78** [78 · 618 · 88 · 87] — Correction : soixante-dix-huit s'écrit 78.
 - `Choisis la bonne écriture de ce nombre. 587` → **cinq cent quatre-vingt-sept** [cinq cents quatre-vingt-sept · cinq cent quatre-vingts-sept · cinq cent quatre-vingt sept · cinq cent quatre-vingt-sept] — Correction : 587 s'écrit « cinq cent quatre-vingt-sept ».
 - `Écris ce nombre en chiffres. neuf cent soixante-quinze → ?` → **975** [957 · 985 · 975 · 9075] — Correction : neuf cent soixante-quinze s'écrit 975.
 - `Choisis la bonne écriture de ce nombre. 380` → **trois cent quatre-vingts** [trois cent quatre-vingts · trois cent quatre-vingt · trois cent quatre vingts · trois cents quatre-vingts] — Correction : 380 s'écrit « trois cent quatre-vingts ».
@@ -255,7 +255,7 @@ Au moins 124 exercices différents possibles.
 
 ## CE1 · période 3 · Encadrer et placer sur une droite graduée (`ce1-num-frame-line`)
 
-Au moins 1925 exercices différents possibles.
+Au moins 1884 exercices différents possibles.
 
 - `Quel nombre la flèche montre-t-elle ?` (droite graduée de 1 en 1 à partir de 830, 11 graduations, flèche sur la graduation 3) → **833** [832 · 860 · 834 · 833] — Correction : La droite est graduée de 1 en 1 à partir de 830 : la flèche montre 833.
 - `Encadre 461 entre deux centaines. ? < 461 < ?` → **400 et 500** [500 et 600 · 460 et 470 · 400 et 500 · 300 et 400] — Correction : 400 < 461 < 500
@@ -280,7 +280,7 @@ Au moins 1925 exercices différents possibles.
 
 ## CE1 · période 3 · Problèmes en deux étapes (`ce1-problems-two-steps`)
 
-Au moins 3970 exercices différents possibles.
+Au moins 3966 exercices différents possibles.
 
 - `Amira a 81 cartes : 5 dans une boîte, 72 dans un sac et les autres dans un tiroir. Combien y en a-t-il dans le tiroir ?` → **4** [4 · 76 · 9 · 77] — Correction : 5 + 72 = 77 ; 81 − 77 = 4. Il y en a 4 dans le tiroir. (schéma en barres : [5 | 72 | 4], total 81)
 - `Au garage, il y a 30 voitures. Le matin, 14 voitures partent. L'après-midi, 4 voitures arrivent. Combien de voitures y a-t-il le soir ?` → **20** [12 · 48 · 16 · 20] — Correction : 30 − 14 = 16 ; 16 + 4 = 20. Il y a 20 voitures le soir. (schéma en barres : [16 | 14] [16 | 4], total 30)
@@ -290,7 +290,7 @@ Au moins 3970 exercices différents possibles.
 - `Malo a 11 figurines. Léa en a 69 de plus. Combien de figurines ont-ils en tout ?` → **91** [69 · 80 · 11 · 91] — Correction : 11 + 69 = 80 : Léa a 80 figurines. 11 + 80 = 91. (schéma en barres : [11] [11 | 69])
 - `Zoé a 565 crayons : 102 dans une boîte, 313 dans un sac et les autres dans un tiroir. Combien y en a-t-il dans le tiroir ?` → **150** [415 · 463 · 252 · 150] — Correction : 102 + 313 = 415 ; 565 − 415 = 150. Il y en a 150 dans le tiroir. (schéma en barres : [102 | 313 | 150], total 565)
 - `Maëlys a 999 euros. Elle achète un livre à 69 euros et un jeu à 841 euros. Combien d'euros lui reste-t-il ?` → **89** [158 · 910 · 89 · 930] — Correction : 69 + 841 = 910 ; 999 − 910 = 89. Il reste 89 euros à Maëlys. (schéma en barres : [69 | 841 | 89], total 999)
-- `Un bus part avec 41 passagers. Au premier arrêt, 954 passagers montent. Au deuxième arrêt, 916 passagers descendent. Combien de passagers y a-t-il maintenant dans le bus ?` → **79** [1911 · 79 · 41 · 995] — Correction : 41 + 954 = 995 ; 995 − 916 = 79. Il y a 79 passagers. (schéma en barres : [41 | 954] [79 | 916], total 995)
+- `Un bus part avec 41 passagers. Au premier arrêt, 954 passagers montent. Au deuxième arrêt, 916 passagers descendent. Combien de passagers y a-t-il maintenant dans le bus ?` → **79** [41 · 79 · 954 · 995] — Correction : 41 + 954 = 995 ; 995 − 916 = 79. Il y a 79 passagers. (schéma en barres : [41 | 954] [79 | 916], total 995)
 - `Au garage, il y a 202 voitures. Le matin, 80 voitures partent. L'après-midi, 342 voitures arrivent. Combien de voitures y a-t-il le soir ?` → **464** [202 · 464 · 624 · 122] — Correction : 202 − 80 = 122 ; 122 + 342 = 464. Il y a 464 voitures le soir. (schéma en barres : [122 | 80] [122 | 342], total 202)
 - `Au garage, il y a 57 voitures. Le matin, 5 voitures partent. L'après-midi, 24 voitures arrivent. Combien de voitures y a-t-il le soir ?` → **76** [52 · 86 · 28 · 76] — Correction : 57 − 5 = 52 ; 52 + 24 = 76. Il y a 76 voitures le soir. (schéma en barres : [52 | 5] [52 | 24], total 57)
 - `Lucas a 36 figurines. Il en gagne 37, puis en perd 8. Combien de figurines Lucas a-t-il maintenant ?` → **65** [81 · 73 · 28 · 65] — Correction : 36 + 37 = 73 ; 73 − 8 = 65. Lucas a 65 figurines. (schéma en barres : [36 | 37] [65 | 8], total 73)
@@ -300,12 +300,12 @@ Au moins 3970 exercices différents possibles.
 - `Maëlys a 22 images. Elle en gagne 22, puis en perd 38. Combien d'images Maëlys a-t-elle maintenant ?` → **6** [22 · 44 · 6 · 82] — Correction : 22 + 22 = 44 ; 44 − 38 = 6. Maëlys a 6 images. (schéma en barres : [22 | 22] [6 | 38], total 44)
 - `Adam a 854 euros. Il achète un livre à 334 euros et un jeu à 11 euros. Combien d'euros lui reste-t-il ?` → **509** [345 · 509 · 520 · 843] — Correction : 334 + 11 = 345 ; 854 − 345 = 509. Il reste 509 euros à Adam. (schéma en barres : [334 | 11 | 509], total 854)
 - `Hugo a 262 crayons : 175 dans une boîte, 19 dans un sac et les autres dans un tiroir. Combien y en a-t-il dans le tiroir ?` → **68** [243 · 68 · 87 · 194] — Correction : 175 + 19 = 194 ; 262 − 194 = 68. Il y en a 68 dans le tiroir. (schéma en barres : [175 | 19 | 68], total 262)
-- `Louise a 530 crayons. Elle en gagne 306, puis en perd 317. Combien de crayons Louise a-t-elle maintenant ?` → **519** [519 · 213 · 1153 · 836] — Correction : 530 + 306 = 836 ; 836 − 317 = 519. Louise a 519 crayons. (schéma en barres : [530 | 306] [519 | 317], total 836)
-- `Au garage, il y a 589 voitures. Le matin, 570 voitures partent. L'après-midi, 271 voitures arrivent. Combien de voitures y a-t-il le soir ?` → **290** [1430 · 589 · 19 · 290] — Correction : 589 − 570 = 19 ; 19 + 271 = 290. Il y a 290 voitures le soir. (schéma en barres : [19 | 570] [19 | 271], total 589)
+- `Louise a 530 crayons. Elle en gagne 306, puis en perd 317. Combien de crayons Louise a-t-elle maintenant ?` → **519** [519 · 530 · 213 · 836] — Correction : 530 + 306 = 836 ; 836 − 317 = 519. Louise a 519 crayons. (schéma en barres : [530 | 306] [519 | 317], total 836)
+- `Au garage, il y a 589 voitures. Le matin, 570 voitures partent. L'après-midi, 271 voitures arrivent. Combien de voitures y a-t-il le soir ?` → **290** [589 · 570 · 19 · 290] — Correction : 589 − 570 = 19 ; 19 + 271 = 290. Il y a 290 voitures le soir. (schéma en barres : [19 | 570] [19 | 271], total 589)
 
 ## CE1 · période 4 · Comparer et ajouter des fractions (`ce1-frac-compare-add`)
 
-Au moins 408 exercices différents possibles.
+Au moins 407 exercices différents possibles.
 
 - `3/4 + 1/4 = ?` → **4/4** [3/4 · 4/8 · 5/4 · 4/4] — Correction : 3/4 + 1/4 = 4/4 : 3 quarts + 1 quart = 4 quarts.
 - `Écris le bon signe : <, > ou =. 4/5 ? 3/5` → **>** — Correction : 4/5 > 3/5 : même dénominateur, 4 parts c'est plus que 3 parts.
@@ -384,7 +384,7 @@ Au moins 1611 exercices différents possibles.
 
 - `Il y a 30 enfants dans la cour. On fait des équipes de 3 enfants. Combien d'équipes peut-on faire ?` → **10** [3 · 20 · 10 · 27] — Correction : 10 × 3 = 30, donc on peut faire 10 équipes. (schéma : 10 groupes de 3)
 - `Maëlys a 6 boîtes de 8 petites voitures. Elle en donne 5 à Aya. Combien de petites voitures lui reste-t-il ?` → **43** [43 · 53 · 6 · 48] — Correction : 6 × 8 = 48 ; 48 − 5 = 43. Il reste 43 petites voitures à Maëlys. (schéma : 6 groupes de 8)
-- `Lina a 9 sacs de 10 billes. Elle en donne 45 à Chloé. Combien de billes lui reste-t-il ?` → **45** [45 · 9 · 90 · 135] — Correction : 9 × 10 = 90 ; 90 − 45 = 45. Il reste 45 billes à Lina. (schéma : 9 groupes de 10)
+- `Lina a 9 sacs de 10 billes. Elle en donne 45 à Chloé. Combien de billes lui reste-t-il ?` → **45** [45 · 10 · 90 · 9] — Correction : 9 × 10 = 90 ; 90 − 45 = 45. Il reste 45 billes à Lina. (schéma : 9 groupes de 10)
 - `Gabriel a 6 boîtes de 5 autocollants. Il en donne 2 à Tom. Combien d'autocollants lui reste-t-il ?` → **28** [6 · 32 · 30 · 28] — Correction : 6 × 5 = 30 ; 30 − 2 = 28. Il reste 28 autocollants à Gabriel. (schéma : 6 groupes de 5)
 - `Inès range 8 livres par paquets de 2. Combien de paquets fait-elle ?` → **4** [14 · 4 · 2 · 6] — Correction : 4 × 2 = 8, donc Inès fait 4 paquets. (schéma : 4 groupes de 2)
 - `Un garagiste change les pneus de 2 voitures. Chaque voiture a 4 pneus. Combien de pneus change-t-il ?` → **8** [18 · 6 · 2 · 8] — Correction : 2 × 4 = 8. Il change 8 pneus. (schéma : 2 groupes de 4)

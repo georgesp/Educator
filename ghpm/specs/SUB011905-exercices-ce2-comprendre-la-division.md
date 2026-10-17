@@ -31,7 +31,7 @@ En tant qu'enfant de CE2, je veux m'entraîner à trouver combien de parts ou co
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
 | `ce2-div-tables` | 4 | Divisions exactes avec les tables | a ÷ b avec a = b × q, b et q de 2 à 10 | `result`, `phrase` (partage / groupement) |
-| `ce2-div-inverse` | 5 | Division, inverse de la multiplication | Une multiplication donnée (7 × 13 = 91) puis la division associée (91 ÷ 7) ; q ≤ 99 | `result` |
+| `ce2-div-inverse` | 5 | Division, inverse de la multiplication | Une multiplication donnée (7 × 13 = 91) puis l'une des deux divisions associées (91 ÷ 7 ou 91 ÷ 13) ; q ≤ 99 | `result` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -44,7 +44,8 @@ le champ `source` (comme pour le CP et le CE1).
 
 ## Évolutions du moteur et de l'écran de série
 
-- Opération `division` (exacte seulement au CE2 : a = b × q, jamais de division par 0) — reprise de SUB001604 ; symbole « ÷ » lu « divisé par ».
+- Opération `division` (exacte seulement au CE2 : a = b × q, jamais de division par 0) ; symbole « ÷ » lu « divisé par ».
+- Code couleur des familles (SUB001514) : l'opération `division` rejoint la famille « Multiplier », renommée « Multiplier et diviser » (symbole `× ÷`) ; `Skill::category` et son test mis à jour.
 - Format `phrase` avec petits énoncés de partage et de groupement (gabarits, voir la fiche « Exercices CE2 — Résoudre des problèmes »).
 
 ## Distracteurs (QCM)
@@ -57,7 +58,8 @@ Produit au lieu du quotient, quotient de la table voisine, diviseur et quotient 
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Comprendre la division » (`skillIds` de la leçon).
 
 ## Sources

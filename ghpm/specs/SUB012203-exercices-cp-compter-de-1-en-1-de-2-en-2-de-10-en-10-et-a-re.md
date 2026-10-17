@@ -24,15 +24,15 @@ En tant qu'enfant de CP, je veux m'entraîner à compter en avançant et en recu
 ## Ce que dit le programme
 
 - Programme du cycle 2 (2024), CP : compter de 1 en 1, de 2 en 2 et de 10 en 10 à partir de n'importe quel nombre ; compter à rebours de 1 en 1 ; suites répétitives.
-- Ordinaux jusqu'à « vingtième » : repérer un rang dans une file, relier le rang au nombre d'éléments qui précèdent (ex. le quatrième coureur, le sixième gobelet).
+- Ordinaux jusqu'à « vingtième » : repérer un rang dans une file, relier le rang au nombre d'éléments qui précèdent (ex. le quatrième coureur, le sixième gobelet) ; « utiliser les nombres ordinaux dans le cadre de l'étude de suites de symboles, de formes, de lettres ou de nombres » (suites répétitives).
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cp-count-1-2` | 1 | Compter de 1 en 1 et de 2 en 2 | Suite de 4 à 6 nombres ≤ 60, un ou deux nombres cachés ; avant / après | `sequence` |
-| `cp-count-10-back` | 2 | Compter de 10 en 10 et à rebours | Suite de 10 en 10 depuis n'importe quel nombre ≤ 100 ; à rebours de 1 en 1 | `sequence` |
-| `cp-ordinals` | 2 | Les nombres ordinaux | Rang d'une voiture dans une file de 5 à 20 (« Quelle est la 4e voiture ? », « À quel rang est la voiture rouge ? ») ; premier à vingtième, lus par Piper ; lien entre rang et nombre d'éléments qui précèdent | `choice` (clic sur l'image), `result` |
+| `cp-count-1-2` | 1 | Compter de 1 en 1 et de 2 en 2 | Suite de 4 à 6 nombres ≤ 30 (période 1 : les nombres jusqu'à 59 arrivent au plus tard en période 2), un ou deux nombres cachés ; avant / après | `sequence` |
+| `cp-count-10-back` | 2 | Compter de 10 en 10 et à rebours | Suite de 10 en 10 depuis n'importe quel nombre ≤ 100 ; à rebours de 1 en 1 ; suites de 1 en 1 et de 2 en 2 au-delà de 30 (jusqu'à 100) | `sequence` |
+| `cp-ordinals` | 2 | Les nombres ordinaux | Rang d'une voiture dans une file de 5 à 20 (« Quelle est la 4e voiture ? », « À quel rang est la voiture rouge ? ») ; premier à vingtième, lus au clic ; lien entre rang et nombre d'éléments qui précèdent ; suites répétitives de symboles, de formes, de lettres ou de nombres (motif de 2 à 4 éléments) : quel est le 9e élément ? quel élément manque ? | `choice` (clic sur l'image), `result`, `sequence` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -44,23 +44,25 @@ le champ `source` (comme pour le CP et le CE1).
 - 31, 30, 29, … → 28.
 - Clique sur la sixième voiture.
 - La voiture bleue est à quel rang ? → 3e (2 voitures devant elle).
+- Drapeau rouge, blanc, bleu, rouge, blanc, bleu… : de quelle couleur est le 8e drapeau ? → blanc.
 
 ## Évolutions du moteur et de l'écran de série
 
-- Format `sequence` (lot 5) disponible au CP : suites courtes, cases vides au milieu ou à la fin.
-- Format `choice` sur image : une file de voitures dessinées, l'enfant clique sur celle demandée ; ordinaux lus par Piper (« sixième »).
+- Format `sequence` (lot 5) disponible au CP : suites courtes de nombres, cases vides au milieu ou à la fin ; suites répétitives de symboles SVG simples, de formes ou de lettres. Si le lot 7 passe avant le lot 5, cette fiche porte le format (voir « Ordre de réalisation » dans la fiche du lot).
+- Format `choice` sur image : une file de voitures dessinées, l'enfant clique sur celle demandée ; ordinaux lus au clic (« sixième »).
 
 ## Distracteurs (QCM)
 
-Pas de 1 au lieu de 2, sens inversé pour le compte à rebours.
+Pas de 1 au lieu de 2, sens inversé pour le compte à rebours, rang décalé de un (la voiture comptée ou non), motif repris au deuxième élément.
 
 ## Critères d'acceptation
 
 - [ ] Une compétence JSON par ligne du tableau, validée par `skill.schema.json`, avec sa `source`.
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
-- [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-cp.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-cp.md` (nouveau fichier ; les 11 compétences du lot 1 restent dans `echantillons-lot1.md`), relu par Georges.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement (décision du 2026-10-15).
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CP — Compter de 1 en 1, de 2 en 2, de 10 en 10 et à rebours » (`skillIds` de la leçon).
 
 ## Sources

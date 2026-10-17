@@ -29,7 +29,7 @@ En tant qu'enfant de CM1, je veux m'entraîner à calculer un quotient et un res
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-div-remainder` | 3 | Quotient et reste | a ÷ b avec b de 2 à 9, a ≤ 99 (avec les tables), reste < b ; problèmes de partage avec reste | `quotientRemainder` |
+| `cm1-div-remainder` | 3 | Quotient et reste | a ÷ b avec b de 2 à 9 et a < 10 × b (quotient de 1 à 9, dans les tables), reste < b ; problèmes de partage avec reste | `quotientRemainder` |
 | `cm1-div-column` | 4 | Division posée par un nombre à un chiffre | Dividende de 3 ou 4 chiffres, diviseur de 2 à 9, reste quelconque | `quotientRemainder`, affichage posé |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
@@ -39,7 +39,7 @@ le champ `source` (comme pour le CP et le CE1).
 
 - 38 ÷ 5 : q = 7, r = 3.
 - 847 ÷ 6 : q = 141, r = 1.
-- 57 élèves, voitures de 4 places : combien de voitures ?
+- 30 élèves, voitures de 4 places : combien de voitures ? → 8 (7 voitures pleines, une de plus pour les 2 élèves restants).
 
 ## Évolutions du moteur et de l'écran de série
 
@@ -48,7 +48,7 @@ le champ `source` (comme pour le CP et le CE1).
 
 ## Distracteurs (QCM)
 
-Reste ≥ diviseur, quotient d'une table voisine, zéro intermédiaire oublié au quotient (847 ÷ 4 → 21 au lieu de 211).
+Reste ≥ diviseur, quotient d'une table voisine, zéro intermédiaire oublié au quotient (832 ÷ 4 → 28 au lieu de 208).
 
 ## Critères d'acceptation
 

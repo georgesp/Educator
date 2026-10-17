@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACa6I
-rev: 2026-10-11T18:51:47Z
+rev: 2026-10-17T13:46:46Z
 url: https://github.com/georgesp/Educator/issues/224
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
 title: "SUB012212 — Leçon CP — Découvrir la multiplication : « fois »"
-status: Backlog
+status: In progress
 size: M
 estimate:
 startDate:
@@ -64,7 +64,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 3. 2 paquets de 7 biscuits : combien ?
 4. 5 + 5 + 5, c'est … fois 5
 
-Chaque question a une explication courte, affichée et lue après la réponse.
+Chaque question a une explication courte, affichée après la réponse et lisible au clic (rien n'est lu tout seul, décision du 2026-10-15).
 
 ## Sources
 
@@ -75,12 +75,12 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/cp-decouvrir-la-multiplication.json`, validée par `lesson.schema.json`, `skillIds` = `cp-times-as-repeated-add`.
+- [x] Leçon `content/lessons/math/cp-decouvrir-la-multiplication.json`, validée par `lesson.schema.json`, `skillIds` = `cp-times-as-repeated-add`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
-- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
-- [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
-- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
+- [x] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [x] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
+- [x] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
 - [ ] Relue et validée par Georges.
 
 ## Dépendances

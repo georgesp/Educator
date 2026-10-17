@@ -68,6 +68,7 @@
         "multiplication",
         "numeration",
         "doubleHalf",
+        "groups",
         "fraction",
         "problem",
         "spelling"
@@ -99,6 +100,7 @@
           "decompose",
           "placeValue",
           "writeNumber",
+          "numberDictation",
           "readNumber",
           "compare",
           "order",
@@ -166,6 +168,19 @@
       "$ref": "#/$defs/operand",
       "description": "numeration : nombres travaillés."
     },
+    "lineSteps": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          1,
+          10,
+          100
+        ]
+      },
+      "description": "numeration : pas des droites graduées (format numberLinePoint) ; absent : de 1 en 1, de 10 en 10 et de 100 en 100. CP : [1]."
+    },
     "focus": {
       "type": "array",
       "minItems": 1,
@@ -208,6 +223,46 @@
         "maximum": 40
       },
       "description": "doubleHalf : multiples de 25 (3 → 3 × 25)."
+    },
+    "groups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kinds",
+        "count",
+        "size",
+        "maxTotal"
+      ],
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "times",
+              "share",
+              "groupBy"
+            ]
+          },
+          "description": "times : « 3 fois 20 » ; share : partage équitable ; groupBy : groupes d'une taille donnée."
+        },
+        "count": {
+          "$ref": "#/$defs/operand",
+          "description": "nombre de groupes (times, share) ou nombre de groupes cherché (groupBy)."
+        },
+        "size": {
+          "$ref": "#/$defs/operand",
+          "description": "taille de chaque groupe."
+        },
+        "maxTotal": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 100,
+          "description": "total au plus (CP : 60 pour « fois », 30 pour les partages)."
+        }
+      },
+      "description": "groups : groupes égaux du CP, sans les signes × et ÷."
     },
     "fractions": {
       "type": "object",
@@ -268,6 +323,21 @@
           "type": "integer",
           "minimum": 1,
           "description": "Plus grand nombre des premiers exercices de la série (60 %)."
+        },
+        "templates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "description": "Seulement ces gabarits des types choisis (leurs id) ; absent : tous les gabarits des types."
+        },
+        "noCarry": {
+          "type": "boolean",
+          "default": false,
+          "description": "Ni retenue dans les additions ni cassage de dizaine dans les soustractions du calcul (CP, avant la période 3)."
         }
       },
       "description": "problem : types de problèmes (gabarits de content/problems) et taille des nombres."
@@ -440,7 +510,9 @@
           "halves": false,
           "timesTwentyFive": false,
           "fractions": false,
-          "problems": false
+          "problems": false,
+          "lineSteps": false,
+          "groups": false
         }
       },
       "else": {
@@ -463,6 +535,20 @@
       "then": {
         "required": [
           "numbers"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "groups"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "groups"
         ]
       }
     },

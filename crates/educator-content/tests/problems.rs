@@ -28,7 +28,8 @@ fn problem_statements_are_complete_and_within_the_scale() {
         .iter()
         .filter(|s| s.operation == SkillOperation::Problem)
         .collect();
-    assert_eq!(3, skills.len());
+    // 3 of the CE1, 4 of the CP (SUB012208).
+    assert_eq!(7, skills.len());
     for skill in skills {
         let set = skill.params.problems.as_ref().unwrap();
         for seed in 0..2000 {
@@ -101,4 +102,94 @@ fn an_invalid_template_is_reported() {
             .any(|m| m.contains("must not give the answer")),
         "{messages:?}"
     );
+}
+
+/// SUB012208: in period 2, the problems of the CP have no carry and no borrowed ten; the two
+/// steps stay within 30; the problems from period 3 and the mixed ones often have a statement
+/// whose words do not give the operation.
+#[test]
+fn cp_problems_follow_the_periods_of_the_programme() {
+    let content = EducatorContent::load(&content_dir());
+    let skill = |id: &str| content.skills.find(id).unwrap();
+    let numbers = |text: &str| -> Vec<i64> {
+        text.split(|c: char| !c.is_ascii_digit())
+            .filter(|w| !w.is_empty())
+            .map(|w| w.parse().unwrap())
+            .collect()
+    };
+
+    let one_step = skill("cp-problems-one-step");
+    for seed in 0..500 {
+        for e in generate_series(one_step, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap() {
+            // The correction « 36 − 15 = 21 » : neither a borrowed ten nor a carry.
+            let parts = numbers(&e.explanation);
+            let (a, b) = (parts[0], parts[1]);
+            if e.explanation.contains(" − ") {
+                assert!(a % 10 >= b % 10, "{}", e.explanation);
+            } else {
+                assert!(a % 10 + b % 10 < 10, "{}", e.explanation);
+            }
+            assert!(parts.iter().all(|n| *n <= 59), "{}", e.explanation);
+        }
+    }
+
+    let two_steps = skill("cp-problems-two-steps");
+    for seed in 0..500 {
+        for e in generate_series(two_steps, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap() {
+            assert!(
+                numbers(&e.explanation).iter().all(|n| *n <= 30),
+                "{}",
+                e.explanation
+            );
+        }
+    }
+
+    // « perdu » with an addition, « reçu » or « gagné » with a subtraction.
+    let not_induced = |e: &educator_core::exercises::Exercise| {
+        let text = e.question.as_deref().unwrap_or_default();
+        (text.contains("perdu") && e.explanation.contains(" + "))
+            || ((text.contains("reçu") || text.contains("gagné")) && e.explanation.contains(" − "))
+    };
+    for id in ["cp-problems-one-step-100", "cp-problems-mixed"] {
+        let (mut found, mut total) = (0, 0);
+        for seed in 0..300 {
+            for e in generate_series(skill(id), seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
+            {
+                total += 1;
+                found += usize::from(not_induced(&e));
+            }
+        }
+        // At least one statement in four (SUB012208).
+        assert!(found * 4 >= total, "{id}: {found} / {total}");
+    }
+}
+
+/// SUB012208: the CP never sees the sign ×; the templates of the CP (« fois ») stay at the CP.
+#[test]
+fn cp_problems_say_fois_and_their_templates_stay_at_the_cp() {
+    let content = EducatorContent::load(&content_dir());
+    for skill in content
+        .skills
+        .all()
+        .iter()
+        .filter(|s| s.operation == SkillOperation::Problem)
+    {
+        let set = skill.params.problems.as_ref().unwrap();
+        for template in &set.templates {
+            assert!(
+                template.grades.is_empty() || template.grades.contains(&skill.grade),
+                "{} uses {}",
+                skill.id,
+                template.id
+            );
+        }
+        if skill.grade == educator_core::Grade::CP {
+            for seed in 0..300 {
+                for e in generate_series(skill, seed, AnswerMode::Keyboard, DEFAULT_LENGTH).unwrap()
+                {
+                    assert!(!e.explanation.contains('×'), "{}", e.explanation);
+                }
+            }
+        }
+    }
 }

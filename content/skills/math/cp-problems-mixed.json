@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-problems-mixed",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "title": "Problèmes variés",
+  "instruction": "Écoute l'histoire, puis trouve la réponse.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "partWhole",
+      "transformation",
+      "product",
+      "sharing"
+    ],
+    "maxNumber": 30,
+    "templates": [
+      "part-whole-total",
+      "part-whole-part",
+      "part-whole-school",
+      "transformation-unknown-change",
+      "transformation-unknown-start",
+      "transformation-loss-unknown-start",
+      "product-containers-cp",
+      "product-tires-cp",
+      "sharing-value-cp",
+      "sharing-parts-cp",
+      "sharing-teams-cp"
+    ]
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — problèmes additifs, multiplicatifs en une étape (jusqu'à 30) et partages équitables mêlés : l'enfant choisit lui-même l'opération, énoncés qui n'induisent pas l'opération. Nombres jusqu'à 30 ; période 5 : choix d'Educator."
+}

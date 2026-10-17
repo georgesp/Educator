@@ -61,8 +61,8 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 
 1. 6 234 … 6 243 (QCM : <, >, =)
 2. Quel est le plus grand : 5 999 ou 6 001 ?
-3. Encadre 7 382 entre deux milliers.
-4. Range dans l'ordre croissant : 3 210, 3 120, 3 201.
+3. Encadre 7 382 entre deux milliers : 7 000 < 7 382 < … (saisie)
+4. Quel est le plus petit nombre : 3 210, 3 120 ou 3 201 ? (QCM)
 
 Chaque question a une explication courte, affichée et lue après la réponse.
 
@@ -77,7 +77,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - [ ] Leçon `content/lessons/math/ce2-comparer-ranger-10000.json`, validée par `lesson.schema.json`, `skillIds` = `ce2-num-compare`, `ce2-num-frame`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
 - [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
 - [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
@@ -87,4 +87,5 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
 - Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Fiche « Extensions des animations et du quiz des leçons du CE2 » : `sequencePattern` en mode « ranger » (valeurs quelconques à remettre dans l'ordre).
 - Mascotte (SUB001417) : facultative, la leçon fonctionne sans.

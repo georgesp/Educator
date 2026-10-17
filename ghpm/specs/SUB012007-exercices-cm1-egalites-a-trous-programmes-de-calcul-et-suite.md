@@ -25,13 +25,14 @@ En tant qu'enfant de CM1, je veux m'entraîner à trouver un nombre inconnu, sui
 
 - Programme du cycle 3 (2025), CM1, algèbre : trouver le nombre manquant dans une égalité à trous ; déterminer un nombre inconnu à l'aide d'un symbole ; exécuter un programme de calcul ; identifier une règle pour poursuivre une suite ; poursuivre une suite de motifs évolutive.
 - Livret d'accompagnement CM1 (2026) : séquence sur les problèmes algébriques (égalités à trou, programmes de calcul).
+- Livret d'accompagnement CM1 (2026) : l'algèbre et les probabilités doivent être abordées « sans attendre la fin de l'année scolaire ».
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-algebra-missing` | 4 | Égalités à trous | … + 37 = 92, 6 × … = 54, 120 − … = 75, … ÷ 4 = 9 ; un symbole (★) peut remplacer la case | `missingOperand` |
-| `cm1-calc-program` | 5 | Programmes de calcul et suites | Programme en 2 ou 3 étapes (« choisis 7, multiplie par 3, ajoute 5 ») ; suite arithmétique ou de motifs, trouver le terme suivant | `program`, `sequence` |
+| `cm1-algebra-missing` | 2 | Égalités à trous | … + 37 = 92, 6 × … = 54, 120 − … = 75, … ÷ 4 = 9 ; un symbole (★) peut remplacer la case ; petites situations de balance (2 boîtes identiques + 3 = 11) | `missingOperand`, `balance` |
+| `cm1-calc-program` | 3 | Programmes de calcul et suites | Programme en 2 ou 3 étapes (« choisis 7, multiplie par 3, ajoute 5 ») ; suite arithmétique ou de motifs, trouver le terme suivant | `program`, `sequence` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -41,10 +42,12 @@ le champ `source` (comme pour le CP et le CE1).
 - … + 37 = 92 → 55.
 - Choisis 7, multiplie par 3, ajoute 5 → 26.
 - 4, 7, 10, 13, … → 16.
+- 2 boîtes identiques + 3 = 11 : combien vaut une boîte ? → 4.
 
 ## Évolutions du moteur et de l'écran de série
 
 - Formats `program` (étapes affichées et lues) et `sequence` (suite de nombres ou de motifs SVG simples) générés par règles.
+- Affichage `balance` (SVG : deux plateaux, boîtes identiques et poids connus), comme dans la séquence 2 du livret.
 
 ## Distracteurs (QCM)
 
@@ -62,5 +65,4 @@ Opération inverse mal choisie (… + 37 = 92 → 129), étape oubliée dans le 
 ## Sources
 
 - [Programme de mathématiques du cycle 3 (arrêté du 10 avril 2025, BO n°16 du 17 avril 2025 ; CM1 à la rentrée 2025, CM2 à la rentrée 2026)](https://www.education.gouv.fr/sites/default/files/programme-de-math-matiques-pour-le-cycle-3-439827.pdf)
-- [Livret d'accompagnement de mathématiques CM1 (eduscol, 2026)](https://eduscol.education.gouv.fr/sites/default/files/document/2026livretaccompagnementmathematiquescm1-129268.pdf)
 - [Livret d'accompagnement de mathématiques CM1 (eduscol, 2026)](https://eduscol.education.gouv.fr/sites/default/files/document/2026livretaccompagnementmathematiquescm1-129268.pdf)

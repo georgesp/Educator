@@ -1,14 +1,14 @@
 ---
 # Managed by GHPM: do not edit these keys
 id: PVTI_lAHOACppGM4BmYInzhACa-o
-rev: 2026-10-11T18:51:53Z
+rev: 2026-10-17T13:46:51Z
 url: https://github.com/georgesp/Educator/issues/228
 type: Issue
 repository: georgesp/Educator
 labels: []
 # Editable
-title: SUB012216 — Leçon CP — Résoudre des problèmes
-status: Backlog
+title: SUB012216 — Leçon CP — Résoudre des problèmes en une étape
+status: In progress
 size: M
 estimate:
 startDate:
@@ -19,13 +19,13 @@ order: 2070
 
 ## User story
 
-En tant qu'enfant de CP, je veux une leçon courte et animée qui m'explique comment comprendre une histoire de nombres, avant de m'entraîner.
+En tant qu'enfant de CP, je veux une leçon courte et animée qui m'apprend à comprendre une petite histoire de nombres et à y répondre, avant de m'entraîner.
 
 ## Leçon
 
 - **Classe / période** : CP, période 2.
-- **Compétences liées** (`skillIds`) : `cp-problems-one-step`, `cp-problems-two-steps` — exercices : la fiche « Exercices CP — Résoudre des problèmes ».
-- **Objectif** : écouter l'histoire, la jouer avec des objets ou un schéma, choisir ajouter ou enlever, répondre.
+- **Compétences liées** (`skillIds`) : `cp-problems-one-step`, `cp-problems-one-step-100` — exercices : la fiche « Exercices CP — Résoudre des problèmes ». Les problèmes en deux étapes, multiplicatifs et de partage ont leur propre leçon (« Leçon CP — Problèmes en deux étapes et problèmes variés »).
+- **Objectif** : écouter l'histoire, la raconter avec ses mots, la jouer ou la schématiser, comprendre ce que l'on cherche sans se fier à un seul mot, calculer et vérifier.
 - **Durée visée** : 3 à 5 minutes, 10 slides.
 - **Vocabulaire du programme** : « problème », « histoire », « question », « réponse ».
 
@@ -33,16 +33,16 @@ En tant qu'enfant de CP, je veux une leçon courte et animée qui m'explique com
 
 | # | À l'écran et à la voix | Animation / interaction |
 |---|---|---|
-| 1 | **Titre** — « Résoudre des problèmes » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
-| 2 | **Une histoire** — « Dans le bus, il y a 29 enfants… » : la voix raconte, le bus s'anime. | `groupObjects` |
-| 3 | **Jouer l'histoire** — 12 enfants descendent : on les retire du bus. | `groupObjects` (remove) |
-| 4 | **Encore une étape** — 7 enfants montent : on les ajoute. | `groupObjects` (join) |
-| 5 | **La réponse** — Il y a 24 enfants dans le bus. | `calcChain` |
-| 6 | **Le schéma** — Une barre pour le tout, des barres pour les parties. | `barModel` (tout / parties) |
-| 7 | **À toi** — Interaction : joue l'histoire des 43 cerises. | `groupObjects` (interactif) |
-| 8 | **Ajouter ou enlever ?** — « Elle en mange » → on enlève ; « il en gagne » → on ajoute. | `barModel` |
-| 9 | **À toi** — Interaction : choisis le bon schéma pour l'histoire. | `barModel` (QCM) |
-| 10 | **Je retiens** — « J'écoute l'histoire, je la dessine ou je la joue, je cherche si on ajoute ou on enlève, puis je réponds. » | `recapCard` |
+| 1 | **Titre** — « Résoudre des problèmes en une étape » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
+| 2 | **Une histoire** — « Sur le parking, il y a 36 voitures. 15 voitures partent. » : l'histoire s'écoute au clic, les voitures s'animent. | `groupObjects` |
+| 3 | **Raconter avec ses mots** — Des voitures partent : il en reste moins qu'au début. On joue l'histoire en retirant les voitures. | `groupObjects` (remove) |
+| 4 | **La réponse** — 36 − 15 = 21 : il reste 21 voitures sur le parking. | `calcChain` |
+| 5 | **Le schéma** — Une barre pour le tout (36), une partie qui part (15), une partie qui reste (?). | `barModel` (tout / parties) |
+| 6 | **À toi** — Interaction : « Léo a 24 casques. On lui en donne 13. » Joue l'histoire. | `groupObjects` (join, interactif) |
+| 7 | **Attention au mot** — « Tom a perdu 5 drapeaux. Il lui en reste 12. Combien en avait-il ? » « Perdu » ne veut pas dire « on enlève » : on cherche le début, 12 + 5 = 17. | `barModel` (inconnue : le tout) |
+| 8 | **À toi** — Interaction : choisis le schéma qui raconte l'histoire. | `barModel` (QCM) |
+| 9 | **Vérifier** — Je relis la question : 21 voitures, c'est bien moins que 36 ; 17 drapeaux, c'est bien plus que 12. | `calcChain` |
+| 10 | **Je retiens** — « J'écoute l'histoire, je la raconte avec mes mots, je la joue ou je la dessine. Je cherche ce qui se passe, pas un mot. Puis je calcule et je vérifie. » | `recapCard` |
 
 Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
 détaillé) se fait dans le fichier JSON. « Interaction » : l'enfant manipule (glisser, cliquer) ; la leçon attend son
@@ -59,12 +59,12 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 
 ## Quiz de fin de leçon (SUB001411)
 
-1. Problème du bus (saisie)
-2. Léa a 43 cerises, elle en mange 18 : combien en reste-t-il ?
-3. « Il en gagne » : on ajoute ou on enlève ? (QCM)
-4. Quel schéma correspond ? (QCM)
+1. Sur le parking, 36 voitures ; 15 partent. Combien en reste-t-il ? (saisie)
+2. Léo a 24 casques, on lui en donne 13. Combien en a-t-il ? (saisie)
+3. Tom a perdu 5 drapeaux, il lui en reste 12. Combien en avait-il ? (QCM : 7, 12, 17)
+4. Quel schéma correspond à l'histoire ? (QCM)
 
-Chaque question a une explication courte, affichée et lue après la réponse.
+Chaque question a une explication courte, affichée après la réponse et lisible au clic (rien n'est lu tout seul, décision du 2026-10-15).
 
 ## Sources
 
@@ -75,12 +75,12 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/cp-resoudre-des-problemes.json`, validée par `lesson.schema.json`, `skillIds` = `cp-problems-one-step`, `cp-problems-two-steps`.
+- [x] Leçon `content/lessons/math/cp-problemes-une-etape.json`, validée par `lesson.schema.json`, `skillIds` = `cp-problems-one-step`, `cp-problems-one-step-100`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
-- [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
-- [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
-- [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
+- [x] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
+- [x] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
+- [x] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
 - [ ] Relue et validée par Georges.
 
 ## Dépendances
@@ -88,3 +88,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 - Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
 - Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
 - Mascotte (SUB001417) : facultative, la leçon fonctionne sans.
+
+## Remarques et décisions
+
+- Relecture (2026-10-17) : en période 2, les calculs de la leçon n'ont ni retenue ni cassage (12 + 5, 16 − 4, 18 − 13).

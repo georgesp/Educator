@@ -23,7 +23,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 
 ## Leçon
 
-- **Classe / période** : CM1, période 4.
+- **Classe / période** : CM1, période 2.
 - **Compétences liées** (`skillIds`) : `cm1-algebra-missing`, `cm1-calc-program` — exercices : la fiche « Exercices CM1 — Égalités à trous, programmes de calcul et suites ».
 - **Objectif** : trouver un nombre manquant avec l'opération inverse, exécuter un programme de calcul, trouver la règle d'une suite.
 - **Durée visée** : 3 à 5 minutes, 10 slides.
@@ -37,7 +37,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 | 2 | **La case vide** — … + 37 = 92 : sur le schéma, le tout est 92, une partie 37. | `barModel` + `equation` |
 | 3 | **Le calcul à l'envers** — … = 92 − 37 = 55 ; vérification : 55 + 37 = 92. | `equation` (famille) |
 | 4 | **Avec × et ÷** — 6 × ★ = 54 → ★ = 54 ÷ 6 = 9. | `equation` |
-| 5 | **À toi** — Interaction : 120 − … = 75. | `equation` (interactif) |
+| 5 | **À toi** — Interaction : 2 boîtes identiques et 3 font 11 ; combien vaut une boîte ? Le schéma en barres montre le calcul. | `barModel` (interactif) |
 | 6 | **Programme de calcul** — Choisis 7 → × 3 → + 5 : la voiture passe trois stands, 21 puis 26. | `calcChain` |
 | 7 | **À toi** — Interaction : applique le programme à 10. | `calcChain` (interactif) |
 | 8 | **Suites** — 4, 7, 10, 13… : on ajoute 3 à chaque fois. | `sequencePattern` |

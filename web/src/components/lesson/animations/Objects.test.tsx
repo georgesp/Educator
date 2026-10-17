@@ -61,6 +61,30 @@ describe("GroupObjects", () => {
     expect(screen.getByText("Bravo ! 2 dizaines et 3 unités : 23.")).toBeInTheDocument();
   });
 
+  it("lets the child share the objects one by one, then say how many each part has (SUB012215)", async () => {
+    const onComplete = vi.fn();
+    render(<GroupObjects {...objects} mode="Share" object="Helmet" total={12} size={4} result={3} interactive choices={[2, 3, 4]} onComplete={onComplete} />);
+    const user = userEvent.setup();
+
+    expect(screen.getByText("Distribue les casques : à chaque clic, le suivant va dans la part suivante, chacun son tour.")).toBeInTheDocument();
+    for (let i = 0; i < 5; i += 1) {
+      await user.click(screen.getAllByRole("button", { name: "casque" })[0]);
+    }
+    // Given in turn: the first part has 2, the others 1.
+    expect(screen.getByRole("group", { name: "Part 1 : 2 casques" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "Part 4 : 1 casque" })).toBeInTheDocument();
+    for (let i = 0; i < 7; i += 1) {
+      await user.click(screen.getAllByRole("button", { name: "casque" })[0]);
+    }
+    expect(screen.queryAllByRole("button", { name: "casque" })).toHaveLength(0);
+    expect(screen.getByText("Combien chaque part en a-t-elle ?")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "4" }));
+    expect(onComplete).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("button", { name: "3" }));
+    expect(onComplete).toHaveBeenCalledOnce();
+    expect(screen.getByText("Bravo ! 12 partagé en 4 parts égales : 3 dans chaque part.")).toBeInTheDocument();
+  });
+
   it("lets the child park the numbers in the even and odd garages", async () => {
     const onComplete = vi.fn();
     render(<GroupObjects {...objects} mode="SortParity" numbers={[768, 773]} parities={[true, false]} result={1} interactive onComplete={onComplete} />);

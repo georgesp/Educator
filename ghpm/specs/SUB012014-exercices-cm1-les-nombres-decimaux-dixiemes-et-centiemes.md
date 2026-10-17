@@ -25,12 +25,13 @@ En tant qu'enfant de CM1, je veux m'entraîner à lire, écrire et décomposer d
 
 - Programme du cycle 3 (2025), CM1 : nombres décimaux introduits par les fractions décimales puis l'écriture à virgule, jusqu'aux centièmes.
 - Période 1 : décimaux rencontrés dans des problèmes de monnaie ; période 2 : étude générale. Lire, écrire, passer d'une écriture à l'autre, donner la partie entière.
+- En période 1, les prix à virgule n'apparaissent que dans les problèmes (fiche « Exercices CM1 — Résoudre des problèmes ») ; la compétence « Euros et centimes » ouvre l'étude en période 2, avec la leçon.
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-dec-money` | 1 | Euros et centimes | Prix en euros et centimes (3,45 € = 3 € et 45 c) ; écrire un prix avec une virgule | `decimalWrite`, `result` |
+| `cm1-dec-money` | 2 | Euros et centimes | Prix en euros et centimes (3,45 € = 3 € et 45 c) ; écrire un prix avec une virgule | `decimalWrite`, `result` |
 | `cm1-dec-fractions` | 2 | Fractions décimales et écriture à virgule | Passer de 345/100 ou 3 + 4/10 + 5/100 à 3,45 et inversement ; partie entière, chiffre des dixièmes / centièmes | `decompose`, `recompose`, `placeValue` |
 | `cm1-dec-usual-fractions` | 3 | Fractions usuelles et nombres décimaux | Faits à connaître : 1/2 = 0,5 ; 1/4 = 0,25 ; 3/4 = 0,75 ; 1/10 = 0,1 ; 1/100 = 0,01 ; 1/2 = 2/4 = 5/10 ; dans les deux sens | `result`, `choice` |
 

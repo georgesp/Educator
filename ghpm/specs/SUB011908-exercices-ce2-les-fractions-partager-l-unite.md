@@ -31,7 +31,8 @@ En tant qu'enfant de CE2, je veux m'entraîner à lire, écrire et représenter 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
 | `ce2-frac-read-write` | 3 | Lire, écrire et représenter des fractions | Fraction a/b, b ≤ 12, a ≤ b : bande coloriée → écriture chiffrée ; mots (trois quarts) ↔ chiffres | `fractionPicture`, `fractionWords` |
-| `ce2-frac-equal` | 3 | Fractions égales | Égalités avec dénominateurs multiples (1/2 = …/10, 3/4 = 6/…), dénominateurs ≤ 12 | `missingOperand` |
+| `ce2-frac-equal` | 3 | Fractions égales | Égalités avec dénominateurs multiples (1/2 = …/10, 3/4 = 6/…), dénominateurs ≤ 12 ; « coche les fractions égales à 1/2 » parmi 1/3, 2/4, 3/4, 2/6, 3/6 | `missingOperand`, `multiChoice` |
+| `ce2-frac-number-line` | 3 | Fractions sur une règle graduée | Règle (unité partagée en 2, 4, 5 ou 10 parts égales) : lire la fraction indiquée par la flèche (3/10), placer une fraction ; longueurs non entières (1 unité + 3/10, 2 unités + 3/5) | `numberLinePoint` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -41,11 +42,15 @@ le champ `source` (comme pour le CP et le CE1).
 - Quelle fraction de la bande est coloriée ? → 3/8.
 - Écris en chiffres : cinq sixièmes → 5/6.
 - 1/2 = …/10 → 5.
+- Quelle fraction indique la flèche ? (règle graduée en dixièmes) → 3/10.
+- Le segment mesure 1 unité et … → 3/5.
 
 ## Évolutions du moteur et de l'écran de série
 
 - Type **fraction**, saisie et lecture Piper créés au lot 1 (fiche « Exercices CE1 — Les premières fractions ») ; étendus aux dénominateurs jusqu'à 12 (septièmes, neuvièmes, onzièmes, douzièmes) et aux égalités de fractions.
 - Réponse fraction : **toute fraction égale est acceptée** (2/4 pour 1/2) ; le retour montre la forme attendue.
+- Format `numberLinePoint` étendu aux fractions : demi-droite graduée en parts égales de l'unité (moitiés, quarts, cinquièmes, dixièmes), comme la règle graduée par pliage ou sur quadrillage du programme ; réponse « nombre entier d'unités + fraction » en deux cases (1 et 3/10), la partie entière pouvant être 0.
+- Format `multiChoice` (plusieurs bonnes réponses à cocher) avec des fractions.
 
 ## Distracteurs (QCM)
 
@@ -57,7 +62,8 @@ Numérateur et dénominateur inversés, parts non coloriées comptées, nombre d
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Les fractions : partager l'unité » (`skillIds` de la leçon).
 
 ## Sources

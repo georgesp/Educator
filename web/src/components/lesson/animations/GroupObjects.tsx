@@ -35,7 +35,7 @@ export function GroupObjects(props: GroupObjectsProps) {
     case "GroupBy":
       return props.interactive ? <GroupByPlay {...props} /> : <GroupByShow {...props} />;
     case "Share":
-      return <ShareShow {...props} />;
+      return props.interactive ? <SharePlay {...props} /> : <ShareShow {...props} />;
     case "SortParity":
       return <SortParity {...props} />;
   }
@@ -326,6 +326,60 @@ function GroupByPlay({ object, counts, size, result, choices, onComplete }: Grou
       {done && (
         <p className="lesson-hint lesson-hint-done" role="status">
           {fr.lessons.tensDone(groups, rest, result)}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/** A fair share played by the child (SUB012215): each object clicked goes to the next part, in turn. */
+function SharePlay({ object, total, size, result, choices, onComplete }: GroupObjectsProps) {
+  const [given, setGiven] = useState(0);
+  const [done, setDone] = useState(false);
+  const parts = Math.max(size, 1);
+  const allGiven = given === total;
+  const n = names(object);
+  const inPart = (part: number) => Math.floor(given / parts) + (part < given % parts ? 1 : 0);
+
+  return (
+    <div className="lesson-objects">
+      <div className="objects-groups">
+        {Array.from({ length: parts }, (_, part) => (
+          <span key={part} className="objects-group" role="group" aria-label={`${fr.lessons.sharePart(part + 1)} : ${fr.lessons.objectCount(inPart(part), n)}`}>
+            {Array.from({ length: inPart(part) }, (_, j) => (
+              <motion.span key={j} initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+                <RaceObject object={object} color="blue" size={28} />
+              </motion.span>
+            ))}
+          </span>
+        ))}
+      </div>
+      <div className="objects-row" role="group" aria-label={fr.lessons.shareLeft}>
+        {Array.from({ length: total - given }, (_, i) => (
+          <button key={i} type="button" className="object-button" aria-label={n[0]} onClick={() => setGiven((g) => Math.min(g + 1, total))}>
+            <RaceObject object={object} color="red" />
+          </button>
+        ))}
+      </div>
+      {!allGiven && (
+        <p className="lesson-hint" role="status">
+          {fr.lessons.shareObjectsAsk(n)}
+        </p>
+      )}
+      {allGiven && !done && (
+        <TotalChoice
+          ask={fr.lessons.shareEachAsk}
+          choices={choices}
+          result={result}
+          onRight={() => {
+            setDone(true);
+            onComplete?.();
+          }}
+        />
+      )}
+      {done && (
+        <p className="lesson-hint lesson-hint-done" role="status">
+          {fr.lessons.shareObjectsDone(total, parts, result)}
         </p>
       )}
     </div>

@@ -24,8 +24,8 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 ## Leçon
 
 - **Classe / période** : CM1, période 4.
-- **Compétences liées** (`skillIds`) : `cm1-dec-add-sub`, `cm1-dec-mul-div-10`, `cm1-dec-mul-int` — exercices : la fiche « Exercices CM1 — Calculer avec les nombres décimaux ».
-- **Objectif** : poser additions et soustractions en alignant les virgules, multiplier et diviser par 10, multiplier un décimal par un entier.
+- **Compétences liées** (`skillIds`) : `cm1-dec-add-sub`, `cm1-dec-mental`, `cm1-dec-mul-div-10`, `cm1-dec-mul-int` — exercices : la fiche « Exercices CM1 — Calculer avec les nombres décimaux ».
+- **Objectif** : calculer de tête et poser additions et soustractions en alignant les virgules, multiplier et diviser par 10, multiplier un décimal par un entier.
 - **Durée visée** : 3 à 5 minutes, 10 slides.
 - **Vocabulaire du programme** : « virgule », « dixième », « centième », « produit ».
 
@@ -37,7 +37,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 | 2 | **Aligner les virgules** — 12,5 + 3,75 : 12,50 au-dessus de 3,75, virgule sous virgule. | `columnOperation` (décimal) |
 | 3 | **Les zéros** — 8,4 − 2,65 : on écrit 8,40 pour avoir des centièmes. | `columnOperation` (soustraction) |
 | 4 | **À toi** — Interaction : 25,3 + 4,87. | `columnOperation` (interactif) |
-| 5 | **De tête** — 4,6 + 3 = 7,6 : seule la partie entière change. | `placeValueTable` |
+| 5 | **De tête** — 4,6 + 3 = 7,6 ; 4,25 + 0,3 = 4,55 : seul le chiffre du rang ajouté change. | `placeValueTable` |
 | 6 | **× 10 et ÷ 10** — 3,6 × 10 = 36 ; 3,6 ÷ 10 = 0,36 : les chiffres glissent. | `placeValueTable` (shift) |
 | 7 | **× un entier** — 4,25 × 3 : 425 centièmes × 3 = 1 275 centièmes = 12,75. | `columnOperation` (multiplication) |
 | 8 | **Estimer** — 4,25 × 3 ≈ 4 × 3 = 12 : la virgule est au bon endroit. | `calcChain` |
@@ -76,7 +76,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/cm1-calculer-avec-les-decimaux.json`, validée par `lesson.schema.json`, `skillIds` = `cm1-dec-add-sub`, `cm1-dec-mul-div-10`, `cm1-dec-mul-int`.
+- [ ] Leçon `content/lessons/math/cm1-calculer-avec-les-decimaux.json`, validée par `lesson.schema.json`, `skillIds` = `cm1-dec-add-sub`, `cm1-dec-mental`, `cm1-dec-mul-div-10`, `cm1-dec-mul-int`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
 - [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).

@@ -35,9 +35,9 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique po
 |---|---|---|
 | 1 | **Titre** — « Multiplier par 10, 100, 1 000 et par des dizaines ou des centaines » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
 | 2 | **× 10** — Chaque chiffre de 45 avance d'un rang : 450. | `placeValueTable` (shift) |
-| 3 | **× 100 et × 1 000** — 45 × 100 = 4 500 ; 45 × 1 000 = 45 000. | `placeValueTable` (shift 2, 3) |
+| 3 | **× 100 et × 1 000** — 45 × 100 = 4 500 ; 8 × 1 000 = 8 000. | `placeValueTable` (shift 2, 3) |
 | 4 | **Pas « ajouter un zéro »** — On ne colle pas des zéros : les chiffres changent de valeur. | `placeValueTable` |
-| 5 | **À toi** — Interaction : fais glisser les chiffres de 307 pour × 100. | `placeValueTable` (interactif) |
+| 5 | **À toi** — Interaction : fais glisser les chiffres de 37 pour × 100. | `placeValueTable` (interactif) |
 | 6 | **Des centaines** — 7 × 300 : 7 rangées de 3 plaques de cent. | `arrayGrid` + `tensUnits` |
 | 7 | **21 centaines** — 7 × 3 = 21 → 21 centaines = 2 100. | `calcChain` |
 | 8 | **Le piège du 5 × 4** — 5 × 400 = 20 centaines = 2 000. | `calcChain` |
@@ -59,8 +59,8 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 
 ## Quiz de fin de leçon (SUB001411)
 
-1. 38 × 1 000 = ?
-2. 7 × 300 = ? (QCM : 210, 2 100, 21 000)
+1. 38 × 100 = ?
+2. 7 × 300 = ? (QCM : 21, 210, 2 100)
 3. … × 100 = 4 500
 4. 5 × 400 = ?
 

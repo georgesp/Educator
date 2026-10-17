@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-num-line",
+  "subject": "math",
+  "grade": "CP",
+  "period": 4,
+  "title": "Placer les nombres sur une ligne graduée",
+  "instruction": "Trouve le nombre, ou sa place sur la ligne graduée.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 1,
+    "max": 99
+  },
+  "lineSteps": [
+    1
+  ],
+  "formats": [
+    "numberLinePoint"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — placer des nombres sur une demi-droite graduée de 1 en 1 ; morceaux de ligne de 10 graduations, entre deux dizaines. Période 4 : choix d'Educator."
+}

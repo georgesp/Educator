@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-problems-two-steps",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "title": "Problèmes en deux étapes",
+  "instruction": "Écoute l'histoire, puis trouve la réponse.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "twoSteps"
+    ],
+    "maxNumber": 30,
+    "templates": [
+      "two-steps-gain-loss",
+      "two-steps-garage-day",
+      "two-steps-three-places",
+      "two-steps-bus",
+      "two-steps-bus-down-up",
+      "two-steps-money"
+    ]
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — problèmes additifs en deux étapes, nombres jusqu'à 30 (bus à 29 enfants, 12 descendent, 7 montent). Période 5 : choix d'Educator."
+}

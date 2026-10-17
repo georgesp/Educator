@@ -905,3 +905,30 @@ fn the_ce1_lesson_on_tens_and_hundreds_goes_up_to_one_hundred() {
     });
     assert_eq!(Some((65, vec![5, 30])), to_100);
 }
+
+/// SUB012204, SUB012207: the lessons of the CP never show the signs × and ÷ (not before the CE1):
+/// no array or table of products, no product equation, no solved bar model of groups.
+#[test]
+fn cp_lessons_never_show_the_signs_times_or_divide() {
+    for path in lesson_files() {
+        let lesson = read_json(&path);
+        if lesson["grade"] != "CP" || lesson["subject"] != "math" {
+            continue;
+        }
+        let texts = serde_json::to_string(&lesson).unwrap();
+        assert!(
+            !texts.contains('×') && !texts.contains('÷'),
+            "{}",
+            path.display()
+        );
+        for slide in lesson["slides"].as_array().unwrap() {
+            let a = &slide["animation"];
+            let kind = a["type"].as_str().unwrap();
+            let shows_product = kind == "arrayGrid"
+                || (kind == "timesTable" && a["operation"] == "multiply")
+                || (kind == "equation" && a["operation"] == "multiply")
+                || (kind == "barModel" && a["kind"] == "groups" && a["solve"] == true);
+            assert!(!shows_product, "{}: {a}", path.display());
+        }
+    }
+}

@@ -58,7 +58,8 @@ Signe inversé ; ordre selon le dernier chiffre ; encadrement à la mauvaise uni
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Comparer, ranger et encadrer jusqu'à 10 000 » (`skillIds` de la leçon).
 
 ## Sources

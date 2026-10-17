@@ -23,13 +23,14 @@ En tant qu'enfant de CM1, je veux m'entraîner à additionner, soustraire et mul
 
 ## Ce que dit le programme
 
-- Programme du cycle 3 (2025), CM1 : poser additions et soustractions de décimaux ; multiplier un décimal par un entier inférieur à 10 ; ajouter ou soustraire un entier inférieur à 10 à un décimal sans retenue ; multiplier et diviser un décimal par 10.
+- Programme du cycle 3 (2025), CM1 : poser additions et soustractions de décimaux ; multiplier un décimal par un entier inférieur à 10 ; ajouter ou soustraire à un décimal, sans retenue, un nombre inférieur à 10 d'unités, de dizaines, de centaines, de dixièmes ou de centièmes ; multiplier et diviser un décimal par 10.
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-dec-add-sub` | 4 | Additions et soustractions de décimaux | Décimaux jusqu'aux centièmes, posées (alignement des virgules) ; calcul mental : décimal ± entier < 10 sans retenue | `result`, affichage posé |
+| `cm1-dec-add-sub` | 4 | Additions et soustractions de décimaux | Décimaux jusqu'aux centièmes, posées (alignement des virgules) | `result`, affichage posé |
+| `cm1-dec-mental` | 4 | Calculer de tête avec un décimal | Ajouter ou soustraire, sans retenue, 1 à 9 unités, dizaines, centaines, dixièmes ou centièmes (4,25 + 0,3 ; 12,47 − 0,05 ; 6,2 + 30) | `result`, `missingOperand` |
 | `cm1-dec-mul-div-10` | 4 | Multiplier et diviser un décimal par 10 | d × 10 et d ÷ 10, d jusqu'aux centièmes | `result`, `missingOperand` |
 | `cm1-dec-mul-int` | 5 | Multiplier un décimal par un entier | d × n avec n de 2 à 9, d jusqu'aux centièmes, posé | `result`, affichage posé |
 
@@ -42,6 +43,7 @@ le champ `source` (comme pour le CP et le CE1).
 - 8,4 − 2,65 = ? → 5,75.
 - 3,6 × 10 = ? → 36.
 - 4,25 × 3 = ? → 12,75.
+- 4,25 + 0,3 = ? (de tête) → 4,55.
 
 ## Évolutions du moteur et de l'écran de série
 
@@ -49,7 +51,7 @@ le champ `source` (comme pour le CP et le CE1).
 
 ## Distracteurs (QCM)
 
-Virgules non alignées (12,5 + 3,75 = 4,00), × 10 en « ajoutant un zéro » (3,60), virgule mal placée au produit.
+Virgules non alignées, chiffres alignés à droite (12,5 + 3,75 = 5,00), × 10 en « ajoutant un zéro » (3,60), virgule mal placée au produit, rang confondu en calcul mental (4,25 + 0,3 = 4,28).
 
 ## Critères d'acceptation
 

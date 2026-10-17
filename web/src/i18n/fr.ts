@@ -384,6 +384,9 @@ export const fr = {
     sharePart: (index: number) => `Part ${index}`,
     shareLeft: "Les blocs à partager",
     shareDone: (result: number) => `Bravo ! Chaque part a ${result}.`,
+    shareObjectsAsk: (names: readonly [string, string]) => `Distribue les ${names[1]} : à chaque clic, le suivant va dans la part suivante, chacun son tour.`,
+    shareEachAsk: "Combien chaque part en a-t-elle ?",
+    shareObjectsDone: (total: number, parts: number, result: number) => `Bravo ! ${total} partagé en ${parts} parts égales : ${result} dans chaque part.`,
     /** Numeration (compareNumbers, placeValueTable). */
     rankLetters: { Thousands: "m", Hundreds: "c", Tens: "d", Units: "u" } as Record<RankName, string>,
     rankNames: { Thousands: "milliers", Hundreds: "centaines", Tens: "dizaines", Units: "unités" } as Record<RankName, string>,

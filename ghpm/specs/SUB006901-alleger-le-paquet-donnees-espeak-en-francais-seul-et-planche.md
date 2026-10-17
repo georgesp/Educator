@@ -1,8 +1,17 @@
 ---
+# Managed by GHPM: do not edit these keys
+id: PVTI_lAHOACppGM4BmYInzhBXoFA
+url: https://github.com/georgesp/Educator/issues/291
 type: Issue
-title: "Alléger le paquet : données espeak en français seul et planche des accessoires hors du paquet"
+repository: georgesp/Educator
+labels: []
+# Editable
+title: "SUB006901 — Alléger le paquet : données espeak en français seul et planche des accessoires hors du paquet"
 status: Backlog
 size: S
+estimate:
+startDate:
+endDate:
 parent: "#69"
 order: 665
 ---

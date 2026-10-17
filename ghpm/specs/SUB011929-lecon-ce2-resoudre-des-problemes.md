@@ -24,9 +24,9 @@ En tant qu'enfant de CE2, je veux une leçon courte et animée qui m'explique un
 ## Leçon
 
 - **Classe / période** : CE2, période 1.
-- **Compétences liées** (`skillIds`) : `ce2-problems-additive`, `ce2-problems-multiplicative`, `ce2-problems-mixed` — exercices : la fiche « Exercices CE2 — Résoudre des problèmes ».
+- **Compétences liées** (`skillIds`) : `ce2-problems-additive`, `ce2-problems-multiplicative`, `ce2-problems-mixed`, `ce2-problems-fractions` — exercices : la fiche « Exercices CE2 — Résoudre des problèmes ».
 - **Objectif** : suivre quatre étapes (comprendre, schématiser, calculer, répondre) et utiliser le schéma en barres.
-- **Durée visée** : 3 à 5 minutes, 10 slides.
+- **Durée visée** : 3 à 5 minutes, 11 slides.
 - **Vocabulaire du programme** : « problème », « donnée », « question », « schéma », « réponse ».
 
 ## Déroulé (scénario des slides)
@@ -41,8 +41,9 @@ En tant qu'enfant de CE2, je veux une leçon courte et animée qui m'explique un
 | 6 | **Fois plus** — 3 fois plus : la petite barre est reportée 3 fois. | `barModel` (fois plus) |
 | 7 | **À toi** — Interaction : place les nombres de l'histoire sur le schéma. | `barModel` (interactif) |
 | 8 | **Deux étapes** — Interaction : 125 billes, + 38, − 20 : l'enfant enchaîne les deux calculs. | `barModel` + `calcChain` (interactif) |
-| 9 | **Répondre** — Une phrase réponse et une vérification : est-ce que c'est possible ? | `equation` |
-| 10 | **Je retiens** — « Je lis et je raconte l'histoire, je fais un schéma, je calcule, puis je réponds par une phrase et je vérifie. » | `recapCard` |
+| 9 | **Avec des fractions** — Trois amis mangent 1/10, 3/10 et 2/10 du gâteau : on ajoute les dixièmes (6/10), il reste 4/10. | `barModel` + `fractionBar` |
+| 10 | **Répondre** — Une phrase réponse et une vérification : est-ce que c'est possible ? | `equation` |
+| 11 | **Je retiens** — « Je lis et je raconte l'histoire, je fais un schéma, je calcule, puis je réponds par une phrase et je vérifie. » | `recapCard` |
 
 Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
 détaillé) se fait dans le fichier JSON. « Interaction » : l'enfant manipule (glisser, cliquer) ; la leçon attend son
@@ -50,7 +51,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 
 ## Animations
 
-- Utilisées : `barModel`, `calcChain`, `equation`, `recapCard`, `titleCard`, décrites dans la fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Utilisées : `barModel`, `calcChain`, `equation`, `fractionBar`, `recapCard`, `titleCard`, décrites dans la fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
 - **Patte graphique** : charte « S1 · Grand Prix » (SUB000105) — fond blanc, surfaces `#F3F3F5`, texte graphite,
   rouge course `#D7262B` pour ce qui est nouveau ou important, Lexend pour le texte et Barlow Condensed italique pour
   les titres, bandeau damier, parallélogrammes ; les objets (voitures, casques, drapeaux, pneus) reprennent la palette
@@ -62,7 +63,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 1. Problème parties-tout lu par la voix (saisie)
 2. Quelle opération ? « 3 fois plus que 45 » (QCM : +, −, ×)
 3. Problème en deux étapes (saisie)
-4. Quel schéma correspond à l'histoire ? (QCM de 3 schémas)
+4. Problème de comparaison « 25 de plus que » (saisie)
 
 Chaque question a une explication courte, affichée et lue après la réponse.
 
@@ -75,9 +76,9 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/ce2-resoudre-des-problemes.json`, validée par `lesson.schema.json`, `skillIds` = `ce2-problems-additive`, `ce2-problems-multiplicative`, `ce2-problems-mixed`.
+- [ ] Leçon `content/lessons/math/ce2-resoudre-des-problemes.json`, validée par `lesson.schema.json`, `skillIds` = `ce2-problems-additive`, `ce2-problems-multiplicative`, `ce2-problems-mixed`, `ce2-problems-fractions`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
 - [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
 - [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
@@ -87,4 +88,5 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
 - Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Fiche « Extensions des animations et du quiz des leçons du CE2 » : `barModel` « fois plus », `fractionBar` dans un problème ; quiz à choix en mots et en signes d'opération.
 - Mascotte (SUB001417) : facultative, la leçon fonctionne sans.

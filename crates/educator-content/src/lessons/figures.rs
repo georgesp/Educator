@@ -574,9 +574,10 @@ pub fn group_objects(file: GroupObjectsFile) -> Result<Animation, String> {
                 GroupMode::Join { .. }
                     | GroupMode::Remove { .. }
                     | GroupMode::GroupBy { .. }
+                    | GroupMode::Share { .. }
                     | GroupMode::SortParity { .. }
             ),
-        "groupObjects: interactive only to join, remove, groupBy or sortParity.",
+        "groupObjects: interactive only to join, remove, groupBy, share or sortParity.",
     )?;
     ensure(
         !(file.interactive && file.commute),

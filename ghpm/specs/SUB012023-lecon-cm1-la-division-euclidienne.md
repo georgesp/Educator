@@ -34,15 +34,15 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique ce
 | # | À l'écran et à la voix | Animation / interaction |
 |---|---|---|
 | 1 | **Titre** — « La division euclidienne » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
-| 2 | **Un partage qui ne tombe pas juste** — 38 pneus pour des voitures de 5… 7 voitures, il reste 3 pneus. | `groupObjects` (groupBy 5) |
-| 3 | **L'écrire** — 38 = 5 × 7 + 3 ; quotient 7, reste 3. | `equation` |
-| 4 | **Le reste est petit** — S'il restait 6 pneus, on pourrait faire une voiture de plus. | `groupObjects` |
+| 2 | **Un partage qui ne tombe pas juste** — 38 pneus pour des voitures de 4… 9 voitures, il reste 2 pneus. | `groupObjects` (groupBy 5) |
+| 3 | **L'écrire** — 38 = 4 × 9 + 2 ; quotient 9, reste 2. | `equation` |
+| 4 | **Le reste est petit** — S'il restait 4 pneus ou plus, on pourrait équiper une voiture de plus. | `groupObjects` |
 | 5 | **À toi** — Interaction : 29 casques en paquets de 4. | `groupObjects` (groupBy, interactif) |
 | 6 | **Poser** — 847 ÷ 6 : combien de fois 6 dans 8 ? 1, reste 2 ; on abaisse le 4… | `columnOperation` (division) |
-| 7 | **Le zéro au quotient** — 847 ÷ 4 : 4 dans 4, 1 ; 4 dans 0… 0 ! → 211, reste 3. | `columnOperation` |
+| 7 | **Le zéro au quotient** — 832 ÷ 4 : 4 dans 8, 2 ; 4 dans 3, 0 fois : on écrit 0 au quotient ! Puis 4 dans 32, 8 → 208. | `columnOperation` |
 | 8 | **Vérifier** — 6 × 141 + 1 = 847. | `equation` |
 | 9 | **À toi** — Interaction : 965 ÷ 7 posée. | `columnOperation` (interactif) |
-| 10 | **Je retiens** — « 38 = 5 × 7 + 3 : 7 est le quotient, 3 le reste. Le reste est toujours plus petit que le diviseur. » | `recapCard` |
+| 10 | **Je retiens** — « 38 = 4 × 9 + 2 : 9 est le quotient, 2 le reste. Le reste est toujours plus petit que le diviseur. » | `recapCard` |
 
 Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
 détaillé) se fait dans le fichier JSON. « Interaction » : l'enfant manipule (glisser, cliquer) ; la leçon attend son
@@ -62,7 +62,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 1. 38 ÷ 5 : quotient et reste ?
 2. Dans 847 ÷ 6, quel est le quotient ? (QCM : 140, 141, 14)
 3. Le reste peut-il être 7 quand on divise par 5 ?
-4. 57 élèves, voitures de 4 places : combien de voitures faut-il ?
+4. 30 élèves, voitures de 4 places : combien de voitures faut-il ?
 
 Chaque question a une explication courte, affichée et lue après la réponse.
 

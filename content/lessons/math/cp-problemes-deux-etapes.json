@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-problemes-deux-etapes",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "skillIds": ["cp-problems-two-steps", "cp-problems-mixed"],
+  "title": "Problèmes en deux étapes et problèmes variés",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : des histoires en deux étapes, et des histoires de paquets et de partages.",
+      "speech": "Aujourd’hui, tu vas résoudre des histoires en deux étapes, et des histoires où l’on fait des paquets ou des partages.",
+      "animation": { "type": "titleCard", "title": "Problèmes en deux étapes", "subtitle": "Et problèmes variés" }
+    },
+    {
+      "title": "Une histoire en deux temps",
+      "text": "Sur la grille, 19 voitures. 6 partent au stand. Puis 4 reviennent.",
+      "speech": "Écoute l’histoire. Sur la grille, il y a 19 voitures. 6 voitures partent au stand. Puis 4 voitures reviennent. Combien de voitures y a-t-il sur la grille ?",
+      "animation": { "type": "groupObjects", "mode": "remove", "total": 19, "removed": 6 }
+    },
+    {
+      "title": "Deuxième étape",
+      "text": "19 − 6 = 13, puis 13 + 4 = 17.",
+      "speech": "Première étape : 6 voitures partent. 19 moins 6, 13. Deuxième étape : 4 voitures reviennent. 13 plus 4, 17. Il y a 17 voitures.",
+      "animation": { "type": "calcChain", "chains": [{"start": 19, "steps": [-6, 4]}] }
+    },
+    {
+      "title": "À toi !",
+      "text": "13 casques ; on en apporte 5. Joue la deuxième étape.",
+      "speech": "À toi ! Il reste 13 casques au stand. On en apporte 5. Joue l’histoire, puis dis combien de casques il y a.",
+      "animation": { "type": "groupObjects", "mode": "join", "object": "helmet", "counts": [13, 5], "interactive": true }
+    },
+    {
+      "title": "Des paquets pareils",
+      "text": "3 boîtes de 5 pneus : 5 + 5 + 5 = 15 pneus.",
+      "speech": "Une autre histoire : 3 boîtes de 5 pneus. Combien de pneus ? 3 fois 5 : 5 plus 5 plus 5, 15 pneus.",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "object": "tire", "counts": [15], "size": 5 }
+    },
+    {
+      "title": "Un partage",
+      "text": "18 drapeaux pour 3 pilotes, autant chacun : 6 drapeaux.",
+      "speech": "Encore une autre histoire : 18 drapeaux pour 3 pilotes, autant pour chacun. On distribue un par un : chacun a 6 drapeaux.",
+      "animation": { "type": "groupObjects", "mode": "share", "object": "flag", "total": 18, "parts": 3 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Partage 10 cônes entre 2 pilotes.",
+      "speech": "À toi ! Partage 10 cônes entre 2 pilotes, un par un, puis dis combien chacun en a.",
+      "animation": { "type": "groupObjects", "mode": "share", "object": "cone", "total": 10, "parts": 2, "interactive": true }
+    },
+    {
+      "title": "Quelle histoire ?",
+      "text": "On ajoute, on enlève, on fait des paquets pareils, ou on partage.",
+      "speech": "Pour chaque histoire, je me demande ce qui se passe : on ajoute, on enlève, on fait des paquets pareils, ou on partage ? Les mots seuls ne suffisent pas. Dans l’histoire des voitures, 4 voitures reviennent : on ajoute, 13 plus 4.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [13, 4], "unknown": "whole", "solve": true }
+    },
+    {
+      "title": "Je vérifie",
+      "text": "17 voitures : 13 + 4 = 17, et 17 + 6 − 4 = 19.",
+      "speech": "Je vérifie : avec les 6 voitures du stand moins les 4 revenues, je retrouve bien les 19 voitures du début.",
+      "animation": { "type": "calcChain", "chains": [{"start": 17, "steps": [6, -4]}] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Les problèmes :",
+      "speech": "Je retiens : une histoire peut avoir deux étapes. Je fais la première, puis la deuxième. Je cherche ce qui se passe : on ajoute, on enlève, on fait des paquets pareils, ou on partage.",
+      "animation": { "type": "recapCard", "text": "Une histoire peut avoir deux étapes : je fais la première, puis la deuxième. Je cherche ce qui se passe : ajouter, enlever, faire des paquets pareils ou partager.", "example": "19 − 6 = 13 ; 13 + 4 = 17" }
+    }
+  ],
+  "quiz": [
+    { "question": "29 enfants ; 12 descendent, 7 montent ?", "spoken": "Dans le bus, il y a 29 enfants. 12 enfants descendent, puis 7 enfants montent. Combien d’enfants y a-t-il dans le bus ?", "answer": 24, "explanation": "29 − 12 = 17, puis 17 + 7 = 24." },
+    { "question": "3 boîtes de 7 pneus ?", "spoken": "3 boîtes de 7 pneus : combien de pneus en tout ?", "answer": 21, "explanation": "3 fois 7 : 7 + 7 + 7 = 21." },
+    { "question": "18 drapeaux pour 3 pilotes ?", "spoken": "18 drapeaux pour 3 pilotes, autant pour chacun. Combien chacun ? Choisis la bonne réponse.", "answer": 6, "choices": [6, 15, 21], "explanation": "6 + 6 + 6 = 18 : chacun a 6 drapeaux." },
+    { "question": "24 enfants, équipes de 4 ?", "spoken": "24 enfants font des équipes de 4. Combien d’équipes ?", "answer": 6, "explanation": "4 + 4 + 4 + 4 + 4 + 4 = 24 : 6 équipes." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, résolution de problèmes : additifs en deux étapes (nombres jusqu'à 30), multiplicatifs en une étape et partages équitables",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

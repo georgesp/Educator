@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-num-to-100",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "title": "Dizaines et unités jusqu'à 100",
+  "instruction": "Trouve le nombre, ou écris le nombre que tu entends.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 20,
+    "max": 99
+  },
+  "formats": [
+    "recompose",
+    "decompose",
+    "placeValue",
+    "numberDictation"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — quantités jusqu'à 100 au plus tard en période 3 ; les nombres de soixante-dix à quatre-vingt-dix-neuf, difficiles à dire, sont fréquents (de 20 à 99) ; 100 est travaillé dans la comparaison et dans la leçon (sans le mot « centaine »)."
+}

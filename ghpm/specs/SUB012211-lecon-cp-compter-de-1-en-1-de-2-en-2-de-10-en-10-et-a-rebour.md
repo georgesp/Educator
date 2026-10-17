@@ -25,9 +25,9 @@ En tant qu'enfant de CP, je veux une leçon courte et animée qui m'explique com
 
 - **Classe / période** : CP, période 1.
 - **Compétences liées** (`skillIds`) : `cp-count-1-2`, `cp-count-10-back`, `cp-ordinals` — exercices : la fiche « Exercices CP — Compter de 1 en 1, de 2 en 2, de 10 en 10 et à rebours ».
-- **Objectif** : compter de 1 en 1, de 2 en 2, de 10 en 10 et à rebours depuis n'importe quel nombre.
+- **Objectif** : compter de 1 en 1, de 2 en 2, de 10 en 10 et à rebours depuis n'importe quel nombre (nombres jusqu'à 30 environ en période 1) ; repérer un rang avec les ordinaux, dans une file et dans une suite répétitive.
 - **Durée visée** : 3 à 5 minutes, 11 slides.
-- **Vocabulaire du programme** : « compter », « à rebours », « suivant », « précédent ».
+- **Vocabulaire du programme** : « compter », « à rebours », « suivant », « précédent », « premier », « deuxième », « rang ».
 
 ## Déroulé (scénario des slides)
 
@@ -43,7 +43,7 @@ En tant qu'enfant de CP, je veux une leçon courte et animée qui m'explique com
 | 8 | **Motifs** — Drapeau rouge, drapeau blanc… lequel est le 9e ? | `sequencePattern` (motifs) |
 | 9 | **À toi** — Interaction : trouve le nombre caché dans la suite à rebours. | `sequencePattern` (interactif) |
 | 10 | **Premier, deuxième…** — La course : la voiture rouge est 1re, la bleue 2e… Devant la 4e, il y a 3 voitures. Interaction : clique sur la 6e. | `groupObjects` (file, interactif) |
-| 11 | **Je retiens** — « De 2 en 2, je saute un nombre. De 10 en 10, seul le chiffre des dizaines change. » | `recapCard` |
+| 11 | **Je retiens** — « De 2 en 2, je saute un nombre. De 10 en 10, seul le chiffre des dizaines change. Devant la 4e voiture, il y a 3 voitures. » | `recapCard` |
 
 Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
 détaillé) se fait dans le fichier JSON. « Interaction » : l'enfant manipule (glisser, cliquer) ; la leçon attend son
@@ -66,7 +66,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 4. Rouge, blanc, rouge, blanc : 9e drapeau ?
 5. Clique sur la quatrième voiture (file de 8).
 
-Chaque question a une explication courte, affichée et lue après la réponse.
+Chaque question a une explication courte, affichée après la réponse et lisible au clic (rien n'est lu tout seul, décision du 2026-10-15).
 
 ## Sources
 
@@ -79,7 +79,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - [ ] Leçon `content/lessons/math/cp-compter-suites.json`, validée par `lesson.schema.json`, `skillIds` = `cp-count-1-2`, `cp-count-10-back`, `cp-ordinals`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
 - [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
 - [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.

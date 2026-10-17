@@ -63,7 +63,7 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 1. 2 456 + 3 789 = ?
 2. 5 003 − 1 278 = ? (QCM : 3 725, 3 735, 4 275)
 3. Combien de retenues dans 2 456 + 3 789 ?
-4. Comment s'appelle le résultat d'une soustraction ?
+4. Comment s'appelle le résultat d'une soustraction ? (QCM : somme, différence, produit)
 
 Chaque question a une explication courte, affichée et lue après la réponse.
 
@@ -78,7 +78,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - [ ] Leçon `content/lessons/math/ce2-additions-soustractions-posees-10000.json`, validée par `lesson.schema.json`, `skillIds` = `ce2-add-4-digits`, `ce2-sub-4-digits`, `ce2-money-add-sub`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
 - [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
 - [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
@@ -88,6 +88,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
 - Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Fiche « Extensions des animations et du quiz des leçons du CE2 » : `columnOperation` à quatre chiffres, à trois termes et avec des prix (virgule) ; quiz à choix en mots.
 - Mascotte (SUB001417) : facultative, la leçon fonctionne sans.
 
 ## Remarques et décisions

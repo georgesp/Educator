@@ -95,7 +95,7 @@ impl GroupObjects {
             return Vec::new();
         }
         match self.mode {
-            GroupMode::Join { .. } | GroupMode::Remove { .. } => {
+            GroupMode::Join { .. } | GroupMode::Remove { .. } | GroupMode::Share { .. } => {
                 let result = self.result();
                 if result == 0 {
                     vec![0, 1, 2]

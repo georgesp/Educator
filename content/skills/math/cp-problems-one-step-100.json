@@ -1,0 +1,38 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-problems-one-step-100",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "title": "Problèmes en une étape jusqu'à 100",
+  "instruction": "Écoute l'histoire, puis trouve la réponse.",
+  "operation": "problem",
+  "problems": {
+    "kinds": [
+      "partWhole",
+      "transformation"
+    ],
+    "maxNumber": 100,
+    "startMaxNumber": 59,
+    "templates": [
+      "part-whole-total",
+      "part-whole-part",
+      "part-whole-school",
+      "transformation-gain",
+      "transformation-loss",
+      "transformation-unknown-change",
+      "transformation-unknown-start",
+      "transformation-loss-unknown-start",
+      "transformation-birds",
+      "transformation-eat"
+    ]
+  },
+  "formats": [
+    "problem"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — problèmes parties-tout et transformations en une étape, données jusqu'à 100 ; soustractions par cassage de dizaines dès la période 3 ; inconnue aussi sur l'état initial, énoncés qui n'induisent pas l'opération (« il en a perdu 5, il lui en reste 12 »)."
+}

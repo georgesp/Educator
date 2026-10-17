@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-dizaines-et-unites",
+  "subject": "math",
+  "grade": "CP",
+  "period": 1,
+  "skillIds": ["cp-num-to-59"],
+  "title": "Les nombres jusqu’à 59 : dizaines et unités",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : les dizaines et les unités.",
+      "speech": "Aujourd’hui, tu vas apprendre à compter par paquets de dix : les dizaines, et les unités.",
+      "animation": { "type": "titleCard", "title": "Les nombres jusqu’à 59", "subtitle": "Dizaines et unités" }
+    },
+    {
+      "title": "Par paquets de 10",
+      "text": "18 voitures : un paquet de 10 et 8 voitures seules.",
+      "speech": "Pour compter beaucoup de voitures, je fais des paquets de 10. Ici, 18 voitures : un paquet de 10, et 8 voitures toutes seules.",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "counts": [18], "size": 10 }
+    },
+    {
+      "title": "Barres et cubes",
+      "text": "1 paquet de 10 = 1 barre ; une voiture seule = 1 cube.",
+      "speech": "Un paquet de 10, je le dessine avec une barre. Une voiture seule, avec un cube. 3 barres et 4 cubes : 34.",
+      "animation": { "type": "tensUnits", "value": 34 }
+    },
+    {
+      "title": "Écrire 34",
+      "text": "Le 3 compte les dizaines, le 4 compte les unités.",
+      "speech": "Pour écrire 34, le chiffre 3 est à la place des dizaines : 3 paquets de 10. Le chiffre 4 est à la place des unités : 4 cubes.",
+      "animation": { "type": "placeValueTable", "value": 34, "focus": "tens" }
+    },
+    {
+      "title": "À toi !",
+      "text": "Fais des paquets de 10 avec les 26 casques.",
+      "speech": "À toi ! Voici 26 casques. Fais des paquets de 10. Combien de paquets, et combien de casques seuls ?",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "object": "helmet", "counts": [26], "size": 10, "interactive": true }
+    },
+    {
+      "title": "34 ou 43 ?",
+      "text": "43 : 4 barres et 3 cubes. Ce n’est pas 34 (3 barres et 4 cubes).",
+      "speech": "Attention ! 34, c’est 3 barres et 4 cubes. 43, c’est 4 barres et 3 cubes. Ce ne sont pas les mêmes nombres : 43 est plus grand.",
+      "animation": { "type": "tensUnits", "value": 43 }
+    },
+    {
+      "title": "Les dizaines entières",
+      "text": "4 barres et aucun cube : 40, quarante.",
+      "speech": "4 barres et aucun cube : 4 dizaines, 0 unité. C’est 40, quarante. Le 0 dit qu’il n’y a pas de cube.",
+      "animation": { "type": "tensUnits", "value": 40 }
+    },
+    {
+      "title": "Le dire et l’écrire",
+      "text": "Trente-quatre : trente, ce sont 3 dizaines, et quatre unités. 34 = 30 + 4.",
+      "speech": "Trente-quatre : trente, ce sont 3 dizaines, et quatre, ce sont 4 unités. 34, c’est 30 plus 4.",
+      "animation": { "type": "placeValueTable", "value": 34, "decomposition": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "Fabrique 52 avec les barres et les cubes.",
+      "speech": "À toi ! Fabrique le nombre cinquante-deux avec les barres et les cubes.",
+      "animation": { "type": "tensUnits", "value": 52, "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Dizaines et unités :",
+      "speech": "Je retiens : dans 34, le 3 compte les dizaines, 3 paquets de 10, et le 4 compte les unités. 34 et 43 ne sont pas pareils.",
+      "animation": { "type": "recapCard", "text": "Dans 34, le 3 compte les dizaines (3 paquets de 10) et le 4 compte les unités. 34 et 43 ne sont pas pareils.", "example": "34 = 30 + 4" }
+    }
+  ],
+  "quiz": [
+    { "question": "3 barres et 4 cubes ?", "spoken": "3 barres de dix et 4 cubes : quel nombre est-ce ?", "answer": 34, "explanation": "3 dizaines et 4 unités : 34." },
+    { "question": "Écris en chiffres : cinquante-trois.", "spoken": "Écris en chiffres le nombre : cinquante-trois.", "answer": 53, "explanation": "Cinquante-trois : 5 dizaines et 3 unités, 53." },
+    { "question": "4 dizaines et 7 unités ?", "spoken": "4 dizaines et 7 unités : quel nombre est-ce ? Choisis la bonne réponse.", "answer": 47, "choices": [47, 74, 11], "explanation": "4 dizaines et 7 unités : 47. Le 4 est à la place des dizaines." },
+    { "question": "Combien de dizaines dans 52 ?", "spoken": "Combien y a-t-il de dizaines dans 52 ?", "answer": 5, "explanation": "52 = 50 + 2 : 5 dizaines et 2 unités." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, nombres : base dix dès la période 1, quantités jusqu'à 59 au plus tard en période 2 (3 dizaines et 4 unités = 34)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

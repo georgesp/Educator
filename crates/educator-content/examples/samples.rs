@@ -1,7 +1,8 @@
 //! Writes the samples of the generation rules, for the manual review (20 exercises per skill,
 //! seeds 1 and 2, QCM mode when the skill has it):
 //! - `docs/specs/echantillons-lot1.md`: additions and subtractions of CP and CE1 (SUB000108, SUB000112);
-//! - `docs/specs/echantillons-ce1.md`: the CE1 complements (SUB000118 to SUB000124).
+//! - `docs/specs/echantillons-ce1.md`: the CE1 complements (SUB000118 to SUB000124);
+//! - `docs/specs/echantillons-cp.md`: the CP complements (lot 7, US0122).
 //!
 //! `cargo run -p educator-content --example samples` (from the repository root).
 
@@ -50,6 +51,20 @@ fn main() {
         true,
     );
     write(&root.join("docs/specs/echantillons-ce1.md"), &ce1);
+
+    let cp = samples(
+        &content,
+        "# Échantillons des compléments du CP\n\n\
+         Lot 7 (US0122) : 20 exercices générés par compétence (graines 1 et 2, mode QCM quand la compétence le propose), \
+         pour la revue manuelle. Les 11 compétences d'addition et de soustraction du lot 1 sont dans `echantillons-lot1.md`.\n\
+         Régénérés avec `cargo run -p educator-content --example samples`. `?` marque la réponse attendue de l'enfant ; \
+         entre crochets : les propositions du QCM ; entre parenthèses : l'image, la saisie particulière ou ce que \
+         l'enfant entend au clic ; après « Correction » : ce qui est affiché après une erreur.\n",
+        &[Grade::CP],
+        &|s: &Skill| !additive(s),
+        true,
+    );
+    write(&root.join("docs/specs/echantillons-cp.md"), &cp);
 }
 
 fn write(path: &Path, text: &str) {
@@ -124,6 +139,9 @@ fn choices(exercise: &Exercise) -> String {
 
 fn detailed_line(exercise: &Exercise) -> String {
     let mut line = format!("- `{}`", exercise.prompt());
+    if exercise.format.needs_listening() {
+        let _ = write!(line, " (entendu au clic : « {} »)", exercise.spoken);
+    }
     if let Some(picture) = &exercise.picture {
         let _ = write!(line, " ({})", describe(picture));
     }

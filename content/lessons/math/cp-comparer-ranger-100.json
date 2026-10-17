@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-comparer-ranger-100",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-num-compare", "cp-num-line"],
+  "title": "Comparer, ranger et placer les nombres jusqu’à 100",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : comparer, ranger et placer les nombres jusqu’à 100.",
+      "speech": "Aujourd’hui, tu vas apprendre à comparer les nombres, à les ranger, et à les placer sur la piste.",
+      "animation": { "type": "titleCard", "title": "Comparer, ranger et placer", "subtitle": "Les nombres jusqu’à 100" }
+    },
+    {
+      "title": "Qui en a le plus ?",
+      "text": "49 voitures : 4 barres et 9 cubes.",
+      "speech": "Léa a 49 voitures : 4 barres de dix et 9 cubes. Tom en a 53 : 5 barres et 3 cubes. Qui en a le plus ?",
+      "animation": { "type": "tensUnits", "value": 49 }
+    },
+    {
+      "title": "D’abord les dizaines",
+      "text": "4 dizaines contre 5 dizaines : 53 est plus grand.",
+      "speech": "Je regarde d’abord les dizaines. 49 a 4 dizaines, 53 en a 5. Donc 53 est plus grand, même si 9 cubes, c’est beaucoup.",
+      "animation": { "type": "compareNumbers", "a": 49, "b": 53 }
+    },
+    {
+      "title": "Les signes",
+      "text": "49 < 53 : la pointe montre le plus petit.",
+      "speech": "On écrit 49 plus petit que 53 avec le signe inférieur. La pointe du signe montre toujours le plus petit nombre.",
+      "animation": { "type": "compareNumbers", "a": 49, "b": 53 }
+    },
+    {
+      "title": "Mêmes dizaines",
+      "text": "36 et 34 : 3 dizaines chacun, on regarde les unités.",
+      "speech": "36 et 34 ont le même nombre de dizaines : 3. Alors je regarde les unités : 6 est plus grand que 4. Donc 36 est plus grand que 34.",
+      "animation": { "type": "compareNumbers", "a": 36, "b": 34 }
+    },
+    {
+      "title": "À toi !",
+      "text": "61 … 16 : choisis le bon signe.",
+      "speech": "À toi ! Compare 61 et 16. Regarde bien les dizaines, puis choisis le bon signe.",
+      "animation": { "type": "compareNumbers", "a": 61, "b": 16, "interactive": true }
+    },
+    {
+      "title": "Ranger",
+      "text": "Range les voitures sur la grille de départ, du plus petit au plus grand.",
+      "speech": "À toi ! Les voitures numérotées 38, 83 et 35 vont sur la grille de départ. Range-les du plus petit au plus grand.",
+      "animation": { "type": "sequencePattern", "values": [38, 83, 35], "interactive": true }
+    },
+    {
+      "title": "Sur la piste",
+      "text": "Plus on avance sur la piste, plus les nombres sont grands.",
+      "speech": "Sur la piste graduée, les nombres sont rangés dans l’ordre. Plus la voiture avance, plus les nombres sont grands.",
+      "animation": { "type": "numberLine", "from": 0, "to": 100, "step": 10, "start": 0, "flags": [50, 100] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Avance la voiture jusqu’à 47.",
+      "speech": "À toi ! La voiture est sur 40. Fais-la avancer jusqu’à 47.",
+      "animation": { "type": "numberLine", "from": 30, "to": 50, "step": 1, "start": 40, "jumps": [7], "interactive": true, "flags": [40] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour comparer :",
+      "speech": "Je retiens : je regarde d’abord les dizaines. 49 a 4 dizaines, 53 en a 5, donc 49 est plus petit que 53. Si les dizaines sont pareilles, je regarde les unités.",
+      "animation": { "type": "recapCard", "text": "Je regarde d’abord les dizaines ; si elles sont pareilles, je regarde les unités.", "example": "49 < 53" }
+    }
+  ],
+  "quiz": [
+    { "question": "49 … 53", "spoken": "Compare 49 et 53. Choisis le bon signe.", "answer": "<", "choices": ["<", ">", "="], "explanation": "49 a 4 dizaines, 53 en a 5 : 49 < 53." },
+    { "question": "61 … 16", "spoken": "Compare 61 et 16. Choisis le bon signe.", "answer": ">", "choices": ["<", ">", "="], "explanation": "61 a 6 dizaines, 16 en a une seule : 61 > 16." },
+    { "question": "Le plus grand : 38, 83 ou 35 ?", "spoken": "Quel est le plus grand nombre : 38, 83 ou 35 ?", "answer": 83, "choices": [38, 83, 35], "explanation": "83 a 8 dizaines : c’est le plus grand." },
+    { "question": "Après 59 ?", "spoken": "Quel nombre vient juste après 59 sur la piste ?", "answer": 60, "explanation": "59 + 1 = 60 : 6 dizaines." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, nombres : comparer avec =, < et > (49 et 53), ordonner jusqu'à cinq nombres, placer des nombres sur une demi-droite graduée de 1 en 1",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

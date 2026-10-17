@@ -1050,3 +1050,35 @@ fn a_timed_challenge_earns_the_usual_points() {
     let summary = f.service.finish(timed.id).unwrap();
     assert_eq!(100, summary.points_percent);
 }
+
+/// SUB012205: without the voice, a series of a skill that also has formats played without it
+/// never asks a number dictation.
+#[test]
+fn without_the_voice_a_series_asks_no_number_dictation() {
+    use educator_core::exercises::exam::Listening;
+    use educator_core::skills::{ExerciseFormat, OperandRule, SkillOperation};
+    let mut numbers = skill("cp-numbers");
+    numbers.operation = SkillOperation::Numeration;
+    numbers.params.numbers = Some(OperandRule::range(10, 59));
+    numbers.formats = vec![ExerciseFormat::NumberDictation, ExerciseFormat::Recompose];
+    let mut f = fixture(vec![numbers]);
+    f.service = f.service.with_listening(Listening::Unavailable);
+    for seed in 0..20 {
+        let series = f
+            .service
+            .start(
+                f.profile.id,
+                "cp-numbers",
+                AnswerMode::Keyboard,
+                None,
+                Some(seed),
+                2,
+            )
+            .unwrap();
+        assert!(series
+            .exercises
+            .iter()
+            .all(|e| e.format == ExerciseFormat::Recompose));
+        f.service.abandon(series.id).ok();
+    }
+}

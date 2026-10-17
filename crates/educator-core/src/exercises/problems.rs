@@ -2,11 +2,12 @@
 //! objects and numbers drawn at random, every number checked by the template's rules. After a
 //! mistake, the correction comes with a bar model (or the groups of a multiplication).
 
-use super::expression::Expression;
+use super::expression::{Expression, Operator};
 use super::family::{number_choices, Draw, Position};
 use super::{Answer, BarSegment, Exercise, Input, Picture, Token};
 use crate::random::SeededRng;
 use crate::skills::{AnswerMode, ExerciseFormat, Skill};
+use crate::Grade;
 use rand::Rng;
 use std::collections::HashMap;
 
@@ -68,6 +69,9 @@ pub struct ProblemTemplate {
     /// Typical wrong answers (wrong operation, one step only).
     pub mistakes: Vec<Expression>,
     pub help: Option<ProblemHelp>,
+    /// Grades whose skills may use the template (empty: every grade). The CP templates say
+    /// « fois » instead of × (SUB012208).
+    pub grades: Vec<Grade>,
 }
 
 /// A first name and whether it takes « elle ».
@@ -102,6 +106,9 @@ pub struct ProblemSet {
     pub max_number: i64,
     /// Smaller scale for the first exercises of a series (100 before 1 000).
     pub start_max_number: Option<i64>,
+    /// No carry in the additions and no borrowed ten in the subtractions of the answer (CP before
+    /// period 3, SUB012208).
+    pub no_carry: bool,
 }
 
 /// Draws of numbers tried for a template before giving up this draw.
@@ -124,7 +131,7 @@ pub fn draw(
         Some(start) if position.is_early() => start,
         _ => set.max_number,
     };
-    let values = draw_numbers(template, scale, random)?;
+    let values = draw_numbers_with(template, scale, set.no_carry, random)?;
     let exercise = build(template, set, &values, mode, random)?;
     Some(Draw {
         exercise,
@@ -137,6 +144,35 @@ pub fn draw(
 pub fn draw_numbers(
     template: &ProblemTemplate,
     scale: i64,
+    random: &mut impl Rng,
+) -> Option<HashMap<String, i64>> {
+    draw_numbers_with(template, scale, false, random)
+}
+
+/// Whether a calculation of `expression` carries a ten (37 + 25) or borrows one (43 − 18).
+fn carries(expression: &Expression, values: &HashMap<String, i64>) -> bool {
+    let Expression::Binary(operator, left, right) = expression else {
+        return false;
+    };
+    if carries(left, values) || carries(right, values) {
+        return true;
+    }
+    let (Some(l), Some(r)) = (left.evaluate(values), right.evaluate(values)) else {
+        return false;
+    };
+    match operator {
+        Operator::Add => l % 10 + r % 10 >= 10,
+        Operator::Subtract => l % 10 < r % 10,
+        _ => false,
+    }
+}
+
+/// [`draw_numbers`], and with `no_carry` no carry nor borrowed ten in the derived values and the
+/// answer (SUB012208).
+pub fn draw_numbers_with(
+    template: &ProblemTemplate,
+    scale: i64,
+    no_carry: bool,
     random: &mut impl Rng,
 ) -> Option<HashMap<String, i64>> {
     'draws: for _ in 0..NUMBER_DRAWS {
@@ -168,8 +204,12 @@ pub fn draw_numbers(
             .iter()
             .filter(|(name, _)| name.as_str() != "max")
             .all(|(_, v)| (0..=scale).contains(v));
+        let carry_ok = !no_carry
+            || (!carries(&template.answer, &values)
+                && template.derived.iter().all(|(_, e)| !carries(e, &values)));
         if answer > 0
             && numbers_ok
+            && carry_ok
             && template
                 .checks
                 .iter()
@@ -342,6 +382,8 @@ fn build(
     }
     mistakes.push(answer + 10);
     mistakes.push(answer - 10);
+    // Within the numbers of the skill: no 190 in a problem of the CP up to 100.
+    mistakes.retain(|m| i64::from(*m) <= set.max_number);
 
     let (input, choices) = match mode {
         AnswerMode::Keyboard => (Input::Number { slots: 1 }, None),

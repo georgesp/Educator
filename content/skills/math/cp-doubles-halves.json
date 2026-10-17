@@ -1,0 +1,59 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-doubles-halves",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "title": "Doubles et moitiés à connaître",
+  "instruction": "Trouve le double ou la moitié.",
+  "operation": "doubleHalf",
+  "doubles": {
+    "min": 1,
+    "max": 50,
+    "values": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      20,
+      30,
+      40,
+      50
+    ]
+  },
+  "halves": {
+    "min": 2,
+    "max": 100,
+    "values": [
+      2,
+      4,
+      6,
+      8,
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      40,
+      60,
+      80,
+      100
+    ]
+  },
+  "formats": [
+    "phrase",
+    "result"
+  ],
+  "answerModes": [
+    "keyboard",
+    "choice"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — faits numériques : doubles des nombres de 1 à 10 et de 20, 30, 40, 50 ; moitiés des nombres pairs de 2 à 20 et de 40, 60, 80, 100 ; attendu de fin de CP : 8 doubles ou moitiés en une minute. Période 3 : choix d'Educator."
+}

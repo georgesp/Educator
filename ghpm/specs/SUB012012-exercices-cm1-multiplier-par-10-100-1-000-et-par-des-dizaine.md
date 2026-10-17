@@ -24,12 +24,13 @@ En tant qu'enfant de CM1, je veux m'entraîner à multiplier de tête par 10, 10
 ## Ce que dit le programme
 
 - Programme du cycle 3 (2025), CM1, calcul mental : multiplier un entier par 10, 100 ou 1 000 ; multiplier un entier inférieur à 10 par un nombre de dizaines ou de centaines.
+- Périodes 1 et 2 : nombres d'au plus quatre chiffres ; cinq ou six chiffres à partir de la période 3 ou du début de la période 4.
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-mul-10-100-1000` | 1 | Multiplier par 10, 100 et 1 000 | n × 10, × 100, × 1 000 avec résultat ≤ 999 999 ; facteur manquant | `result`, `missingOperand` |
+| `cm1-mul-10-100-1000` | 1 | Multiplier par 10, 100 et 1 000 | n × 10, × 100, × 1 000 avec résultat ≤ 9 999 en périodes 1 et 2, ≤ 999 999 à partir de la période 3 ; facteur manquant | `result`, `missingOperand` |
 | `cm1-mul-tens-hundreds` | 2 | Multiplier par des dizaines ou des centaines | a × b0 et a × b00 avec a et b de 2 à 9 (7 × 300, 60 × 8) | `result`, `missingOperand` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
@@ -37,13 +38,13 @@ le champ `source` (comme pour le CP et le CE1).
 
 ## Exemples d'exercices
 
-- 38 × 1 000 = ? → 38 000.
+- 7 × 1 000 = ? → 7 000 (38 × 1 000 = 38 000 à partir de la période 3).
 - 7 × 300 = ? → 2 100.
 - … × 100 = 4 500 → 45.
 
 ## Évolutions du moteur et de l'écran de série
 
-- Aucun : opération `multiplication` créée au lot 1 (CE1).
+- Opération `multiplication` créée au lot 1 (CE1) ; plage de nombres selon la période (section « Taille des nombres selon la période » de US0120).
 
 ## Distracteurs (QCM)
 

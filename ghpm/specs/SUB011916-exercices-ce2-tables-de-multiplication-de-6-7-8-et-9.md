@@ -30,7 +30,7 @@ En tant qu'enfant de CE2, je veux m'entraîner à connaître les tables de 6, 7,
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
 | `ce2-mul-tables-6-9` | 3 | Tables de 6, 7, 8 et 9 | a × b avec a ∈ {6, 7, 8, 9}, b de 1 à 10, ordre au hasard | `result`, `missingOperand` |
-| `ce2-mul-tables-all` | 4 | Toutes les tables | a × b de 2 à 10, faits les moins sûrs plus fréquents quand la révision espacée (lot 3) existera | `result`, `missingOperand` |
+| `ce2-mul-tables-all` | 4 | Toutes les tables | a × b de 2 à 10, faits les moins sûrs plus fréquents grâce à la difficulté adaptative et à la révision espacée du lot 3 (SUB001508, SUB001509) | `result`, `missingOperand` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -55,7 +55,8 @@ Table voisine, ± un facteur, inversion des chiffres (63 / 36 pour 9 × 7 et 9 �
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Tables de multiplication de 6, 7, 8 et 9 » (`skillIds` de la leçon).
 
 ## Sources

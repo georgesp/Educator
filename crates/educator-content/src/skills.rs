@@ -5,11 +5,11 @@
 use crate::problems::{load_problems, template_works_at, ProblemBank, KINDS};
 use crate::words::{load_words, WordBank, CATEGORIES};
 use crate::{ContentProblem, Loaded};
-use educator_core::exercises::{distinct_count, ProblemSet};
+use educator_core::exercises::{distinct_count, ProblemSet, ProblemTemplate};
 use educator_core::skills::{
-    AnswerMode, CarryRule, ExerciseFormat, OperandRule, Placement, Progression, Skill,
-    SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture, SpellingTheme,
-    Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
+    AnswerMode, CarryRule, ExerciseFormat, GroupKind, GroupsRule, OperandRule, Placement,
+    Progression, Skill, SkillCatalog, SkillConstraints, SkillOperation, SkillParams, SkillPicture,
+    SpellingTheme, Subject, TrivialCase, FIRST_PERIOD, LAST_PERIOD,
 };
 use educator_core::spelling::{WordFilter, WordSet};
 use educator_core::Grade;
@@ -174,12 +174,14 @@ struct SkillFile {
     source: String,
     also_offered: Option<Vec<PlacementFile>>,
     numbers: Option<OperandFile>,
+    line_steps: Option<Vec<i32>>,
     focus: Option<Vec<i32>>,
     progression: Option<String>,
     picture: Option<String>,
     doubles: Option<OperandFile>,
     halves: Option<OperandFile>,
     times_twenty_five: Option<Vec<i32>>,
+    groups: Option<GroupsFile>,
     fractions: Option<FractionsFile>,
     problems: Option<ProblemsFile>,
     words: Option<WordFilterFile>,
@@ -201,6 +203,15 @@ struct WordFilterFile {
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct GroupsFile {
+    kinds: Vec<String>,
+    count: OperandFile,
+    size: OperandFile,
+    max_total: i32,
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct FractionsFile {
     denominators: Vec<u32>,
     #[serde(default)]
@@ -213,6 +224,10 @@ struct ProblemsFile {
     kinds: Vec<String>,
     max_number: i64,
     start_max_number: Option<i64>,
+    /// Only these templates of the kinds (their ids).
+    templates: Option<Vec<String>>,
+    #[serde(default)]
+    no_carry: bool,
 }
 
 #[derive(Deserialize)]
@@ -530,11 +545,17 @@ const OPERATIONS: &[(&str, SkillOperation)] = &[
     ("multiplication", SkillOperation::Multiplication),
     ("numeration", SkillOperation::Numeration),
     ("doubleHalf", SkillOperation::DoubleHalf),
+    ("groups", SkillOperation::Groups),
     ("fraction", SkillOperation::Fraction),
     ("problem", SkillOperation::Problem),
     ("spelling", SkillOperation::Spelling),
 ];
 const FORMATS: &[(&str, ExerciseFormat)] = &ExerciseFormat::NAMES;
+const GROUP_KINDS: &[(&str, GroupKind)] = &[
+    ("times", GroupKind::Times),
+    ("share", GroupKind::Share),
+    ("groupBy", GroupKind::GroupBy),
+];
 
 /// Formats each family can generate.
 fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
@@ -549,6 +570,7 @@ fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
             F::Decompose,
             F::PlaceValue,
             F::WriteNumber,
+            F::NumberDictation,
             F::ReadNumber,
             F::Compare,
             F::Order,
@@ -557,7 +579,7 @@ fn family_formats(operation: SkillOperation) -> &'static [ExerciseFormat] {
             F::YesNo,
             F::MultiChoice,
         ],
-        SkillOperation::DoubleHalf => &[F::Phrase, F::Result],
+        SkillOperation::DoubleHalf | SkillOperation::Groups => &[F::Phrase, F::Result],
         SkillOperation::Fraction => &[F::FractionPicture, F::FractionWords, F::Compare, F::Result],
         SkillOperation::Problem => &[F::Problem],
         SkillOperation::Spelling => &[F::Dictation, F::MissingLetters, F::ChooseSpelling],
@@ -594,6 +616,11 @@ fn family_params(
         &[SkillOperation::Numeration],
     );
     only_for(
+        file.line_steps.is_some(),
+        "lineSteps",
+        &[SkillOperation::Numeration],
+    );
+    only_for(
         file.focus.is_some(),
         "focus",
         &[SkillOperation::Multiplication],
@@ -608,6 +635,7 @@ fn family_params(
         "doubles, halves and timesTwentyFive",
         &[SkillOperation::DoubleHalf],
     );
+    only_for(file.groups.is_some(), "groups", &[SkillOperation::Groups]);
     only_for(
         file.fractions.is_some(),
         "fractions",
@@ -629,6 +657,7 @@ fn family_params(
     };
     let mut params = SkillParams {
         numbers: file.numbers.as_ref().map(operand),
+        line_steps: file.line_steps.clone().unwrap_or_default(),
         focus: file.focus.clone().unwrap_or_default(),
         doubles: file.doubles.as_ref().map(operand),
         halves: file.halves.as_ref().map(operand),
@@ -679,6 +708,13 @@ fn family_params(
             if file.numbers.as_ref().is_some_and(|n| n.max > 1_000_000) {
                 errors.push("numbers: at most 1 000 000.".to_owned());
             }
+            if params
+                .line_steps
+                .iter()
+                .any(|step| ![1, 10, 100].contains(step))
+            {
+                errors.push("lineSteps: steps of 1, 10 or 100.".to_owned());
+            }
         }
         SkillOperation::DoubleHalf => {
             if params.doubles.is_none()
@@ -695,6 +731,39 @@ fn family_params(
                 errors.push("timesTwentyFive: numbers from 1 to 40.".to_owned());
             }
         }
+        SkillOperation::Groups => match &file.groups {
+            None => errors.push("groups is required for groups.".to_owned()),
+            Some(groups) => {
+                let kinds: Vec<GroupKind> = groups
+                    .kinds
+                    .iter()
+                    .filter_map(|k| parse_enum(k, "groups.kinds", GROUP_KINDS, errors))
+                    .collect();
+                if kinds.is_empty() {
+                    errors.push("groups.kinds must not be empty.".to_owned());
+                }
+                let rule = GroupsRule {
+                    kinds,
+                    count: operand(&groups.count),
+                    size: operand(&groups.size),
+                    max_total: groups.max_total,
+                };
+                if rule.count.min < 2 || rule.size.min < 2 || !(4..=100).contains(&rule.max_total) {
+                    errors
+                        .push("groups: count and size from 2, at most 4 to 100 in all.".to_owned());
+                }
+                if rule
+                    .count
+                    .allowed_values()
+                    .first()
+                    .zip(rule.size.allowed_values().first())
+                    .is_none_or(|(c, s)| c * s > rule.max_total)
+                {
+                    errors.push("groups: no group fits in maxTotal.".to_owned());
+                }
+                params.groups = Some(rule);
+            }
+        },
         SkillOperation::Fraction => match &file.fractions {
             None => errors.push("fractions is required for fraction.".to_owned()),
             Some(fractions) => {
@@ -730,13 +799,32 @@ fn family_params(
                         "problems: need 1 <= startMaxNumber <= maxNumber <= 1 000 000.".to_owned(),
                     );
                 }
+                let grade = GRADES
+                    .iter()
+                    .find(|(name, _)| *name == file.grade)
+                    .map(|(_, g)| *g);
+                let chosen = |t: &ProblemTemplate| {
+                    problems
+                        .templates
+                        .as_ref()
+                        .is_none_or(|ids| ids.contains(&t.id))
+                        && (t.grades.is_empty() || grade.is_some_and(|g| t.grades.contains(&g)))
+                };
                 let mut templates = Vec::new();
                 for kind in &kinds {
-                    let of_kind: Vec<_> = bank.of_kind(*kind).cloned().collect();
+                    let of_kind: Vec<_> =
+                        bank.of_kind(*kind).filter(|t| chosen(t)).cloned().collect();
                     if of_kind.is_empty() {
                         errors.push(format!("problems: no template of kind {kind:?}."));
                     }
                     templates.extend(of_kind);
+                }
+                for id in problems.templates.iter().flatten() {
+                    if !templates.iter().any(|t| &t.id == id) {
+                        errors.push(format!(
+                            "problems.templates: '{id}' is not a template of the kinds for this grade."
+                        ));
+                    }
                 }
                 if scales_ok {
                     for template in &templates {
@@ -744,7 +832,7 @@ fn family_params(
                             .into_iter()
                             .flatten()
                         {
-                            if !template_works_at(template, scale) {
+                            if !template_works_at(template, scale, problems.no_carry) {
                                 errors.push(format!(
                                     "problems: template {} gives no numbers up to {scale}.",
                                     template.id
@@ -762,6 +850,7 @@ fn family_params(
                     words: bank.words.clone(),
                     max_number: problems.max_number,
                     start_max_number: problems.start_max_number,
+                    no_carry: problems.no_carry,
                 });
             }
         },

@@ -24,13 +24,14 @@ En tant qu'enfant de CM1, je veux m'entraîner à résoudre des problèmes en pl
 ## Ce que dit le programme
 
 - Programme du cycle 3 (2025), CM1 : quatre phases (comprendre, modéliser, calculer, répondre) ; au moins 10 problèmes par semaine.
+- Périodes 1 et 2 : nombres d'au plus quatre chiffres ; cinq ou six chiffres à partir de la période 3 ou du début de la période 4.
 - Problèmes additifs en une, deux ou trois étapes ; multiplicatifs parties-tout ; comparaison multiplicative ; mixtes ; dénombrement ; optimisation ; nombres jusqu'à 999 999, décimaux et fractions.
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-problems-multi-step` | 1 | Problèmes en plusieurs étapes | Gabarits additifs et mixtes en 2 ou 3 étapes, nombres ≤ 999 999 | `problem` |
+| `cm1-problems-multi-step` | 1 | Problèmes en plusieurs étapes | Gabarits additifs et mixtes en 2 ou 3 étapes, nombres ≤ 9 999 en périodes 1 et 2 (prix en euros et centimes, calculés comme au CE2, dès la période 1), jusqu'à 999 999 à partir de la période 3 | `problem` |
 | `cm1-problems-multiplicative` | 2 | Problèmes multiplicatifs et de comparaison | Groupements, partages avec reste, « fois plus / fois moins » | `problem` |
 | `cm1-problems-counting` | 4 | Dénombrement et optimisation | Combinaisons (tenues, menus), meilleur choix (lot le moins cher) | `problem` |
 
@@ -39,7 +40,7 @@ le champ `source` (comme pour le CP et le CE1).
 
 ## Exemples d'exercices
 
-- Un circuit fait 4 250 m. Une voiture fait 3 tours puis 1 200 m. Quelle distance ?
+- Un circuit fait 2 150 m. Une voiture fait 3 tours puis 1 200 m. Quelle distance ?
 - Un pneu coûte 4 fois moins qu'une jante à 96 €. Prix du pneu ?
 - Lot de 3 casques à 42 € ou casque à 15 € : le moins cher pour 6 casques ?
 

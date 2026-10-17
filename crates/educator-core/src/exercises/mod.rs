@@ -13,6 +13,7 @@ pub mod expression;
 mod family;
 mod fractions;
 mod generator;
+mod groups;
 mod numeration;
 mod presentation;
 mod problems;
@@ -32,8 +33,8 @@ pub use generator::{
 };
 pub use presentation::{BarSegment, FractionShape, Input, Picture, Token};
 pub use problems::{
-    draw_numbers, elide, fill, FirstName, Noun, ProblemHelp, ProblemKind, ProblemSet,
-    ProblemTemplate, ProblemWords, VariableRange, WORD_PLACEHOLDERS,
+    draw_numbers, draw_numbers_with, elide, fill, FirstName, Noun, ProblemHelp, ProblemKind,
+    ProblemSet, ProblemTemplate, ProblemWords, VariableRange, WORD_PLACEHOLDERS,
 };
 pub use series::{
     AnswerOutcome, NewSeries, Series, SeriesService, SeriesSummary, SkillResult, SERIES_CAPACITY,

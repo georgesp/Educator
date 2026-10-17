@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-doubles-et-moities",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "skillIds": ["cp-doubles-halves", "cp-half-even"],
+  "title": "Doubles et moitiés",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : les doubles et les moitiés.",
+      "speech": "Aujourd’hui, tu vas apprendre les doubles et les moitiés : ajouter le même nombre, ou partager en deux parts égales.",
+      "animation": { "type": "titleCard", "title": "Doubles et moitiés", "subtitle": "Deux fois pareil, partager en deux" }
+    },
+    {
+      "title": "Le miroir",
+      "text": "5 voitures et leur reflet : 5 + 5 = 10. Le double de 5 est 10.",
+      "speech": "Voici 5 voitures et leur reflet dans le miroir : encore 5 voitures. 5 + 5 = 10. Le double de 5, c’est 10.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [5, 5] }
+    },
+    {
+      "title": "Les doubles à connaître",
+      "text": "Les doubles de 1 à 10 s’allument dans la table.",
+      "speech": "Dans la table d’addition, les doubles sont sur la diagonale : 1 + 1, 2 + 2, jusqu’à 10 + 10. Il faut les connaître par cœur.",
+      "animation": { "type": "timesTable", "operation": "add", "size": 10, "highlights": [{"kind": "doubles"}] }
+    },
+    {
+      "title": "À toi !",
+      "text": "Fabrique le double de 6 : ajoute autant de voitures.",
+      "speech": "À toi ! Voici 6 voitures. Ajoute-en autant pour fabriquer le double de 6.",
+      "animation": { "type": "groupObjects", "mode": "join", "counts": [6, 6], "interactive": true }
+    },
+    {
+      "title": "La moitié",
+      "text": "14 casques pour 2 pilotes, autant chacun : 7 casques.",
+      "speech": "14 casques pour 2 pilotes. Chacun doit en avoir autant. On les distribue un par un : chaque pilote a 7 casques. La moitié de 14, c’est 7.",
+      "animation": { "type": "groupObjects", "mode": "share", "object": "helmet", "total": 14, "parts": 2 }
+    },
+    {
+      "title": "Double et moitié",
+      "text": "7 + 7 = 14, donc la moitié de 14 est 7.",
+      "speech": "Le double et la moitié vont ensemble : 7 + 7 = 14, donc la moitié de 14, c’est 7.",
+      "animation": { "type": "equation", "left": 7, "operation": "add", "right": 7, "family": true }
+    },
+    {
+      "title": "Les doubles des dizaines",
+      "text": "Double de 30 : 3 barres + 3 barres = 6 barres, 60.",
+      "speech": "Le double de 30 : 3 barres de dix, et encore 3 barres de dix. 6 barres : 60.",
+      "animation": { "type": "tensUnits", "value": 30, "add": 30 }
+    },
+    {
+      "title": "Moitié de 46",
+      "text": "4 barres et 6 cubes en deux : 2 barres et 3 cubes, 23.",
+      "speech": "Pour la moitié de 46, je partage les barres et les cubes en deux. 4 barres en deux : 2 barres. 6 cubes en deux : 3 cubes. La moitié de 46, c’est 23.",
+      "animation": { "type": "tensUnits", "value": 46, "share": 2 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Partage 68 en deux parts égales.",
+      "speech": "À toi ! Partage 68 en deux parts égales : d’abord les barres, puis les cubes.",
+      "animation": { "type": "tensUnits", "value": 68, "share": 2, "interactive": true }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Doubles et moitiés :",
+      "speech": "Je retiens : le double de 7, c’est 7 + 7, 14. La moitié de 14, c’est 7 : je partage en deux parts égales.",
+      "animation": { "type": "recapCard", "text": "Le double de 7, c’est 7 + 7 = 14. La moitié de 14, c’est 7 : je partage en deux parts égales.", "example": "46 = 40 + 6 → 20 + 3 = 23" }
+    }
+  ],
+  "quiz": [
+    { "question": "Double de 7 ?", "spoken": "Quel est le double de 7 ?", "answer": 14, "explanation": "7 + 7 = 14." },
+    { "question": "Moitié de 16 ?", "spoken": "Quelle est la moitié de 16 ? Choisis la bonne réponse.", "answer": 8, "choices": [6, 8, 32], "explanation": "8 + 8 = 16, donc la moitié de 16 est 8." },
+    { "question": "Double de 40 ?", "spoken": "Quel est le double de 40 ?", "answer": 80, "explanation": "4 barres et encore 4 barres : 8 barres, 80." },
+    { "question": "Moitié de 46 ?", "spoken": "Quelle est la moitié de 46 ?", "answer": 23, "explanation": "La moitié de 40 est 20, la moitié de 6 est 3 : 20 + 3 = 23." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, faits numériques : doubles de 1 à 10 et de 20, 30, 40, 50 ; moitiés des nombres pairs de 2 à 20 et de 40, 60, 80, 100 ; moitié d'un nombre pair en le décomposant (46)",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

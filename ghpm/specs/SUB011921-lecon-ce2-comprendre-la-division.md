@@ -77,7 +77,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - [ ] Leçon `content/lessons/math/ce2-comprendre-la-division.json`, validée par `lesson.schema.json`, `skillIds` = `ce2-div-tables`, `ce2-div-inverse`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
-- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
+- [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris et au doigt (iPad, ADR 0006).
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).
 - [ ] Nombres et vocabulaire conformes au programme du cycle 2, sources listées dans le fichier.
 - [ ] Quiz de 3 à 5 questions avec explications ; fin de leçon : bouton « Je m'entraîne » vers les exercices liés.
@@ -87,4 +87,5 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 - Format des leçons (SUB001409), lecteur de leçons (SUB001410), quiz (SUB001411).
 - Fiche « Bibliothèque d'animations des leçons de mathématiques (charte Grand Prix) ».
+- Fiche « Extensions des animations et du quiz des leçons du CE2 » : `equation` avec la division (« ÷ ») et la famille × / ÷.
 - Mascotte (SUB001417) : facultative, la leçon fonctionne sans.

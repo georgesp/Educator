@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "cp-num-compare",
+  "subject": "math",
+  "grade": "CP",
+  "period": 3,
+  "title": "Comparer et ranger les nombres",
+  "instruction": "Compare les nombres, puis range-les.",
+  "operation": "numeration",
+  "numbers": {
+    "min": 1,
+    "max": 100
+  },
+  "formats": [
+    "compare",
+    "order"
+  ],
+  "answerModes": [
+    "keyboard"
+  ],
+  "source": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025), CP — comparer des nombres avec =, < et > (49 et 53), ordonner jusqu'à cinq nombres, jusqu'à 100. Période 3 : choix d'Educator, avec les nombres jusqu'à 100 (au plus tard en période 3)."
+}

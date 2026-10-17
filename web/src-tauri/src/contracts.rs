@@ -296,7 +296,8 @@ impl From<skills::SkillOperation> for SkillFamily {
     fn from(operation: skills::SkillOperation) -> Self {
         use skills::SkillOperation as O;
         match operation {
-            O::Addition | O::Subtraction | O::Mixed => SkillFamily::Calculation,
+            // The equal groups of the CP have no « Mes tables » (no sign × yet).
+            O::Addition | O::Subtraction | O::Mixed | O::Groups => SkillFamily::Calculation,
             O::Multiplication => SkillFamily::Multiplication,
             O::Numeration => SkillFamily::Numeration,
             O::DoubleHalf => SkillFamily::DoubleHalf,

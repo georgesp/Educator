@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-problemes-une-etape",
+  "subject": "math",
+  "grade": "CP",
+  "period": 2,
+  "skillIds": ["cp-problems-one-step", "cp-problems-one-step-100"],
+  "title": "Résoudre des problèmes en une étape",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : comprendre une histoire de nombres et y répondre.",
+      "speech": "Aujourd’hui, tu vas apprendre à résoudre des problèmes : écouter une histoire, la comprendre, et trouver la réponse.",
+      "animation": { "type": "titleCard", "title": "Résoudre des problèmes", "subtitle": "Des histoires en une étape" }
+    },
+    {
+      "title": "Une histoire",
+      "text": "Sur le parking, il y a 16 voitures. 5 voitures partent.",
+      "speech": "Écoute l’histoire. Sur le parking, il y a 16 voitures. 5 voitures partent. Combien de voitures reste-t-il ? Je joue l’histoire : les voitures partent.",
+      "animation": { "type": "groupObjects", "mode": "remove", "total": 16, "removed": 5 }
+    },
+    {
+      "title": "La réponse",
+      "text": "16 − 5 = 11 : il reste 11 voitures.",
+      "speech": "Des voitures sont parties, il en reste moins qu’au début. 16 moins 5, ça fait 11. Il reste 11 voitures sur le parking.",
+      "animation": { "type": "calcChain", "chains": [{"start": 16, "steps": [-5]}] }
+    },
+    {
+      "title": "Le schéma",
+      "text": "Une barre pour le tout : 16. Une partie part : 5. Une partie reste : ?",
+      "speech": "Je peux aussi dessiner l’histoire : une grande barre pour les 16 voitures du début, coupée en deux parties : 5 qui partent, et celles qui restent.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [11, 5], "unknown": "part1", "solve": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "Léo a 12 casques. On lui en donne 5. Joue l’histoire.",
+      "speech": "À toi ! Léo a 12 casques. On lui en donne 5. Joue l’histoire, puis dis combien de casques il a maintenant.",
+      "animation": { "type": "groupObjects", "mode": "join", "object": "helmet", "counts": [12, 5], "interactive": true }
+    },
+    {
+      "title": "Attention au mot",
+      "text": "Tom a perdu 5 drapeaux. Il lui en reste 12. Combien en avait-il ?",
+      "speech": "Écoute bien. Tom a perdu 5 drapeaux. Il lui en reste 12. Combien en avait-il avant ? Le mot perdu ne suffit pas : avant, il en avait plus. 12 plus 5 : 17.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [12, 5], "unknown": "whole", "solve": true }
+    },
+    {
+      "title": "Encore une histoire",
+      "text": "Léa a reçu 4 billes. Maintenant, elle en a 16. Combien en avait-elle ?",
+      "speech": "Léa a reçu 4 billes. Maintenant, elle en a 16. Combien en avait-elle avant ? Elle a reçu des billes, mais je cherche le début : 16 moins 4, 12.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [12, 4], "unknown": "part1", "solve": true }
+    },
+    {
+      "title": "À toi !",
+      "text": "18 oiseaux sur le fil, 13 restent. Place les nombres dans le schéma.",
+      "speech": "À toi ! Il y avait 18 oiseaux sur le fil. Certains s’envolent, il en reste 13. Place les nombres dans le schéma, puis trouve combien d’oiseaux se sont envolés.",
+      "animation": { "type": "barModel", "kind": "parts", "parts": [13, 5], "unknown": "part2", "solve": true, "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "11 voitures, c’est moins que 16 ; 17 drapeaux, c’est plus que 12.",
+      "speech": "Je vérifie toujours ma réponse : 11 voitures, c’est bien moins que 16, puisque des voitures sont parties. 17 drapeaux, c’est bien plus que 12.",
+      "animation": { "type": "calcChain", "chains": [{"start": 11, "steps": [5]}] }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Pour résoudre un problème :",
+      "speech": "Je retiens : j’écoute l’histoire, je la raconte avec mes mots, je la joue ou je la dessine. Je cherche ce qui se passe, pas un mot. Puis je calcule et je vérifie.",
+      "animation": { "type": "recapCard", "text": "J’écoute l’histoire, je la raconte avec mes mots, je la joue ou je la dessine. Je cherche ce qui se passe, pas un mot. Puis je calcule et je vérifie.", "example": "perdu 5, reste 12 : 12 + 5 = 17" }
+    }
+  ],
+  "quiz": [
+    { "question": "16 voitures, 5 partent ?", "spoken": "Sur le parking, il y a 16 voitures. 5 voitures partent. Combien en reste-t-il ?", "answer": 11, "explanation": "16 − 5 = 11 : il reste 11 voitures." },
+    { "question": "12 casques, on en donne 5 ?", "spoken": "Léo a 12 casques. On lui en donne 5. Combien de casques a-t-il maintenant ?", "answer": 17, "explanation": "12 + 5 = 17 : Léo a 17 casques." },
+    { "question": "Perdu 5, il en reste 12 ?", "spoken": "Tom a perdu 5 drapeaux. Il lui en reste 12. Combien en avait-il avant ? Choisis la bonne réponse.", "answer": 17, "choices": [7, 12, 17], "explanation": "Avant, il en avait plus : 12 + 5 = 17." },
+    { "question": "Reçu 4, elle en a 16 ?", "spoken": "Léa a reçu 4 billes. Maintenant, elle en a 16. Combien en avait-elle avant ?", "answer": 12, "explanation": "Avant, elle en avait moins : 16 − 4 = 12." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, résolution de problèmes : parties-tout et transformations en une étape ; reformuler l'histoire, énoncés qui n'induisent pas l'opération",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

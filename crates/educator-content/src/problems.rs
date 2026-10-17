@@ -4,10 +4,11 @@
 use crate::{ContentProblem, Loaded};
 use educator_core::exercises::expression::Expression;
 use educator_core::exercises::{
-    draw_numbers, FirstName, Noun, ProblemHelp, ProblemKind, ProblemTemplate, ProblemWords,
+    draw_numbers_with, FirstName, Noun, ProblemHelp, ProblemKind, ProblemTemplate, ProblemWords,
     VariableRange, WORD_PLACEHOLDERS,
 };
 use educator_core::random::SeededRng;
+use educator_core::Grade;
 use rand::SeedableRng;
 use serde::Deserialize;
 use std::collections::{BTreeMap, HashSet};
@@ -63,6 +64,8 @@ struct TemplateFile {
     #[serde(default)]
     mistakes: Vec<String>,
     help: Option<HelpFile>,
+    #[serde(default)]
+    grades: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -383,6 +386,14 @@ fn parse_template(file: TemplateFile) -> Result<ProblemTemplate, Vec<String>> {
         }
     };
 
+    let mut grades = Vec::new();
+    for name in &file.grades {
+        match Grade::ALL.into_iter().find(|g| g.to_string() == *name) {
+            Some(grade) => grades.push(grade),
+            None => errors.push(format!("grades: unknown grade '{name}'.")),
+        }
+    }
+
     if !errors.is_empty() {
         return Err(errors);
     }
@@ -398,13 +409,14 @@ fn parse_template(file: TemplateFile) -> Result<ProblemTemplate, Vec<String>> {
         solution: file.solution.trim().to_owned(),
         mistakes,
         help,
+        grades,
     })
 }
 
 /// Whether a template gives numbers at this scale (a few hundred draws).
-pub fn template_works_at(template: &ProblemTemplate, scale: i64) -> bool {
+pub fn template_works_at(template: &ProblemTemplate, scale: i64, no_carry: bool) -> bool {
     let mut random = SeededRng::seed_from_u64(7);
-    (0..20).any(|_| draw_numbers(template, scale, &mut random).is_some())
+    (0..20).any(|_| draw_numbers_with(template, scale, no_carry, &mut random).is_some())
 }
 
 fn is_id(id: &str) -> bool {

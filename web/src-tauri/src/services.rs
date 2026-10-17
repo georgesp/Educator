@@ -2645,7 +2645,8 @@ mod tests {
         let lessons = f.services.lessons(Grade::CP, Subject::Math, None).unwrap();
 
         assert_eq!(Grade::CP, lessons.lessons_grade);
-        assert_eq!(11, lessons.lessons.len());
+        // The 11 lessons of lot 1 and the 8 of lot 7 written so far (US0122).
+        assert_eq!(19, lessons.lessons.len());
         for summary in &lessons.lessons {
             assert!(summary.id.starts_with("cp-"), "{}", summary.id);
             assert_eq!(

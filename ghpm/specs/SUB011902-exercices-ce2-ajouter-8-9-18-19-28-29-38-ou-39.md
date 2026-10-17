@@ -55,7 +55,8 @@ Erreur de compensation (+ 2 au lieu de − 2 : 188), oubli de la compensation (1
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] Les tables d'addition du CE1 (`ce1-add-tables`) sont aussi proposées au CE2 en période 1 (`alsoOffered`), pour la fluence attendue en fin de CE2 (15 égalités à trou en une minute).
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Ajouter 8, 9, 18, 19, 28, 29, 38 ou 39 » (`skillIds` de la leçon).
 

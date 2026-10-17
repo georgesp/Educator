@@ -1,0 +1,88 @@
+{
+  "$schema": "../../schemas/lesson.schema.json",
+  "id": "cp-partager-grouper",
+  "subject": "math",
+  "grade": "CP",
+  "period": 5,
+  "skillIds": ["cp-share-group"],
+  "title": "Partager et faire des groupes",
+  "durationMinutes": 4,
+  "slides": [
+    {
+      "title": "Leçon",
+      "text": "Aujourd’hui : partager et faire des groupes.",
+      "speech": "Aujourd’hui, tu vas apprendre à partager pour que chacun ait autant, et à faire des groupes pareils.",
+      "animation": { "type": "titleCard", "title": "Partager et faire des groupes", "subtitle": "Autant pour chacun" }
+    },
+    {
+      "title": "Un partage juste",
+      "text": "18 drapeaux pour 3 pilotes : chacun en a 6.",
+      "speech": "18 drapeaux pour 3 pilotes. Pour que ce soit juste, chacun doit en avoir autant. On les distribue un par un : chacun en a 6.",
+      "animation": { "type": "groupObjects", "mode": "share", "object": "flag", "total": 18, "parts": 3 }
+    },
+    {
+      "title": "À toi !",
+      "text": "Partage 12 casques entre 4 pilotes, un par un.",
+      "speech": "À toi ! Partage 12 casques entre 4 pilotes. Clique sur chaque casque : il va au pilote suivant, chacun son tour.",
+      "animation": { "type": "groupObjects", "mode": "share", "object": "helmet", "total": 12, "parts": 4, "interactive": true }
+    },
+    {
+      "title": "Vérifier",
+      "text": "6 + 6 + 6 = 18 : chacun a bien autant.",
+      "speech": "Je vérifie : 6 plus 6 plus 6, ça fait bien 18. Chacun a autant, le partage est juste.",
+      "animation": { "type": "calcChain", "chains": [{"start": 6, "steps": [6, 6]}] }
+    },
+    {
+      "title": "Partager en deux",
+      "text": "10 voitures pour 2 pilotes : 5 chacun, la moitié.",
+      "speech": "Partager en deux parts égales, c’est prendre la moitié. 10 voitures pour 2 pilotes : 5 chacun.",
+      "animation": { "type": "groupObjects", "mode": "share", "total": 10, "parts": 2 }
+    },
+    {
+      "title": "Faire des groupes",
+      "text": "20 voitures dans des garages de 4 : on forme des groupes de 4.",
+      "speech": "Maintenant, on ne partage pas : on fait des groupes. 20 voitures, et chaque garage a 4 places. Combien de garages faut-il ?",
+      "animation": { "type": "groupObjects", "mode": "groupBy", "counts": [20], "size": 4 }
+    },
+    {
+      "title": "Compter les groupes",
+      "text": "4 + 4 + 4 + 4 + 4 = 20 : 5 garages.",
+      "speech": "Je compte les groupes de 4 : 4, 8, 12, 16, 20. Il faut 5 garages.",
+      "animation": { "type": "calcChain", "chains": [{"start": 4, "steps": [4, 4, 4, 4]}] }
+    },
+    {
+      "title": "À toi !",
+      "text": "15 voitures en garages de 5 : choisis le bon calcul.",
+      "speech": "À toi ! 15 voitures, des garages de 5 places. Quel calcul montre les garages ? Choisis-le.",
+      "animation": { "type": "calcChain", "mode": "pick", "chains": [{"start": 5, "steps": [5], "crossed": true}, {"start": 5, "steps": [5, 5]}, {"start": 5, "steps": [5, 5, 5], "crossed": true}] }
+    },
+    {
+      "title": "Deux questions",
+      "text": "« Combien chacun ? » ou « combien de groupes ? »",
+      "speech": "Attention aux deux questions. Partager : combien chacun ? Faire des groupes : combien de groupes ? Les deux fois, les parts sont pareilles.",
+      "animation": { "type": "barModel", "kind": "groups", "groups": 3, "size": 6, "unknown": "size" }
+    },
+    {
+      "title": "Je retiens",
+      "text": "Partager et grouper :",
+      "speech": "Je retiens : partager équitablement, c’est donner autant à chacun. Je distribue un par un jusqu’à la fin. Pour faire des groupes, je compte les groupes pareils.",
+      "animation": { "type": "recapCard", "text": "Partager équitablement, c’est donner autant à chacun : je distribue un par un jusqu’à la fin.", "example": "18 pour 3 : 6 + 6 + 6 = 18" }
+    }
+  ],
+  "quiz": [
+    { "question": "18 images pour 3 enfants ?", "spoken": "18 images pour 3 enfants, autant pour chacun. Combien chacun ? Choisis la bonne réponse.", "answer": 6, "choices": [3, 6, 15], "explanation": "6 + 6 + 6 = 18 : chacun a 6 images." },
+    { "question": "24 élèves, équipes de 4 ?", "spoken": "24 élèves font des équipes de 4. Combien d’équipes ?", "answer": 6, "explanation": "4 + 4 + 4 + 4 + 4 + 4 = 24 : 6 équipes." },
+    { "question": "12 casques pour 2 pilotes ?", "spoken": "12 casques pour 2 pilotes, autant pour chacun. Combien chacun ?", "answer": 6, "explanation": "6 + 6 = 12 : la moitié de 12, c’est 6." },
+    { "question": "20 voitures, garages de 5 ?", "spoken": "20 voitures, des garages de 5 places. Combien de garages ?", "answer": 4, "explanation": "5 + 5 + 5 + 5 = 20 : 4 garages." }
+  ],
+  "sources": [
+    {
+      "title": "Programme de mathématiques du cycle 2 (arrêté du 22 octobre 2024, BO n°41 du 31 octobre 2024, en vigueur à la rentrée 2025) — CP, résolution de problèmes : partages équitables (24 élèves en équipes de 4 ; 18 images pour 3 enfants), nombres jusqu'à 30",
+      "url": "https://www.education.gouv.fr/sites/default/files/document/Annexe%204%20%E2%80%93%20Programme%20de%20math%C3%A9matiques%20du%20cycle%202-403821.pdf"
+    },
+    {
+      "title": "Les Fondamentaux (Réseau Canopé) — vidéos de mathématiques, pour les idées d'illustration uniquement (rédaction originale, rien n'est copié)",
+      "url": "https://www.reseau-canope.fr/lesfondamentaux/"
+    }
+  ]
+}

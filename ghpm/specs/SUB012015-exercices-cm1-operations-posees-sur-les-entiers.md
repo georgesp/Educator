@@ -19,35 +19,39 @@ order: 1420
 
 ## User story
 
-En tant qu'enfant de CM1, je veux m'entraîner à poser des additions, des soustractions et des multiplications de grands nombres afin de suivre le programme de ma classe.
+En tant qu'enfant de CM1, je veux m'entraîner à poser des additions, des soustractions et des multiplications de grands nombres et à estimer leur résultat afin de suivre le programme de ma classe.
 
 ## Ce que dit le programme
 
 - Programme du cycle 3 (2025), CM1 : additions, soustractions et multiplications posées utilisées dès le début de l'année selon les nombres en jeu ; multiplier deux entiers ; estimer un ordre de grandeur.
+- Périodes 1 et 2 : nombres d'au plus quatre chiffres ; cinq ou six chiffres à partir de la période 3 ou du début de la période 4.
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `cm1-add-sub-column` | 1 | Additions et soustractions posées | Nombres ≤ 99 999 puis ≤ 999 999 (période 3), plusieurs retenues ou cassages | `result`, affichage posé |
-| `cm1-mul-column` | 2 | Multiplications posées | Nombre de 2 à 4 chiffres × nombre de 2 ou 3 chiffres, résultat ≤ 999 999 | `result`, affichage posé |
+| `cm1-add-sub-column` | 1 | Additions et soustractions posées | Nombres ≤ 9 999 en périodes 1 et 2, puis ≤ 999 999 à partir de la période 3, plusieurs retenues ou cassages | `result`, affichage posé |
+| `cm1-mul-column` | 2 | Multiplications posées | Nombre de 2 ou 3 chiffres × nombre de 2 chiffres, résultat ≤ 9 999 en période 2 ; jusqu'à 4 chiffres × 3 chiffres, résultat ≤ 999 999, à partir de la période 3 | `result`, affichage posé |
+| `cm1-estimate` | 2 | Estimer un ordre de grandeur | Choisir parmi trois l'ordre de grandeur d'une somme, d'une différence ou d'un produit (212 × 38 ≈ 8 000 ; 2 987 + 4 012 ≈ 7 000) ; distracteurs 10 fois plus petit et 10 fois plus grand ; résultat ≤ 9 999 en période 2 | `choice` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
 
 ## Exemples d'exercices
 
-- 45 708 + 9 386 = ?
-- 60 004 − 7 568 = ?
-- 326 × 47 = ? → 15 322.
+- 4 578 + 3 986 = ? → 8 564.
+- 6 004 − 2 568 = ? → 3 436.
+- 212 × 38 = ? → 8 056 (326 × 47 = 15 322 à partir de la période 3).
+- Ordre de grandeur de 212 × 38 : 800, 8 000 ou 80 000 ? → 8 000.
 
 ## Évolutions du moteur et de l'écran de série
 
 - Composant d'opération posée (lot 4) : multiplication à trois lignes de produits partiels ; soustraction selon la technique du profil (cassage ou compensation).
+- Format `choice` d'ordre de grandeur (`cm1-estimate`) ; plage de nombres selon la période (section « Taille des nombres selon la période » de US0120).
 
 ## Distracteurs (QCM)
 
-Décalage oublié, retenue mal reportée, cassage en cascade raté sur les zéros.
+Décalage oublié, retenue mal reportée, cassage en cascade raté sur les zéros, ordre de grandeur décalé d'un rang (800 ou 80 000 pour 212 × 38).
 
 ## Critères d'acceptation
 

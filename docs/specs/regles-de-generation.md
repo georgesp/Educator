@@ -96,10 +96,11 @@ quand la compétence en a plusieurs.
 | Famille | Champs propres | Formats |
 |---|---|---|
 | `multiplication` | `operands`, `constraints`, `focus` (tables travaillées), `picture: "arrayGrid"`, `progression` | `result`, `missingOperand` (aussi `30 = 3 × ?`), `phrase` (`5 + 5 + 5 = ? × 5`) |
-| `numeration` | `numbers` (même forme qu'un opérande) | `recompose`, `decompose`, `placeValue`, `writeNumber`, `readNumber`, `compare`, `order`, `frame`, `numberLinePoint`, `yesNo`, `multiChoice` |
+| `numeration` | `numbers` (même forme qu'un opérande), `lineSteps` (pas des droites graduées, `[1]` au CP) | `recompose`, `decompose`, `placeValue`, `writeNumber`, `numberDictation` (CP : le nombre est seulement entendu, au clic), `readNumber`, `compare`, `order`, `frame`, `numberLinePoint`, `yesNo`, `multiChoice` |
 | `doubleHalf` | `doubles`, `halves`, `timesTwentyFive`, `progression` | `phrase` (« Quel est le double de 35 ? »), `result` (« Le double de 35 = ? ») |
+| `groups` (CP) | `groups: { kinds, count, size, maxTotal }` (`times`, `share`, `groupBy`) | `phrase` (« 4 fois 5 = 5 + 5 + 5 + 5 = ? », « 18 images pour 3 enfants… »), `result` (« 3 fois 20 = ? », « 3 fois ? = 18 ») |
 | `fraction` | `fractions: { denominators, unitOnly }` | `fractionPicture`, `fractionWords`, `compare`, `result` (somme ou différence) |
-| `problem` | `problems: { kinds, maxNumber, startMaxNumber }` | `problem` |
+| `problem` | `problems: { kinds, maxNumber, startMaxNumber, templates, noCarry }` | `problem` |
 
 - **Multiplication** : les facteurs sont montrés dans un ordre ou l'autre (sauf avec l'image des rangées) ; avec
   `focus`, 7 exercices sur 10 portent sur les tables travaillées, les autres révisent les autres tables ; `0 × ? = 0`
@@ -111,7 +112,14 @@ quand la compétence en a plusieurs.
   ordre, un seul chiffre changé), pour que le bon rang décide ; la correction dit à quel rang. Les nombres en lettres
   sont écrits en orthographe traditionnelle ; la graphie de 1990 (`deux-cent-quatre-vingts`) est toujours acceptée et
   n'est jamais proposée comme mauvaise réponse. La droite graduée a 11 graduations, de 1 en 1, de 10 en 10 ou de
-  100 en 100.
+  100 en 100 (`lineSteps` choisit les pas). Avec des nombres à deux chiffres (CP), aucune proposition n'a trois
+  chiffres, sauf l'erreur d'écoute de la dictée (612 pour « soixante-douze »). Sans voix, une série ne propose pas
+  `numberDictation`.
+- **Moitiés au CP** : la correction décompose en moitiés connues au CP (52 = 40 + 12 → 20 + 6), jamais avec la moitié
+  d'une dizaine impaire ; le CE1 décompose par rang (56 = 50 + 6).
+- **Groupes (CP)** : jamais les signes × et ÷ ; « fois » est montré en mots et en addition répétée, les paquets
+  dessinés (barres de dix au-delà de 10 par paquet) ; pour un partage ou des groupes, les paquets sont dessinés après
+  une erreur. Propositions : les deux nombres ajoutés (3 fois 20 → 23), un paquet de trop ou de moins.
 - **Fractions** : toute fraction égale est acceptée (2/4 pour 1/2) ; la correction montre la forme attendue.
 - **Réponses** : nombre, fraction, signe (`<`, `>`, `=`), oui / non, suite ordonnée (rangement, encadrement),
   ensemble (tous les nombres pairs), texte (écriture en lettres). Le mode `keyboard` fait produire la réponse (pavé,
@@ -148,6 +156,10 @@ Les énoncés sont générés à partir de **gabarits** (`content/problems/*.jso
 - `mistakes` : erreurs typiques proposées en QCM (mauvaise opération, une seule étape faite). Les nombres de
   l'énoncé sont aussi proposés (nombre recopié).
 - `help` : schéma montré avec la correction, en barres (`bars`, `total`) ou en groupes (`groups`, `perGroup`).
+- `grades` : classes qui utilisent le gabarit (absent : toutes). Les gabarits multiplicatifs du CP (`-cp`) disent
+  « 3 fois 5, c'est 15 » au lieu de `3 × 5 = 15`.
+- Dans une compétence : `templates` limite aux gabarits listés (par leur `id`) ; `noCarry` refuse les retenues et les
+  cassages de dizaine dans le calcul (CP, période 2 : le cassage arrive en période 3).
 
 Un gabarit invalide (variable inconnue, expression incorrecte, aucun tirage possible à la taille de la compétence)
 est ignoré au démarrage et fait échouer les tests.

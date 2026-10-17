@@ -127,7 +127,8 @@
         }
       },
       "checks": [
-        "b < a"
+        "b < a",
+        "answer > 1"
       ],
       "answer": "a - b",
       "solution": "{a} − {b} = {answer}. Il reste {answer} {objects} à {name}.",
@@ -203,6 +204,104 @@
         ],
         "total": "c"
       }
+    },
+    {
+      "id": "transformation-birds",
+      "kind": "transformation",
+      "text": "Sur le fil, il y a {a} oiseaux. {b} oiseaux s'envolent. Combien d'oiseaux reste-t-il sur le fil ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a",
+        "answer > 1"
+      ],
+      "answer": "a - b",
+      "solution": "{a} − {b} = {answer}. Il reste {answer} oiseaux sur le fil.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ]
+        ],
+        "total": "a"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "transformation-eat",
+      "kind": "transformation",
+      "text": "{name} a {a} cerises. {Il} en mange {b}. Combien de cerises lui reste-t-il ?",
+      "variables": {
+        "a": {
+          "min": 5
+        },
+        "b": {
+          "min": 2
+        }
+      },
+      "checks": [
+        "b < a",
+        "answer > 1"
+      ],
+      "answer": "a - b",
+      "solution": "{a} − {b} = {answer}. Il reste {answer} cerises à {name}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "answer",
+            "b"
+          ]
+        ],
+        "total": "a"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "transformation-loss-unknown-start",
+      "kind": "transformation",
+      "text": "{name} a perdu {b} {objects} à la récréation. Il lui en reste {c}. Combien de {objects} avait-{il} avant ?",
+      "variables": {
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "answer": "c + b",
+      "solution": "Avant, {il} en avait plus : {c} + {b} = {answer}. {name} avait {answer} {objects}.",
+      "mistakes": [
+        "c - b"
+      ],
+      "help": {
+        "bars": [
+          [
+            "c",
+            "b"
+          ]
+        ],
+        "total": "answer"
+      },
+      "grades": [
+        "CP"
+      ]
     },
     {
       "id": "transformation-bus",

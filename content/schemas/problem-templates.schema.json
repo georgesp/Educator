@@ -168,6 +168,21 @@
             }
           ],
           "description": "Schéma montré avec la correction : barres (barModel) ou groupes."
+        },
+        "grades": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CP",
+              "CE1",
+              "CE2",
+              "CM1",
+              "CM2"
+            ]
+          },
+          "description": "Classes qui utilisent le gabarit ; absent : toutes. Les gabarits du CP disent « fois » au lieu de ×."
         }
       }
     }

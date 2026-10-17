@@ -304,6 +304,176 @@
         "groups": "a",
         "perGroup": "b"
       }
+    },
+    {
+      "id": "product-containers-cp",
+      "kind": "product",
+      "text": "{name} a {a} {containers} de {b} {objects}. Combien de {objects} a-t-{il} en tout ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 5
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * b",
+      "solution": "{a} fois {b}, c'est {answer}. {name} a {answer} {objects}.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "product-parking-cp",
+      "kind": "product",
+      "text": "Dans un parking, il y a {a} rangées de {b} voitures. Combien de voitures y a-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 5
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "answer": "a * b",
+      "solution": "{a} fois {b}, c'est {answer}. Il y a {answer} voitures.",
+      "mistakes": [
+        "a + b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "product-tires-cp",
+      "kind": "product",
+      "text": "Un garagiste change les pneus de {a} voitures. Chaque voiture a 4 pneus. Combien de pneus change-t-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 7
+        }
+      },
+      "answer": "a * 4",
+      "solution": "{a} fois 4, c'est {answer}. Il change {answer} pneus.",
+      "mistakes": [
+        "a + 4"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "4"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "sharing-value-cp",
+      "kind": "sharing",
+      "text": "{name} partage {t} {objects} entre {a} amis. Chacun en reçoit autant. Combien de {objects} chaque ami reçoit-il ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 5
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "b",
+      "solution": "{a} fois {answer}, c'est {t} : chaque ami reçoit {answer} {objects}.",
+      "mistakes": [
+        "t - a",
+        "a"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "sharing-parts-cp",
+      "kind": "sharing",
+      "text": "{name} range {t} {objects} par paquets de {b}. Combien de paquets fait-{il} ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 6
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "a",
+      "solution": "{answer} fois {b}, c'est {t} : {name} fait {answer} paquets.",
+      "mistakes": [
+        "t - b",
+        "b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
+      "id": "sharing-teams-cp",
+      "kind": "sharing",
+      "text": "Il y a {t} enfants dans la cour. On fait des équipes de {b} enfants. Combien d'équipes peut-on faire ?",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 6
+        },
+        "b": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": {
+        "t": "a * b"
+      },
+      "answer": "a",
+      "solution": "{answer} fois {b}, c'est {t} : on peut faire {answer} équipes.",
+      "mistakes": [
+        "t - b",
+        "b"
+      ],
+      "help": {
+        "groups": "a",
+        "perGroup": "b"
+      },
+      "grades": [
+        "CP"
+      ]
     }
   ]
 }

@@ -24,7 +24,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 ## Leçon
 
 - **Classe / période** : CM1, période 1.
-- **Compétences liées** (`skillIds`) : `cm1-add-sub-column`, `cm1-mul-column` — exercices : la fiche « Exercices CM1 — Opérations posées sur les entiers ».
+- **Compétences liées** (`skillIds`) : `cm1-add-sub-column`, `cm1-mul-column`, `cm1-estimate` — exercices : la fiche « Exercices CM1 — Opérations posées sur les entiers ».
 - **Objectif** : poser les trois opérations sur de grands nombres, contrôler par un ordre de grandeur.
 - **Durée visée** : 3 à 5 minutes, 10 slides.
 - **Vocabulaire du programme** : « somme », « différence », « produit », « ordre de grandeur », « retenue ».
@@ -34,14 +34,14 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 | # | À l'écran et à la voix | Animation / interaction |
 |---|---|---|
 | 1 | **Titre** — « Opérations posées sur les entiers » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
-| 2 | **Estimer d'abord** — 326 × 47 ≈ 300 × 50 = 15 000. | `calcChain` |
-| 3 | **Addition** — 45 708 + 9 386 : retenues en chaîne. | `columnOperation` (addition) |
-| 4 | **Soustraction et zéros** — 60 004 − 7 568 : cassages en cascade, ou compensations successives, selon la technique de l'enfant. | `columnOperation` (soustraction, deux techniques) + `tensUnits` |
-| 5 | **À toi** — Interaction : 82 315 − 9 487. | `columnOperation` (interactif) |
-| 6 | **Multiplication** — 326 × 47 = 326 × 7 + 326 × 40. | `columnOperation` (multiplication) + `arrayGrid` (split) |
+| 2 | **Estimer d'abord** — 212 × 38 ≈ 200 × 40 = 8 000. | `calcChain` |
+| 3 | **Addition** — 4 578 + 3 986 : retenues en chaîne. | `columnOperation` (addition) |
+| 4 | **Soustraction et zéros** — 6 004 − 2 568 : cassages en cascade, ou compensations successives, selon la technique de l'enfant. | `columnOperation` (soustraction, deux techniques) + `tensUnits` |
+| 5 | **À toi** — Interaction : 8 315 − 4 987. | `columnOperation` (interactif) |
+| 6 | **Multiplication** — 212 × 38 = 212 × 8 + 212 × 30. | `columnOperation` (multiplication) + `arrayGrid` (split) |
 | 7 | **Le décalage** — La 2e ligne commence au rang des dizaines. | `columnOperation` |
 | 8 | **À toi** — Interaction : 214 × 36. | `columnOperation` (interactif) |
-| 9 | **Vérifier** — 15 322 est proche de 15 000 : vraisemblable. | `calcChain` |
+| 9 | **Vérifier** — 8 056 est proche de 8 000 : vraisemblable. | `calcChain` |
 | 10 | **Je retiens** — « J'aligne, je commence par les unités, je n'oublie ni les retenues ni le décalage, et je vérifie l'ordre de grandeur. » | `recapCard` |
 
 Les textes ci-dessus donnent l'intention de chaque slide : la rédaction définitive (texte affiché court, texte lu plus
@@ -59,10 +59,10 @@ geste et le guide doucement en cas d'erreur, sans message culpabilisant.
 
 ## Quiz de fin de leçon (SUB001411)
 
-1. 45 708 + 9 386 = ?
-2. 60 004 − 7 568 = ? (QCM : 52 436, 53 436, 52 536)
-3. 326 × 47 = ?
-4. Un ordre de grandeur de 498 × 21 ?
+1. 4 578 + 3 986 = ?
+2. 6 004 − 2 568 = ? (QCM : 3 436, 4 436, 4 564)
+3. 212 × 38 = ?
+4. Un ordre de grandeur de 198 × 21 ?
 
 Chaque question a une explication courte, affichée et lue après la réponse.
 
@@ -76,7 +76,7 @@ Rédaction originale et reformulée : aucun texte ni visuel copié.
 
 ## Critères d'acceptation
 
-- [ ] Leçon `content/lessons/math/cm1-operations-posees-entiers.json`, validée par `lesson.schema.json`, `skillIds` = `cm1-add-sub-column`, `cm1-mul-column`.
+- [ ] Leçon `content/lessons/math/cm1-operations-posees-entiers.json`, validée par `lesson.schema.json`, `skillIds` = `cm1-add-sub-column`, `cm1-mul-column`, `cm1-estimate`.
 - [ ] 8 à 12 slides, durée de 3 à 5 minutes mesurée avec la voix Piper.
 - [ ] Au moins deux slides où l'enfant manipule (glisser, cliquer), utilisables à la souris.
 - [ ] Animations de la bibliothèque uniquement, dans la charte Grand Prix (couleurs et polices par variables CSS du thème).

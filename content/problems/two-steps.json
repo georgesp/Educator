@@ -200,6 +200,51 @@
       }
     },
     {
+      "id": "two-steps-bus-down-up",
+      "kind": "twoSteps",
+      "text": "Dans le bus, il y a {a} enfants. Au premier arrêt, {b} enfants descendent. Au deuxième arrêt, {c} enfants montent. Combien d'enfants y a-t-il dans le bus ?",
+      "variables": {
+        "a": {
+          "min": 10
+        },
+        "b": {
+          "min": 2
+        },
+        "c": {
+          "min": 2
+        }
+      },
+      "derived": {
+        "s": "a - b"
+      },
+      "checks": [
+        "b < a"
+      ],
+      "answer": "s + c",
+      "solution": "{a} − {b} = {s} ; {s} + {c} = {answer}. Il y a {answer} enfants dans le bus.",
+      "mistakes": [
+        "a - b",
+        "a + b + c",
+        "a + c"
+      ],
+      "help": {
+        "bars": [
+          [
+            "s",
+            "b"
+          ],
+          [
+            "s",
+            "c"
+          ]
+        ],
+        "total": "a"
+      },
+      "grades": [
+        "CP"
+      ]
+    },
+    {
       "id": "two-steps-money",
       "kind": "twoSteps",
       "text": "{name} a {a} euros. {Il} achète un livre à {b} euros et un jeu à {c} euros. Combien d'euros lui reste-t-il ?",
@@ -218,7 +263,8 @@
         "s": "b + c"
       },
       "checks": [
-        "s < a"
+        "s < a",
+        "answer > 1"
       ],
       "answer": "a - s",
       "solution": "{b} + {c} = {s} ; {a} − {s} = {answer}. Il reste {answer} euros à {name}.",

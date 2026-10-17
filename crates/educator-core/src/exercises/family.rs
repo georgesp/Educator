@@ -1,7 +1,7 @@
 //! Series of the families other than the calculations (numeration, doubles and halves, fractions,
 //! problems): the common loop (formats, no duplicate, progression) and the choice helpers.
 
-use super::{double_half, fractions, numeration, problems, Answer, Exercise, CHOICE_COUNT};
+use super::{double_half, fractions, groups, numeration, problems, Answer, Exercise, CHOICE_COUNT};
 use crate::random::SeededRng;
 use crate::skills::{AnswerMode, ExerciseFormat, Progression, Skill, SkillOperation};
 use crate::{Error, Result};
@@ -37,6 +37,7 @@ fn draw_function(operation: SkillOperation) -> Option<DrawFn> {
     match operation {
         SkillOperation::Numeration => Some(numeration::draw),
         SkillOperation::DoubleHalf => Some(double_half::draw),
+        SkillOperation::Groups => Some(groups::draw),
         SkillOperation::Fraction => Some(fractions::draw),
         SkillOperation::Problem => Some(problems::draw),
         SkillOperation::Spelling => Some(crate::spelling::draw),

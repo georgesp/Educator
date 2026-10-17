@@ -23,14 +23,18 @@ En tant qu'enfant de CE2, je veux m'entraîner à connaître les doubles, les mo
 
 ## Ce que dit le programme
 
-- Programme du cycle 2 (2024), CE2, faits numériques : doubles de 1 à 20 et de nombres usuels (ex. 75, 600), moitiés des nombres pairs de 2 à 40, multiples de 25 (1 × 25 à 4 × 25), décompositions multiplicatives de 60.
+- Programme du cycle 2 (2024), CE2, faits multiplicatifs usuels :
+  - doubles des nombres de 1 à 20 et de 20, 25, 30, 35, 40, 45, 50, 60, 75, 100, 150, 200, 250, 300, 400, 500, 600 ;
+  - moitiés des nombres pairs de 2 à 40 et de 40, 50, 60, 70, 80, 90, 100, 120, 150, 200, 300, 400, 500, 600, 800, 1 000, 1 200 ;
+  - multiples de 25 (1 × 25 à 4 × 25) ; décompositions de 60 (1 × 60, 2 × 30, 3 × 20, 4 × 15, 5 × 12, 6 × 10).
+- Fluence attendue en fin de CE2 : 12 égalités en une minute (ex. 2 × … = 70, 1 000 = 2 × …).
 
 ## Compétences à créer (`content/skills/math/`)
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `ce2-double-half` | 2 | Doubles et moitiés | Doubles de 1 à 20 et de nombres usuels (25, 50, 75, 100, 150, 200…, 600) ; moitiés des pairs de 2 à 40 et de ces nombres | `phrase` (« le double de … »), `result` |
-| `ce2-mul-facts-25-60` | 3 | Multiples de 25 et décompositions de 60 | 1 × 25 à 4 × 25 ; 60 = 1 × 60 = 2 × 30 = 3 × 20 = 4 × 15 = 5 × 12 = 6 × 10 | `result`, `missingOperand` |
+| `ce2-double-half` | 2 | Doubles et moitiés | Doubles (`doubles`) et moitiés (`halves`) : exactement les deux listes du programme ci-dessus (jamais la moitié de 25, 35, 45 ou 75) ; formats « le double de … », « la moitié de … » et 2 × … = 70 | `phrase` (« le double de … »), `result` |
+| `ce2-mul-facts-25-60` | 3 | Multiples de 25 et décompositions de 60 | Multiples de 25 (`timesTwentyFive` : 1 à 4) ; décompositions de 60 (nouveau champ `products: [60]`) : 60 = 4 × …, 5 × … = 60 | `result`, `missingOperand` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -45,7 +49,9 @@ le champ `source` (comme pour le CP et le CE1).
 ## Évolutions du moteur et de l'écran de série
 
 - Format `phrase` (lot 1, CE1) : consigne en mots générée (« Quel est le double de 17 ? »).
-- Liste des nombres usuels du programme dans le fichier de la compétence (`operands[].values`).
+- Listes du programme dans les champs `doubles`, `halves` et `timesTwentyFive` de la compétence (existants depuis le CE1, `ce1-double-half-facts`).
+- Nouveau champ `products` (opération `doubleHalf`) : produits dont l'enfant cherche un facteur (60 = 4 × …) ; décompositions tirées parmi celles en facteurs ≥ 1 ; validé par le schéma.
+- La compétence est aussi proposée au défi chrono (12 égalités en une minute).
 
 ## Distracteurs (QCM)
 
@@ -57,7 +63,8 @@ Double et moitié confondus, + 2 au lieu de × 2, moitié d'un nombre à deux ch
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Doubles, moitiés et faits multiplicatifs usuels » (`skillIds` de la leçon).
 
 ## Sources

@@ -27,7 +27,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 - **Compétences liées** (`skillIds`) : `cm1-dec-compare`, `cm1-dec-round` — exercices : la fiche « Exercices CM1 — Comparer, ranger et arrondir les nombres décimaux ».
 - **Objectif** : comparer d'abord les parties entières puis les dixièmes, les centièmes ; arrondir à l'unité.
 - **Durée visée** : 3 à 5 minutes, 10 slides.
-- **Vocabulaire du programme** : « arrondi », « encadrer », « dixième », « centième ».
+- **Vocabulaire du programme** : « arrondi », « encadrer », « intercaler », « dixième », « centième ».
 
 ## Déroulé (scénario des slides)
 
@@ -39,7 +39,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique co
 | 4 | **Ajouter un zéro** — 2,5 = 2,50 : on compare 50 et 45 centièmes. | `fractionBar` (stack) |
 | 5 | **À toi** — Interaction : 3,1 … 3,09. | `compareNumbers` (interactif) |
 | 6 | **Ranger** — Les temps de course des voitures : 12,4 s ; 12,04 s ; 12,14 s. | `sequencePattern` (ordre, interactif) |
-| 7 | **Encadrer** — 12 < 12,3 < 13 : deux drapeaux. | `numberLine` |
+| 7 | **Encadrer et intercaler** — 12 < 12,3 < 13 ; entre 2,4 et 2,5, on zoome sur la piste et on trouve 2,45. | `numberLine` (zoom) |
 | 8 | **Arrondir** — 7,62 est plus près de 8 que de 7 : arrondi 8. | `numberLine` (zoom) |
 | 9 | **À toi** — Interaction : arrondis le temps de chaque voiture à la seconde. | `numberLine` (interactif) |
 | 10 | **Je retiens** — « Je compare les parties entières, puis les dixièmes, puis les centièmes. 2,5 = 2,50 > 2,45. » | `recapCard` |

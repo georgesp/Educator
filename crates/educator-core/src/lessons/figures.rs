@@ -265,9 +265,10 @@ pub struct PlaceValueTable {
 }
 
 impl PlaceValueTable {
-    /// The ranks of the table, from the left: at least hundreds, tens, units.
+    /// The ranks of the table, from the left: at least tens and units (no hundreds column below 100:
+    /// the CP does not know the word « centaine », SUB012213).
     pub fn ranks(&self) -> Vec<Rank> {
-        let width = digit_count(self.value).max(3);
+        let width = digit_count(self.value).max(2);
         (0..width).rev().filter_map(Rank::from_index).collect()
     }
 
@@ -450,6 +451,12 @@ mod tests {
         };
         assert_eq!(vec![Rank::Hundreds, Rank::Tens, Rank::Units], table.ranks());
         assert_eq!(vec![Some(3), Some(4), Some(7)], table.digits());
+        // Below 100 (CP), no column of hundreds.
+        let small = PlaceValueTable {
+            value: 34,
+            ..table.clone()
+        };
+        assert_eq!(vec![Rank::Tens, Rank::Units], small.ranks());
         assert_eq!(34, table.count(Rank::Tens));
         assert_eq!(vec![300, 40, 7], table.decomposition_terms());
         assert_eq!(
@@ -466,7 +473,8 @@ mod tests {
         };
         assert_eq!(vec![600, 8], zero.decomposition_terms());
         assert_eq!(vec![Some(6), Some(0), Some(8)], zero.digits());
+        // Below 100, no empty column of hundreds (CP, SUB012213).
         let small = PlaceValueTable { value: 47, ..table };
-        assert_eq!(vec![None, Some(4), Some(7)], small.digits());
+        assert_eq!(vec![Some(4), Some(7)], small.digits());
     }
 }

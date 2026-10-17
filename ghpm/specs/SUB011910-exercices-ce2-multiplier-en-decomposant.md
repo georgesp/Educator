@@ -29,7 +29,7 @@ En tant qu'enfant de CE2, je veux m'entraîner à multiplier un nombre à deux c
 
 | Compétence (`id`) | Période | Titre | Règle de génération | Formats |
 |---|---|---|---|---|
-| `ce2-mul-distributive` | 3 | Multiplier en décomposant | a × b avec a de 11 à 99 et b de 2 à 9, ordre au hasard ; d'abord a ≤ 30 puis toute la plage (deux compétences si besoin) | `result` |
+| `ce2-mul-distributive` | 3 | Multiplier en décomposant | a × b avec a de 11 à 99 et b de 2 à 9, ordre au hasard ; `progression: easyFirst` (a ≤ 30 en début de série, puis toute la plage) | `result` |
 
 Quand le programme ne place pas une notion dans une période précise, la période est un choix d'Educator, signalé dans
 le champ `source` (comme pour le CP et le CE1).
@@ -55,7 +55,8 @@ Oubli d'une partie (70 au lieu de 91), seulement les unités multipliées (13 ×
 - [ ] Chaque compétence produit au moins 20 exercices distincts (test existant du contenu).
 - [ ] Tests de propriété du générateur sur les nouvelles plages (2 000 graines par compétence), y compris les règles de variété de SUB000112.
 - [ ] Échantillon de 20 exercices par compétence ajouté à `docs/specs/echantillons-ce2.md`, relu par Georges.
-- [ ] Consignes et nombres lus correctement par Piper.
+- [ ] Consignes et nombres lus correctement par Piper (ordinateur) et par la voix du système (iPad, ADR 0005), au clic seulement.
+- [ ] Exercices jouables au doigt sur iPad (ADR 0006) comme à la souris et au clavier.
 - [ ] La compétence est liée à la fiche « Leçon CE2 — Multiplier en décomposant » (`skillIds` de la leçon).
 
 ## Sources

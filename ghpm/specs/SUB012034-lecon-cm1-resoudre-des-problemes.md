@@ -35,7 +35,7 @@ En tant qu'enfant de CM1, je veux une leçon courte et animée qui m'explique un
 |---|---|---|
 | 1 | **Titre** — « Résoudre des problèmes » : bandeau damier, la mascotte annonce ce qu'on va apprendre. | `titleCard` |
 | 2 | **Comprendre** — La voix lit l'histoire du circuit ; on la raconte avec ses mots. | `barModel` (vide) |
-| 3 | **Les étapes** — D'abord 3 tours (3 × 4 250), puis les 1 200 m. | `barModel` + `calcChain` |
+| 3 | **Les étapes** — D'abord 3 tours (3 × 2 150), puis les 1 200 m. | `barModel` + `calcChain` |
 | 4 | **Question intermédiaire** — « Quelle distance pour 3 tours ? » apparaît en rouge. | `barModel` |
 | 5 | **Fois moins** — 4 fois moins que 96 € : 96 ÷ 4 = 24 €. | `barModel` (fois plus) |
 | 6 | **À toi** — Interaction : place les données sur le schéma. | `barModel` (interactif) |

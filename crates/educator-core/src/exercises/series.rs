@@ -374,6 +374,27 @@ impl SeriesService {
             }
         }
 
+        // Without the voice, a skill that also has formats played without it keeps only those (the
+        // number dictation of the CP, SUB012205): never an exercise that cannot be heard.
+        let without_voice;
+        let skill = match (self.listening(), format) {
+            (Listening::Unavailable, None)
+                if skill.formats.iter().any(|f| f.needs_listening())
+                    && skill.formats.iter().any(|f| !f.needs_listening()) =>
+            {
+                without_voice = Skill {
+                    formats: skill
+                        .formats
+                        .iter()
+                        .copied()
+                        .filter(|f| !f.needs_listening())
+                        .collect(),
+                    ..skill.clone()
+                };
+                &without_voice
+            }
+            _ => skill,
+        };
         let seed = self.seed_or_random(seed);
         let exercises =
             generate_series_as(skill, u64::from(seed), answer_mode, DEFAULT_LENGTH, format)?;
